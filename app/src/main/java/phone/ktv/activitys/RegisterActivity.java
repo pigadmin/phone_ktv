@@ -27,10 +27,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private TextView mRegistProtocol;
 
     private CustomTopTitleView mTopTitleView1;//返回事件
-    private CustomEditView customEditView1;
-    private CustomEditView customEditView2;
-    private CustomEditView customEditView3;
-    private CustomEditView customEditView4;
+    private CustomEditView customEditView1;//用户名
+    private CustomEditView customEditView2;//手机号
+    private CustomEditView customEditView3;//验证码
+    private CustomEditView customEditView4;//密码
 
     private TextView mRegister;//注册
 
@@ -61,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private void initLiter(){
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
+        customEditView3.sendOnClick(new MyOnClickSendCode());
 
         mRegistProtocol.setOnClickListener(this);
         mRegister.setOnClickListener(this);
@@ -120,6 +121,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         public void onClick(View v) {
             finish();
+        }
+    }
+
+    /**
+     * 发送验证码
+     */
+    public class MyOnClickSendCode implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            ToastUtils.showLongToast(mContext,"发送验证码");
         }
     }
 

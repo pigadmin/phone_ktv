@@ -25,9 +25,9 @@ public class ModifyPsdActivity extends AppCompatActivity implements View.OnClick
     Context mContext;
 
     private CustomTopTitleView mTopTitleView1;//返回事件
-    private CustomEditView customEditView1;
-    private CustomEditView customEditView2;
-    private CustomEditView customEditView3;
+    private CustomEditView customEditView1;//原密码
+    private CustomEditView customEditView2;//新密码
+    private CustomEditView customEditView3;//确认新密码
 
     private TextView mDetermine;//确定
 

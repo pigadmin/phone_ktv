@@ -54,6 +54,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
 
     private void initLiter(){
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
+        customEditView2.sendOnClick(new MyOnClickSendCode());
         mRegister.setOnClickListener(this);
     }
 
@@ -108,6 +109,16 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
         @Override
         public void onClick(View v) {
             finish();
+        }
+    }
+
+    /**
+     * 发送验证码
+     */
+    public class MyOnClickSendCode implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            ToastUtils.showLongToast(mContext,"发送验证码");
         }
     }
 

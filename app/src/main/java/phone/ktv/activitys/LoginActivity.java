@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLogin.setOnClickListener(this);
         mReginster.setOnClickListener(this);
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
+        customEditView2.sendOnClick(new MyOnClickSendCode());
     }
 
     /**
@@ -68,6 +69,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public void onClick(View v) {
             finish();
+        }
+    }
+
+    /**
+     * 发送验证码
+     */
+    public class MyOnClickSendCode implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            ToastUtils.showLongToast(mContext,"发送验证码");
         }
     }
 

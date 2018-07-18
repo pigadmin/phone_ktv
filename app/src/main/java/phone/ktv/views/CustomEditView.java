@@ -65,4 +65,12 @@ public class CustomEditView extends LinearLayout {
     public String getInputTitle(){
         return mInputTitle.getText().toString().trim();
     }
+
+    /**
+     * 发送验证码
+     * @param listener
+     */
+    public void sendOnClick(OnClickListener listener){
+        mVerdCode.setOnClickListener(listener);
+    }
 }
