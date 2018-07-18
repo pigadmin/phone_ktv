@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"/>
 
     <phone.ktv.views.CustomEditView
+        android:id="@+id/customEditView1"
         android:layout_marginTop="50dp"
         custom:src_log_type1="@mipmap/shouji"
         custom:title_hint_type="请输入您的原密码"
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"/>
 
     <phone.ktv.views.CustomEditView
+        android:id="@+id/customEditView2"
         android:layout_marginTop="10dp"
         custom:src_log_type1="@mipmap/mima"
         custom:title_hint_type="请输入您的新密码"
@@ -29,6 +31,7 @@
         android:layout_height="wrap_content"/>
 
     <phone.ktv.views.CustomEditView
+        android:id="@+id/customEditView3"
         android:layout_marginTop="10dp"
         custom:src_log_type1="@mipmap/mima"
         custom:title_hint_type="请确认您的新密码"
@@ -37,7 +40,7 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/register_tvw"
+        android:id="@+id/determine_tvw"
         android:layout_width="match_parent"
         android:background="@mipmap/denglu_a"
         android:text="确定"
