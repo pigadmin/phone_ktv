@@ -5,14 +5,16 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import phone.ktv.R;
+import phone.ktv.tootls.IntentUtils;
 
 /**
  * 注册页
  */
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "RegisterActivity";
 
@@ -36,7 +38,16 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initLiter(){
+        mRegistProtocol.setOnClickListener(this);
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.regist_protocol_tvw:
+                IntentUtils.thisToOther(mContext,UserProtocolActivity.class);
+                break;
+        }
     }
 
     @Override

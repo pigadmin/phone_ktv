@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/bg_fla_src"
+    android:layout_height="match_parent">
+
+    <phone.ktv.views.CustomTopTitleView
+        custom:back_text_type="用户协议"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View style="@style/view_line_sbc_header_text" />
+
+    <WebView
+        android:id="@+id/user_proto_wvw"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
