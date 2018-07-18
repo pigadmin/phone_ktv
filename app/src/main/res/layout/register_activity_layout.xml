@@ -2,12 +2,102 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@mipmap/bg_fla_src"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/bg_fla_src"
     android:layout_height="wrap_content">
 
     <phone.ktv.views.CustomTopTitleView
         custom:back_text_type="注册"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <phone.ktv.views.CustomEditView
+        android:layout_marginTop="50dp"
+        custom:src_log_type1="@mipmap/shouji"
+        custom:title_hint_type="用户名"
+        custom:verd_code_isState="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <phone.ktv.views.CustomEditView
+        android:layout_marginTop="10dp"
+        custom:src_log_type1="@mipmap/yanzhengma"
+        custom:title_hint_type="请输入手机号"
+        custom:verd_code_isState="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <phone.ktv.views.CustomEditView
+        android:layout_marginTop="10dp"
+        custom:src_log_type1="@mipmap/mima"
+        custom:title_hint_type="请输入验证码"
+        custom:verd_code_isState="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <phone.ktv.views.CustomEditView
+        android:layout_marginTop="10dp"
+        custom:src_log_type1="@mipmap/mima"
+        custom:title_hint_type="密码(大于6位小于20位)"
+        custom:verd_code_isState="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/jizhu_ckb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="我已阅读并同意"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/regist_protocol_tvw"
+            android:layout_width="wrap_content"
+            android:text="@string/registration_protocol"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/login_tvw"
+            android:layout_width="match_parent"
+            android:background="@mipmap/denglu_a"
+            android:text="注册"
+            android:layout_marginLeft="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/register_tvw"
+            android:layout_width="match_parent"
+            android:background="@mipmap/denglu_a"
+            android:text="登录"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="50dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>

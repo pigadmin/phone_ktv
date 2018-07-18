@@ -3,4 +3,6 @@
     <string name="tabTitle1">點歌臺</string>
     <string name="tabTitle2">排行榜</string>
     <string name="tabTitle3">已點歌曲</string>
+
+    <string name="registration_protocol">《用户注册协议》</string>
 </resources>
