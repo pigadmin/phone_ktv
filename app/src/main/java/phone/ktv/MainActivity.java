@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.astuetz.PagerSlidingTabStripExtends;
 
 import phone.ktv.activitys.LoginActivity;
+import phone.ktv.activitys.ModifyPsdActivity;
 import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
 import phone.ktv.adaters.TabAdater;
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.custom_menu_4://修改密码
-
+                IntentUtils.thisToOther(mContext, ModifyPsdActivity.class);
                 break;
 
             case R.id.setup_llt://设置
