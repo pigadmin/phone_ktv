@@ -59,7 +59,8 @@
         <activity android:name=".activitys.SetUpActivity"/>
         <!--用户协议-->
         <activity android:name=".activitys.UserProtocolActivity"/>
-
+        <!--修改密码-->
+        <activity android:name=".activitys.ModifyPsdActivity"/>
 
 
     </application>
