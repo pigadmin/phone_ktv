@@ -14,6 +14,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import phone.ktv.R;
+import phone.ktv.views.CustomTopTitleView;
 
 /**
  * 用户协议
@@ -28,17 +29,23 @@ public class UserProtocolActivity extends AppCompatActivity implements View.OnCl
 
     private WebView mWebView;
 
+    private CustomTopTitleView mTopTitleView1;//返回事件
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_protocol_activity_layout);
 
-        mContext=UserProtocolActivity.this;
         initView();
+        initLiter();
     }
 
     private void initView() {
+        mContext=UserProtocolActivity.this;
+
 //        mSvProgressHUD = new SVProgressHUD(mContext);
+
+        mTopTitleView1=findViewById(R.id.customTopTitleView1);
 
         mWebView = findViewById(R.id.user_proto_wvw);
 
@@ -89,6 +96,11 @@ public class UserProtocolActivity extends AppCompatActivity implements View.OnCl
         mWebView.loadUrl(url);
     }
 
+    private void initLiter(){
+        mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
+
+    }
+
     private void initWebView() {
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);//允许与Javascript交互
@@ -109,6 +121,16 @@ public class UserProtocolActivity extends AppCompatActivity implements View.OnCl
 //            case R.id.back_ivw:
 //                finish();
 //                break;
+        }
+    }
+
+    /**
+     * 返回事件
+     */
+    public class MyOnClickBackReturn implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            finish();
         }
     }
 
