@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".activitys.FlashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,11 +17,15 @@
             </intent-filter>
         </activity>
 
+        <!--主页面-->
         <activity android:name=".MainActivity"/>
-
+        <!--注册页面-->
         <activity android:name=".activitys.RegisterActivity"/>
-
+        <!--登录页面-->
         <activity android:name=".activitys.LoginActivity"/>
+        <!--忘记密码-->
+        <activity android:name=".activitys.ForgetPsdActivity"/>
+
 
     </application>
 

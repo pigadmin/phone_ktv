@@ -1,21 +1,25 @@
 package phone.ktv;
 
+import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.astuetz.PagerSlidingTabStripExtends;
 
+import phone.ktv.activitys.LoginActivity;
 import phone.ktv.adaters.TabAdater;
+import phone.ktv.tootls.IntentUtils;
 import phone.ktv.views.CoordinatorMenu;
 
 /**
  * 主页
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "MainActivity";
     private PagerSlidingTabStripExtends mNewsTabs;
@@ -23,39 +27,39 @@ public class MainActivity extends AppCompatActivity {
     private onPageChangeListener mPagerChange;
 
     private CoordinatorMenu mCoordinatorMenu;
-    private ImageView mHeadIv;
+    private ImageView mHeadIv;//侧滑
+
+    private LinearLayout mLoging;//登录
+
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext=MainActivity.this;
 
         initView();
-        initData();
+        initMenuView();
         initListener();
     }
 
-    private void initView() {
+    private void initMenuView(){
+        mLoging= findViewById(R.id.loging_llt);
+    }
+
+    private void initView(){
+        mPagerChange = new onPageChangeListener();
+
         mCoordinatorMenu = findViewById(R.id.menu);
-        mHeadIv = findViewById(R.id.main_btn_menu);
-
-
         mNewsTabs = findViewById(R.id.news_tabs);
         mVpTab = findViewById(R.id.news_vp_tab);
-    }
 
-    private void initData() {
-        mPagerChange = new onPageChangeListener();
+        mHeadIv = findViewById(R.id.main_btn_menu);
     }
-
-    private String tabTitle[];
 
     private void initListener() {
-        tabTitle = new String[]{getString(R.string.tabTitle1), getString(R.string.tabTitle2),
-                getString(R.string.tabTitle3)};
-
-        TabAdater tabAdapter = new TabAdater(tabTitle, getSupportFragmentManager());
+        TabAdater tabAdapter = new TabAdater(getSupportFragmentManager(),getResources().getStringArray(R.array.title_menu_array));
         mVpTab.setAdapter(tabAdapter);
         mNewsTabs.setViewPager(mVpTab);
         mNewsTabs.setOnPageChangeListener(mPagerChange);
@@ -67,16 +71,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mHeadIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mHeadIv.setOnClickListener(this);
+        mLoging.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.main_btn_menu:
                 if (mCoordinatorMenu.isOpened()) {
                     mCoordinatorMenu.closeMenu();
                 } else {
                     mCoordinatorMenu.openMenu();
                 }
-            }
-        });
+                break;
+
+            case R.id.loging_llt:
+                isStateLogin();
+                break;
+        }
+    }
+
+    /**
+     * 登录
+     */
+    private void isStateLogin(){
+        IntentUtils.thisToOther(mContext, LoginActivity.class);
     }
 
     class onPageChangeListener implements ViewPager.OnPageChangeListener {

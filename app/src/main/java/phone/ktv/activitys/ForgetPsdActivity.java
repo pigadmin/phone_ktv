@@ -3,7 +3,6 @@ package phone.ktv.activitys;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
@@ -11,15 +10,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import phone.ktv.R;
-import phone.ktv.tootls.IntentUtils;
-import phone.ktv.tootls.ToastUtils;
 
 /**
- * 登录页
+ * 忘记密码
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class ForgetPsdActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = "ForgetPsdActivity";
     private Context mContext;
 
     private EditText mInputPhone;//手机号
@@ -32,13 +29,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity_layout);
+        setContentView(R.layout.forget_psd_activity_layout);
         initView();
         initLiter();
     }
 
     private void initView() {
-        mContext = LoginActivity.this;
+        mContext = ForgetPsdActivity.this;
 
         mInputPhone=findViewById(R.id.phone_edt);
         mInputPsd=findViewById(R.id.password_edt);
@@ -58,43 +55,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.wangji_tvw:
-                IntentUtils.thisToOther(mContext,ForgetPsdActivity.class);
                 break;
 
             case R.id.login_tvw:
-                loginClick();
                 break;
 
             case R.id.register_tvw:
-                IntentUtils.thisToOther(mContext,RegisterActivity.class);
                 break;
         }
-    }
-
-    /**
-     * 登录事件
-     */
-    private void loginClick(){
-        if (TextUtils.isEmpty(mInputPhone.getText().toString().trim())){
-            ToastUtils.showLongToast(mContext,"请输入手机号码");
-            return;
-        }
-        if (mInputPhone.getText().toString().trim().length()!=11){
-            ToastUtils.showLongToast(mContext,"请输入正确的手机号码");
-            return;
-        }
-        if (TextUtils.isEmpty(mInputPsd.getText().toString().trim())){
-            ToastUtils.showLongToast(mContext,"请输入密码");
-            return;
-        }
-        submLoginData();
-    }
-
-    /**
-     * 提交登录数据
-     */
-    private void submLoginData(){
-
     }
 
     @Override

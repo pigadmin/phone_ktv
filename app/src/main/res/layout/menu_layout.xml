@@ -2,89 +2,145 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#fff">
+    android:background="@mipmap/bg_fla_src"
+    android:layout_height="wrap_content"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <Button
-        android:onClick="a7"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:onClick="a6"
+    <LinearLayout
+        android:id="@+id/loging_llt"
+        android:padding="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:onClick="a5"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/wd_nrq_tx"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="立即登录"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:background="@color/zhxfFooterBarBg"
+        android:layout_height="1dp"/>
 
-    <Button
-        android:onClick="a2"
+    <phone.ktv.views.CustomTextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        custom:src_log_type="@mipmap/wd_icon_1"
+        custom:title_type="收藏列表"
+        custom:num_first_isState="true"
+        custom:num_first_string="0首"
+        android:layout_height="wrap_content"/>
 
-    <Button
-        android:onClick="a3"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:background="@color/zhxfFooterBarBg"
+        android:layout_height="1dp"/>
 
-    <Button
-        android:onClick="a4"
+    <phone.ktv.views.CustomTextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        custom:src_log_type="@mipmap/wd_icon_2"
+        custom:title_type="最近播放"
+        custom:num_first_isState="true"
+        custom:num_first_string="0首"
+        android:layout_height="wrap_content"/>
 
-    <Button
-        android:onClick="a1"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:background="@color/zhxfFooterBarBg"
+        android:layout_height="1dp"/>
 
-    <Button
-        android:onClick="a8"
+    <phone.ktv.views.CustomTextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        custom:src_log_type="@mipmap/wd_icon_3"
+        custom:title_type="产品中心"
+        custom:num_first_isState="false"
+        custom:num_first_string="0首"
+        android:layout_height="wrap_content"/>
 
-    <Button
-        android:onClick="a9"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:background="@color/zhxfFooterBarBg"
+        android:layout_height="1dp"/>
 
-    <Button
-        android:onClick="a10"
+    <phone.ktv.views.CustomTextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        custom:src_log_type="@mipmap/wd_icon_4"
+        custom:title_type="修改密码"
+        custom:num_first_isState="false"
+        custom:num_first_string="0首"
+        android:layout_height="wrap_content"/>
+    </LinearLayout>
 
-    <Button
-        android:onClick="a10"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:onClick="a10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:padding="20dp"
+            android:orientation="horizontal"
+            android:background="@mipmap/phb_nrq"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:onClick="a10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <ImageView
+                android:src="@mipmap/wd_bottom_sz"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    <Button
-        android:onClick="a10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:text="设置"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-    <Button
-        android:onClick="a10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:padding="20dp"
+            android:orientation="horizontal"
+            android:background="@mipmap/phb_nrq"
+            android:layout_marginLeft="1dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:onClick="a10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <ImageView
+                android:src="@mipmap/wd_bottom_tc_15"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-
+            <TextView
+                android:text="退出"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

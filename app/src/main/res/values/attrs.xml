@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomTextView">
+        <!--图标显示类型-->
+        <attr name="src_log_type" format="reference" />
+        <!--标题显示类型-->
+        <attr name="title_type" format="string" />
+        <!--多少首是否隐藏-->
+        <attr name="num_first_isState" format="boolean" />
+        <!--多少首动态设置文字-->
+        <attr name="num_first_string" format="string" />
+    </declare-styleable>
+</resources>

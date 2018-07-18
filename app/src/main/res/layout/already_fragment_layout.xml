@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:text="已点歌曲"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_height="wrap_content" />

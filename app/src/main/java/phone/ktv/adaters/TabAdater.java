@@ -1,5 +1,6 @@
 package phone.ktv.adaters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -13,15 +14,16 @@ import phone.ktv.fragments.SongDeskFragment;
 
 public class TabAdater extends FragmentPagerAdapter {
 
-    public static final int oneTab = 0;
-    public static final int twoTab = 1;
-    public static final int threeTab = 2;
+    public static final int                           oneTab   = 0;
+    public static final int                           twoTab   = 1;
+    public static final int                           threeTab   = 2;
     public static Map<Integer, Fragment> cahceTab = new HashMap<>();
+
     private String tabTitle[];
 
-    public TabAdater(String[] tabTitle, FragmentManager fm) {
+    public TabAdater(FragmentManager fm,String taTitle[]) {
         super(fm);
-        this.tabTitle = tabTitle;
+        this.tabTitle=taTitle;
     }
 
     @Override
