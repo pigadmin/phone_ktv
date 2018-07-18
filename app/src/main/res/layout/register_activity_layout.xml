@@ -7,6 +7,7 @@
     android:layout_height="wrap_content">
 
     <phone.ktv.views.CustomTopTitleView
+        android:id="@+id/customTopTitleView1"
         custom:back_text_type="注册"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
