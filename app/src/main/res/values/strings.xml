@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">phone_ktv</string>
+    <string name="app_name">海豚音</string>
+    <string name="tabTitle1">點歌臺</string>
+    <string name="tabTitle2">排行榜</string>
+    <string name="tabTitle3">已點歌曲</string>
 </resources>

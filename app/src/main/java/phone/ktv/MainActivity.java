@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         initListener();
     }
 
-    private void initView(){
+    private void initView() {
         mCoordinatorMenu = findViewById(R.id.menu);
         mHeadIv = findViewById(R.id.main_btn_menu);
 
@@ -48,8 +48,14 @@ public class MainActivity extends AppCompatActivity {
     private void initData() {
         mPagerChange = new onPageChangeListener();
     }
+
+    private String tabTitle[];
+
     private void initListener() {
-        TabAdater tabAdapter = new TabAdater(getSupportFragmentManager());
+        tabTitle = new String[]{getString(R.string.tabTitle1), getString(R.string.tabTitle2),
+                getString(R.string.tabTitle3)};
+
+        TabAdater tabAdapter = new TabAdater(tabTitle, getSupportFragmentManager());
         mVpTab.setAdapter(tabAdapter);
         mNewsTabs.setViewPager(mVpTab);
         mNewsTabs.setOnPageChangeListener(mPagerChange);
