@@ -29,6 +29,7 @@
         android:layout_height="wrap_content" />
 
     <phone.ktv.views.CustomEditView
+        android:id="@+id/customEditView1"
         android:layout_marginTop="20dp"
         custom:src_log_type1="@mipmap/shouji"
         custom:title_hint_type="请输入手机号"
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"/>
 
     <phone.ktv.views.CustomEditView
+        android:id="@+id/customEditView2"
         custom:src_log_type1="@mipmap/mima"
         android:layout_marginTop="10dp"
         custom:title_hint_type="密码 (大于6位小于20位)"

@@ -7,12 +7,12 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import phone.ktv.R;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.ToastUtils;
+import phone.ktv.views.CustomEditView;
 import phone.ktv.views.CustomTopTitleView;
 
 /**
@@ -23,14 +23,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String TAG = "LoginActivity";
     private Context mContext;
 
-//    private EditText mInputPhone;//手机号
-//    private EditText mInputPsd;//密码
     private CheckBox mJizhuPsd;//记住密码
     private TextView mWangjiPsd;//忘记密码
     private TextView mLogin;//登陆
     private TextView mReginster;//注册
 
     private CustomTopTitleView mTopTitleView1;//返回事件
+
+    private CustomEditView customEditView1;//手机号
+    private CustomEditView customEditView2;//密码
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +45,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mContext = LoginActivity.this;
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
+        customEditView1=findViewById(R.id.customEditView1);
+        customEditView2=findViewById(R.id.customEditView2);
 
-//        mInputPhone=findViewById(R.id.phone_edt);
-//        mInputPsd=findViewById(R.id.password_edt);
         mJizhuPsd=findViewById(R.id.jizhu_ckb);
         mWangjiPsd=findViewById(R.id.wangji_tvw);
         mLogin=findViewById(R.id.login_tvw);
@@ -73,15 +74,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.wangji_tvw:
+            case R.id.wangji_tvw://忘记密码
                 IntentUtils.thisToOther(mContext,ForgetPsdActivity.class);
                 break;
 
-            case R.id.login_tvw:
+            case R.id.login_tvw://登录
                 loginClick();
                 break;
 
-            case R.id.register_tvw:
+            case R.id.register_tvw://注册
                 IntentUtils.thisToOther(mContext,RegisterActivity.class);
                 break;
         }
@@ -91,18 +92,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 登录事件
      */
     private void loginClick(){
-//        if (TextUtils.isEmpty(mInputPhone.getText().toString().trim())){
-//            ToastUtils.showLongToast(mContext,"请输入手机号码");
-//            return;
-//        }
-//        if (mInputPhone.getText().toString().trim().length()!=11){
-//            ToastUtils.showLongToast(mContext,"请输入正确的手机号码");
-//            return;
-//        }
-//        if (TextUtils.isEmpty(mInputPsd.getText().toString().trim())){
-//            ToastUtils.showLongToast(mContext,"请输入密码");
-//            return;
-//        }
+        if (TextUtils.isEmpty(customEditView1.getInputTitle())){
+            ToastUtils.showLongToast(mContext,"请输入手机号码");
+            return;
+        }
+        if (customEditView1.getInputTitle().length()!=11){
+            ToastUtils.showLongToast(mContext,"请输入正确的手机号码");
+            return;
+        }
+        if (TextUtils.isEmpty(customEditView2.getInputTitle())){
+            ToastUtils.showLongToast(mContext,"请输入密码");
+            return;
+        }
         submLoginData();
     }
 

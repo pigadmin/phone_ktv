@@ -57,4 +57,12 @@ public class CustomEditView extends LinearLayout {
         mInputTitle.setHint(titleType);
         mVerdCode.setVisibility(firstState?View.VISIBLE:View.GONE);
     }
+
+    public void setInputTitle(String s){
+         mInputTitle.setText(s);
+    }
+
+    public String getInputTitle(){
+        return mInputTitle.getText().toString().trim();
+    }
 }
