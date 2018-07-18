@@ -11,9 +11,6 @@ import android.widget.TextView;
 
 import phone.ktv.R;
 
-/**
- * 采用自定义属性
- */
 public class CustomTextView extends LinearLayout {
     private ImageView mSrcLogo;//图标log
     private TextView mTextTitle;//标题

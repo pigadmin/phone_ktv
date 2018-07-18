@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:background="@mipmap/bg_fla_src"
     android:layout_height="wrap_content">
 
@@ -21,67 +22,26 @@
         android:textColor="@color/white"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:padding="10dp"
+    <phone.ktv.views.CustomEditView
+        android:layout_marginTop="20dp"
+        custom:src_log_type1="@mipmap/shouji"
+        custom:title_hint_type="请输入手机号"
+        custom:verd_code_isState="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="50dp"
-        android:layout_gravity="center"
+        android:layout_height="wrap_content"/>
+
+    <phone.ktv.views.CustomEditView
+        custom:src_log_type1="@mipmap/mima"
         android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:layout_marginLeft="50dp"
-        android:background="@mipmap/cpzx_k">
-
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:background="@mipmap/shouji"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:layout_marginLeft="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/phone_edt"
-            android:hint="请输入手机号"
-            android:maxLength="11"
-            android:textColor="@color/white"
-            android:background="@null"
-            android:textColorHint="@color/found_description_color" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
+        custom:title_hint_type="密码 (大于6位小于20位)"
+        custom:verd_code_isState="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginRight="50dp"
-        android:background="@mipmap/cpzx_k">
-
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:background="@mipmap/mima"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:layout_marginLeft="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/password_edt"
-            android:textColor="@color/white"
-            android:background="@null"
-            android:maxLength="20"
-            android:hint="密码 (大于6位小于20位)"
-            android:textColorHint="@color/found_description_color" />
-    </LinearLayout>
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -108,6 +68,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
