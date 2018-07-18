@@ -19,4 +19,10 @@
         <!--验证码是否隐藏-->
         <attr name="verd_code_isState" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="CustomTopTitleView">
+        <!--标题显示类型-->
+        <attr name="back_text_type" format="string" />
+    </declare-styleable>
+
 </resources>

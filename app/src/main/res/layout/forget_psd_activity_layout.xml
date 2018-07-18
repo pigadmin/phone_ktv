@@ -6,6 +6,11 @@
     android:background="@mipmap/bg_fla_src"
     android:layout_height="wrap_content">
 
+    <phone.ktv.views.CustomTopTitleView
+        custom:back_text_type="忘记密码"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <phone.ktv.views.CustomEditView
         android:layout_marginTop="50dp"
         custom:src_log_type1="@mipmap/shouji"

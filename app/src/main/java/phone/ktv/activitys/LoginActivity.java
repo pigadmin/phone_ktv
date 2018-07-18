@@ -22,8 +22,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String TAG = "LoginActivity";
     private Context mContext;
 
-    private EditText mInputPhone;//手机号
-    private EditText mInputPsd;//密码
+//    private EditText mInputPhone;//手机号
+//    private EditText mInputPsd;//密码
     private CheckBox mJizhuPsd;//记住密码
     private TextView mWangjiPsd;//忘记密码
     private TextView mLogin;//登陆
@@ -40,8 +40,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initView() {
         mContext = LoginActivity.this;
 
-        mInputPhone=findViewById(R.id.phone_edt);
-        mInputPsd=findViewById(R.id.password_edt);
+//        mInputPhone=findViewById(R.id.phone_edt);
+//        mInputPsd=findViewById(R.id.password_edt);
         mJizhuPsd=findViewById(R.id.jizhu_ckb);
         mWangjiPsd=findViewById(R.id.wangji_tvw);
         mLogin=findViewById(R.id.login_tvw);
@@ -75,18 +75,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 登录事件
      */
     private void loginClick(){
-        if (TextUtils.isEmpty(mInputPhone.getText().toString().trim())){
-            ToastUtils.showLongToast(mContext,"请输入手机号码");
-            return;
-        }
-        if (mInputPhone.getText().toString().trim().length()!=11){
-            ToastUtils.showLongToast(mContext,"请输入正确的手机号码");
-            return;
-        }
-        if (TextUtils.isEmpty(mInputPsd.getText().toString().trim())){
-            ToastUtils.showLongToast(mContext,"请输入密码");
-            return;
-        }
+//        if (TextUtils.isEmpty(mInputPhone.getText().toString().trim())){
+//            ToastUtils.showLongToast(mContext,"请输入手机号码");
+//            return;
+//        }
+//        if (mInputPhone.getText().toString().trim().length()!=11){
+//            ToastUtils.showLongToast(mContext,"请输入正确的手机号码");
+//            return;
+//        }
+//        if (TextUtils.isEmpty(mInputPsd.getText().toString().trim())){
+//            ToastUtils.showLongToast(mContext,"请输入密码");
+//            return;
+//        }
         submLoginData();
     }
 

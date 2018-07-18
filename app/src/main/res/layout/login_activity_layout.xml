@@ -6,6 +6,11 @@
     android:background="@mipmap/bg_fla_src"
     android:layout_height="wrap_content">
 
+    <phone.ktv.views.CustomTopTitleView
+        custom:back_text_type="登录"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <ImageView
         android:layout_marginTop="10dp"
         android:src="@mipmap/touxiang"
