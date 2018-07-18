@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import phone.ktv.adaters.ProductRecyAdapter;
 import phone.ktv.adaters.ProductRecyTypeAdapter;
 import phone.ktv.bean.ProductRecyBean;
 import phone.ktv.bean.ProductRecyTypeBean;
+import phone.ktv.views.CustomTopTitleView;
 import phone.ktv.views.MyListView;
 
 /**
@@ -33,6 +35,8 @@ public class ProductRecyActivity extends AppCompatActivity {
     private List<ProductRecyTypeBean> mProductTypeBeanList;//产品分类list
     private MyListView mProductTypeListView;//产品分类listview
 
+    private CustomTopTitleView mTopTitleView1;//返回事件
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +48,9 @@ public class ProductRecyActivity extends AppCompatActivity {
     }
 
     private void initView(){
+
+        mTopTitleView1=findViewById(R.id.customTopTitleView1);
+
         mProductListView=findViewById(R.id.product_list_lvw);
         mProductTypeListView=findViewById(R.id.class_list_lvw);
 
@@ -71,7 +78,17 @@ public class ProductRecyActivity extends AppCompatActivity {
     }
 
     private void initLiter(){
+        mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
+    }
 
+    /**
+     * 返回事件
+     */
+    public class MyOnClickBackReturn implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            finish();
+        }
     }
 
     @Override
