@@ -13,6 +13,7 @@ import android.widget.TextView;
 import phone.ktv.R;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.ToastUtils;
+import phone.ktv.views.CustomTopTitleView;
 
 /**
  * 登录页
@@ -29,6 +30,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView mLogin;//登陆
     private TextView mReginster;//注册
 
+    private CustomTopTitleView mTopTitleView1;//返回事件
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initView() {
         mContext = LoginActivity.this;
+
+        mTopTitleView1=findViewById(R.id.customTopTitleView1);
 
 //        mInputPhone=findViewById(R.id.phone_edt);
 //        mInputPsd=findViewById(R.id.password_edt);
@@ -52,6 +57,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mWangjiPsd.setOnClickListener(this);
         mLogin.setOnClickListener(this);
         mReginster.setOnClickListener(this);
+        mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
+    }
+
+    /**
+     * 返回事件
+     */
+    public class MyOnClickBackReturn implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            finish();
+        }
     }
 
     @Override

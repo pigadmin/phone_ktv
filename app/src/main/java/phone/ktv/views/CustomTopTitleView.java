@@ -51,4 +51,12 @@ public class CustomTopTitleView extends RelativeLayout {
     private void setDefinedView(String titleType) {
         mTextTitle.setText(titleType);
     }
+
+    /**
+     * 返回事件
+     * @param listener
+     */
+    public void toBackReturn(OnClickListener listener){
+        mSrcLogo.setOnClickListener(listener);
+    }
 }
