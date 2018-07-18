@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/bg_fla_src"
+    android:layout_height="wrap_content">
+
+    <phone.ktv.views.CustomTopTitleView
+        custom:back_text_type="设置"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View style="@style/view_line_sbc_header_text" />
+
+    <phone.ktv.views.CustomSetupView
+        android:layout_width="match_parent"
+        custom:no_open_isState="false"
+        custom:no_switch_btn_isState="true"
+        custom:switch_btn_isState="true"
+        custom:setup_text="仅WiFi下联网"
+        android:layout_height="wrap_content"/>
+
+    <View style="@style/view_line_sbc_header_text" />
+
+    <phone.ktv.views.CustomSetupView
+        android:layout_width="match_parent"
+        custom:no_open_isState="false"
+        custom:switch_btn_isState="false"
+        custom:setup_text="允许流量播放"
+        android:layout_height="wrap_content"/>
+
+    <View style="@style/view_line_sbc_header_text" />
+
+    <phone.ktv.views.CustomSetupView
+        android:layout_width="match_parent"
+        custom:no_open_isState="false"
+        custom:switch_btn_isState="false"
+        custom:setup_text="允许流量下载"
+        android:layout_height="wrap_content"/>
+
+    <View style="@style/view_line_sbc_header_text" />
+
+    <phone.ktv.views.CustomSetupView
+        android:layout_width="match_parent"
+        custom:no_open_isState="false"
+        custom:switch_btn_isState="false"
+        custom:setup_text="边听边存"
+        android:layout_height="wrap_content"/>
+
+    <View style="@style/view_line_sbc_header_text" />
+
+    <phone.ktv.views.CustomSetupView
+        android:layout_width="match_parent"
+        custom:no_open_isState="true"
+        custom:switch_btn_isState="false"
+        custom:no_switch_btn_isState="false"
+        custom:setup_text="摇一摇切歌"
+        android:layout_height="wrap_content"/>
+
+    <View style="@style/view_line_sbc_header_text" />
+
+    <phone.ktv.views.CustomSetupView
+        android:layout_width="match_parent"
+        custom:no_open_isState="false"
+        custom:switch_btn_isState="true"
+        custom:setup_text="流量消耗提醒"
+        android:layout_height="wrap_content"/>
+
+    <View style="@style/view_line_sbc_header_text" />
+
+    <phone.ktv.views.CustomSetupView
+        android:layout_width="match_parent"
+        custom:no_open_isState="false"
+        custom:switch_btn_isState="true"
+        custom:setup_text="自动下载写真"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

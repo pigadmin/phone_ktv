@@ -25,4 +25,15 @@
         <attr name="back_text_type" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="CustomSetupView">
+        <!--标题显示类型-->
+        <attr name="setup_text" format="string" />
+        <!--是否显示"不开启"文字-->
+        <attr name="no_open_isState" format="boolean" />
+        <!--是否显示SwitchButton开关-->
+        <attr name="no_switch_btn_isState" format="boolean" />
+        <!--SwitchButton开关状态-->
+        <attr name="switch_btn_isState" format="boolean" />
+    </declare-styleable>
+
 </resources>

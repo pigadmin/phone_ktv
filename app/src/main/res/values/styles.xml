@@ -26,4 +26,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="view_line_sbc_header_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/zhxfFooterBarBg</item>
+    </style>
+
 </resources>

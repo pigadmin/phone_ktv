@@ -16,6 +16,7 @@
     <LinearLayout
         android:id="@+id/loging_llt"
         android:padding="20dp"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -33,10 +34,7 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/zhxfFooterBarBg"
-        android:layout_height="1dp"/>
+        <View style="@style/view_line_sbc_header_text" />
 
     <phone.ktv.views.CustomTextView
         android:id="@+id/custom_menu_1"
@@ -47,10 +45,7 @@
         custom:num_first_string="0首"
         android:layout_height="wrap_content"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/zhxfFooterBarBg"
-        android:layout_height="1dp"/>
+        <View style="@style/view_line_sbc_header_text" />
 
     <phone.ktv.views.CustomTextView
         android:id="@+id/custom_menu_2"
@@ -61,10 +56,7 @@
         custom:num_first_string="0首"
         android:layout_height="wrap_content"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/zhxfFooterBarBg"
-        android:layout_height="1dp"/>
+        <View style="@style/view_line_sbc_header_text" />
 
     <phone.ktv.views.CustomTextView
         android:id="@+id/custom_menu_3"
@@ -75,10 +67,7 @@
         custom:num_first_string="0首"
         android:layout_height="wrap_content"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/zhxfFooterBarBg"
-        android:layout_height="1dp"/>
+        <View style="@style/view_line_sbc_header_text" />
 
     <phone.ktv.views.CustomTextView
         android:id="@+id/custom_menu_4"
@@ -96,6 +85,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/setup_llt"
             android:padding="20dp"
             android:orientation="horizontal"
             android:background="@mipmap/phb_nrq"
@@ -122,6 +112,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/sign_out_llt"
             android:padding="20dp"
             android:orientation="horizontal"
             android:background="@mipmap/phb_nrq"
