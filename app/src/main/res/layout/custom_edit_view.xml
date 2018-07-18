@@ -5,14 +5,13 @@
     android:orientation="horizontal"
     android:layout_marginLeft="30dp"
     android:layout_marginRight="30dp"
-    android:padding="10dp"
     android:layout_gravity="center"
     android:gravity="center"
     android:background="@mipmap/cpzx_k">
 
         <ImageView
             android:id="@+id/src_logo_ivw1"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:src="@mipmap/mima"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
@@ -27,7 +26,9 @@
             android:textColor="@color/white"
             android:background="@null"
             android:layout_weight="1"
+            android:textSize="15sp"
             android:maxLength="20"
+            android:layout_marginRight="10dp"
             android:textColorHint="@color/found_description_color" />
 
         <TextView
@@ -35,6 +36,7 @@
             android:textColor="@color/white"
             android:text="获取验证码"
             android:gravity="center"
+            android:background="@mipmap/zhuce_yzm"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 </LinearLayout>

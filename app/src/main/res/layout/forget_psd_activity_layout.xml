@@ -53,9 +53,9 @@
             android:layout_width="match_parent"
             android:background="@mipmap/denglu_a"
             android:text="注册"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="30dp"
             android:gravity="center"
             android:textColor="@color/white"
             android:layout_height="wrap_content" />
