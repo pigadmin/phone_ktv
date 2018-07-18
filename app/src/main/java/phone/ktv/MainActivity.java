@@ -12,9 +12,11 @@ import android.widget.LinearLayout;
 import com.astuetz.PagerSlidingTabStripExtends;
 
 import phone.ktv.activitys.LoginActivity;
+import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.adaters.TabAdater;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.views.CoordinatorMenu;
+import phone.ktv.views.CustomTextView;
 
 /**
  * 主页
@@ -33,6 +35,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Context mContext;
 
+    private CustomTextView mCustomTextView1;//收藏列表
+    private CustomTextView mCustomTextView2;//最近播放
+    private CustomTextView mCustomTextView3;//产品中心
+    private CustomTextView mCustomTextView4;//修改密码
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initMenuView(){
         mLoging= findViewById(R.id.loging_llt);
+
+        mCustomTextView1= findViewById(R.id.custom_menu_1);
+        mCustomTextView2= findViewById(R.id.custom_menu_2);
+        mCustomTextView3= findViewById(R.id.custom_menu_3);
+        mCustomTextView4= findViewById(R.id.custom_menu_4);
     }
 
     private void initView(){
@@ -73,6 +85,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mHeadIv.setOnClickListener(this);
         mLoging.setOnClickListener(this);
+
+        mCustomTextView1.setOnClickListener(this);
+        mCustomTextView2.setOnClickListener(this);
+        mCustomTextView3.setOnClickListener(this);
+        mCustomTextView4.setOnClickListener(this);
     }
 
     @Override
@@ -88,6 +105,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.loging_llt:
                 isStateLogin();
+                break;
+
+            case R.id.custom_menu_1:
+
+                break;
+
+            case R.id.custom_menu_2:
+
+                break;
+
+            case R.id.custom_menu_3:
+                IntentUtils.thisToOther(mContext, ProductRecyActivity.class);
+                break;
+
+            case R.id.custom_menu_4:
+
                 break;
         }
     }

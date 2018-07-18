@@ -39,6 +39,7 @@
         android:layout_height="1dp"/>
 
     <phone.ktv.views.CustomTextView
+        android:id="@+id/custom_menu_1"
         android:layout_width="match_parent"
         custom:src_log_type="@mipmap/wd_icon_1"
         custom:title_type="收藏列表"
@@ -52,6 +53,7 @@
         android:layout_height="1dp"/>
 
     <phone.ktv.views.CustomTextView
+        android:id="@+id/custom_menu_2"
         android:layout_width="match_parent"
         custom:src_log_type="@mipmap/wd_icon_2"
         custom:title_type="最近播放"
@@ -65,6 +67,7 @@
         android:layout_height="1dp"/>
 
     <phone.ktv.views.CustomTextView
+        android:id="@+id/custom_menu_3"
         android:layout_width="match_parent"
         custom:src_log_type="@mipmap/wd_icon_3"
         custom:title_type="产品中心"
@@ -78,6 +81,7 @@
         android:layout_height="1dp"/>
 
     <phone.ktv.views.CustomTextView
+        android:id="@+id/custom_menu_4"
         android:layout_width="match_parent"
         custom:src_log_type="@mipmap/wd_icon_4"
         custom:title_type="修改密码"

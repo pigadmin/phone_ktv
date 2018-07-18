@@ -25,6 +25,9 @@
         <activity android:name=".activitys.LoginActivity"/>
         <!--忘记密码-->
         <activity android:name=".activitys.ForgetPsdActivity"/>
+        <!--产品中心-->
+        <activity android:name=".activitys.ProductRecyActivity"/>
+
 
 
     </application>

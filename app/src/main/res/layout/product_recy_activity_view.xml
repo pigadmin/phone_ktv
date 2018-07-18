@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/bg_fla_src"
+    android:layout_height="wrap_content">
+
+        <phone.ktv.views.CustomTopTitleView
+            custom:back_text_type="产品中心"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:text="产品记录:"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="8dp"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:layout_height="wrap_content" />
+
+                        <phone.ktv.views.MyListView
+                            android:id="@+id/product_list_lvw"
+                            android:dividerHeight="3dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:divider="@color/transparent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:text="产品分类:"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:layout_height="wrap_content" />
+
+                        <phone.ktv.views.MyListView
+                            android:id="@+id/class_list_lvw"
+                            android:dividerHeight="3dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:divider="@color/transparent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:text="使用说明:"
+                            android:layout_marginLeft="20dp"
+                            android:textColor="@color/white"
+                            android:layout_height="200dp" />
+                </LinearLayout>
+        </ScrollView>
+</LinearLayout>
