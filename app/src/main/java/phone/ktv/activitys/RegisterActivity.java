@@ -293,7 +293,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         public void onClick(View v) {
             if (TextUtils.isEmpty(customEditView2.getInputTitle())){
-                ToastUtils.showLongToast(mContext,"请输入手机号码");
+                mSvProgressHUD.showInfoWithStatus("请输入手机号");
                 return;
             }
 

@@ -223,7 +223,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
         @Override
         public void onClick(View v) {
             if (TextUtils.isEmpty(customEditView1.getInputTitle())){
-                ToastUtils.showLongToast(mContext,"请输入手机号码");
+                mSvProgressHUD.showInfoWithStatus("请输入手机号");
                 return;
             }
 
