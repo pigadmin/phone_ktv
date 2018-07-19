@@ -81,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                 case RegisCodeSuccess://获取验证码成功
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext,"验证码获取成功");
                     break;
 
                 case RegisCodeError://获取验证码失败
@@ -194,7 +194,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String s = response.body().string();
-                Logger.i(TAG,"s.."+s);
+                Logger.i(TAG,"注册s.."+s);
                 AJson aJson = App.jsonToObject(s, new TypeToken<AJson<List<WelcomAd>>>() {
                 });
                 if (aJson.getCode()==0){
