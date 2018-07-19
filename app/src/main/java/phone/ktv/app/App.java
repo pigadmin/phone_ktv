@@ -14,6 +14,8 @@ import com.google.gson.reflect.TypeToken;
 
 import org.xutils.x;
 
+import java.util.Map;
+
 import okhttp3.OkHttpClient;
 import phone.ktv.tootls.Logger;
 
@@ -89,6 +91,28 @@ public class App extends Application {
             socketurl = "http://" + tmp + ":8000/tv";
             Log.d("host", "---socketurl---\n" + socketurl);
         }
+    }
+
+    /**
+     * 拼接get请求的url请求地址
+     */
+    public static String getRqstUrl(String url, Map<String, String> params) {
+        StringBuilder builder = new StringBuilder(url);
+        boolean isFirst = true;
+        for (String key : params.keySet()) {
+            if (key != null && params.get(key) != null) {
+                if (isFirst) {
+                    isFirst = false;
+                    builder.append("?");
+                } else {
+                    builder.append("&");
+                }
+                builder.append(key)
+                        .append("=")
+                        .append(params.get(key));
+            }
+        }
+        return builder.toString();
     }
 
     public void initDBUtils() {

@@ -3,7 +3,7 @@ package phone.ktv.bean;
 import java.io.Serializable;
 
 public class AJson<T> implements Serializable{
-    private String code;
+    private int code;
 
     private T data;
 
@@ -11,11 +11,11 @@ public class AJson<T> implements Serializable{
 
     private String errorInfo;
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
-    public String getCode() {
+    public int getCode() {
         return this.code;
     }
 

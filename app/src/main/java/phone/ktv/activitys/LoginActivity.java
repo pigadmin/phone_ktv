@@ -2,15 +2,34 @@ package phone.ktv.activitys;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.WeakHashMap;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import phone.ktv.R;
+import phone.ktv.app.App;
+import phone.ktv.bean.AJson;
+import phone.ktv.bean.WelcomAd;
+import phone.ktv.req.VolleyReq;
+import phone.ktv.tootls.Contants;
 import phone.ktv.tootls.IntentUtils;
+import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomEditView;
 import phone.ktv.views.CustomTopTitleView;
@@ -33,6 +52,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CustomEditView customEditView1;//手机号
     private CustomEditView customEditView2;//密码
 
+    private SVProgressHUD mSvProgressHUD;
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case Contants.RequestSuccess://提交成功
+                    mSvProgressHUD.dismiss();
+                    ToastUtils.showLongToast(mContext,"登录成功");
+
+                    break;
+
+                case Contants.RequestError://提交失败
+                    mSvProgressHUD.dismiss();
+                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +81,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initView() {
         mContext = LoginActivity.this;
+        mSvProgressHUD = new SVProgressHUD(mContext);
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
         customEditView1=findViewById(R.id.customEditView1);
@@ -104,15 +143,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      */
     private void loginClick(){
         if (TextUtils.isEmpty(customEditView1.getInputTitle())){
-            ToastUtils.showLongToast(mContext,"请输入手机号码");
+            mSvProgressHUD.showInfoWithStatus("请输入手机号码");
             return;
         }
         if (customEditView1.getInputTitle().length()!=11){
-            ToastUtils.showLongToast(mContext,"请输入正确的手机号码");
+            mSvProgressHUD.showInfoWithStatus("请输入正确的手机号码");
             return;
         }
         if (TextUtils.isEmpty(customEditView2.getInputTitle())){
-            ToastUtils.showLongToast(mContext,"请输入密码");
+            mSvProgressHUD.showInfoWithStatus("请输入密码");
             return;
         }
         submLoginData();
@@ -122,7 +161,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 提交登录数据
      */
     private void submLoginData(){
+        mSvProgressHUD.showWithStatus("请稍等,数据提交中...");
 
+
+        WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
+        weakHashMap.put("telPhone", customEditView1.getInputTitle());//手机号
+        weakHashMap.put("pass", customEditView2.getInputTitle());//密码
+        String url = App.getRqstUrl(App.headurl + "login", weakHashMap);
+        Logger.i(TAG, "url.." + url);
+
+        OkhttpUtils.doStart(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //返回失败
+                mHandler.obtainMessage(Contants.RequestError, e.getMessage()).sendToTarget();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String s = response.body().string();
+                Logger.i(TAG,"s.."+s);
+                AJson aJson = App.jsonToObject(s, new TypeToken<AJson<List<WelcomAd>>>() {
+                });
+                if (aJson.getCode()==0){
+                    mHandler.sendEmptyMessage(Contants.RequestSuccess);
+                } else {
+                    mHandler.obtainMessage(Contants.RequestError, aJson.getMsg()).sendToTarget();
+                }
+                if (response.body() != null) {
+                    response.body().close();
+                }
+            }
+        });
     }
 
     @Override
