@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.reflect.TypeToken;
@@ -25,10 +24,9 @@ import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.WelcomAd;
-import phone.ktv.req.VolleyReq;
-import phone.ktv.tootls.Contants;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomEditView;
@@ -52,18 +50,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CustomEditView customEditView1;//手机号
     private CustomEditView customEditView2;//密码
 
+    public static final int LoginRequestSuccess=100;//登录成功
+    public static final int LoginRequestError=200;//登录失败
+
     private SVProgressHUD mSvProgressHUD;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
-                case Contants.RequestSuccess://提交成功
+                case LoginRequestSuccess://提交成功
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"登录成功");
 
                     break;
 
-                case Contants.RequestError://提交失败
+                case LoginRequestError://提交失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
@@ -98,7 +99,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLogin.setOnClickListener(this);
         mReginster.setOnClickListener(this);
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
-        customEditView2.sendOnClick(new MyOnClickSendCode());
     }
 
     /**
@@ -108,16 +108,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public void onClick(View v) {
             finish();
-        }
-    }
-
-    /**
-     * 发送验证码
-     */
-    public class MyOnClickSendCode implements View.OnClickListener{
-        @Override
-        public void onClick(View v) {
-            ToastUtils.showLongToast(mContext,"发送验证码");
         }
     }
 
@@ -168,29 +158,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String url = App.getRqstUrl(App.headurl + "login", weakHashMap);
         Logger.i(TAG, "url.." + url);
 
-        OkhttpUtils.doStart(url, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                //返回失败
-                mHandler.obtainMessage(Contants.RequestError, e.getMessage()).sendToTarget();
-            }
+        if (NetUtils.hasNetwork(mContext)) {
+            OkhttpUtils.doStart(url, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    //返回失败
+                    mHandler.obtainMessage(LoginRequestError, e.getMessage()).sendToTarget();
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String s = response.body().string();
-                Logger.i(TAG,"s.."+s);
-                AJson aJson = App.jsonToObject(s, new TypeToken<AJson<List<WelcomAd>>>() {
-                });
-                if (aJson.getCode()==0){
-                    mHandler.sendEmptyMessage(Contants.RequestSuccess);
-                } else {
-                    mHandler.obtainMessage(Contants.RequestError, aJson.getMsg()).sendToTarget();
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string();
+                    Logger.i(TAG,"s.."+s);
+                    AJson aJson = App.jsonToObject(s, new TypeToken<AJson<List<WelcomAd>>>() {
+                    });
+                    if (aJson.getCode()==0){
+                        mHandler.sendEmptyMessage(LoginRequestSuccess);
+                    } else {
+                        mHandler.obtainMessage(LoginRequestError, aJson.getMsg()).sendToTarget();
+                    }
+                    if (response.body() != null) {
+                        response.body().close();
+                    }
                 }
-                if (response.body() != null) {
-                    response.body().close();
-                }
-            }
-        });
+            });
+        } else {
+            ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
+        }
     }
 
     @Override

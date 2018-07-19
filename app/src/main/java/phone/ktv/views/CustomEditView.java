@@ -15,7 +15,7 @@ import phone.ktv.R;
 public class CustomEditView extends LinearLayout {
     private ImageView mSrcLogo;//图标log
     private EditText mInputTitle;//输入框
-    private TextView mVerdCode;//发送验证码
+    public TextView mVerdCode;//发送验证码
 
     public CustomEditView(Context context) {
         super(context);
@@ -64,6 +64,14 @@ public class CustomEditView extends LinearLayout {
 
     public String getInputTitle(){
         return mInputTitle.getText().toString().trim();
+    }
+
+    public void setVerdCode(String s){
+        mVerdCode.setText(s);
+    }
+
+    public String getVerdCode(){
+        return mVerdCode.getText().toString().trim();
     }
 
     /**
