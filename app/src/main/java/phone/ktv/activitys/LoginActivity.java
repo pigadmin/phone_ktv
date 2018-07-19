@@ -162,8 +162,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      */
     private void submLoginData(){
         mSvProgressHUD.showWithStatus("请稍等,数据提交中...");
-
-
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         weakHashMap.put("telPhone", customEditView1.getInputTitle());//手机号
         weakHashMap.put("pass", customEditView2.getInputTitle());//密码
