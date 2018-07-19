@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@mipmap/bg_fla_src</item>
     </style>
 
     <style name="CustomDialog" parent="android:style/Theme.Dialog">
@@ -21,6 +22,11 @@
         <item name="android:windowIsFloating">true</item>
         <!-- 是否模糊 -->
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="view_line_sbc_header_text">

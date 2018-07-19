@@ -5,4 +5,7 @@
     <string name="tabTitle3">已點歌曲</string>
 
     <string name="registration_protocol">《用户注册协议》</string>
+    <string name="more">更多>></string>
+
+    <string name="tabTitle1_cat">排行榜分類</string>
 </resources>
