@@ -1,0 +1,505 @@
+发送手机验证码
+参数：telPhone  手机号
+localhost:8080/ktv/api/phone/sendCode?telPhone=14795489093
+返回数据：{"code":0}  发送成功
+--------------------------------------------------------
+注册
+参数：telPhone     手机号
+      veriCode     验证码
+      pass         密码
+      username     用户名
+ localhost:8080/ktv/api/phone/register?telPhone=14795489093&veriCode=&pass=123456&username=喵喵宝
+--------------------------------------------------------
+返回数据：
+{
+  "code": 0,
+  "data": {
+    "id": 2,
+    "telPhone": "14795489092",
+    "username": "喵喵宝",
+    "password": "a276638597c4d4c36092c54a63e0143783fc0e689408ab416ee70ac42974a2c5",
+    "status": 1
+  },
+  "token": "4201bc02-f056-4fb0-a4a2-0a1f9bf1fdfa"
+}
+--------------------------------------------------------
+登录（手机号，密码）
+参数： telPhone     手机号
+        pass        密码
+ localhost:8080/ktv/api/phone/login?telPhone=14795489092&pass=123456
+
+返回数据：{
+       "code": 0,
+       "data": {
+         "id": 2,
+         "telPhone": "14795489092",
+         "username": "喵喵宝",
+         "password": "958d51602bbfbd18b2a084ba848a827c29952bfef170c936419b0922994c0589",
+         "status": 1
+       },
+       "token": "2a77b538-c9e5-4834-b8c6-d2aa3d89d365"
+     }
+--------------------------------------------------------
+修改密码（手机号，原密码或者验证码，新密码）
+参数：
+     telPhone    手机号
+     veriCode    验证码(二选一)
+     oldpass     旧密码(二选一)
+     newPass     新密码
+     token
+localhost:8080/ktv/api/phone/changePass?telPhone=14795489092&oldpass=123456&newPass=12345
+
+返回数据：
+{"code":0}  修改成功
+
+ --------------------------------------------------------
+开机广告
+参数：(免参数)
+    localhost:8080/ktv/api/phone/open/ad
+
+返回参数：
+{
+    "code": 0,
+    "data": [
+        {
+            "id": 3,
+            "name": "三",
+            "aid": 4,
+            "aName": "22",
+            "position": 1,                         //排序号
+            "playTime": 2,                 //播放时间  单位/s
+            "beginTime": "2018-06-19 13:48:51",
+            "endTime": "2018-06-26 13:48:51",
+            "type": 1,
+            "status": true,
+            "ptype": null,
+            "goal": null,
+            "ad": {
+                "id": 4,
+                "name": "22",
+                "type": 1,                                                //资源类型  1.视频 2。图片
+                "path": "http://192.168.2.11:8088/ad/1529048744142.jpg",  //广告文件路径
+                "createtime": "2018-06-15 15:45:47",
+                "backFile": null                             //背景音乐
+            }
+        }
+    ]
+}
+
+--------------------------------------------------------
+查看已购买产品
+参数：
+     telPhone    手机号
+     token
+ localhost:8080/ktv/api/phone/hasBuyPro?telPhone=14795489092&token=4526c621-ae40-4dff-8b5f-48324c96f1c2
+
+ 返回数据格式：
+ {
+   "code": 0,
+   "data": [
+     {
+       "id": 2,
+       "phonedeviceid": 2,
+       "begintime": "2018-06-22 13:24:26",
+       "endtime": "2018-08-21 13:24:26",
+       "proid": 1,
+       "pName": "全"
+     }
+   ]
+ }
+--------------------------------------------------------
+查看现有产品
+参数：
+     telPhone    手机号
+     token
+ localhost:8080/ktv/api/phone/getPro?telPhone=14795489092&token=4526c621-ae40-4dff-8b5f-48324c96f1c2
+
+ 返回数据格式：
+--------------------------------------------------------
+下单产品
+
+
+
+付款
+
+--------------------------------------------------------
+歌曲大类
+参数：
+     telPhone 手机号
+     page 第几页    不填默认1
+     limit 页码量   不填默认10，最大限度100
+     token
+localhost:8080/ktv/api/phone/song/getSongType?telPhone=14795489092&token=4526c621-ae40-4dff-8b5f-48324c96f1c2
+
+返回数据：
+{
+     	"code": 0,
+     	"data": {
+     		"totalCount": 2,
+     		"pageSize": 10,
+     		"totalPage": 1,
+     		"currPage": 1,
+     		"list": [{
+     			"id": 6,
+     			"name": "台湾",
+     			"path": "songType/1528874407415.jpg",
+     			"ngPath": "http://192.168.2.3/songType/1528874407415.jpg"
+     		}, {
+     			"id": 3,
+     			"name": "大中华",
+     			"path": "songType/1528852586480.jpg",
+     			"ngPath": "http://192.168.2.3/songType/1528852586480.jpg"
+     		}]
+     	}
+     }
+
+--------------------------------------------------------
+歌星分类
+参数 ：telPhone 手机号
+      songtypeid 歌曲大类
+      page 第几页    不填默认1
+      limit 页码量   不填默认10，最大限度100
+      token
+
+ localhost:8080/ktv/api/phone/song/getsongSingerType?telPhone=14795489092&songtypeid=3&token=4526c621-ae40-4dff-8b5f-48324c96f1c2
+
+ 返回格式：
+{
+     	"code": 0,
+     	"data": {
+     		"totalCount": 1,
+     		"pageSize": 10,
+     		"totalPage": 1,
+     		"currPage": 1,
+     		"list": [{
+     			"id": 4,
+     			"singertypeid": 2,
+     			"name": "谢娜",
+     			"sex": 2,
+     			"nameen": "xn",
+     			"namejapanese": null,
+     			"namezhuyin": null,
+     			"nameVietnam": null,
+     			"iconPath": "songSinger/1528852673344.jpg",
+     			"singerTypeName": "大陆女歌星",
+     			"ngPath": "http://192.168.2.3/songSinger/1528852673344.jpg"
+     		}]
+     	}
+     }
+
+--------------------------------------------------------
+获取排行榜分类
+ 参数 telPhone 手机号
+      token
+http://localhost:8080/ktv/api/phone/song/rangking?telPhone=14795489092&token=4526c621-ae40-4dff-8b5f-48324c96f1c2
+
+返回格式：
+{
+    "code": 0,
+    "data": [
+        {
+            "id": 1,
+            "name": "ee",
+            "icon": "http://192.168.2.11:8088/tmp/songRank/1528869940278.jpg",
+            "postion": 1,
+            "ngPath": null
+        }
+    ]
+}
+
+--------------------------------------------------------
+根据排行榜获取歌曲
+http://localhost:8080/ktv/api/phone/song/getRangeSong?telPhone=14795489092&rangId=1&token=4526c621-ae40-4dff-8b5f-48324c96f1c2
+参数：
+     telPhone 手机号
+     rangId  排行榜id
+     page 第几页    不填默认1
+     limit 页码量   不填默认10，最大限度100
+     token
+返回格式：
+{
+    "code": 0,
+    "data": [
+        {
+            "id": 1,
+            "name": "ee",
+            "icon": "http://192.168.2.11:8088/tmp/songRank/1528869940278.jpg",
+            "postion": 1,
+            "ngPath": null
+        }
+    ]
+}
+
+--------------------------------------------------------
+
+获取歌手列表
+http://localhost:8080/ktv/api/phone/song/singer?telPhone=14795489092&singertypeid=2&token=4526c621-ae40-4dff-8b5f-48324c96f1c2
+参数：
+     telPhone 手机号
+     zhuyin   注音
+     pinyin   拼音
+     japanese 日文
+     vietnam  越南
+     name     名称   （语音输入时直接按名称搜）
+     singertypeid  歌手类型id
+     keyword  关键字
+     page 第几页    不填默认1
+     limit 页码量   不填默认10，最大限度100
+     token
+返回数据格式：
+
+{
+    "code": 0,
+    "data": [
+        {
+            "id": 1,
+            "singertypeid": 1,
+            "name": "刘德华",
+            "sex": 1,
+            "nameen": "liudehua",     //英文
+            "namejapanese": "liudehua",
+            "namezhuyin": "liudehua",
+            "nameVietnam": "liudehua",
+            "iconPath": "http://192.168.2.11:8088sheng.modules.sys.entity.SongSingerEntity@351410f3",
+            "singerTypeName": "歌星类型1",
+            "ngPath": null
+        }
+    ]
+}
+
+--------------------------------------------------------
+获取歌曲列表(根据歌星搜索歌曲，根据歌名搜索，编号搜索，输入法支持注音，拼音，日文，越南)
+http://192.168.2.11:8080/ktv/api/phone/song?telPhone=wz&vietnam=a
+参数：
+     telPhone 手机号
+     zhuyin   注音
+     pinyin   拼音
+     japanese 日文
+     vietnam  越南
+     name     名称  （语音输入时直接按名称搜）
+     keyword  关键字
+     singerId  歌手id
+     songnumber 歌曲编号
+     page 第几页    不填默认1
+     limit 页码量   不填默认10，最大限度100
+     token
+返回格式：
+{
+    "code": 0,
+    "data": {
+        "totalCount": 1,
+        "pageSize": 10,
+        "totalPage": 1,
+        "currPage": 1,
+        "list": [
+            {
+                "id": 1,
+                "songnumber": "1",
+                "singerid": 1,
+                "name": "笨小孩",
+                "nameVietnam": "benxiaohai",
+                "namejapanese": "benxiaohai", //日语
+                "namezhuyin": "bah",    //注音
+                "namepinyin": "benxiaohai",  //英文
+                "path": "http://192.168.2.11:8088song/1528881586624.mp3",
+                "lanId": 3,
+                "label": "小孩",
+                "singerName": "刘德华",
+                "lanName": "越南",
+                "fileName": null
+            }
+        ]
+    }
+}
+--------------------------------------------------------
+产品升级
+http://localhost:8080/ktv/api/phone/upgrade/get?telPhone=14795489092&version=2&token=4526c621-ae40-4dff-8b5f-48324c96f1c2
+参数：
+     telPhone  手机号
+     version  版本号
+     token
+返回格式：
+{
+  "code": 0,
+  "data": {
+    "id": 2,
+    "name": "12",
+    "path": "http://192.168.2.6/null/1529731118539.apk",
+    "beginTime": "2018-06-05 00:00:00",
+    "endTime": "2018-07-28 00:00:00",
+    "version": 3.0,
+    "type": 3,
+    "gid": null,
+    "gName": null
+  }
+}
+
+
+------------------------------------
+添加收藏
+
+http://localhost:8080/ktv/api/phone/song/collect/add?telPhone=wz&sid=1
+
+参数：
+   sid : 歌曲id
+
+返回数据格式：
+
+
+{
+    "code": 0
+}
+------------------------------------
+删除收藏
+
+http://localhost:8080/ktv/api/phone/song/collect/del?telPhone=wz&sid=1
+
+参数：
+   sid : 歌曲id
+
+返回数据格式：
+
+
+{
+    "code": 0
+}
+------------------------------------
+添加记录
+
+http://localhost:8080/ktv/api/phone/song/record/add?telPhone=wz&sid=1
+
+参数：
+   sid : 歌曲id
+
+返回数据格式：
+
+{
+    "code": 0
+}
+
+------------------------------------
+获取收藏列表
+
+http://localhost:8080/ktv/api/phone/song/record/add?telPhone=wz&sid=1
+
+参数：
+   sid : 歌曲id
+
+返回数据格式：
+
+{
+    "code": 0
+}
+
+------------------------------------
+获取收藏列表
+http://localhost:8080/ktv/api/phone/song/collect?telPhone=wz&
+{
+    "code": 0,
+    "data": {
+        "totalCount": 1,
+        "pageSize": 10,
+        "totalPage": 1,
+        "currPage": 1,
+        "list": [
+            {
+                "id": 1,
+                "sid": 1,
+                "did": 5,
+                "type": 1,
+                "createTime": "2018-06-26 16:02:53",  //收藏好时间
+                "song": {
+                    "id": 1,
+                    "songnumber": "1",
+                    "singerid": 1,
+                    "name": "笨小孩",
+                    "nameVietnam": "benxiaohai",
+                    "namejapanese": "benxiaohai",
+                    "namezhuyin": "bah",
+                    "namepinyin": "benxiaohai",
+                    "path": "http://192.168.2.11:8088//song/1528881586624.mp3",
+                    "lanId": 3,
+                    "label": "小孩",
+                    "singerName": null,
+                    "lanName": null,
+                    "fileName": null
+                }
+            }
+        ]
+    }
+}
+------------------------------------
+获取播放记录列表
+http://localhost:8080/ktv/api/phone/song/record?telPhone=wz
+{
+    "code": 0,
+    "data": {
+        "totalCount": 1,
+        "pageSize": 10,
+        "totalPage": 1,
+        "currPage": 1,
+        "list": [
+            {
+                "id": 1,
+                "sid": 1,
+                "did": 5,
+                "type": 1,
+                "playTime": "2018-06-26 16:02:17",
+                "song": {
+                    "id": 1,
+                    "songnumber": "1",
+                    "singerid": 1,
+                    "name": "笨小孩",
+                    "nameVietnam": "benxiaohai",
+                    "namejapanese": "benxiaohai",
+                    "namezhuyin": "bah",
+                    "namepinyin": "benxiaohai",
+                    "path": "http://192.168.2.11:8088//song/1528881586624.mp3",
+                    "lanId": 3,
+                    "label": "小孩",
+                    "singerName": null,
+                    "lanName": null,
+                    "fileName": null
+                }
+            }
+        ]
+    }
+}
+--------------------------------------------------------
+广告（转socketIO 推送）
+http://localhost:8080/ktv/api/phone/rollad?telPhone=14795489092&token=4526c621-ae40-4dff-8b5f-48324c96f1c2
+参数：
+     telPhone  手机号
+     token
+返回格式：
+{
+  "code": 0,
+  "data": [
+    {
+      "id": 1,
+      "name": "22",
+      "path": "http://192.168.2.6null/1529584676375.jpg",
+      "url": "jjjj"
+    }
+  ]
+}
+
+--------------------------------------------------------
+socketIO
+端口：8000
+
+注册：
+register
+参数：String mac  手机号
+      int type  3  手机端ktv
+
+提醒续费：
+发送数据：
+事件 warning  String类型（直接显示出来，并且给个确认键让用户确认）
+
+广告：rollAdList
+返回数据类型
+ List<RollAdEntity> rollAdList
+
+
+

@@ -17,6 +17,7 @@ import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
 import phone.ktv.adaters.TabAdater;
 import phone.ktv.tootls.IntentUtils;
+import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CoordinatorMenu;
 import phone.ktv.views.CustomTextView;
 
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout mSetup;//设置
     private LinearLayout mSignOut;//退出
 
+    private ImageView mSearch;//搜索
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mSetup= findViewById(R.id.setup_llt);
         mSignOut= findViewById(R.id.sign_out_llt);
+        mSearch= findViewById(R.id.main_btn_search);
     }
 
     private void initView(){
@@ -101,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mSetup.setOnClickListener(this);
         mSignOut.setOnClickListener(this);
+        mSearch.setOnClickListener(this);
     }
 
     @Override
@@ -112,6 +117,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     mCoordinatorMenu.openMenu();
                 }
+                break;
+
+            case R.id.main_btn_search://搜索
+                ToastUtils.showLongToast(mContext,"搜索");
                 break;
 
             case R.id.loging_llt://立即登录

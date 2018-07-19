@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/selector_top_while_main" />
 
         <com.astuetz.PagerSlidingTabStripExtends
             android:id="@+id/news_tabs"
@@ -38,7 +38,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/selector_top_sousuo" />
     </LinearLayout>
 
     <android.support.v4.view.ViewPager
