@@ -24,7 +24,7 @@ import phone.ktv.views.CustomTextView;
 /**
  * 主页
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
     private PagerSlidingTabStripExtends mNewsTabs;
@@ -52,27 +52,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mContext=MainActivity.this;
+        mContext = MainActivity.this;
 
         initView();
         initMenuView();
         initListener();
     }
 
-    private void initMenuView(){
-        mLoging= findViewById(R.id.loging_llt);
+    private void initMenuView() {
+        mLoging = findViewById(R.id.loging_llt);
 
-        mCustomTextView1= findViewById(R.id.custom_menu_1);
-        mCustomTextView2= findViewById(R.id.custom_menu_2);
-        mCustomTextView3= findViewById(R.id.custom_menu_3);
-        mCustomTextView4= findViewById(R.id.custom_menu_4);
+        mCustomTextView1 = findViewById(R.id.custom_menu_1);
+        mCustomTextView2 = findViewById(R.id.custom_menu_2);
+        mCustomTextView3 = findViewById(R.id.custom_menu_3);
+        mCustomTextView4 = findViewById(R.id.custom_menu_4);
 
-        mSetup= findViewById(R.id.setup_llt);
-        mSignOut= findViewById(R.id.sign_out_llt);
-        mSearch= findViewById(R.id.main_btn_search);
+        mSetup = findViewById(R.id.setup_llt);
+        mSignOut = findViewById(R.id.sign_out_llt);
+        mSearch = findViewById(R.id.main_btn_search);
     }
 
-    private void initView(){
+    private void initView() {
         mPagerChange = new onPageChangeListener();
 
         mCoordinatorMenu = findViewById(R.id.menu);
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initListener() {
-        TabAdater tabAdapter = new TabAdater(getSupportFragmentManager(),getResources().getStringArray(R.array.title_menu_array));
+        TabAdater tabAdapter = new TabAdater(getSupportFragmentManager(), getResources().getStringArray(R.array.title_menu_array));
         mVpTab.setAdapter(tabAdapter);
         mNewsTabs.setViewPager(mVpTab);
         mNewsTabs.setOnPageChangeListener(mPagerChange);
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.main_btn_menu://侧滑
                 if (mCoordinatorMenu.isOpened()) {
                     mCoordinatorMenu.closeMenu();
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.main_btn_search://搜索
-                ToastUtils.showLongToast(mContext,"搜索");
+                ToastUtils.showLongToast(mContext, "搜索");
                 break;
 
             case R.id.loging_llt://立即登录
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 登录
      */
-    private void isStateLogin(){
+    private void isStateLogin() {
         IntentUtils.thisToOther(mContext, LoginActivity.class);
     }
 

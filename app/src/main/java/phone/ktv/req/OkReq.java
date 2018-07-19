@@ -24,7 +24,7 @@ public class OkReq {
     }
 
 
-    public void Get(final String tag, final String url) {
+    public void Get(final String url) {
         final long start = System.currentTimeMillis();
         new Thread(new Runnable() {
             @Override
@@ -39,17 +39,17 @@ public class OkReq {
                         json = response.body().string();
                         if (api == null)
                             return;
-                        api.finish(tag, json);
+                        api.finish(url, json);
                         Logger.d(TAG, (System.currentTimeMillis() - start) + "");
                     } else {
                         if (api == null)
                             return;
-                        api.error(tag, response.code() + "");
+                        api.error(url, response.code() + "");
                     }
                 } catch (Exception e) {
                     if (api == null)
                         return;
-                    api.error(tag, response.code() + "");
+                    api.error(url, response.code() + "");
                     // e.printStackTrace();
                 }
             }

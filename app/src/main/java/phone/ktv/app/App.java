@@ -11,12 +11,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 
 import org.xutils.x;
-
-import java.io.StringReader;
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import phone.ktv.tootls.Logger;
@@ -87,7 +83,7 @@ public class App extends Application {
     private void getip() {
         String tmp = config.getString("ip", "");
         if (!tmp.equals("")) {
-            headurl = "http://" + tmp + ":8109/ktv/api/";
+            headurl = "http://" + tmp + ":8109/ktv/api/phone/";
 //            headurl = "http://" + tmp + ":8080/ktv/api/";
             Log.d("host", "---headurl---\n" + headurl);
             socketurl = "http://" + tmp + ":8000/tv";

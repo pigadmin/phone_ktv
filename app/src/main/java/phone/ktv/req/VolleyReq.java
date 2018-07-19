@@ -28,14 +28,14 @@ public class VolleyReq {
 
     public StringRequest stringRequest;
 
-    public StringRequest get(final String tag, String url) {
+    public StringRequest get(final String url) {
         final long start = System.currentTimeMillis();
         stringRequest = new StringRequest(url, new Response.Listener<String>() {
             //正确接收数据回调
             @Override
             public void onResponse(String json) {
                 try {
-                    api.finish(tag, json);
+                    api.finish(url, json);
                     Logger.d(TAG, (System.currentTimeMillis() - start) + "");
 
                 } catch (Exception e) {
@@ -46,7 +46,7 @@ public class VolleyReq {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                api.error(tag, "接口請求失敗或超時。");
+                api.error(url, "接口請求失敗或超時。");
             }
         });
         App.requestQueue.add(stringRequest);
