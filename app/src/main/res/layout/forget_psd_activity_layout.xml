@@ -51,7 +51,7 @@
         <TextView
             android:id="@+id/register_tvw"
             android:layout_width="match_parent"
-            android:text="注册"
+            android:text="确定"
             android:layout_marginLeft="30dp"
             android:background="@drawable/selector_btn"
             android:layout_marginTop="30dp"

@@ -11,10 +11,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.WeakHashMap;
 
 import okhttp3.Call;
@@ -23,12 +21,14 @@ import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
-import phone.ktv.bean.WelcomAd;
+import phone.ktv.tootls.AlertDialogHelper;
+import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.ToastUtils;
+import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomEditView;
 import phone.ktv.views.CustomTopTitleView;
 
@@ -61,12 +61,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 case LoginRequestSuccess://提交成功
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"登录成功");
-
+                    clearInput();
                     break;
 
                 case LoginRequestError://提交失败
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext,"登录失败:"+msg.obj);
                     break;
             }
         }
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public class MyOnClickBackReturn implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            finish();
+            isReturn();
         }
     }
 
@@ -170,12 +170,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
                     Logger.i(TAG,"s.."+s);
-                    AJson aJson = App.jsonToObject(s, new TypeToken<AJson<List<WelcomAd>>>() {
-                    });
-                    if (aJson.getCode()==0){
-                        mHandler.sendEmptyMessage(LoginRequestSuccess);
-                    } else {
-                        mHandler.obtainMessage(LoginRequestError, aJson.getMsg()).sendToTarget();
+                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                    if (aJson!=null){
+                        if (aJson.getCode()==0){
+                            mHandler.sendEmptyMessage(LoginRequestSuccess);
+                        } else {
+                            mHandler.obtainMessage(LoginRequestError, aJson.getMsg()).sendToTarget();
+                        }
                     }
                     if (response.body() != null) {
                         response.body().close();
@@ -187,11 +188,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void isReturn(){
+        if (!TextUtils.isEmpty(customEditView1.getInputTitle())
+                || !TextUtils.isEmpty(customEditView2.getInputTitle())) {
+            final BtmDialog dialog = new BtmDialog(this, "温馨提示", "确定放弃本次操作吗?");
+            AlertDialogHelper.BtmDialogDerive1(dialog, false, true,new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    dialog.dismiss();
+                }
+            }, null);
+        } else {
+            finish();
+        }
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
+            isReturn();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void clearInput(){
+        customEditView1.setInputTitle(null);
+        customEditView2.setInputTitle(null);
     }
 }

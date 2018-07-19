@@ -8,13 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.WeakHashMap;
@@ -25,12 +25,14 @@ import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
-import phone.ktv.bean.WelcomAd;
+import phone.ktv.tootls.AlertDialogHelper;
+import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.ToastUtils;
+import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomEditView;
 import phone.ktv.views.CustomTopTitleView;
 
@@ -52,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private CustomEditView customEditView4;//密码
 
     private TextView mRegister;//注册
+    private CheckBox mCheckjiBox;//用户协议
 
     private Timer timer;
     private int recLen = 1 * 60;
@@ -71,17 +74,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             switch (msg.what) {
                 case RegisRequestSuccess://提交成功
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,"登录成功");
+                    ToastUtils.showLongToast(mContext,"注册成功");
+                    clearInput();
                     break;
 
                 case RegisRequestError://提交失败
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext,"注册失败:"+msg.obj);
                     break;
 
                 case RegisCodeSuccess://获取验证码成功
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"验证码获取成功");
+                    customEditView3.setInputTitle((String) msg.obj);
                     break;
 
                 case RegisCodeError://获取验证码失败
@@ -112,6 +117,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
 
         mRegister=findViewById(R.id.register_tvw);
+        mCheckjiBox=findViewById(R.id.jizhu_ckb);
 
         mRegistProtocol=findViewById(R.id.regist_protocol_tvw);
         mRegistProtocol.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);//下划线
@@ -128,6 +134,21 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         mRegistProtocol.setOnClickListener(this);
         mRegister.setOnClickListener(this);
+
+        mCheckjiBox.setOnCheckedChangeListener(new MyOnCheckedChangeListener());
+    }
+
+    private class MyOnCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (mCheckjiBox.isChecked()) {
+                mRegister.setBackgroundResource(R.drawable.selector_btn);
+                mRegister.setEnabled(true);
+            } else {
+                mRegister.setBackgroundResource(R.mipmap.denglu_b);
+                mRegister.setEnabled(false);
+            }
+        }
     }
 
     @Override
@@ -148,25 +169,34 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      */
     private void registerClick(){
         if (TextUtils.isEmpty(customEditView1.getInputTitle())){
-            ToastUtils.showLongToast(mContext,"请输入用户名");
+            mSvProgressHUD.showInfoWithStatus("请输入用户名");
             return;
         }
         if (TextUtils.isEmpty(customEditView2.getInputTitle())){
-            ToastUtils.showLongToast(mContext,"请输入手机号");
+            mSvProgressHUD.showInfoWithStatus("请输入手机号");
             return;
         }
         if (customEditView2.getInputTitle().length()!=11){
-            ToastUtils.showLongToast(mContext,"请输入正确的手机号码");
+            mSvProgressHUD.showInfoWithStatus("请输入正确的手机号码");
             return;
         }
         if (TextUtils.isEmpty(customEditView3.getInputTitle())){
-            ToastUtils.showLongToast(mContext,"请输入验证码");
+            mSvProgressHUD.showInfoWithStatus("请输入验证码");
+            return;
+        }
+        if (customEditView3.getInputTitle().length()!=6){
+            mSvProgressHUD.showInfoWithStatus("请输入正确的验证码");
             return;
         }
         if (TextUtils.isEmpty(customEditView4.getInputTitle())){
-            ToastUtils.showLongToast(mContext,"请输入密码");
+            mSvProgressHUD.showInfoWithStatus("请输入密码");
             return;
         }
+        if (!mCheckjiBox.isChecked()) {
+            mSvProgressHUD.showInfoWithStatus("请仔细阅读并勾选,用户注册协议");
+            return;
+        }
+
         submLoginData();
     }
 
@@ -195,12 +225,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onResponse(Call call, Response response) throws IOException {
                 String s = response.body().string();
                 Logger.i(TAG,"注册s.."+s);
-                AJson aJson = App.jsonToObject(s, new TypeToken<AJson<List<WelcomAd>>>() {
-                });
-                if (aJson.getCode()==0){
-                    mHandler.sendEmptyMessage(RegisRequestSuccess);
-                } else {
-                    mHandler.obtainMessage(RegisRequestError, aJson.getMsg()).sendToTarget();
+                AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                if (aJson!=null){
+                    if (aJson.getCode()==0){
+                        mHandler.sendEmptyMessage(RegisRequestSuccess);
+                    } else {
+                        mHandler.obtainMessage(RegisRequestError, aJson.getMsg()).sendToTarget();
+                    }
                 }
                 if (response.body() != null) {
                     response.body().close();
@@ -215,7 +246,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public class MyOnClickBackReturn implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            finish();
+            isReturn();
         }
     }
 
@@ -240,12 +271,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onResponse(Call call, Response response) throws IOException {
                 String s = response.body().string();
                 Logger.i(TAG,"验证码s.."+s);
-                AJson aJson = App.jsonToObject(s, new TypeToken<AJson<List<WelcomAd>>>() {
-                });
-                if (aJson.getCode()==0){
-                    mHandler.sendEmptyMessage(RegisCodeSuccess);
-                } else {
-                    mHandler.obtainMessage(RegisCodeError, aJson.getMsg()).sendToTarget();
+                AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                if (aJson!=null){
+                    if (aJson.getCode()==0){
+                        mHandler.obtainMessage(RegisCodeSuccess, aJson.getData()).sendToTarget();
+                    } else {
+                        mHandler.obtainMessage(RegisCodeError, aJson.getMsg()).sendToTarget();
+                    }
                 }
                 if (response.body() != null) {
                     response.body().close();
@@ -300,10 +332,35 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    private void isReturn(){
+        if (!TextUtils.isEmpty(customEditView1.getInputTitle())
+                || !TextUtils.isEmpty(customEditView2.getInputTitle())
+                || !TextUtils.isEmpty(customEditView3.getInputTitle())
+                ||!TextUtils.isEmpty(customEditView4.getInputTitle())) {
+            final BtmDialog dialog = new BtmDialog(this, "温馨提示", "确定放弃本次操作吗?");
+            AlertDialogHelper.BtmDialogDerive1(dialog, false, true,new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    dialog.dismiss();
+                }
+            }, null);
+        } else {
+            finish();
+        }
+    }
+
+    private void clearInput(){
+        customEditView1.setInputTitle(null);
+        customEditView2.setInputTitle(null);
+        customEditView3.setInputTitle(null);
+        customEditView4.setInputTitle(null);
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
+            isReturn();
         }
         return super.onKeyDown(keyCode, event);
     }
