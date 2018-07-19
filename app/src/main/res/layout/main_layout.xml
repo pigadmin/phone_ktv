@@ -18,6 +18,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/selector_top_while_main" />
 
@@ -30,6 +31,7 @@
             app:pstsSelectedTabTextColor="#057dff"
             app:pstsSelectedTabTextSize="16sp"
             app:pstsTabTextColor="@color/white"
+            app:pstsTabPaddingLeftRight="9dp"
             app:pstsTabTextSize="16sp" />
 
         <ImageView
@@ -37,6 +39,7 @@
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
+            android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/selector_top_sousuo" />
