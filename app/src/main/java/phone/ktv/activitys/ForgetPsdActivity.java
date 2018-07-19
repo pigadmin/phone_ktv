@@ -49,8 +49,8 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
 
     private TextView mRegister;
 
-    public static final int ForgetRequestSuccess=100;//修改成功
-    public static final int ForgetRequestError=200;//修改失败
+    public static final int ForgetRequestSuccess=100;//找回密码成功
+    public static final int ForgetRequestError=200;//找回密码失败
     public static final int ForgetCodeSuccess=300;//获取验证码成功
     public static final int ForgetCodeError=400;//获取验证码失败
 
