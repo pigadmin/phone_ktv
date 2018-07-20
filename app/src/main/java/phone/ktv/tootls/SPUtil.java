@@ -52,6 +52,7 @@ public class SPUtil {
 	}
 
 	public String getString(String key, String defValue) {
+		System.out.println(key);
 		return sp.getString(key, defValue);
 	}
 

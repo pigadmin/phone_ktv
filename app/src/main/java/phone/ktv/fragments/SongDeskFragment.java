@@ -28,6 +28,7 @@ import phone.ktv.bean.WelcomAd;
 import phone.ktv.bgabanner.BGABanner;
 import phone.ktv.req.OkReq;
 import phone.ktv.req.VolleyReq;
+import phone.ktv.tootls.SPUtil;
 
 /**
  * 点歌台
@@ -39,6 +40,7 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
 
     private Context mContext;
     private BGABanner mBanner;
+    private SPUtil spUtil;
 
     @Nullable
     @Override
@@ -46,6 +48,7 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
         mNewsView = inflater.inflate(R.layout.songdesk_fragment_layout, null);
         mContext = getActivity();
         req = new VolleyReq(mContext, this);
+        spUtil = new SPUtil(mContext);
         initView();
         initLiter();
 
@@ -57,7 +60,9 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
     private String updategrid;
 
     private void initGrid() {
-        updategrid = "http://192.168.2.25:8109/ktv/api/phone/song/getSongType?telPhone=18689200036&token=1c21b72f-7ecd-40f2-bd4d-f2c4a2dd3a2e";
+
+        updategrid = App.headurl + "song/getSongType?telPhone=" + spUtil.getString("telPhone", "")
+                + "&token=" + spUtil.getString("token", "");
         req.get(updategrid);
     }
 
@@ -107,7 +112,7 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
         });
     }
 
-    List<ListInfo> list=new ArrayList<>();
+    List<ListInfo> list = new ArrayList<>();
 
     @Override
     public void finish(String tag, String json) {
@@ -116,10 +121,13 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
             if (tag.equals(updategrid)) {
                 GridList gridList = App.jsonToObject(json, new TypeToken<AJson<GridList>>() {
                 }).getData();
-//                list = gridList.getList();
-                list.addAll(gridList.getList());
-                System.out.println(list.size());
-                playAdater.notifyDataSetChanged();
+
+                if (gridList != null) {
+                    //                list = gridList.getList();
+                    list.addAll(gridList.getList());
+                    System.out.println(list.size());
+                    playAdater.notifyDataSetChanged();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
