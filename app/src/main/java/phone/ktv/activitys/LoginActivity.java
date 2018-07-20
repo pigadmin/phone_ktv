@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"s.."+s);
+                    Logger.i(TAG,"登录s.."+s);
                     AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
                     if (aJson!=null){
                         if (aJson.getCode()==0){
@@ -190,6 +190,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             });
         } else {
+            mSvProgressHUD.dismiss();
             ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
         }
     }

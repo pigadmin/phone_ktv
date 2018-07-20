@@ -214,34 +214,38 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         weakHashMap.put("veriCode", customEditView3.getInputTitle());//验证码
         weakHashMap.put("pass", customEditView4.getInputTitle());//密码
         weakHashMap.put("username", customEditView1.getInputTitle());//用户名
-
         String url = App.getRqstUrl(App.headurl + "register", weakHashMap);
         Logger.i(TAG, "url.." + url);
 
-        OkhttpUtils.doStart(url, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                //返回失败
-                mHandler.obtainMessage(RegisRequestError, e.getMessage()).sendToTarget();
-            }
+        if (NetUtils.hasNetwork(mContext)) {
+            OkhttpUtils.doStart(url, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    //返回失败
+                    mHandler.obtainMessage(RegisRequestError, e.getMessage()).sendToTarget();
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String s = response.body().string();
-                Logger.i(TAG,"注册s.."+s);
-                AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                if (aJson!=null){
-                    if (aJson.getCode()==0){
-                        mHandler.sendEmptyMessage(RegisRequestSuccess);
-                    } else {
-                        mHandler.obtainMessage(RegisRequestError, aJson.getMsg()).sendToTarget();
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string();
+                    Logger.i(TAG,"注册s.."+s);
+                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                    if (aJson!=null){
+                        if (aJson.getCode()==0){
+                            mHandler.sendEmptyMessage(RegisRequestSuccess);
+                        } else {
+                            mHandler.obtainMessage(RegisRequestError, aJson.getMsg()).sendToTarget();
+                        }
+                    }
+                    if (response.body() != null) {
+                        response.body().close();
                     }
                 }
-                if (response.body() != null) {
-                    response.body().close();
-                }
-            }
-        });
+            });
+        } else {
+            mSvProgressHUD.dismiss();
+            ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
+        }
     }
 
     /**
@@ -264,30 +268,35 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String url = App.getRqstUrl(App.headurl + "sendCode", weakHashMap);
         Logger.i(TAG, "url.." + url);
 
-        OkhttpUtils.doStart(url, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                //返回失败
-                mHandler.obtainMessage(RegisCodeError, e.getMessage()).sendToTarget();
-            }
+        if (NetUtils.hasNetwork(mContext)) {
+            OkhttpUtils.doStart(url, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    //返回失败
+                    mHandler.obtainMessage(RegisCodeError, e.getMessage()).sendToTarget();
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String s = response.body().string();
-                Logger.i(TAG,"验证码s.."+s);
-                AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                if (aJson!=null){
-                    if (aJson.getCode()==0){
-                        mHandler.obtainMessage(RegisCodeSuccess, aJson.getData()).sendToTarget();
-                    } else {
-                        mHandler.obtainMessage(RegisCodeError, aJson.getMsg()).sendToTarget();
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string();
+                    Logger.i(TAG,"验证码s.."+s);
+                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                    if (aJson!=null){
+                        if (aJson.getCode()==0){
+                            mHandler.obtainMessage(RegisCodeSuccess, aJson.getData()).sendToTarget();
+                        } else {
+                            mHandler.obtainMessage(RegisCodeError, aJson.getMsg()).sendToTarget();
+                        }
+                    }
+                    if (response.body() != null) {
+                        response.body().close();
                     }
                 }
-                if (response.body() != null) {
-                    response.body().close();
-                }
-            }
-        });
+            });
+        } else {
+            mSvProgressHUD.dismiss();
+            ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
+        }
     }
 
     /**
@@ -327,8 +336,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     ToastUtils.showShortToast(mContext, "正在发送验证码,请在1分钟后点击发送");
                 }
             } else {
+                mSvProgressHUD.dismiss();
                 ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
-                return;
             }
         }
     }
