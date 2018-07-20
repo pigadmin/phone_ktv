@@ -110,14 +110,31 @@ public class ModifyPsdActivity extends AppCompatActivity implements View.OnClick
             mSvProgressHUD.showInfoWithStatus("请输入您的原密码");
             return;
         }
+        if (customEditView1.getInputTitle().length() < 6){
+            mSvProgressHUD.showInfoWithStatus("原密码不能小于6位");
+            return;
+        }
         if (TextUtils.isEmpty(customEditView2.getInputTitle())){
             mSvProgressHUD.showInfoWithStatus("请输入您的新密码");
+            return;
+        }
+        if (customEditView2.getInputTitle().length() < 6){
+            mSvProgressHUD.showInfoWithStatus("新密码不能小于6位");
             return;
         }
         if (TextUtils.isEmpty(customEditView3.getInputTitle())){
             mSvProgressHUD.showInfoWithStatus("请确认您的新密码");
             return;
         }
+        if (customEditView3.getInputTitle().length() < 6){
+            mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
+            return;
+        }
+        if (!customEditView2.getInputTitle().equals(customEditView3.getInputTitle())){
+            mSvProgressHUD.showInfoWithStatus("2次输入密码不一致,请认真输入");
+            return;
+        }
+
         submData();
     }
 
@@ -161,6 +178,7 @@ public class ModifyPsdActivity extends AppCompatActivity implements View.OnClick
                 }
             });
         } else {
+            mSvProgressHUD.dismiss();
             ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
