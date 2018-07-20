@@ -82,7 +82,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 case RegisRequestError://提交失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"注册失败:"+msg.obj);
-                    customEditView2.setInputTitle(null);
                     clearTimerState();
                     break;
 

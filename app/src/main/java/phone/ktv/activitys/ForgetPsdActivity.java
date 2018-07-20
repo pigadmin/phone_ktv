@@ -69,11 +69,13 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"找回密码成功");
                     clearInput();
+                    finish();
                     break;
 
                 case ForgetRequestError://提交失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"找回密码失败:"+msg.obj);
+                    clearTimerState();
                     break;
 
                 case ForgetCodeSuccess://获取验证码成功
@@ -85,10 +87,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
                 case ForgetCodeError://获取验证码失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
-                    isClick = true;
-                    customEditView2.setVerdCode("点击发送");
-                    timer.cancel();
-                    customEditView2.mVerdCode.setBackgroundResource(R.drawable.selector_btn_yanzm);
+                    clearTimerState();
                     break;
             }
         }
@@ -151,12 +150,20 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
             mSvProgressHUD.showInfoWithStatus("请输入新密码");
             return;
         }
+        if (customEditView3.getInputTitle().length() < 6){
+            mSvProgressHUD.showInfoWithStatus("新密码不能小于6位");
+            return;
+        }
         if (TextUtils.isEmpty(customEditView4.getInputTitle())){
             mSvProgressHUD.showInfoWithStatus("请确认新密码");
             return;
         }
-        if (customEditView3.getInputTitle().equals(customEditView4.getInputTitle())){
-            mSvProgressHUD.showInfoWithStatus("2次输入新密码不一致");
+        if (customEditView4.getInputTitle().length() < 6){
+            mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
+            return;
+        }
+        if (!customEditView3.getInputTitle().equals(customEditView4.getInputTitle())){
+            mSvProgressHUD.showInfoWithStatus("2次输入密码不一致,请认真输入");
             return;
         }
 
@@ -192,6 +199,8 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
                     if (aJson!=null){
                         if (aJson.getCode()==0){
                             mHandler.sendEmptyMessage(ForgetRequestSuccess);
+//                        } else if (aJson.getCode()==500){
+                            //TODO
                         } else {
                             mHandler.obtainMessage(ForgetRequestError, aJson.getMsg()).sendToTarget();
                         }
@@ -202,6 +211,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
                 }
             });
         } else {
+            mSvProgressHUD.dismiss();
             ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
@@ -243,10 +253,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
                                     customEditView2.setVerdCode("已发送:" + recLen);
                                     if (recLen == 0) {
                                         recLen = 1 * 60;
-                                        isClick = true;
-                                        customEditView2.setVerdCode("点击发送");
-                                        timer.cancel();
-                                        customEditView2.mVerdCode.setBackgroundResource(R.drawable.selector_btn_yanzm);
+                                        clearTimerState();
                                     }
                                 }
                             });
@@ -256,8 +263,8 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
                     ToastUtils.showShortToast(mContext, "正在发送验证码,请在1分钟后点击发送");
                 }
             } else {
+                mSvProgressHUD.dismiss();
                 ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
-                return;
             }
         }
     }
@@ -268,7 +275,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
     private void subCodeData(){
         mSvProgressHUD.showWithStatus("请稍等,验证码发送中...");
         weakHashMap.clear();
-        weakHashMap.put("telPhone", customEditView2.getInputTitle());//手机号
+        weakHashMap.put("telPhone", customEditView1.getInputTitle());//手机号
         String url = App.getRqstUrl(App.headurl + "sendCode", weakHashMap);
         Logger.i(TAG, "url.." + url);
 
@@ -286,7 +293,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
                 AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
                 if (aJson!=null){
                     if (aJson.getCode()==0){
-                        mHandler.obtainMessage(ForgetCodeSuccess, aJson.getMsg()).sendToTarget();
+                        mHandler.obtainMessage(ForgetCodeSuccess, aJson.getData()).sendToTarget();
                     } else {
                         mHandler.obtainMessage(ForgetCodeError, aJson.getMsg()).sendToTarget();
                     }
@@ -322,6 +329,16 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
         } else {
             finish();
         }
+    }
+
+    /**
+     * 重置验证码状态
+     */
+    private void clearTimerState(){
+        isClick = true;
+        customEditView2.setVerdCode("点击发送");
+        timer.cancel();
+        customEditView2.mVerdCode.setBackgroundResource(R.drawable.selector_btn_yanzm);
     }
 
     private void clearInput(){
