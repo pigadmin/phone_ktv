@@ -22,9 +22,11 @@ import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.GsonJsonUtils;
+import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
+import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomEditView;
@@ -51,6 +53,8 @@ public class ModifyPsdActivity extends AppCompatActivity implements View.OnClick
 
     private SVProgressHUD mSvProgressHUD;
 
+    private SPUtil mSP;
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -58,6 +62,9 @@ public class ModifyPsdActivity extends AppCompatActivity implements View.OnClick
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"修改密码成功");
                     clearInput();
+                    finish();
+                    IntentUtils.thisToOther(mContext,LoginActivity.class);
+                    mSP.clearSpData();
                     break;
 
                 case UpdateRequestError://提交失败
@@ -80,6 +87,7 @@ public class ModifyPsdActivity extends AppCompatActivity implements View.OnClick
     private void initView(){
         mContext=ModifyPsdActivity.this;
         mSvProgressHUD=new SVProgressHUD(mContext);
+        mSP=new SPUtil(mContext);
 
         mDetermine=findViewById(R.id.determine_tvw);
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
@@ -145,7 +153,9 @@ public class ModifyPsdActivity extends AppCompatActivity implements View.OnClick
         mSvProgressHUD.showWithStatus("请稍等,数据提交中...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
 
-        weakHashMap.put("telPhone", "");//手机号
+        String tel= mSP.getString("telPhone",null);
+        Logger.i(TAG,"tel.."+tel);
+        weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("oldpass", customEditView1.getInputTitle());//旧密码
         weakHashMap.put("newPass", customEditView2.getInputTitle());//新密码
 
