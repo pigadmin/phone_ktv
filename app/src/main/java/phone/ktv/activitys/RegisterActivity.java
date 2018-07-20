@@ -181,7 +181,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
         if (TextUtils.isEmpty(customEditView3.getInputTitle())){
-            mSvProgressHUD.showInfoWithStatus("请输入验证码");
+            mSvProgressHUD.showInfoWithStatus("请点击获取验证码");
             return;
         }
         if (customEditView3.getInputTitle().length()!=6){

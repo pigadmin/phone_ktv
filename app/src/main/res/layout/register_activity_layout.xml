@@ -43,6 +43,7 @@
         custom:input_type="8194"
         custom:input_digits="0123456789"
         custom:maxLength="6"
+        custom:input_state="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

@@ -50,6 +50,7 @@ public class CustomEditView extends LinearLayout {
 
         int srclog = typedArray.getResourceId(R.styleable.CustomEditView_src_log_type1, 0);//图标显示类型
         String titleType = typedArray.getString(R.styleable.CustomEditView_title_hint_type);//标题hint
+        boolean inputState = typedArray.getBoolean(R.styleable.CustomEditView_input_state, true);//是否可以输入
         boolean firstState = typedArray.getBoolean(R.styleable.CustomEditView_verd_code_isState, true);//多少首是否隐藏
 
         String digits = typedArray.getString(R.styleable.CustomEditView_input_digits);//EditText的输入字符设定 (内容)
@@ -57,12 +58,13 @@ public class CustomEditView extends LinearLayout {
         int maxLength = typedArray.getInteger(R.styleable.CustomEditView_maxLength, 15);//EditText的maxLeng (内容)
 
         typedArray.recycle();
-        setDefinedView(srclog, titleType,firstState,digits,inputType,maxLength);
+        setDefinedView(srclog, titleType,inputState,firstState,digits,inputType,maxLength);
     }
 //
-    private void setDefinedView(int srclog,String titleType, boolean firstState,String digits,int inputType,int maxLength) {
+    private void setDefinedView(int srclog,String titleType,boolean inputState, boolean firstState,String digits,int inputType,int maxLength) {
         mSrcLogo.setImageResource(srclog);
         mInputTitle.setHint(titleType);
+        mInputTitle.setEnabled(inputState?true:false);
         mVerdCode.setVisibility(firstState?View.VISIBLE:View.GONE);
         setCutomInputDigits(digits);//指定字符输入
         mInputTitle.setInputType(inputType);//输入类型
