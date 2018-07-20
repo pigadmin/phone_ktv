@@ -62,11 +62,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"登录成功");
                     clearInput();
+                    finish();
                     break;
 
                 case LoginRequestError://提交失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"登录失败:"+msg.obj);
+                    clearInput();
                     break;
             }
         }
@@ -142,6 +144,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         if (TextUtils.isEmpty(customEditView2.getInputTitle())){
             mSvProgressHUD.showInfoWithStatus("请输入密码");
+            return;
+        }
+        if (customEditView2.getInputTitle().length() < 6){
+            mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
             return;
         }
         submLoginData();
