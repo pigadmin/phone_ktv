@@ -27,7 +27,6 @@
             android:background="@null"
             android:layout_weight="1"
             android:textSize="15sp"
-            android:maxLength="20"
             android:layout_marginRight="10dp"
             android:textColorHint="@color/found_description_color" />
 
