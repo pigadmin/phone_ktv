@@ -56,15 +56,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/register_tvw"
-            android:layout_width="match_parent"
-            android:text="确定"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/selector_btn"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/register_tvw"
+        android:layout_width="match_parent"
+        android:text="确定"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/selector_btn"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content" />
 </LinearLayout>
