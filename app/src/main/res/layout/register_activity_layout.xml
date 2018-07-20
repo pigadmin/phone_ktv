@@ -43,6 +43,7 @@
         custom:input_type="8194"
         custom:input_digits="0123456789"
         custom:maxLength="6"
+        custom:input_state="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -52,8 +53,9 @@
         custom:src_log_type1="@mipmap/mima"
         custom:title_hint_type="密码(大于6位小于20位)"
         custom:verd_code_isState="false"
-        android:layout_width="match_parent"
         custom:maxLength="20"
+        custom:password_isState="true"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <LinearLayout

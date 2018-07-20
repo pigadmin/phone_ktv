@@ -83,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"注册失败:"+msg.obj);
                     customEditView2.setInputTitle(null);
+                    clearTimerState();
                     break;
 
                 case RegisCodeSuccess://获取验证码成功
@@ -94,10 +95,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 case RegisCodeError://获取验证码失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
-                    isClick = true;
-                    customEditView3.setVerdCode("点击发送");
-                    timer.cancel();
-                    customEditView3.mVerdCode.setBackgroundResource(R.drawable.selector_btn_yanzm);
+                    clearTimerState();
                     break;
             }
         }
@@ -183,7 +181,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
         if (TextUtils.isEmpty(customEditView3.getInputTitle())){
-            mSvProgressHUD.showInfoWithStatus("请输入验证码");
+            mSvProgressHUD.showInfoWithStatus("请点击获取验证码");
             return;
         }
         if (customEditView3.getInputTitle().length()!=6){
@@ -192,6 +190,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         if (TextUtils.isEmpty(customEditView4.getInputTitle())){
             mSvProgressHUD.showInfoWithStatus("请输入密码");
+            return;
+        }
+        if (customEditView4.getInputTitle().length() < 6){
+            mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
             return;
         }
         if (!mCheckjiBox.isChecked()) {
@@ -212,34 +214,38 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         weakHashMap.put("veriCode", customEditView3.getInputTitle());//验证码
         weakHashMap.put("pass", customEditView4.getInputTitle());//密码
         weakHashMap.put("username", customEditView1.getInputTitle());//用户名
-
         String url = App.getRqstUrl(App.headurl + "register", weakHashMap);
         Logger.i(TAG, "url.." + url);
 
-        OkhttpUtils.doStart(url, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                //返回失败
-                mHandler.obtainMessage(RegisRequestError, e.getMessage()).sendToTarget();
-            }
+        if (NetUtils.hasNetwork(mContext)) {
+            OkhttpUtils.doStart(url, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    //返回失败
+                    mHandler.obtainMessage(RegisRequestError, e.getMessage()).sendToTarget();
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String s = response.body().string();
-                Logger.i(TAG,"注册s.."+s);
-                AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                if (aJson!=null){
-                    if (aJson.getCode()==0){
-                        mHandler.sendEmptyMessage(RegisRequestSuccess);
-                    } else {
-                        mHandler.obtainMessage(RegisRequestError, aJson.getMsg()).sendToTarget();
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string();
+                    Logger.i(TAG,"注册s.."+s);
+                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                    if (aJson!=null){
+                        if (aJson.getCode()==0){
+                            mHandler.sendEmptyMessage(RegisRequestSuccess);
+                        } else {
+                            mHandler.obtainMessage(RegisRequestError, aJson.getMsg()).sendToTarget();
+                        }
+                    }
+                    if (response.body() != null) {
+                        response.body().close();
                     }
                 }
-                if (response.body() != null) {
-                    response.body().close();
-                }
-            }
-        });
+            });
+        } else {
+            mSvProgressHUD.dismiss();
+            ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
+        }
     }
 
     /**
@@ -262,30 +268,35 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String url = App.getRqstUrl(App.headurl + "sendCode", weakHashMap);
         Logger.i(TAG, "url.." + url);
 
-        OkhttpUtils.doStart(url, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                //返回失败
-                mHandler.obtainMessage(RegisCodeError, e.getMessage()).sendToTarget();
-            }
+        if (NetUtils.hasNetwork(mContext)) {
+            OkhttpUtils.doStart(url, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    //返回失败
+                    mHandler.obtainMessage(RegisCodeError, e.getMessage()).sendToTarget();
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String s = response.body().string();
-                Logger.i(TAG,"验证码s.."+s);
-                AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                if (aJson!=null){
-                    if (aJson.getCode()==0){
-                        mHandler.obtainMessage(RegisCodeSuccess, aJson.getData()).sendToTarget();
-                    } else {
-                        mHandler.obtainMessage(RegisCodeError, aJson.getMsg()).sendToTarget();
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string();
+                    Logger.i(TAG,"验证码s.."+s);
+                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                    if (aJson!=null){
+                        if (aJson.getCode()==0){
+                            mHandler.obtainMessage(RegisCodeSuccess, aJson.getData()).sendToTarget();
+                        } else {
+                            mHandler.obtainMessage(RegisCodeError, aJson.getMsg()).sendToTarget();
+                        }
+                    }
+                    if (response.body() != null) {
+                        response.body().close();
                     }
                 }
-                if (response.body() != null) {
-                    response.body().close();
-                }
-            }
-        });
+            });
+        } else {
+            mSvProgressHUD.dismiss();
+            ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
+        }
     }
 
     /**
@@ -315,10 +326,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     customEditView3.setVerdCode("已发送:" + recLen);
                                     if (recLen == 0) {
                                         recLen = 1 * 60;
-                                        isClick = true;
-                                        customEditView3.setVerdCode("点击发送");
-                                        timer.cancel();
-                                        customEditView3.mVerdCode.setBackgroundResource(R.drawable.selector_btn_yanzm);
+                                        clearTimerState();
                                     }
                                 }
                             });
@@ -328,8 +336,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     ToastUtils.showShortToast(mContext, "正在发送验证码,请在1分钟后点击发送");
                 }
             } else {
+                mSvProgressHUD.dismiss();
                 ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
-                return;
             }
         }
     }
@@ -350,6 +358,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         } else {
             finish();
         }
+    }
+
+    /**
+     * 重置验证码状态
+     */
+    private void clearTimerState(){
+        isClick = true;
+        customEditView3.setVerdCode("点击发送");
+        timer.cancel();
+        customEditView3.mVerdCode.setBackgroundResource(R.drawable.selector_btn_yanzm);
     }
 
     private void clearInput(){

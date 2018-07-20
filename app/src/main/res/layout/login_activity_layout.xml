@@ -47,6 +47,7 @@
         custom:title_hint_type="密码 (大于6位小于20位)"
         custom:verd_code_isState="false"
         android:layout_width="match_parent"
+        custom:password_isState="true"
         custom:maxLength="20"
         android:layout_height="wrap_content"/>
 

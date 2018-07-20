@@ -32,6 +32,7 @@
         custom:verd_code_isState="true"
         custom:input_digits="0123456789"
         custom:maxLength="6"
+        custom:input_state="false"
         custom:input_type="8194"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -42,6 +43,7 @@
         custom:src_log_type1="@mipmap/mima"
         custom:title_hint_type="请输入您的新密码"
         custom:maxLength="20"
+        custom:password_isState="true"
         custom:verd_code_isState="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -51,6 +53,7 @@
         android:layout_marginTop="10dp"
         custom:maxLength="20"
         custom:src_log_type1="@mipmap/mima"
+        custom:password_isState="true"
         custom:title_hint_type="请确认您的新密码"
         custom:verd_code_isState="false"
         android:layout_width="match_parent"

@@ -62,11 +62,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"登录成功");
                     clearInput();
+                    finish();
                     break;
 
                 case LoginRequestError://提交失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"登录失败:"+msg.obj);
+                    clearInput();
                     break;
             }
         }
@@ -144,6 +146,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mSvProgressHUD.showInfoWithStatus("请输入密码");
             return;
         }
+        if (customEditView2.getInputTitle().length() < 6){
+            mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
+            return;
+        }
         submLoginData();
     }
 
@@ -169,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"s.."+s);
+                    Logger.i(TAG,"登录s.."+s);
                     AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
                     if (aJson!=null){
                         if (aJson.getCode()==0){
@@ -184,6 +190,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             });
         } else {
+            mSvProgressHUD.dismiss();
             ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
