@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.WeakHashMap;
@@ -21,12 +22,13 @@ import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
+import phone.ktv.bean.UserBean;
 import phone.ktv.tootls.AlertDialogHelper;
-import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
+import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomEditView;
@@ -55,12 +57,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private SVProgressHUD mSvProgressHUD;
 
+    private SPUtil SPUtil;
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case LoginRequestSuccess://提交成功
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"登录成功");
+                    saveLoginData((AJson)msg.obj);
                     clearInput();
                     finish();
                     break;
@@ -84,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initView() {
         mContext = LoginActivity.this;
+        SPUtil=new SPUtil(mContext);
         mSvProgressHUD = new SVProgressHUD(mContext);
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
@@ -101,6 +107,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLogin.setOnClickListener(this);
         mReginster.setOnClickListener(this);
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
+    }
+
+    /**
+     * 保存 id
+     */
+    private void saveLoginData(AJson aJson){
+        String id= ((UserBean) aJson.getData()).id;
+        String tel= ((UserBean) aJson.getData()).telPhone;
+        String useName= ((UserBean) aJson.getData()).username;
+        String psd= ((UserBean) aJson.getData()).password;
+        String token=aJson.getToken();
+
+        Logger.i(TAG,".....sp保存......"+(aJson.getData()).toString());
+        SPUtil.putString("id",id);
+        SPUtil.putString("telPhone",tel);
+        SPUtil.putString("username",useName);
+        SPUtil.putString("password",psd);
+        SPUtil.putString("token",token);
     }
 
     /**
@@ -176,10 +200,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
                     Logger.i(TAG,"登录s.."+s);
-                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                    AJson aJson = App.jsonToObject(s, new TypeToken<AJson<UserBean>>() {});
                     if (aJson!=null){
                         if (aJson.getCode()==0){
-                            mHandler.sendEmptyMessage(LoginRequestSuccess);
+                            mHandler.obtainMessage(LoginRequestSuccess, aJson).sendToTarget();
                         } else {
                             mHandler.obtainMessage(LoginRequestError, aJson.getMsg()).sendToTarget();
                         }
