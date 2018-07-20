@@ -10,7 +10,7 @@
         <!--多少首动态设置文字-->
         <attr name="num_first_string" format="string" />
     </declare-styleable>
-
+    <!---->
     <declare-styleable name="CustomEditView">
         <!--图标显示类型-->
         <attr name="src_log_type1" format="reference" />
@@ -18,6 +18,12 @@
         <attr name="title_hint_type" format="string" />
         <!--验证码是否隐藏-->
         <attr name="verd_code_isState" format="boolean" />
+        <!--输入字符设定-->
+        <attr name="input_digits" format="string" />
+        <!--输入法设定-->
+        <attr name="input_type" format="integer" />
+        <!--输入长度-->
+        <attr name="maxLength" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="CustomTopTitleView">

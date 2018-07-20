@@ -18,6 +18,7 @@
         custom:src_log_type1="@mipmap/shouji"
         custom:title_hint_type="用户名"
         custom:verd_code_isState="false"
+        custom:maxLength="4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -26,6 +27,9 @@
         android:layout_marginTop="10dp"
         custom:src_log_type1="@mipmap/yanzhengma"
         custom:title_hint_type="请输入手机号"
+        custom:input_type="8194"
+        custom:input_digits="0123456789"
+        custom:maxLength="11"
         custom:verd_code_isState="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -36,6 +40,9 @@
         custom:src_log_type1="@mipmap/mima"
         custom:title_hint_type="请输入验证码"
         custom:verd_code_isState="true"
+        custom:input_type="8194"
+        custom:input_digits="0123456789"
+        custom:maxLength="6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -46,6 +53,7 @@
         custom:title_hint_type="密码(大于6位小于20位)"
         custom:verd_code_isState="false"
         android:layout_width="match_parent"
+        custom:maxLength="20"
         android:layout_height="wrap_content"/>
 
     <LinearLayout

@@ -17,6 +17,9 @@
         android:layout_marginTop="50dp"
         custom:src_log_type1="@mipmap/shouji"
         custom:title_hint_type="请输入手机号"
+        custom:input_digits="0123456789"
+        custom:maxLength="11"
+        custom:input_type="8194"
         custom:verd_code_isState="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -27,6 +30,9 @@
         custom:src_log_type1="@mipmap/yanzhengma"
         custom:title_hint_type="请输入验证码"
         custom:verd_code_isState="true"
+        custom:input_digits="0123456789"
+        custom:maxLength="6"
+        custom:input_type="8194"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -35,28 +41,30 @@
         android:layout_marginTop="10dp"
         custom:src_log_type1="@mipmap/mima"
         custom:title_hint_type="请输入您的新密码"
+        custom:maxLength="20"
         custom:verd_code_isState="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
+    <!---->
     <phone.ktv.views.CustomEditView
         android:id="@+id/customEditView4"
         android:layout_marginTop="10dp"
+        custom:maxLength="20"
         custom:src_log_type1="@mipmap/mima"
         custom:title_hint_type="请确认您的新密码"
         custom:verd_code_isState="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/register_tvw"
-            android:layout_width="match_parent"
-            android:text="确定"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/selector_btn"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/register_tvw"
+        android:layout_width="match_parent"
+        android:text="确定"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/selector_btn"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content" />
 </LinearLayout>

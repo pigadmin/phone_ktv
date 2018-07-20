@@ -18,6 +18,7 @@
         custom:src_log_type1="@mipmap/shouji"
         custom:title_hint_type="请输入您的原密码"
         custom:verd_code_isState="false"
+        custom:maxLength="20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -27,6 +28,7 @@
         custom:src_log_type1="@mipmap/mima"
         custom:title_hint_type="请输入您的新密码"
         custom:verd_code_isState="false"
+        custom:maxLength="20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -34,6 +36,7 @@
         android:id="@+id/customEditView3"
         android:layout_marginTop="10dp"
         custom:src_log_type1="@mipmap/mima"
+        custom:maxLength="20"
         custom:title_hint_type="请确认您的新密码"
         custom:verd_code_isState="false"
         android:layout_width="match_parent"

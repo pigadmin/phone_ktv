@@ -34,6 +34,9 @@
         custom:src_log_type1="@mipmap/shouji"
         custom:title_hint_type="请输入手机号"
         custom:verd_code_isState="false"
+        custom:input_digits="0123456789"
+        custom:maxLength="11"
+        custom:input_type="8194"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -44,6 +47,7 @@
         custom:title_hint_type="密码 (大于6位小于20位)"
         custom:verd_code_isState="false"
         android:layout_width="match_parent"
+        custom:maxLength="20"
         android:layout_height="wrap_content"/>
 
     <LinearLayout
