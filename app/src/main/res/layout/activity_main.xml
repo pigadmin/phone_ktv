@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phone.ktv.views.CoordinatorMenu
+<phone.ktv.views.CoordinatorMenu xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/menu"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <include layout="@layout/menu_layout"/>
 
-    <include layout="@layout/main_layout"/>
+    <include layout="@layout/menu_layout" />
+
+    <include layout="@layout/main_layout" />
+
+
 </phone.ktv.views.CoordinatorMenu>
+
 

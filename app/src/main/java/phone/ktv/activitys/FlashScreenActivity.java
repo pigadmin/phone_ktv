@@ -28,7 +28,7 @@ import phone.ktv.tootls.Logger;
 /**
  * 闪屏页面
  */
-public class FlashScreenActivity extends Activity implements View.OnClickListener, VolleyReq.Api, OkReq.Api {
+public class FlashScreenActivity extends Activity implements View.OnClickListener, VolleyReq.Api {
     private static final String TAG = "FlashScreenActivity";
 
     private TextView mNumtext;
@@ -36,19 +36,15 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
 
     private CountDownTimer timer;
     private VolleyReq req;
-    private OkReq req2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.flashscreen_activity);
         req = new VolleyReq(this, this);
-        req2 = new OkReq(this, this);
-
 
         initView();
         getad();
-
     }
 
 
@@ -106,9 +102,6 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     private void getad() {
         ad = App.headurl + "open/ad";
         req.get(ad);
-        req2.Get(ad);
-
-
     }
 
     @Override
@@ -117,15 +110,11 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
             Logger.d(TAG, tag + "\n" + json);
             AJson aJson = App.jsonToObject(json, new TypeToken<AJson<List<WelcomAd>>>() {
             });
-            List<WelcomAd> welcomAds = (List<WelcomAd>) aJson.getData();
-
-            System.out.println(welcomAds.size());
         }
 
     }
 
     @Override
     public void error(String tag, String json) {
-
     }
 }
