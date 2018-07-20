@@ -76,11 +76,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"注册成功");
                     clearInput();
+                    finish();
                     break;
 
                 case RegisRequestError://提交失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"注册失败:"+msg.obj);
+                    customEditView2.setInputTitle(null);
                     break;
 
                 case RegisCodeSuccess://获取验证码成功
