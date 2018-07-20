@@ -45,7 +45,7 @@
         custom:verd_code_isState="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
+    <!---->
     <phone.ktv.views.CustomEditView
         android:id="@+id/customEditView4"
         android:layout_marginTop="10dp"

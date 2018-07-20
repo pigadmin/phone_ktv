@@ -59,7 +59,7 @@ public class CustomEditView extends LinearLayout {
         typedArray.recycle();
         setDefinedView(srclog, titleType,firstState,digits,inputType,maxLength);
     }
-
+//
     private void setDefinedView(int srclog,String titleType, boolean firstState,String digits,int inputType,int maxLength) {
         mSrcLogo.setImageResource(srclog);
         mInputTitle.setHint(titleType);

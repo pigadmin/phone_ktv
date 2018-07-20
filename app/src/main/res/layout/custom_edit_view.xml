@@ -16,7 +16,7 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
+<!---->
         <EditText
             android:id="@+id/input_edt"
             android:layout_marginLeft="10dp"

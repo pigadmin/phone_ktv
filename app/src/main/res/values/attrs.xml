@@ -10,7 +10,7 @@
         <!--多少首动态设置文字-->
         <attr name="num_first_string" format="string" />
     </declare-styleable>
-
+    <!---->
     <declare-styleable name="CustomEditView">
         <!--图标显示类型-->
         <attr name="src_log_type1" format="reference" />
