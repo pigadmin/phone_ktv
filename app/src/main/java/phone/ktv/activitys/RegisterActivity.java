@@ -83,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,"注册失败:"+msg.obj);
                     customEditView2.setInputTitle(null);
+                    clearTimerState();
                     break;
 
                 case RegisCodeSuccess://获取验证码成功
@@ -94,10 +95,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 case RegisCodeError://获取验证码失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
-                    isClick = true;
-                    customEditView3.setVerdCode("点击发送");
-                    timer.cancel();
-                    customEditView3.mVerdCode.setBackgroundResource(R.drawable.selector_btn_yanzm);
+                    clearTimerState();
                     break;
             }
         }
@@ -315,10 +313,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     customEditView3.setVerdCode("已发送:" + recLen);
                                     if (recLen == 0) {
                                         recLen = 1 * 60;
-                                        isClick = true;
-                                        customEditView3.setVerdCode("点击发送");
-                                        timer.cancel();
-                                        customEditView3.mVerdCode.setBackgroundResource(R.drawable.selector_btn_yanzm);
+                                        clearTimerState();
                                     }
                                 }
                             });
@@ -350,6 +345,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         } else {
             finish();
         }
+    }
+
+    /**
+     * 重置验证码状态
+     */
+    private void clearTimerState(){
+        isClick = true;
+        customEditView3.setVerdCode("点击发送");
+        timer.cancel();
+        customEditView3.mVerdCode.setBackgroundResource(R.drawable.selector_btn_yanzm);
     }
 
     private void clearInput(){
