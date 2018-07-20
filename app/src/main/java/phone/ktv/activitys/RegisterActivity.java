@@ -177,7 +177,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
         if (customEditView2.getInputTitle().length()!=11){
-            mSvProgressHUD.showInfoWithStatus("请输入正确的手机号码");
+            mSvProgressHUD.showInfoWithStatus("请输入正确的手机号码(11位)");
             return;
         }
         if (TextUtils.isEmpty(customEditView3.getInputTitle())){
@@ -185,7 +185,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
         if (customEditView3.getInputTitle().length()!=6){
-            mSvProgressHUD.showInfoWithStatus("请输入正确的验证码");
+            mSvProgressHUD.showInfoWithStatus("请输入正确的验证码(6位)");
             return;
         }
         if (TextUtils.isEmpty(customEditView4.getInputTitle())){

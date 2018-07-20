@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
         if (customEditView1.getInputTitle().length()!=11){
-            mSvProgressHUD.showInfoWithStatus("请输入正确的手机号码");
+            mSvProgressHUD.showInfoWithStatus("请输入正确的手机号码(11位)");
             return;
         }
         if (TextUtils.isEmpty(customEditView2.getInputTitle())){
