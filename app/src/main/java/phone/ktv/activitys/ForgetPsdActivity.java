@@ -61,7 +61,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
     private SVProgressHUD mSvProgressHUD;
 
     WeakHashMap<String, String> weakHashMap=new WeakHashMap<>();
-//
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
