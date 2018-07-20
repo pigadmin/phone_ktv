@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public class MyOnClickBackReturn implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            isReturn();
+            finish();
         }
     }
 
@@ -224,26 +224,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void isReturn(){
-        if (!TextUtils.isEmpty(customEditView1.getInputTitle())
-                || !TextUtils.isEmpty(customEditView2.getInputTitle())) {
-            final BtmDialog dialog = new BtmDialog(this, "温馨提示", "确定放弃本次操作吗?");
-            AlertDialogHelper.BtmDialogDerive1(dialog, false, true,new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                    dialog.dismiss();
-                }
-            }, null);
-        } else {
-            finish();
-        }
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            isReturn();
+            finish();
         }
         return super.onKeyDown(keyCode, event);
     }

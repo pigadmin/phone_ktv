@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mUserName.setText(TextUtils.isEmpty(username)?"立即登录":username);
             mTelPhone.setText(TextUtils.isEmpty(telPhone)?null:telPhone);
             mTelPhone.setVisibility(TextUtils.isEmpty(telPhone)?View.GONE:View.VISIBLE);
+            mCustomTextView4.setVisibility(TextUtils.isEmpty(telPhone)?View.GONE:View.VISIBLE);
         }
     }
 

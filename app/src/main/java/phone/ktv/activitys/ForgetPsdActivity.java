@@ -27,6 +27,7 @@ import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
+import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomEditView;
@@ -60,7 +61,9 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
 
     private SVProgressHUD mSvProgressHUD;
 
-    WeakHashMap<String, String> weakHashMap=new WeakHashMap<>();
+    private SPUtil mSP;
+
+    private WeakHashMap<String, String> weakHashMap=new WeakHashMap<>();
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -70,6 +73,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
                     ToastUtils.showLongToast(mContext,"找回密码成功");
                     clearInput();
                     finish();
+                    mSP.clearSpData();
                     break;
 
                 case ForgetRequestError://提交失败
@@ -104,6 +108,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
     private void initView() {
         mContext = ForgetPsdActivity.this;
         mSvProgressHUD = new SVProgressHUD(mContext);
+        mSP=new SPUtil(mContext);
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
         customEditView1=findViewById(R.id.customEditView1);

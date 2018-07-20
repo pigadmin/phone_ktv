@@ -51,91 +51,91 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/llt" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:background="@mipmap/bottom_gequ_k"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/ic_launcher"
+            android:src="@mipmap/ic_launcher"
+            android:padding="5dp"
             android:scaleType="fitXY" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_height="match_parent">
 
             <SeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progress="22"
-
+                android:progress="50"
+                android:layout_marginTop="5dp"
                 android:thumb="@mipmap/bottom_d" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:orientation="vertical"
-                    android:paddingLeft="15dp">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="15dp"
+                    android:layout_height="match_parent">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="一首简单的歌曲"
+                        android:textSize="13sp"
                         android:singleLine="true"
-                        android:text="@string/app_name" />
+                        android:layout_height="wrap_content" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="WangLing"
+                        android:textSize="13sp"
                         android:singleLine="true"
-                        android:text="@string/app_name"
-                        android:textColor="@color/gray"
-                        android:textSize="12sp" />
-
-
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
                         android:background="@mipmap/bottom_icon_1" />
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="20dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-
-                        android:layout_marginRight="10dp"
                         android:background="@mipmap/bottom_icon_3" />
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
                         android:background="@mipmap/bottom_icon_2" />
-
                 </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
 </phone.ktv.views.MainView>
