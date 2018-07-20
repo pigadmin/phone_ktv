@@ -192,6 +192,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             mSvProgressHUD.showInfoWithStatus("请输入密码");
             return;
         }
+        if (customEditView4.getInputTitle().length() < 6){
+            mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
+            return;
+        }
         if (!mCheckjiBox.isChecked()) {
             mSvProgressHUD.showInfoWithStatus("请仔细阅读并勾选,用户注册协议");
             return;
