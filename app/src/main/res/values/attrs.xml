@@ -20,6 +20,8 @@
         <attr name="input_state" format="boolean" />
         <!--验证码是否隐藏-->
         <attr name="verd_code_isState" format="boolean" />
+        <!--是否呈密码状态-->
+        <attr name="password_isState" format="boolean" />
         <!--输入字符设定-->
         <attr name="input_digits" format="string" />
         <!--输入法设定-->
