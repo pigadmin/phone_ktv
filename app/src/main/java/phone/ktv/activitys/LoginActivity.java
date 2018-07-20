@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private SVProgressHUD mSvProgressHUD;
 
-    private SPUtil SPUtil;
+    private SPUtil mSP;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initView() {
         mContext = LoginActivity.this;
-        SPUtil=new SPUtil(mContext);
+        mSP=new SPUtil(mContext);
         mSvProgressHUD = new SVProgressHUD(mContext);
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
@@ -100,6 +100,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mWangjiPsd=findViewById(R.id.wangji_tvw);
         mLogin=findViewById(R.id.login_tvw);
         mReginster=findViewById(R.id.register_tvw);
+
+        //优先到sp里面拿.
+        customEditView1.setInputTitle(mSP.getString("telPhone",null));
+        customEditView2.setInputTitle(mSP.getString("password",null));
     }
 
     private void initLiter(){
@@ -116,15 +120,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String id= ((UserBean) aJson.getData()).id;
         String tel= ((UserBean) aJson.getData()).telPhone;
         String useName= ((UserBean) aJson.getData()).username;
-        String psd= ((UserBean) aJson.getData()).password;
         String token=aJson.getToken();
-
         Logger.i(TAG,".....sp保存......"+(aJson.getData()).toString());
-        SPUtil.putString("id",id);
-        SPUtil.putString("telPhone",tel);
-        SPUtil.putString("username",useName);
-        SPUtil.putString("password",psd);
-        SPUtil.putString("token",token);
+        mSP.clearSpData();
+        if (mJizhuPsd.isChecked()){
+            mSP.putString("password",customEditView2.getInputTitle());
+        }
+        mSP.putString("id",id);
+        mSP.putString("telPhone",tel);
+        mSP.putString("username",useName);
+        mSP.putString("token",token);
     }
 
     /**

@@ -4,10 +4,12 @@ import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStripExtends;
 
@@ -17,6 +19,7 @@ import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
 import phone.ktv.adaters.TabAdater;
 import phone.ktv.tootls.IntentUtils;
+import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CoordinatorMenu;
 import phone.ktv.views.CustomTextView;
@@ -48,6 +51,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageView mSearch;//搜索
 
+    private TextView mUserName;//用户名
+    private TextView mTelPhone;//手机号
+
+    private SPUtil mSP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,9 +78,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSetup = findViewById(R.id.setup_llt);
         mSignOut = findViewById(R.id.sign_out_llt);
         mSearch = findViewById(R.id.main_btn_search);
+
+        mUserName = findViewById(R.id.user_name_tvw);
+        mTelPhone = findViewById(R.id.tel_phone_tvw);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mSP!=null){
+            String username= mSP.getString("username",null);
+            String telPhone= mSP.getString("telPhone",null);
+
+            mUserName.setText(TextUtils.isEmpty(username)?"立即登录":username);
+            mTelPhone.setText(TextUtils.isEmpty(telPhone)?null:telPhone);
+            mTelPhone.setVisibility(TextUtils.isEmpty(telPhone)?View.GONE:View.VISIBLE);
+        }
     }
 
     private void initView() {
+        mSP=new SPUtil(mContext);
         mPagerChange = new onPageChangeListener();
 
         mCoordinatorMenu = findViewById(R.id.menu);
