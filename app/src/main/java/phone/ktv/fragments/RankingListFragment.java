@@ -32,6 +32,7 @@ import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.GridItem;
 import phone.ktv.bgabanner.BGABanner;
+import phone.ktv.core_activitys.RankingListActivity;
 import phone.ktv.core_activitys.RankingMoreActivity;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
@@ -154,7 +155,10 @@ public class RankingListFragment extends Fragment {
     private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            GridItem item= mGridItemList.get(position);
+            if (item!=null){
+                IntentUtils.strIntentString(mContext, RankingListActivity.class,"rangId","rangName",item.id,item.name);
+            }
         }
     }
 
