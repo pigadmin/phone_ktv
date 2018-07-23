@@ -2,55 +2,32 @@ package phone.ktv.bean;
 
 import java.io.Serializable;
 
+/**
+ * 排行榜Bean
+ */
 public class GridItem implements Serializable {
-    private int id;
+    public int id;//id
+    public String name;//名称
+    public String icon;//图片地址
+    public String postion;//
+    public String ngPath;//
 
-    private String name;
-
-    private String icon;
-
-    private int postion;
-
-    private String ngPath;
-
-    public void setId(int id) {
+    public GridItem(int id, String name, String icon, String postion, String ngPath) {
         this.id = id;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public void setName(String name) {
         this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setIcon(String icon) {
         this.icon = icon;
-    }
-
-    public String getIcon() {
-        return this.icon;
-    }
-
-    public void setPostion(int postion) {
         this.postion = postion;
-    }
-
-    public int getPostion() {
-        return this.postion;
-    }
-
-    public void setNgPath(String ngPath) {
         this.ngPath = ngPath;
     }
 
-    public String getNgPath() {
-        return this.ngPath;
+    @Override
+    public String toString() {
+        return "GridItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", icon='" + icon + '\'' +
+                ", postion='" + postion + '\'' +
+                ", ngPath='" + ngPath + '\'' +
+                '}';
     }
-
 }

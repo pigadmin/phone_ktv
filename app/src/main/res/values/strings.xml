@@ -7,5 +7,6 @@
     <string name="registration_protocol">《用户注册协议》</string>
     <string name="more">更多>></string>
 
-    <string name="tabTitle1_cat">排行榜分類</string>
+    <string name="tabTitle1_cat">點歌臺分類</string>
+    <string name="tabTitle2_cat">排行榜分類</string>
 </resources>

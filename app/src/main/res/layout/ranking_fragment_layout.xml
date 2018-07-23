@@ -8,7 +8,7 @@
     <phone.ktv.bgabanner.BGABanner
         android:id="@+id/banner_main_accordion"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="150dp"
         app:banner_indicatorGravity="bottom|center_horizontal"
         app:banner_pageChangeDuration="5000"
         app:banner_pointAutoPlayAble="true"
@@ -20,4 +20,48 @@
         app:banner_tipTextSize="15sp"
         app:banner_transitionEffect="accordion" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tabTitle2_cat"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="16sp"
+            android:text="@string/more"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+
+        <GridView
+            android:id="@+id/grid_view_1"
+            android:layout_below="@+id/more"
+            android:numColumns="3"
+            android:layout_marginTop="5dp"
+            android:verticalSpacing="15dp"
+            android:horizontalSpacing="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/noData_tvw"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 </LinearLayout>

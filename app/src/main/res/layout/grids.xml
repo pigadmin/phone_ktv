@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/music_icon"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:scaleType="fitXY" />
 
     <TextView
@@ -14,11 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/gray"
         android:gravity="center"
         android:singleLine="true"
         android:textColor="@color/white" />
-
 
 </RelativeLayout>
 
