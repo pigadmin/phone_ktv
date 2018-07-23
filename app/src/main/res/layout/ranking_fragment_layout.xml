@@ -23,14 +23,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tabTitle2_cat"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="@color/white" />
 
@@ -39,29 +41,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:text="@string/more"
             android:textStyle="bold"
             android:textColor="@color/white" />
-
-        <GridView
-            android:id="@+id/grid_view_1"
-            android:layout_below="@+id/more"
-            android:numColumns="3"
-            android:layout_marginTop="5dp"
-            android:verticalSpacing="15dp"
-            android:horizontalSpacing="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <TextView
-            android:id="@+id/noData_tvw"
-            android:textColor="@color/white"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
     </RelativeLayout>
+
+    <GridView
+        android:id="@+id/grid_view_1"
+        android:numColumns="3"
+        android:verticalSpacing="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:horizontalSpacing="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.reflect.TypeToken;
@@ -55,26 +55,27 @@ public class RankingListFragment extends Fragment {
 
     private List<GridItem> mGridItemList;
 
-    private TextView mNoData;
-
     public static final int RankingListSuccess=100;//排行榜分类获取成功
     public static final int RankingListError=200;//排行榜分类获取失败
     public static final int RankingExpiredToken=300;//Token过期
 
+    private SVProgressHUD mSvProgressHUD;
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
-                case RankingListSuccess://提交成功
-//                    mSvProgressHUD.dismiss();
+                case RankingListSuccess://获取成功
+                    mSvProgressHUD.dismiss();
+                    mDeskAdater.notifyDataSetChanged();
                     break;
 
-                case RankingListError://提交失败
-//                    mSvProgressHUD.dismiss();
+                case RankingListError://获取失败
+                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
 
                 case RankingExpiredToken://Token过期
-//                    mSvProgressHUD.dismiss();
+                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
             }
@@ -87,6 +88,7 @@ public class RankingListFragment extends Fragment {
         mNewsView = inflater.inflate(R.layout.ranking_fragment_layout, null);
 
         mContext=getActivity();
+        mSvProgressHUD=new SVProgressHUD(mContext);
         mSP=new SPUtil(mContext);
 
         initView();
@@ -96,9 +98,6 @@ public class RankingListFragment extends Fragment {
 
     private void initView(){
         mGridItemList=new ArrayList<>();
-
-        mNoData = mNewsView.findViewById(R.id.noData_tvw);
-        mNoData.setVisibility(View.GONE);
 
         mBanner = mNewsView.findViewById(R.id.banner_main_accordion);
         mBanner.measure(0, 0);
@@ -152,19 +151,18 @@ public class RankingListFragment extends Fragment {
         if (itemList!=null&&!itemList.isEmpty()){
             mGridItemList.addAll(itemList);
         }
-        if (mGridItemList!=null&&!mGridItemList.isEmpty()){
+    }
 
-        } else {
-
-        }
-
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     /**
      * 获取排行榜分类
      */
     private void getRankingListData(){
-//        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
+        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         String tel= mSP.getString("telPhone",null);//tel
         String token= mSP.getString("token",null);//token
@@ -205,9 +203,8 @@ public class RankingListFragment extends Fragment {
                 }
             });
         } else {
-//            mSvProgressHUD.dismiss();
-            mGridView.setVisibility(View.GONE);
-            mNoData.setText("网络连接异常,请检查网络配置");
+            mSvProgressHUD.dismiss();
+            ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
         }
     }
 }
