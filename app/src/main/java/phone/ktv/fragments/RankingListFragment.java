@@ -8,8 +8,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.bumptech.glide.Glide;
@@ -30,6 +32,8 @@ import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.GridItem;
 import phone.ktv.bgabanner.BGABanner;
+import phone.ktv.core_activitys.RankingMoreActivity;
+import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
@@ -60,6 +64,8 @@ public class RankingListFragment extends Fragment {
     public static final int RankingExpiredToken=300;//Token过期
 
     private SVProgressHUD mSvProgressHUD;
+
+    private TextView mMore;//更多
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -98,6 +104,8 @@ public class RankingListFragment extends Fragment {
 
     private void initView(){
         mGridItemList=new ArrayList<>();
+
+        mMore= mNewsView.findViewById(R.id.more1);
 
         mBanner = mNewsView.findViewById(R.id.banner_main_accordion);
         mBanner.measure(0, 0);
@@ -138,6 +146,23 @@ public class RankingListFragment extends Fragment {
                         .into((ImageView) view);
             }
         });
+
+        mMore.setOnClickListener(new MyOnClickListenerMore());//更多
+        mGridView.setOnItemClickListener(new MyOnItemClickListener());
+    }
+
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        }
+    }
+
+    private class MyOnClickListenerMore implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            IntentUtils.thisToOther(mContext, RankingMoreActivity.class);
+        }
     }
 
     @Override
