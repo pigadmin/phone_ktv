@@ -8,7 +8,7 @@
     <phone.ktv.bgabanner.BGABanner
         android:id="@+id/banner_main_accordion"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
         app:banner_indicatorGravity="bottom|center_horizontal"
         app:banner_pageChangeDuration="5000"
         app:banner_pointAutoPlayAble="true"

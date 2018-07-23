@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
+        android:textStyle="bold"
         android:singleLine="true"
         android:textColor="@color/white" />
 

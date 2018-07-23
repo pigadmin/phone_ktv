@@ -149,7 +149,14 @@ public class RankingListFragment extends Fragment {
     private void setState(List<GridItem> itemList){
         mGridItemList.clear();
         if (itemList!=null&&!itemList.isEmpty()){
-            mGridItemList.addAll(itemList);
+            if (itemList.size()>9){
+                for (int i=0;i<9;i++){
+                    GridItem item= itemList.get(i);
+                    mGridItemList.add(item);
+                }
+            } else {
+                mGridItemList.addAll(itemList);
+            }
         }
     }
 

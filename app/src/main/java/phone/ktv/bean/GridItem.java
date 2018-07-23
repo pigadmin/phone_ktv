@@ -20,6 +20,9 @@ public class GridItem implements Serializable {
         this.ngPath = ngPath;
     }
 
+    public GridItem() {
+    }
+
     @Override
     public String toString() {
         return "GridItem{" +
