@@ -25,7 +25,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import phone.ktv.R;
-import phone.ktv.adaters.Rinking1FragmentAdater;
+import phone.ktv.adaters.RinkingFragmentAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.GridItem;
@@ -47,7 +47,7 @@ public class RankingListFragment extends Fragment {
     private Context mContext;
     private BGABanner mBanner;
 
-    private Rinking1FragmentAdater mDeskAdater;
+    private RinkingFragmentAdater mDeskAdater;
 
     private GridView mGridView;
 
@@ -103,7 +103,7 @@ public class RankingListFragment extends Fragment {
         mBanner.measure(0, 0);
 
         mGridView=mNewsView.findViewById(R.id.grid_view_1);
-        mDeskAdater=new Rinking1FragmentAdater(mContext,R.layout.grids,mGridItemList);
+        mDeskAdater=new RinkingFragmentAdater(mContext,R.layout.grids,mGridItemList);
         mGridView.setAdapter(mDeskAdater);
     }
 

@@ -15,12 +15,12 @@ import phone.ktv.tootls.PicassoUtil;
 /**
  * 排行榜adater
  */
-public class Rinking1FragmentAdater extends BAdapter<GridItem> {
+public class RinkingFragmentAdater extends BAdapter<GridItem> {
     private static final String TAG = "Rinking1FragmentAdater";
 
     Context context;
 
-    public Rinking1FragmentAdater(Context context, int layoutId, List<GridItem> list) {
+    public RinkingFragmentAdater(Context context, int layoutId, List<GridItem> list) {
         super(context, layoutId, list);
         this.context = context;
     }
