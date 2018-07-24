@@ -1,75 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:background="@mipmap/phb_nrq"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
-
-    <ImageView
-        android:id="@+id/src_back11_ivw"
-        android:layout_marginLeft="15dp"
-        android:layout_gravity="center"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/selector_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_toRightOf="@+id/src_back11_ivw"
-        android:layout_toLeftOf="@+id/text_back11_tvw"
         android:layout_width="match_parent"
-        android:background="@mipmap/searchbar_s"
-        android:layout_height="wrap_content">
+        android:background="@mipmap/phb_nrq"
+        android:layout_height="40dp">
 
         <ImageView
-            android:src="@mipmap/searchbar_yy"
-            android:layout_width="wrap_content"
+            android:id="@+id/src_back11_ivw"
+            android:layout_marginLeft="15dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
+            android:src="@drawable/selector_back"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:hint="请输入歌曲名/歌手名"
-            android:background="@null"
-            android:textColorHint="@color/found_description_color"
-            android:textSize="15sp"
+        <LinearLayout
+            android:id="@+id/search_llt"
+            android:orientation="horizontal"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:singleLine="true"
-            android:maxLength="10"
-            android:layout_marginRight="10dp"
-            android:textColor="@color/white"
             android:layout_gravity="center"
-            android:layout_height="wrap_content" />
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:background="@mipmap/searchbar_s"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/voice12_ivw"
+                android:src="@mipmap/searchbar_yy"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/search_content_edt"
+                android:layout_width="match_parent"
+                android:hint="请输入歌曲名/歌手名"
+                android:background="@null"
+                android:textColorHint="@color/found_description_color"
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:maxLength="10"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/songType_tvw11"
+                android:layout_width="wrap_content"
+                android:text="歌名"
+                android:layout_marginRight="10dp"
+                android:textColor="@drawable/selector_btn_search14"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/songType_tvw11"
-            android:layout_width="wrap_content"
-            android:text="歌名"
-            android:layout_marginRight="10dp"
-            android:textColor="@drawable/selector_btn_search14"
+            android:id="@+id/text_search11_tvw"
+            android:textSize="16sp"
             android:layout_gravity="center"
+            android:singleLine="true"
+            android:text="搜索"
+            android:layout_marginRight="15dp"
+            android:textColor="@drawable/selector_btn_search14"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/text_back11_tvw"
-        android:textSize="16sp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center"
-        android:layout_alignParentRight="true"
-        android:singleLine="true"
-        android:text="搜索"
-        android:layout_marginRight="15dp"
-        android:textColor="@drawable/selector_btn_search14"
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+    <ListView
+        android:id="@+id/list112_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
