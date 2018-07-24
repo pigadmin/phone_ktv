@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/singertitle12_tvw"
+        android:layout_width="wrap_content"
+        android:text="歌手"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/singerTypeName12_tvw"
+        android:layout_width="wrap_content"
+        android:text="大陆歌星"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
+ 

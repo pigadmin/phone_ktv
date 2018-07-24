@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center"
-        android:text="歌星"
+        android:text="歌名"
         android:background="@drawable/selector_btn_powin1"
         android:textColor="@color/white"
         android:textSize="20sp" />
@@ -40,7 +40,7 @@
         android:layout_weight="1"
         android:background="@drawable/selector_btn_powin"
         android:gravity="center"
-        android:text="歌名"
+        android:text="歌星"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:typeface="sans" />
