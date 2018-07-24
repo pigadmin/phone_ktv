@@ -19,6 +19,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/song_song110_tvw"
             android:layout_width="wrap_content"
             android:text="悲伤情歌榜"
             android:textSize="18sp"
@@ -28,25 +29,36 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/song1_song111_tvw"
             android:layout_width="wrap_content"
             android:text="/100首"
             android:layout_weight="1"
             android:textColor="@color/white"
             android:layout_height="wrap_content" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:src="@drawable/select_play"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="全部播放"
+        <LinearLayout
+            android:id="@+id/quanbu_llt1"
+            android:orientation="horizontal"
             android:layout_marginRight="25dp"
-            android:textColor="@color/white"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@drawable/select_play"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="全部播放"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <ListView

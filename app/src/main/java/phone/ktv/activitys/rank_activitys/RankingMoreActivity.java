@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
@@ -24,6 +25,7 @@ import phone.ktv.adaters.RinkingFragmentAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.GridItem;
+import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
@@ -107,7 +109,18 @@ public class RankingMoreActivity extends AppCompatActivity{
     }
 
     private void initLiter(){
+        mGridView.setOnItemClickListener(new MyOnItemClickListener());
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
+    }
+
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            GridItem item= mGridItemList.get(position);
+            if (item!=null){
+                IntentUtils.strIntentString(mContext, RankingListActivity.class,"rangId","rangName",item.id,item.name);
+            }
+        }
     }
 
     /**

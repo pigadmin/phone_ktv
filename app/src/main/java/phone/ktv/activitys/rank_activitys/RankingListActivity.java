@@ -7,7 +7,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.reflect.TypeToken;
@@ -59,12 +61,19 @@ public class RankingListActivity extends AppCompatActivity{
 
     private String mRangId,mRangName;
 
+    private TextView mSongBang;//情歌榜
+    private TextView getmSongBangList;//情歌多少首
+
+    private LinearLayout mQuanbuPlay;//全部播放
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case RankingListSuccess://获取成功
                     mSvProgressHUD.dismiss();
                     mRinkingAdater.notifyDataSetChanged();
+                    mSongBang.setText(mRangName);
+                    getmSongBangList.setText("/"+musicPlayBeans.size());
                     break;
 
                 case RankingListError://获取失败
@@ -85,9 +94,9 @@ public class RankingListActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ranking_list_activity);
 
-        getIntentData();
         initView();
         initLiter();
+        getIntentData();
     }
 
     @Override
@@ -106,7 +115,6 @@ public class RankingListActivity extends AppCompatActivity{
           mRangName= intent.getStringExtra("rangName");
           Logger.i(TAG,"mRangId..."+mRangId+"..mRangName..."+mRangName);
         }
-//        getRankingListData();
     }
 
     private void initView(){
@@ -117,6 +125,9 @@ public class RankingListActivity extends AppCompatActivity{
         mSP=new SPUtil(mContext);
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
+        mSongBang=findViewById(R.id.song_song110_tvw);
+        getmSongBangList=findViewById(R.id.song1_song111_tvw);
+        mQuanbuPlay=findViewById(R.id.quanbu_llt1);
 
         mListView=findViewById(R.id.list_view_2);
         mRinkingAdater=new RinkingListAdater(mContext,R.layout.item_ringlist_layout,musicPlayBeans);
@@ -125,6 +136,17 @@ public class RankingListActivity extends AppCompatActivity{
 
     private void initLiter(){
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
+        mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
+    }
+
+    /**
+     * 全部播放
+     */
+    private class MyQuanbuPlayOnClick implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+
+        }
     }
 
     /**
