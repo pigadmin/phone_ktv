@@ -63,9 +63,13 @@
         <!--修改密码-->
         <activity android:name=".activitys.ModifyPsdActivity"/>
         <!--排行榜分类(更多)-->
-        <activity android:name=".core_activitys.RankingMoreActivity"/>
+        <activity android:name=".activitys.rank_activitys.RankingMoreActivity"/>
         <!--排行榜歌曲-->
-        <activity android:name=".core_activitys.RankingListActivity"/>
+        <activity android:name=".activitys.rank_activitys.RankingListActivity"/>
+
+
+        <!--已点搜索-->
+        <activity android:name=".activitys.already_activitys.AlreadySearchActivity"/>
 
     </application>
 

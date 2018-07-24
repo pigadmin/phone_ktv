@@ -1,13 +1,12 @@
-package phone.ktv.core_activitys;
+package phone.ktv.activitys.rank_activitys;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.GridView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.reflect.TypeToken;
@@ -21,10 +20,10 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import phone.ktv.R;
-import phone.ktv.adaters.RinkingListAdater;
+import phone.ktv.adaters.RinkingFragmentAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
-import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.bean.GridItem;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
@@ -33,41 +32,39 @@ import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomTopTitleView;
 
 /**
- * 歌曲排行榜
+ * 排行榜分类(更多)
  */
-public class RankingListActivity extends AppCompatActivity{
+public class RankingMoreActivity extends AppCompatActivity{
 
-    private static final String TAG = "RankingListActivity";
+    private static final String TAG = "RankingMoreActivity";
 
     Context mContext;
 
     private CustomTopTitleView mTopTitleView1;//返回事件
 
-    private ListView mListView;
+    private GridView mGridView;
 
-    private RinkingListAdater mRinkingAdater;
+    private RinkingFragmentAdater mRinkingAdater;
 
-    private List<MusicPlayBean> musicPlayBeans;
+    private List<GridItem> mGridItemList;
 
-    public static final int RankingListSuccess=100;//排行榜歌曲获取成功
-    public static final int RankingListError=200;//排行榜歌曲获取失败
+    public static final int RankingMoreSuccess=100;//排行榜分类获取成功
+    public static final int RankingMoreError=200;//排行榜分类获取失败
     public static final int RankingExpiredToken=300;//Token过期
 
     private SVProgressHUD mSvProgressHUD;
 
     private SPUtil mSP;
 
-    private String mRangId,mRangName;
-
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
-                case RankingListSuccess://获取成功
+                case RankingMoreSuccess://获取成功
                     mSvProgressHUD.dismiss();
                     mRinkingAdater.notifyDataSetChanged();
                     break;
 
-                case RankingListError://获取失败
+                case RankingMoreError://获取失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
@@ -83,9 +80,8 @@ public class RankingListActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ranking_list_activity);
+        setContentView(R.layout.ranking_more_activity);
 
-        getIntentData();
         initView();
         initLiter();
     }
@@ -96,31 +92,18 @@ public class RankingListActivity extends AppCompatActivity{
         getRankingListData();
     }
 
-    /**
-     * Bundle传值
-     */
-    private void getIntentData(){
-        Intent intent=getIntent();
-        if (intent!=null){
-          mRangId= intent.getStringExtra("rangId");
-          mRangName= intent.getStringExtra("rangName");
-          Logger.i(TAG,"mRangId..."+mRangId+"..mRangName..."+mRangName);
-        }
-//        getRankingListData();
-    }
-
     private void initView(){
-        musicPlayBeans=new ArrayList<>();
+        mGridItemList=new ArrayList<>();
 
-        mContext=RankingListActivity.this;
+        mContext= RankingMoreActivity.this;
         mSvProgressHUD=new SVProgressHUD(mContext);
         mSP=new SPUtil(mContext);
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
 
-        mListView=findViewById(R.id.list_view_2);
-        mRinkingAdater=new RinkingListAdater(mContext,R.layout.item_ringlist_layout,musicPlayBeans);
-        mListView.setAdapter(mRinkingAdater);
+        mGridView=findViewById(R.id.grid_view_2);
+        mRinkingAdater=new RinkingFragmentAdater(mContext,R.layout.grids,mGridItemList);
+        mGridView.setAdapter(mRinkingAdater);
     }
 
     private void initLiter(){
@@ -128,7 +111,7 @@ public class RankingListActivity extends AppCompatActivity{
     }
 
     /**
-     * 排行榜获取歌曲
+     * 获取排行榜分类
      */
     private void getRankingListData(){
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
@@ -138,11 +121,8 @@ public class RankingListActivity extends AppCompatActivity{
         Logger.i(TAG,"tel.."+tel+"..token.."+token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
-        weakHashMap.put("page",1+"");//第几页    不填默认1
-        weakHashMap.put("limit",10+"");//页码量   不填默认10，最大限度100
-        weakHashMap.put("rangId",mRangId);//歌手id
 
-        String url = App.getRqstUrl(App.headurl + "song/getRangeSong", weakHashMap);
+        String url = App.getRqstUrl(App.headurl + "song/rangking", weakHashMap);
         Logger.i(TAG, "url.." + url);
 
         if (NetUtils.hasNetwork(mContext)) {
@@ -150,23 +130,23 @@ public class RankingListActivity extends AppCompatActivity{
                 @Override
                 public void onFailure(Call call, IOException e) {
                     //返回失败
-                    mHandler.obtainMessage(RankingListError, e.getMessage()).sendToTarget();
+                    mHandler.obtainMessage(RankingMoreError, e.getMessage()).sendToTarget();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
                     Logger.i(TAG,"s.."+s);
-                    AJson<List<MusicPlayBean>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<MusicPlayBean>>>() {});
+                    AJson<List<GridItem>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<GridItem>>>() {});
                     if (aJson!=null){
                         if (aJson.getCode()==0){
-                            mHandler.sendEmptyMessage(RankingListSuccess);
+                            mHandler.sendEmptyMessage(RankingMoreSuccess);
                             Logger.i(TAG,"aJson..."+aJson.toString());
                             setState(aJson.getData());
                         } else if (aJson.getCode()==500){
                             mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {
-                            mHandler.obtainMessage(RankingListError, aJson.getMsg()).sendToTarget();
+                            mHandler.obtainMessage(RankingMoreError, aJson.getMsg()).sendToTarget();
                         }
                     }
                     if (response.body() != null) {
@@ -180,10 +160,10 @@ public class RankingListActivity extends AppCompatActivity{
         }
     }
 
-    private void setState(List<MusicPlayBean> itemList){
-        musicPlayBeans.clear();
+    private void setState(List<GridItem> itemList){
+        mGridItemList.clear();
         if (itemList!=null&&!itemList.isEmpty()){
-            musicPlayBeans.addAll(itemList);
+            mGridItemList.addAll(itemList);
         }
     }
 

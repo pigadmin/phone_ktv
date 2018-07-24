@@ -17,6 +17,7 @@ import phone.ktv.activitys.LoginActivity;
 import phone.ktv.activitys.ModifyPsdActivity;
 import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
+import phone.ktv.activitys.already_activitys.AlreadySearchActivity;
 import phone.ktv.adaters.TabAdater;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.SPUtil;
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.main_btn_search://搜索
-                ToastUtils.showLongToast(mContext, "搜索");
+                IntentUtils.thisToOther(mContext, AlreadySearchActivity.class);
                 break;
 
             case R.id.loging_llt://立即登录

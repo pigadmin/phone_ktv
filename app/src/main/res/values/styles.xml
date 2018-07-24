@@ -11,6 +11,12 @@
         <item name="android:windowBackground">@mipmap/bg_fla_src</item>
     </style>
 
+    <style name="AnimationFade">
+        <!--   PopupWindow左右弹出的效果-->
+        <item name="android:windowEnterAnimation">@anim/in_leftorright</item>
+        <item name="android:windowExitAnimation">@anim/out_righttoleft</item>
+    </style>
+
     <style name="CustomDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowContentOverlay">@null</item>
