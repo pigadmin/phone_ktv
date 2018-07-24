@@ -77,6 +77,9 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
             @Override
             public void onTick(long millisUntilFinished) {
                 mNumtext.setText("倒计时(" + millisUntilFinished / 1000 + ")秒");
+                if (millisUntilFinished / 1000 <=1){
+                    mNumtext.setClickable(false);
+                }
             }
 
             @Override
