@@ -35,7 +35,7 @@ import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomTopTitleView;
 
 /**
- * 歌曲排行榜
+ * 歌曲排行榜 2级
  */
 public class RankingListActivity extends AppCompatActivity{
 

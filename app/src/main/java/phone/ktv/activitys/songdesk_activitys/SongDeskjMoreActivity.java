@@ -37,7 +37,7 @@ import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomTopTitleView;
 
 /**
- * 点歌台分类(更多)
+ * 点歌台分类(更多) 1级
  */
 public class SongDeskjMoreActivity extends AppCompatActivity{
 

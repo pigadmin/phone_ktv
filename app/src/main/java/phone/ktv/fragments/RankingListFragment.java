@@ -42,7 +42,7 @@ import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 
 /**
- *  排行榜
+ *  排行榜 1级
  */
 public class RankingListFragment extends Fragment {
 

@@ -34,7 +34,7 @@ import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomTopTitleView;
 
 /**
- * 排行榜分类(更多)
+ * 排行榜分类(更多) 1级
  */
 public class RankingMoreActivity extends AppCompatActivity{
 

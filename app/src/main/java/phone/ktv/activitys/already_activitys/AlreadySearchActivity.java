@@ -46,7 +46,7 @@ import phone.ktv.tootls.SoftKeyboard;
 import phone.ktv.tootls.ToastUtils;
 
 /**
- * 已点搜索
+ * 搜索1级  (搜索歌曲,歌星)
  */
 public class AlreadySearchActivity extends AppCompatActivity {
 

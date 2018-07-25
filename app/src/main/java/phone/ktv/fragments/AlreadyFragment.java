@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import phone.ktv.R;
 
 /**
- * 已点歌曲
+ * 已点歌曲 1级
  */
 public class AlreadyFragment extends Fragment {
     View mNewsView;

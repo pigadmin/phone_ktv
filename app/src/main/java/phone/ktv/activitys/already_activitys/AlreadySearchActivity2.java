@@ -39,7 +39,7 @@ import phone.ktv.tootls.SoftKeyboard;
 import phone.ktv.tootls.ToastUtils;
 
 /**
- * 已点搜索2
+ * 搜索2级 (搜索歌曲)
  */
 public class AlreadySearchActivity2 extends AppCompatActivity {
 
