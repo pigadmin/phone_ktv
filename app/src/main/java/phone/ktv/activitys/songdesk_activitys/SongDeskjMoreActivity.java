@@ -74,23 +74,19 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case SongDeskMoreSuccess://获取成功
-                    mSvProgressHUD.dismiss();
                     mGridAdater.notifyDataSetChanged();
-                    mPullToRefresh.onRefreshComplete();
                     break;
 
                 case SongDeskMoreError://获取失败
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
-                    mPullToRefresh.onRefreshComplete();
                     break;
 
                 case SongDeskExpiredToken://Token过期
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
-                    mPullToRefresh.onRefreshComplete();
                     break;
             }
+            mSvProgressHUD.dismiss();
+            mPullToRefresh.onRefreshComplete();
         }
     };
 

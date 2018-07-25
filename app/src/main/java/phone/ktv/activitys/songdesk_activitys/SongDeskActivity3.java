@@ -8,11 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.ILoadingLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,8 +34,10 @@ import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
+import phone.ktv.tootls.TimeUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomTopTitleView;
+import phone.ktv.views.MyGridView;
 
 /**
  * 歌星列表(点歌台) (薛之谦,许嵩,刘德华)  3级
@@ -46,7 +50,9 @@ public class SongDeskActivity3 extends AppCompatActivity{
 
     private CustomTopTitleView mTopTitleView1;//返回事件
 
-    private GridView mGridView;
+    private PullToRefreshScrollView mPullToRefresh;
+    private ILoadingLayout mLoadingLayoutProxy;
+    private MyGridView mGridView;
 
     private SongDeskGrid2Adater mRinkingAdater;
 
@@ -64,26 +70,28 @@ public class SongDeskActivity3 extends AppCompatActivity{
 
     private TextView mNoData;
 
+    private int mLimit = App.Maxlimit;//页码量
+    private int mPage = 1;//第几页
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case SongDesk3Success://获取成功
-                    mSvProgressHUD.dismiss();
                     mRinkingAdater.notifyDataSetChanged();
                     mTopTitleView1.setTopText(mRangName);
                     updateData();
                     break;
 
                 case SongDesk3Error://获取失败
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
 
                 case SongDeskExpiredToken://Token过期
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
             }
+            mSvProgressHUD.dismiss();
+            mPullToRefresh.onRefreshComplete();
         }
     };
 
@@ -92,15 +100,15 @@ public class SongDeskActivity3 extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.songdesk_more_activity);
 
+        getIntentData();
         initView();
         initLiter();
-        getIntentData();
+        settingPullRefresh();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getRankingListData();
     }
 
     /**
@@ -123,6 +131,22 @@ public class SongDeskActivity3 extends AppCompatActivity{
         }
     }
 
+    /**
+     * PullToRefreshScrollView 属性
+     */
+    private void settingPullRefresh() {
+        mPullToRefresh.setMode(PullToRefreshBase.Mode.BOTH);
+        mLoadingLayoutProxy = mPullToRefresh.getLoadingLayoutProxy(true, false);
+        mLoadingLayoutProxy.setPullLabel("下拉刷新");
+        mLoadingLayoutProxy.setRefreshingLabel("正在刷新");
+        mLoadingLayoutProxy.setReleaseLabel("松开刷新");
+
+        ILoadingLayout endLoading = mPullToRefresh.getLoadingLayoutProxy(false, true);
+        endLoading.setPullLabel("上拉加载更多");
+        endLoading.setRefreshingLabel("拼命加载中...");
+        endLoading.setReleaseLabel("释放即可加载更多");
+    }
+
     private void initView(){
         mSingerNumBeans=new ArrayList<>();
 
@@ -131,16 +155,44 @@ public class SongDeskActivity3 extends AppCompatActivity{
         mSP=new SPUtil(mContext);
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
+        mPullToRefresh = findViewById(R.id.sv);
         mNoData=findViewById(R.id.no_data_tvw123);
 
         mGridView=findViewById(R.id.grid_view_8);
         mRinkingAdater=new SongDeskGrid2Adater(mContext,R.layout.item_gridicon_image,mSingerNumBeans);
         mGridView.setAdapter(mRinkingAdater);
+
+        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
+        getRankingListData();
     }
 
     private void initLiter(){
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mGridView.setOnItemClickListener(new MyOnItemClickListener());
+        mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
+    }
+
+    /**
+     * 下拉刷新
+     */
+    private class MyPullToRefresh implements PullToRefreshBase.OnRefreshListener2 {
+        @Override
+        public void onPullDownToRefresh(PullToRefreshBase pullToRefreshBase) {
+            mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
+            mPage=1;
+            mSingerNumBeans.clear();
+            getRankingListData();
+        }
+
+        /**
+         * 上拉加载
+         */
+        @Override
+        public void onPullUpToRefresh(PullToRefreshBase pullToRefreshBase) {
+            mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
+            mPage++;
+            getRankingListData();
+        }
     }
 
     private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
@@ -157,15 +209,14 @@ public class SongDeskActivity3 extends AppCompatActivity{
      * 排行榜获取歌曲
      */
     private void getRankingListData(){
-        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         String tel= mSP.getString("telPhone",null);//tel
         String token= mSP.getString("token",null);//token
         Logger.i(TAG,"tel.."+tel+"..token.."+token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
-        weakHashMap.put("page",1+"");//第几页    不填默认1
-        weakHashMap.put("limit",10+"");//页码量   不填默认10，最大限度100
+        weakHashMap.put("page", mPage + "");//第几页    不填默认1
+        weakHashMap.put("limit", mLimit + "");//页码量   不填默认10，最大限度100
         weakHashMap.put("singertypeid",mRangId);//歌手id
 
         String url = App.getRqstUrl(App.headurl + "song/singer", weakHashMap);
@@ -203,13 +254,13 @@ public class SongDeskActivity3 extends AppCompatActivity{
                 }
             });
         } else {
+            mPullToRefresh.onRefreshComplete();
             mSvProgressHUD.dismiss();
             ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
         }
     }
 
     private void setState(List<SingerNumBean.SingerBean> itemList){
-        mSingerNumBeans.clear();
         if (itemList!=null&&!itemList.isEmpty()){
             mSingerNumBeans.addAll(itemList);
         }
