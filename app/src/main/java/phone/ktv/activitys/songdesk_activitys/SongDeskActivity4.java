@@ -8,10 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
@@ -62,8 +60,6 @@ public class SongDeskActivity4 extends AppCompatActivity{
     public static final int SongDesk4Error=200;//排行榜歌曲获取失败
     public static final int SongDesk4ExpiredToken=300;//Token过期
 
-    private SVProgressHUD mSvProgressHUD;
-
     private SPUtil mSP;
 
     private String mRangId,mRangName;
@@ -80,7 +76,6 @@ public class SongDeskActivity4 extends AppCompatActivity{
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case SongDesk4Success://获取成功
-                    mSvProgressHUD.dismiss();
                     mRinkingAdater.notifyDataSetChanged();
                     mSongBang.setText(mRangName);
                     getmSongBangList.setText("/"+musicPlayBeans.size());
@@ -89,13 +84,11 @@ public class SongDeskActivity4 extends AppCompatActivity{
                     break;
 
                 case SongDesk4Error://获取失败
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     mPullToRefresh.onRefreshComplete();
                     break;
 
                 case SongDesk4ExpiredToken://Token过期
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     mPullToRefresh.onRefreshComplete();
                     break;
@@ -111,13 +104,13 @@ public class SongDeskActivity4 extends AppCompatActivity{
         initView();
         initLiter();
         getIntentData();
+        getRankingListData();
         settingPullRefresh();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getRankingListData();
     }
 
     /**
@@ -126,9 +119,9 @@ public class SongDeskActivity4 extends AppCompatActivity{
     private void getIntentData(){
         Intent intent=getIntent();
         if (intent!=null){
-          mRangId= intent.getStringExtra("id");
-          mRangName= intent.getStringExtra("name");
-          Logger.i(TAG,"id..."+mRangId+"..name..."+mRangName);
+            mRangId= intent.getStringExtra("id");
+            mRangName= intent.getStringExtra("name");
+            Logger.i(TAG,"id..."+mRangId+"..name..."+mRangName);
         }
     }
 
@@ -136,6 +129,7 @@ public class SongDeskActivity4 extends AppCompatActivity{
      * PullToRefreshScrollView 属性
      */
     private void settingPullRefresh() {
+        mPullToRefresh.setMode(PullToRefreshBase.Mode.BOTH);
         mLoadingLayoutProxy = mPullToRefresh.getLoadingLayoutProxy(true, false);
         mLoadingLayoutProxy.setPullLabel("下拉刷新");
         mLoadingLayoutProxy.setRefreshingLabel("正在刷新");
@@ -151,7 +145,6 @@ public class SongDeskActivity4 extends AppCompatActivity{
         musicPlayBeans=new ArrayList<>();
 
         mContext= SongDeskActivity4.this;
-        mSvProgressHUD=new SVProgressHUD(mContext);
         mSP=new SPUtil(mContext);
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
@@ -208,7 +201,6 @@ public class SongDeskActivity4 extends AppCompatActivity{
      * 排行榜获取歌曲
      */
     private void getRankingListData(){
-        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         String tel= mSP.getString("telPhone",null);//tel
         String token= mSP.getString("token",null);//token
@@ -253,13 +245,11 @@ public class SongDeskActivity4 extends AppCompatActivity{
             });
         } else {
             mPullToRefresh.onRefreshComplete();
-            mSvProgressHUD.dismiss();
             ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
         }
     }
 
     private void setState(List<MusicPlayBean> itemList){
-        musicPlayBeans.clear();
         if (itemList!=null&&!itemList.isEmpty()){
             musicPlayBeans.addAll(itemList);
         }

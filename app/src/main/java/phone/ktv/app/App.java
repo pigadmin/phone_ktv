@@ -121,5 +121,5 @@ public class App extends Application {
 //        DBUtils = new xDBUtils();
     }
 
-    public static int Maxlimit=8;
+    public static int Maxlimit=10;
 }
