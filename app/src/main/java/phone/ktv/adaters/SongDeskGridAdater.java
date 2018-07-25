@@ -9,18 +9,18 @@ import android.widget.TextView;
 import java.util.List;
 
 import phone.ktv.R;
-import phone.ktv.bean.GridItem;
+import phone.ktv.bean.ListInfo;
 import phone.ktv.tootls.PicassoUtil;
 
 /**
- * 排行榜adater 备注图片返回字段 icon
+ * 点歌台adater 备注图片返回字段 ngPath
  */
-public class RinkingFragmentAdater extends BAdapter<GridItem> {
-    private static final String TAG = "Rinking1FragmentAdater";
+public class SongDeskGridAdater extends BAdapter<ListInfo> {
+    private static final String TAG = "GridAdater";
 
     Context context;
 
-    public RinkingFragmentAdater(Context context, int layoutId, List<GridItem> list) {
+    public SongDeskGridAdater(Context context, int layoutId, List<ListInfo> list) {
         super(context, layoutId, list);
         this.context = context;
     }
@@ -30,13 +30,13 @@ public class RinkingFragmentAdater extends BAdapter<GridItem> {
         ImageView icon = get(convertView, R.id.music_icon);//图片
         TextView name = get(convertView,R.id.music_name);//名称
 
-        GridItem item = getItem(position);
+        ListInfo item = getItem(position);
 
-        name.setText(item.name);
-        if (TextUtils.isEmpty(item.icon)){
+        name.setText(item.getName());
+        if (TextUtils.isEmpty(item.getNgPath())){
             icon.setImageResource(R.mipmap.logo);
         } else {
-            String srcPath= PicassoUtil.utf8Togb2312(item.icon);
+            String srcPath= PicassoUtil.utf8Togb2312(item.getNgPath());
             PicassoUtil.picassoAdvanced(context,srcPath,R.mipmap.station_src,R.mipmap.logo,icon);
         }
     }

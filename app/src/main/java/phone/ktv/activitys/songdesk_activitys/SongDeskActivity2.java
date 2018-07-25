@@ -39,7 +39,7 @@ import phone.ktv.views.CustomTopTitleView;
  */
 public class SongDeskActivity2 extends AppCompatActivity{
 
-    private static final String TAG = "RankingListActivity";
+    private static final String TAG = "SongDeskActivity2";
 
     Context mContext;
 
