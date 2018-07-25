@@ -195,7 +195,7 @@ public class SongDeskFragment extends Fragment {
     }
 
     /**
-     * 获取排行榜分类
+     * 获取点歌台分类
      */
     private void getRankingListData(){
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
