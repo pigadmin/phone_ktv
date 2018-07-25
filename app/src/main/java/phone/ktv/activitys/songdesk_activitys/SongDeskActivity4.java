@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
@@ -52,6 +53,8 @@ public class SongDeskActivity4 extends AppCompatActivity{
     private PullToRefreshScrollView mPullToRefresh;
     private ILoadingLayout mLoadingLayoutProxy;
 
+    private SVProgressHUD mSvProgressHUD;
+
     private RinkingListAdater mRinkingAdater;
 
     private List<MusicPlayBean> musicPlayBeans;
@@ -80,19 +83,18 @@ public class SongDeskActivity4 extends AppCompatActivity{
                     mSongBang.setText(mRangName);
                     getmSongBangList.setText("/"+musicPlayBeans.size());
                     mTopTitleView1.setTopText(mRangName);
-                    mPullToRefresh.onRefreshComplete();
                     break;
 
                 case SongDesk4Error://获取失败
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
-                    mPullToRefresh.onRefreshComplete();
                     break;
 
                 case SongDesk4ExpiredToken://Token过期
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
-                    mPullToRefresh.onRefreshComplete();
                     break;
             }
+            mSvProgressHUD.dismiss();
+            mPullToRefresh.onRefreshComplete();
         }
     };
 
@@ -101,10 +103,9 @@ public class SongDeskActivity4 extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ranking_list_activity);
 
+        getIntentData();
         initView();
         initLiter();
-        getIntentData();
-        getRankingListData();
         settingPullRefresh();
     }
 
@@ -145,6 +146,7 @@ public class SongDeskActivity4 extends AppCompatActivity{
         musicPlayBeans=new ArrayList<>();
 
         mContext= SongDeskActivity4.this;
+        mSvProgressHUD=new SVProgressHUD(mContext);
         mSP=new SPUtil(mContext);
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
@@ -156,6 +158,9 @@ public class SongDeskActivity4 extends AppCompatActivity{
         mListView=findViewById(R.id.list_view_2);
         mRinkingAdater=new RinkingListAdater(mContext,R.layout.item_ringlist_layout,musicPlayBeans);
         mListView.setAdapter(mRinkingAdater);
+
+        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
+        getRankingListData();
     }
 
     private void initLiter(){
@@ -245,6 +250,7 @@ public class SongDeskActivity4 extends AppCompatActivity{
             });
         } else {
             mPullToRefresh.onRefreshComplete();
+            mSvProgressHUD.dismiss();
             ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
         }
     }

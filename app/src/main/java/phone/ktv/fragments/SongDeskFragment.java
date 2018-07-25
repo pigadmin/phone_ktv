@@ -74,20 +74,18 @@ public class SongDeskFragment extends Fragment {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case RankingListSuccess://获取成功
-                    mSvProgressHUD.dismiss();
                     mDeskAdater.notifyDataSetChanged();
                     break;
 
                 case RankingListError://获取失败
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
 
                 case RankingExpiredToken://Token过期
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
             }
+            mSvProgressHUD.dismiss();
         }
     };
 
