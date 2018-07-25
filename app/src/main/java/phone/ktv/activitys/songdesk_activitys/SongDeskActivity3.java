@@ -7,9 +7,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
@@ -24,13 +23,11 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import phone.ktv.R;
-import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.adaters.SongDeskGrid2Adater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
-import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.bean.SingerNumBean;
-import phone.ktv.tootls.GsonJsonUtils;
+import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
@@ -143,6 +140,17 @@ public class SongDeskActivity3 extends AppCompatActivity{
 
     private void initLiter(){
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
+        mGridView.setOnItemClickListener(new MyOnItemClickListener());
+    }
+
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            SingerNumBean.SingerBean item= mSingerNumBeans.get(position);
+            if (item!=null){
+                IntentUtils.strIntentString(mContext, SongDeskActivity4.class,"id","name",item.id,item.name);
+            }
+        }
     }
 
     /**

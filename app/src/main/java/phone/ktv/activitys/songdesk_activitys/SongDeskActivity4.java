@@ -26,7 +26,9 @@ import phone.ktv.R;
 import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
+import phone.ktv.bean.MusicNumBean;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
@@ -39,7 +41,7 @@ import phone.ktv.views.CustomTopTitleView;
  */
 public class SongDeskActivity4 extends AppCompatActivity{
 
-    private static final String TAG = "RankingListActivity";
+    private static final String TAG = "SongDeskActivity4";
 
     Context mContext;
 
@@ -51,9 +53,9 @@ public class SongDeskActivity4 extends AppCompatActivity{
 
     private List<MusicPlayBean> musicPlayBeans;
 
-    public static final int RankingListSuccess=100;//排行榜歌曲获取成功
-    public static final int RankingListError=200;//排行榜歌曲获取失败
-    public static final int RankingExpiredToken=300;//Token过期
+    public static final int SongDesk4Success=100;//排行榜歌曲获取成功
+    public static final int SongDesk4Error=200;//排行榜歌曲获取失败
+    public static final int SongDesk4ExpiredToken=300;//Token过期
 
     private SVProgressHUD mSvProgressHUD;
 
@@ -69,19 +71,20 @@ public class SongDeskActivity4 extends AppCompatActivity{
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
-                case RankingListSuccess://获取成功
+                case SongDesk4Success://获取成功
                     mSvProgressHUD.dismiss();
                     mRinkingAdater.notifyDataSetChanged();
                     mSongBang.setText(mRangName);
                     getmSongBangList.setText("/"+musicPlayBeans.size());
+                    mTopTitleView1.setTopText(mRangName);
                     break;
 
-                case RankingListError://获取失败
+                case SongDesk4Error://获取失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
 
-                case RankingExpiredToken://Token过期
+                case SongDesk4ExpiredToken://Token过期
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
@@ -111,9 +114,9 @@ public class SongDeskActivity4 extends AppCompatActivity{
     private void getIntentData(){
         Intent intent=getIntent();
         if (intent!=null){
-          mRangId= intent.getStringExtra("rangId");
-          mRangName= intent.getStringExtra("rangName");
-          Logger.i(TAG,"mRangId..."+mRangId+"..mRangName..."+mRangName);
+          mRangId= intent.getStringExtra("id");
+          mRangName= intent.getStringExtra("name");
+          Logger.i(TAG,"id..."+mRangId+"..name..."+mRangName);
         }
     }
 
@@ -162,9 +165,9 @@ public class SongDeskActivity4 extends AppCompatActivity{
         weakHashMap.put("token", token);//token
         weakHashMap.put("page",1+"");//第几页    不填默认1
         weakHashMap.put("limit",10+"");//页码量   不填默认10，最大限度100
-        weakHashMap.put("rangId",mRangId);//歌手id
+        weakHashMap.put("singerId",mRangId);//歌手id
 
-        String url = App.getRqstUrl(App.headurl + "song/getRangeSong", weakHashMap);
+        String url = App.getRqstUrl(App.headurl + "song", weakHashMap);
         Logger.i(TAG, "url.." + url);
 
         if (NetUtils.hasNetwork(mContext)) {
@@ -172,23 +175,24 @@ public class SongDeskActivity4 extends AppCompatActivity{
                 @Override
                 public void onFailure(Call call, IOException e) {
                     //返回失败
-                    mHandler.obtainMessage(RankingListError, e.getMessage()).sendToTarget();
+                    mHandler.obtainMessage(SongDesk4Error, e.getMessage()).sendToTarget();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
                     Logger.i(TAG,"s.."+s);
-                    AJson<List<MusicPlayBean>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<MusicPlayBean>>>() {});
+                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
                     if (aJson!=null){
                         if (aJson.getCode()==0){
-                            mHandler.sendEmptyMessage(RankingListSuccess);
-                            Logger.i(TAG,"aJson..."+aJson.toString());
-                            setState(aJson.getData());
+                            MusicNumBean numBean = App.jsonToObject(s, new TypeToken<AJson<MusicNumBean>>() {}).getData();
+                            mHandler.sendEmptyMessage(SongDesk4Success);
+                            Logger.i(TAG,"aJson1..."+aJson.toString());
+                            setState(numBean.list);
                         } else if (aJson.getCode()==500){
-                            mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
+                            mHandler.obtainMessage(SongDesk4ExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {
-                            mHandler.obtainMessage(RankingListError, aJson.getMsg()).sendToTarget();
+                            mHandler.obtainMessage(SongDesk4Error, aJson.getMsg()).sendToTarget();
                         }
                     }
                     if (response.body() != null) {
