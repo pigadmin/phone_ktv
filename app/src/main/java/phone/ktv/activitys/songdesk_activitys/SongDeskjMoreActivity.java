@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.reflect.TypeToken;
@@ -64,6 +65,8 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
 
     private SPUtil mSP;
 
+    private TextView mNoData;
+
     private PullToRefreshScrollView mPullToRefresh;
     private ILoadingLayout mLoadingLayoutProxy;
 
@@ -75,6 +78,7 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
             switch (msg.what) {
                 case SongDeskMoreSuccess://获取成功
                     mGridAdater.notifyDataSetChanged();
+                    updateData();
                     break;
 
                 case SongDeskMoreError://获取失败
@@ -105,6 +109,14 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
         super.onResume();
     }
 
+    private void updateData(){
+        if (mGridItemList!=null&&!mGridItemList.isEmpty()){
+            mNoData.setVisibility(View.GONE);
+        } else {
+            mNoData.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void initView(){
         mGridItemList=new ArrayList<>();
 
@@ -114,6 +126,7 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
         mPullToRefresh = findViewById(R.id.sv);
+        mNoData=findViewById(R.id.no_data_tvw123);
         mGridView=findViewById(R.id.grid_view_8);
         mGridAdater=new SongDeskGrid1Adater(mContext,R.layout.item_gridicon_image,mGridItemList);
         mGridView.setAdapter(mGridAdater);

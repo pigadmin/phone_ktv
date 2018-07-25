@@ -1,25 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content">
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <phone.ktv.views.CustomTopTitleView
         android:id="@+id/customTopTitleView1"
-        custom:back_text_type="@string/tabTitle2_cat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        custom:back_text_type="@string/tabTitle2_cat" />
 
-    <GridView
-        android:id="@+id/grid_view_2"
-        android:numColumns="3"
-        android:verticalSpacing="15dp"
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/customTopTitleView1"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:horizontalSpacing="15dp"
         android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollbars="none"
+        ptr:ptrHeaderSubTextColor="@color/black"
+        ptr:ptrHeaderTextColor="@color/black"
+        ptr:ptrMode="both">
 
-</LinearLayout>
+        <phone.ktv.views.MyGridView
+            android:id="@+id/grid_view_7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="15dp"
+            android:numColumns="3"
+            android:verticalSpacing="15dp" />
+
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+
+    <TextView
+        android:id="@+id/no_data_tvw124"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="当前无搜索结果"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+</RelativeLayout>
