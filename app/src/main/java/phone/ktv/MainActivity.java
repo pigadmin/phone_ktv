@@ -1,9 +1,9 @@
 package phone.ktv;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -17,11 +17,10 @@ import phone.ktv.activitys.LoginActivity;
 import phone.ktv.activitys.ModifyPsdActivity;
 import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
-import phone.ktv.activitys.already_activitys.AlreadySearchActivity;
+import phone.ktv.activitys.already_activitys.AlreadySearchListActivity;
 import phone.ktv.adaters.TabAdater;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.SPUtil;
-import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CoordinatorMenu;
 import phone.ktv.views.CustomTextView;
 
@@ -147,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.main_btn_search://搜索
-                IntentUtils.thisToOther(mContext, AlreadySearchActivity.class);
+                IntentUtils.thisToOther(mContext, AlreadySearchListActivity.class);
                 break;
 
             case R.id.loging_llt://立即登录

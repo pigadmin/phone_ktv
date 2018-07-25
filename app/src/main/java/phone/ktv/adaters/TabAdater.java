@@ -1,6 +1,5 @@
 package phone.ktv.adaters;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import phone.ktv.fragments.AlreadyFragment;
-import phone.ktv.fragments.RankingListFragment;
+import phone.ktv.fragments.RankingFragment;
 import phone.ktv.fragments.SongDeskFragment;
 
 public class TabAdater extends FragmentPagerAdapter {
@@ -53,7 +52,7 @@ public class TabAdater extends FragmentPagerAdapter {
                 baseTab = new SongDeskFragment();
                 break;
             case twoTab:
-                baseTab = new RankingListFragment();
+                baseTab = new RankingFragment();
                 break;
             case threeTab:
                 baseTab = new AlreadyFragment();

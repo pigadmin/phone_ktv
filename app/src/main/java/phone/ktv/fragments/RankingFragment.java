@@ -44,7 +44,7 @@ import phone.ktv.tootls.ToastUtils;
 /**
  *  排行榜 1级
  */
-public class RankingListFragment extends Fragment {
+public class RankingFragment extends Fragment {
 
     private static final String TAG = "RankingListFragment";
     View mNewsView;

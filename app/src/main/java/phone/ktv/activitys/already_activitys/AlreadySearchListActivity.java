@@ -48,7 +48,7 @@ import phone.ktv.tootls.ToastUtils;
 /**
  * 搜索1级  (搜索歌曲,歌星)
  */
-public class AlreadySearchActivity extends AppCompatActivity {
+public class AlreadySearchListActivity extends AppCompatActivity {
 
     private static final String TAG = "AlreadySearchActivity";
 
@@ -122,7 +122,7 @@ public class AlreadySearchActivity extends AppCompatActivity {
         musicPlayBeans=new ArrayList<>();
         mnumBeanList=new ArrayList<>();
 
-        mContext = AlreadySearchActivity.this;
+        mContext = AlreadySearchListActivity.this;
         mSvProgressHUD=new SVProgressHUD(mContext);
         mSP=new SPUtil(mContext);
 
@@ -197,7 +197,7 @@ public class AlreadySearchActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             SingerNumBean bean = mnumBeanList.get(position);
-            IntentUtils.strIntentString(mContext, AlreadySearchActivity2.class,"id","name",bean.id,bean.name);
+            IntentUtils.strIntentString(mContext, AlreadySearchListActivity2.class,"id","name",bean.id,bean.name);
         }
     }
 

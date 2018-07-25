@@ -32,7 +32,7 @@ import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.SPUtil;
 
 /**
- * 点歌台 1级
+ * 点歌台(歌曲大类) 1级
  */
 public class SongDeskFragment extends Fragment implements VolleyReq.Api, AdapterView.OnItemClickListener {
 

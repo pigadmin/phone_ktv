@@ -41,7 +41,7 @@ import phone.ktv.tootls.ToastUtils;
 /**
  * 搜索2级 (搜索歌曲)
  */
-public class AlreadySearchActivity2 extends AppCompatActivity {
+public class AlreadySearchListActivity2 extends AppCompatActivity {
 
     private static final String TAG = "AlreadySearchActivity";
 
@@ -118,7 +118,7 @@ public class AlreadySearchActivity2 extends AppCompatActivity {
     private void initView() {
         musicPlayBeans=new ArrayList<>();
 
-        mContext = AlreadySearchActivity2.this;
+        mContext = AlreadySearchListActivity2.this;
         mSvProgressHUD=new SVProgressHUD(mContext);
         mSP=new SPUtil(mContext);
 
