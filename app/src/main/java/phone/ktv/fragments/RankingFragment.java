@@ -97,9 +97,9 @@ public class RankingFragment extends Fragment {
         mContext=getActivity();
         mSvProgressHUD=new SVProgressHUD(mContext);
         mSP=new SPUtil(mContext);
-
         initView();
         initLiter();
+        getRankingListData();
         return mNewsView;
     }
 
@@ -172,7 +172,6 @@ public class RankingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getRankingListData();
     }
 
     private void setState(List<GridItem> itemList){

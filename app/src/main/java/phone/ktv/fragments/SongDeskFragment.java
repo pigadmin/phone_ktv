@@ -102,6 +102,7 @@ public class SongDeskFragment extends Fragment {
 
         initView();
         initLiter();
+        getRankingListData();
         return mNewsView;
     }
 
@@ -174,7 +175,6 @@ public class SongDeskFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getRankingListData();
     }
 
     private void setState(List<ListInfo> itemList){
