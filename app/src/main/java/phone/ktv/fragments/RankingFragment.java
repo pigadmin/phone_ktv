@@ -13,7 +13,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.reflect.TypeToken;
@@ -64,25 +63,20 @@ public class RankingFragment extends Fragment {
     public static final int RankingListError=200;//排行榜分类获取失败
     public static final int RankingExpiredToken=300;//Token过期
 
-    private SVProgressHUD mSvProgressHUD;
-
     private TextView mMore;//更多
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case RankingListSuccess://获取成功
-                    mSvProgressHUD.dismiss();
                     mDeskAdater.notifyDataSetChanged();
                     break;
 
                 case RankingListError://获取失败
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
 
                 case RankingExpiredToken://Token过期
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
             }
@@ -95,7 +89,6 @@ public class RankingFragment extends Fragment {
         mNewsView = inflater.inflate(R.layout.ranking_fragment_layout, null);
 
         mContext=getActivity();
-        mSvProgressHUD=new SVProgressHUD(mContext);
         mSP=new SPUtil(mContext);
         initView();
         initLiter();
@@ -197,7 +190,6 @@ public class RankingFragment extends Fragment {
      * 获取排行榜分类
      */
     private void getRankingListData(){
-        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         String tel= mSP.getString("telPhone",null);//tel
         String token= mSP.getString("token",null);//token
@@ -238,7 +230,6 @@ public class RankingFragment extends Fragment {
                 }
             });
         } else {
-            mSvProgressHUD.dismiss();
             ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
         }
     }

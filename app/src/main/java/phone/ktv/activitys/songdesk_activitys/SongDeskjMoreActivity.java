@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -59,6 +60,8 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
     public static final int SongDeskMoreError=200;//点歌台分类获取失败
     public static final int SongDeskExpiredToken=300;//Token过期
 
+    private SVProgressHUD mSvProgressHUD;
+
     private SPUtil mSP;
 
     private PullToRefreshScrollView mPullToRefresh;
@@ -71,16 +74,19 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case SongDeskMoreSuccess://获取成功
+                    mSvProgressHUD.dismiss();
                     mGridAdater.notifyDataSetChanged();
                     mPullToRefresh.onRefreshComplete();
                     break;
 
                 case SongDeskMoreError://获取失败
+                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     mPullToRefresh.onRefreshComplete();
                     break;
 
                 case SongDeskExpiredToken://Token过期
+                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     mPullToRefresh.onRefreshComplete();
                     break;
@@ -96,7 +102,6 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
         initView();
         initLiter();
         settingPullRefresh();
-        getRankingListData();
     }
 
     @Override
@@ -108,6 +113,7 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
         mGridItemList=new ArrayList<>();
 
         mContext= SongDeskjMoreActivity.this;
+        mSvProgressHUD=new SVProgressHUD(mContext);
         mSP=new SPUtil(mContext);
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
@@ -115,6 +121,9 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
         mGridView=findViewById(R.id.grid_view_8);
         mGridAdater=new SongDeskGrid1Adater(mContext,R.layout.item_gridicon_image,mGridItemList);
         mGridView.setAdapter(mGridAdater);
+
+        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
+        getRankingListData();
     }
 
     private void initLiter(){
@@ -221,6 +230,7 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
                 }
             });
         } else {
+            mSvProgressHUD.dismiss();
             mPullToRefresh.onRefreshComplete();
             ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
         }
