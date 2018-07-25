@@ -21,7 +21,7 @@ import java.util.List;
 
 import phone.ktv.R;
 import phone.ktv.activitys.songdesk_activitys.SongDeskjMoreActivity;
-import phone.ktv.adaters.SongDeskGridAdater;
+import phone.ktv.adaters.SongDeskGrid1Adater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.GridList;
@@ -70,7 +70,7 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
     }
 
     private GridView songgrid;
-    private SongDeskGridAdater playAdater;
+    private SongDeskGrid1Adater playAdater;
 
     private void initView() {
         mMore15 = mNewsView.findViewById(R.id.more15);
@@ -80,7 +80,7 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
         songgrid = mNewsView.findViewById(R.id.songgrid);
         songgrid.setOnItemClickListener(this);
 
-        playAdater = new SongDeskGridAdater(mContext, R.layout.grids, list);
+        playAdater = new SongDeskGrid1Adater(mContext, R.layout.item_gridicon_image, list);
         songgrid.setAdapter(playAdater);
     }
 

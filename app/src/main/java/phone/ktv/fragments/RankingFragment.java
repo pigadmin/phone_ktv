@@ -112,7 +112,7 @@ public class RankingFragment extends Fragment {
         mBanner.measure(0, 0);
 
         mGridView=mNewsView.findViewById(R.id.grid_view_1);
-        mDeskAdater=new RinkingFragmentAdater(mContext,R.layout.grids,mGridItemList);
+        mDeskAdater=new RinkingFragmentAdater(mContext,R.layout.item_gridicon_image,mGridItemList);
         mGridView.setAdapter(mDeskAdater);
     }
 

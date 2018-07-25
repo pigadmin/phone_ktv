@@ -104,7 +104,7 @@ public class RankingMoreActivity extends AppCompatActivity{
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
 
         mGridView=findViewById(R.id.grid_view_2);
-        mRinkingAdater=new RinkingFragmentAdater(mContext,R.layout.grids,mGridItemList);
+        mRinkingAdater=new RinkingFragmentAdater(mContext,R.layout.item_gridicon_image,mGridItemList);
         mGridView.setAdapter(mRinkingAdater);
     }
 

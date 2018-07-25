@@ -10,17 +10,18 @@ import java.util.List;
 
 import phone.ktv.R;
 import phone.ktv.bean.ListInfo;
+import phone.ktv.bean.SingerNumBean;
 import phone.ktv.tootls.PicassoUtil;
 
 /**
  * 点歌台adater 备注图片返回字段 ngPath
  */
-public class SongDeskGridAdater extends BAdapter<ListInfo> {
-    private static final String TAG = "GridAdater";
+public class SongDeskGrid2Adater extends BAdapter<SingerNumBean.SingerBean> {
+    private static final String TAG = "SongDeskGrid2Adater";
 
     Context context;
 
-    public SongDeskGridAdater(Context context, int layoutId, List<ListInfo> list) {
+    public SongDeskGrid2Adater(Context context, int layoutId, List<SingerNumBean.SingerBean> list) {
         super(context, layoutId, list);
         this.context = context;
     }
@@ -30,13 +31,13 @@ public class SongDeskGridAdater extends BAdapter<ListInfo> {
         ImageView icon = get(convertView, R.id.music_icon);//图片
         TextView name = get(convertView,R.id.music_name);//名称
 
-        ListInfo item = getItem(position);
+        SingerNumBean.SingerBean item = getItem(position);
 
-        name.setText(item.getName());
-        if (TextUtils.isEmpty(item.getNgPath())){
+        name.setText(item.name);
+        if (TextUtils.isEmpty(item.ngPath)){
             icon.setImageResource(R.mipmap.logo);
         } else {
-            String srcPath= PicassoUtil.utf8Togb2312(item.getNgPath());
+            String srcPath= PicassoUtil.utf8Togb2312(item.ngPath);
             PicassoUtil.picassoAdvanced(context,srcPath,R.mipmap.station_src,R.mipmap.logo,icon);
         }
     }

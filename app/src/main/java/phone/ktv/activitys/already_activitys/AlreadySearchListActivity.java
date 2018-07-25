@@ -67,7 +67,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     private SingerPlayAdater mSingerAdater;
 
     private List<MusicPlayBean> musicPlayBeans;
-    private List<SingerNumBean> mnumBeanList;
+    private List<SingerNumBean.SingerBean> mnumBeanList;
 
     public static final int RankingSearchSuccess=100;//搜索歌曲获取成功
     public static final int RankingSearchError=200;//搜索歌曲获取失败
@@ -196,7 +196,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     private class MyOnItemClickListener2 implements AdapterView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            SingerNumBean bean = mnumBeanList.get(position);
+            SingerNumBean.SingerBean bean = mnumBeanList.get(position);
             IntentUtils.strIntentString(mContext, AlreadySearchListActivity2.class,"id","name",bean.id,bean.name);
         }
     }
@@ -324,7 +324,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
                             }
                         }
                     } else {
-                        AJson<List<SingerNumBean>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<SingerNumBean>>>() {});
+                        AJson<List<SingerNumBean.SingerBean>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<SingerNumBean.SingerBean>>>() {});
                         if (aJson!=null){
                             if (aJson.getCode()==0){
                                 mHandler.sendEmptyMessage(RankingSearchSuccess);
@@ -355,7 +355,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
         }
     }
 
-    private void setStateSong(List<SingerNumBean> itemList){
+    private void setStateSong(List<SingerNumBean.SingerBean> itemList){
         mnumBeanList.clear();
         if (itemList!=null&&!itemList.isEmpty()){
             mnumBeanList.addAll(itemList);

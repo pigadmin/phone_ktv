@@ -22,7 +22,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.activitys.rank_activitys.RankingListActivity;
-import phone.ktv.adaters.SongDeskGridAdater;
+import phone.ktv.adaters.SongDeskGrid1Adater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.GridList;
@@ -49,7 +49,7 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
 
     private GridView mGridView;
 
-    private SongDeskGridAdater mGridAdater;
+    private SongDeskGrid1Adater mGridAdater;
 
     private List<ListInfo> mGridItemList;
 
@@ -107,7 +107,7 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
 
         mGridView=findViewById(R.id.grid_view_8);
-        mGridAdater=new SongDeskGridAdater(mContext,R.layout.grids,mGridItemList);
+        mGridAdater=new SongDeskGrid1Adater(mContext,R.layout.item_gridicon_image,mGridItemList);
         mGridView.setAdapter(mGridAdater);
     }
 
