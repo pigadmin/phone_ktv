@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -8,11 +9,25 @@
         android:id="@+id/inclub_ilb_1"
         layout="@layout/iclube_already_serach_top" />
 
-    <ListView
-        android:id="@+id/list1122_view"
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:id="@+id/sv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/inclub_ilb_1" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/inclub_ilb_1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollbars="none"
+        ptr:ptrHeaderSubTextColor="@color/white"
+        ptr:ptrHeaderTextColor="@color/white"
+        ptr:ptrMode="both">
+
+        <phone.ktv.views.MyListView
+            android:id="@+id/list1122_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="5dp" />
+
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 
     <TextView
         android:id="@+id/no_data_tvw1"
@@ -23,4 +38,5 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         android:visibility="gone" />
+
 </RelativeLayout>
