@@ -78,6 +78,12 @@
         <activity
             android:name=".activitys.ModifyPsdActivity"
             android:screenOrientation="portrait" />
+
+        <!--点歌台分类(更多)-->
+        <activity
+            android:name=".activitys.songdesk_activitys.SongDeskjMoreActivity"
+            android:screenOrientation="portrait" />
+
         <!--排行榜分类(更多)-->
         <activity
             android:name=".activitys.rank_activitys.RankingMoreActivity"

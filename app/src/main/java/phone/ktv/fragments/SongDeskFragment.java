@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -19,15 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import phone.ktv.R;
+import phone.ktv.activitys.songdesk_activitys.SongDeskjMoreActivity;
 import phone.ktv.adaters.GridAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.GridList;
 import phone.ktv.bean.ListInfo;
-import phone.ktv.bean.WelcomAd;
 import phone.ktv.bgabanner.BGABanner;
-import phone.ktv.req.OkReq;
 import phone.ktv.req.VolleyReq;
+import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.SPUtil;
 
 /**
@@ -41,6 +42,8 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
     private Context mContext;
     private BGABanner mBanner;
     private SPUtil spUtil;
+
+    private TextView mMore15;//点歌台更多
 
     @Nullable
     @Override
@@ -70,6 +73,8 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
     private GridAdater playAdater;
 
     private void initView() {
+        mMore15 = mNewsView.findViewById(R.id.more15);
+
         mBanner = mNewsView.findViewById(R.id.banner_main_accordion);
         mBanner.measure(0, 0);
         songgrid = mNewsView.findViewById(R.id.songgrid);
@@ -110,6 +115,8 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
                         .into((ImageView) view);
             }
         });
+
+        mMore15.setOnClickListener(new MyOnClickListenerMore());//更多
     }
 
     List<ListInfo> list = new ArrayList<>();
@@ -121,7 +128,6 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
             if (tag.equals(updategrid)) {
                 GridList gridList = App.jsonToObject(json, new TypeToken<AJson<GridList>>() {
                 }).getData();
-
                 if (gridList != null) {
                     //                list = gridList.getList();
                     list.addAll(gridList.getList());
@@ -143,5 +149,12 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+    }
+
+    private class MyOnClickListenerMore implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            IntentUtils.thisToOther(mContext, SongDeskjMoreActivity.class);
+        }
     }
 }

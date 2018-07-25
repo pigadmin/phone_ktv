@@ -3,7 +3,7 @@ package phone.ktv.bean;
 import java.io.Serializable;
 
 public class ListInfo implements Serializable {
-    private int id;
+    private String id;
 
     private String name;
 
@@ -11,11 +11,11 @@ public class ListInfo implements Serializable {
 
     private String ngPath;
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
