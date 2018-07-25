@@ -7,7 +7,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.reflect.TypeToken;
@@ -26,6 +28,7 @@ import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.SingerNumBean;
 import phone.ktv.tootls.GsonJsonUtils;
+import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
@@ -60,6 +63,8 @@ public class SongDeskActivity2 extends AppCompatActivity{
 
     private String mRangId,mRangName;
 
+    private TextView mNoData;
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -67,6 +72,7 @@ public class SongDeskActivity2 extends AppCompatActivity{
                     mSvProgressHUD.dismiss();
                     mRinkingAdater.notifyDataSetChanged();
                     mTopTitleView1.setTopText(mRangName);
+                    updateData();
                     break;
 
                 case SongDesk2Error://获取失败
@@ -110,6 +116,14 @@ public class SongDeskActivity2 extends AppCompatActivity{
         }
     }
 
+    private void updateData(){
+        if (mSingerNumBeans!=null&&!mSingerNumBeans.isEmpty()){
+            mNoData.setVisibility(View.GONE);
+        } else {
+            mNoData.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void initView(){
         mSingerNumBeans=new ArrayList<>();
 
@@ -119,6 +133,7 @@ public class SongDeskActivity2 extends AppCompatActivity{
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
 
+        mNoData=findViewById(R.id.no_data_tvw123);
         mGridView=findViewById(R.id.grid_view_8);
         mRinkingAdater=new SongDeskGrid2Adater(mContext,R.layout.item_gridicon_image,mSingerNumBeans);
         mGridView.setAdapter(mRinkingAdater);
@@ -126,6 +141,17 @@ public class SongDeskActivity2 extends AppCompatActivity{
 
     private void initLiter(){
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
+        mGridView.setOnItemClickListener(new MyOnItemClickListener());
+    }
+
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            SingerNumBean.SingerBean item= mSingerNumBeans.get(position);
+            if (item!=null){
+                IntentUtils.strIntentString(mContext, SongDeskActivity3.class,"id","name",item.id,item.name);
+            }
+        }
     }
 
     /**
@@ -141,7 +167,7 @@ public class SongDeskActivity2 extends AppCompatActivity{
         weakHashMap.put("token", token);//token
         weakHashMap.put("page",1+"");//第几页    不填默认1
         weakHashMap.put("limit",10+"");//页码量   不填默认10，最大限度100
-        weakHashMap.put("rangId",mRangId);//歌手id
+        weakHashMap.put("songtypeid",mRangId);//歌手id
 
         String url = App.getRqstUrl(App.headurl + "song/getsongSingerType", weakHashMap);
         Logger.i(TAG, "url.." + url);

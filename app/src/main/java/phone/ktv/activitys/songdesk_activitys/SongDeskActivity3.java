@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,9 +25,12 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.adaters.RinkingListAdater;
+import phone.ktv.adaters.SongDeskGrid2Adater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.bean.SingerNumBean;
+import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
@@ -39,21 +43,21 @@ import phone.ktv.views.CustomTopTitleView;
  */
 public class SongDeskActivity3 extends AppCompatActivity{
 
-    private static final String TAG = "RankingListActivity";
+    private static final String TAG = "SongDeskActivity3";
 
     Context mContext;
 
     private CustomTopTitleView mTopTitleView1;//返回事件
 
-    private ListView mListView;
+    private GridView mGridView;
 
-    private RinkingListAdater mRinkingAdater;
+    private SongDeskGrid2Adater mRinkingAdater;
 
-    private List<MusicPlayBean> musicPlayBeans;
+    private List<SingerNumBean.SingerBean> mSingerNumBeans;
 
-    public static final int RankingListSuccess=100;//排行榜歌曲获取成功
-    public static final int RankingListError=200;//排行榜歌曲获取失败
-    public static final int RankingExpiredToken=300;//Token过期
+    public static final int SongDesk3Success=100;//获取成功
+    public static final int SongDesk3Error=200;//获取失败
+    public static final int SongDeskExpiredToken=300;//Token过期
 
     private SVProgressHUD mSvProgressHUD;
 
@@ -61,27 +65,24 @@ public class SongDeskActivity3 extends AppCompatActivity{
 
     private String mRangId,mRangName;
 
-    private TextView mSongBang;//情歌榜
-    private TextView getmSongBangList;//情歌多少首
-
-    private LinearLayout mQuanbuPlay;//全部播放
+    private TextView mNoData;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
-                case RankingListSuccess://获取成功
+                case SongDesk3Success://获取成功
                     mSvProgressHUD.dismiss();
                     mRinkingAdater.notifyDataSetChanged();
-                    mSongBang.setText(mRangName);
-                    getmSongBangList.setText("/"+musicPlayBeans.size());
+                    mTopTitleView1.setTopText(mRangName);
+                    updateData();
                     break;
 
-                case RankingListError://获取失败
+                case SongDesk3Error://获取失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
 
-                case RankingExpiredToken://Token过期
+                case SongDeskExpiredToken://Token过期
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
@@ -92,7 +93,7 @@ public class SongDeskActivity3 extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ranking_list_activity);
+        setContentView(R.layout.songdesk_more_activity);
 
         initView();
         initLiter();
@@ -111,42 +112,37 @@ public class SongDeskActivity3 extends AppCompatActivity{
     private void getIntentData(){
         Intent intent=getIntent();
         if (intent!=null){
-          mRangId= intent.getStringExtra("rangId");
-          mRangName= intent.getStringExtra("rangName");
-          Logger.i(TAG,"mRangId..."+mRangId+"..mRangName..."+mRangName);
+            mRangId= intent.getStringExtra("id");
+            mRangName= intent.getStringExtra("name");
+            Logger.i(TAG,"id..."+mRangId+"..name..."+mRangName);
+        }
+    }
+
+    private void updateData(){
+        if (mSingerNumBeans!=null&&!mSingerNumBeans.isEmpty()){
+            mNoData.setVisibility(View.GONE);
+        } else {
+            mNoData.setVisibility(View.VISIBLE);
         }
     }
 
     private void initView(){
-        musicPlayBeans=new ArrayList<>();
+        mSingerNumBeans=new ArrayList<>();
 
         mContext= SongDeskActivity3.this;
         mSvProgressHUD=new SVProgressHUD(mContext);
         mSP=new SPUtil(mContext);
 
         mTopTitleView1=findViewById(R.id.customTopTitleView1);
-        mSongBang=findViewById(R.id.song_song110_tvw);
-        getmSongBangList=findViewById(R.id.song1_song111_tvw);
-        mQuanbuPlay=findViewById(R.id.quanbu_llt1);
+        mNoData=findViewById(R.id.no_data_tvw123);
 
-        mListView=findViewById(R.id.list_view_2);
-        mRinkingAdater=new RinkingListAdater(mContext,R.layout.item_ringlist_layout,musicPlayBeans);
-        mListView.setAdapter(mRinkingAdater);
+        mGridView=findViewById(R.id.grid_view_8);
+        mRinkingAdater=new SongDeskGrid2Adater(mContext,R.layout.item_gridicon_image,mSingerNumBeans);
+        mGridView.setAdapter(mRinkingAdater);
     }
 
     private void initLiter(){
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
-        mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
-    }
-
-    /**
-     * 全部播放
-     */
-    private class MyQuanbuPlayOnClick implements View.OnClickListener{
-        @Override
-        public void onClick(View v) {
-
-        }
     }
 
     /**
@@ -162,9 +158,9 @@ public class SongDeskActivity3 extends AppCompatActivity{
         weakHashMap.put("token", token);//token
         weakHashMap.put("page",1+"");//第几页    不填默认1
         weakHashMap.put("limit",10+"");//页码量   不填默认10，最大限度100
-        weakHashMap.put("rangId",mRangId);//歌手id
+        weakHashMap.put("singertypeid",mRangId);//歌手id
 
-        String url = App.getRqstUrl(App.headurl + "song/getRangeSong", weakHashMap);
+        String url = App.getRqstUrl(App.headurl + "song/singer", weakHashMap);
         Logger.i(TAG, "url.." + url);
 
         if (NetUtils.hasNetwork(mContext)) {
@@ -172,25 +168,27 @@ public class SongDeskActivity3 extends AppCompatActivity{
                 @Override
                 public void onFailure(Call call, IOException e) {
                     //返回失败
-                    mHandler.obtainMessage(RankingListError, e.getMessage()).sendToTarget();
+                    mHandler.obtainMessage(SongDesk3Error, e.getMessage()).sendToTarget();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
                     Logger.i(TAG,"s.."+s);
-                    AJson<List<MusicPlayBean>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<MusicPlayBean>>>() {});
+
+                    AJson<List<SingerNumBean.SingerBean>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<SingerNumBean.SingerBean>>>() {});
                     if (aJson!=null){
                         if (aJson.getCode()==0){
-                            mHandler.sendEmptyMessage(RankingListSuccess);
-                            Logger.i(TAG,"aJson..."+aJson.toString());
+                            mHandler.sendEmptyMessage(SongDesk3Success);
+                            Logger.i(TAG,"aJson1..."+aJson.toString());
                             setState(aJson.getData());
                         } else if (aJson.getCode()==500){
-                            mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
+                            mHandler.obtainMessage(SongDeskExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {
-                            mHandler.obtainMessage(RankingListError, aJson.getMsg()).sendToTarget();
+                            mHandler.obtainMessage(SongDesk3Error, aJson.getMsg()).sendToTarget();
                         }
                     }
+
                     if (response.body() != null) {
                         response.body().close();
                     }
@@ -202,10 +200,10 @@ public class SongDeskActivity3 extends AppCompatActivity{
         }
     }
 
-    private void setState(List<MusicPlayBean> itemList){
-        musicPlayBeans.clear();
+    private void setState(List<SingerNumBean.SingerBean> itemList){
+        mSingerNumBeans.clear();
         if (itemList!=null&&!itemList.isEmpty()){
-            musicPlayBeans.addAll(itemList);
+            mSingerNumBeans.addAll(itemList);
         }
     }
 
