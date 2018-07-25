@@ -57,8 +57,8 @@ public class AlreadySearchActivity2 extends AppCompatActivity {
 
     private List<MusicPlayBean> musicPlayBeans;
 
-    public static final int RankingSearchSuccess=100;//搜索歌曲获取成功
-    public static final int RankingSearchError=200;//搜索歌曲获取失败
+    public static final int RankingSearch2Success=100;//搜索歌曲获取成功
+    public static final int RankingSearch2Error=200;//搜索歌曲获取失败
     public static final int RankingExpiredToken=300;//Token过期
 
     private SVProgressHUD mSvProgressHUD;
@@ -71,13 +71,13 @@ public class AlreadySearchActivity2 extends AppCompatActivity {
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
-                case RankingSearchSuccess://搜索成功
+                case RankingSearch2Success://搜索成功
                     mSvProgressHUD.dismiss();
                     mRinkingAdater.notifyDataSetChanged();
                     updateData1();
                     break;
 
-                case RankingSearchError://搜索失败
+                case RankingSearch2Error://搜索失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
@@ -224,7 +224,7 @@ public class AlreadySearchActivity2 extends AppCompatActivity {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     //返回失败
-                    mHandler.obtainMessage(RankingSearchError, e.getMessage()).sendToTarget();
+                    mHandler.obtainMessage(RankingSearch2Error, e.getMessage()).sendToTarget();
                 }
 
                 @Override
@@ -234,13 +234,13 @@ public class AlreadySearchActivity2 extends AppCompatActivity {
                     ResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ResultBean.class);
                     if (aJson!=null){
                         if (aJson.code==0){
-                            mHandler.sendEmptyMessage(RankingSearchSuccess);
+                            mHandler.sendEmptyMessage(RankingSearch2Success);
                             Logger.i(TAG,"aJson1..."+aJson.toString());
                             setStateSongName(aJson.data.list);
                             } else if (aJson.code==500){
                                 mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
                             } else {
-                                mHandler.obtainMessage(RankingSearchError, aJson.msg).sendToTarget();
+                                mHandler.obtainMessage(RankingSearch2Error, aJson.msg).sendToTarget();
                             }
                         }
 
@@ -261,5 +261,4 @@ public class AlreadySearchActivity2 extends AppCompatActivity {
             musicPlayBeans.addAll(itemList);
         }
     }
-
 }
