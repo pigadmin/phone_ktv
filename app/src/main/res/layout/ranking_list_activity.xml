@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content">
 
     <phone.ktv.views.CustomTopTitleView
         android:id="@+id/customTopTitleView1"
         custom:back_text_type="@string/tabTitle3_cat"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <LinearLayout
+        android:id="@+id/llt123_llt"
         android:orientation="horizontal"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:layout_below="@+id/customTopTitleView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/song_song110_tvw"
@@ -58,13 +62,26 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/list_view_2"
-        android:dividerHeight="5dp"
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:id="@+id/sv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_below="@+id/llt123_llt"
+        android:scrollbars="none"
+        ptr:ptrHeaderSubTextColor="@color/black"
+        ptr:ptrHeaderTextColor="@color/black"
+        ptr:ptrMode="both">
 
-</LinearLayout>
+        <phone.ktv.views.MyListView
+            android:id="@+id/list_view_2"
+            android:dividerHeight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+
+</RelativeLayout>

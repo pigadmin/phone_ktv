@@ -12,6 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.handmark.pulltorefresh.library.ILoadingLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,8 +34,10 @@ import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
+import phone.ktv.tootls.TimeUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomTopTitleView;
+import phone.ktv.views.MyListView;
 
 /**
  * (点歌台)通过歌星搜索歌曲的列表  4级
@@ -45,7 +50,9 @@ public class SongDeskActivity4 extends AppCompatActivity{
 
     private CustomTopTitleView mTopTitleView1;//返回事件
 
-    private ListView mListView;
+    private MyListView mListView;
+    private PullToRefreshScrollView mPullToRefresh;
+    private ILoadingLayout mLoadingLayoutProxy;
 
     private RinkingListAdater mRinkingAdater;
 
@@ -66,6 +73,9 @@ public class SongDeskActivity4 extends AppCompatActivity{
 
     private LinearLayout mQuanbuPlay;//全部播放
 
+    private int mLimit = App.Maxlimit;//页码量
+    private int mPage = 1;//第几页
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -75,16 +85,19 @@ public class SongDeskActivity4 extends AppCompatActivity{
                     mSongBang.setText(mRangName);
                     getmSongBangList.setText("/"+musicPlayBeans.size());
                     mTopTitleView1.setTopText(mRangName);
+                    mPullToRefresh.onRefreshComplete();
                     break;
 
                 case SongDesk4Error://获取失败
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    mPullToRefresh.onRefreshComplete();
                     break;
 
                 case SongDesk4ExpiredToken://Token过期
                     mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    mPullToRefresh.onRefreshComplete();
                     break;
             }
         }
@@ -98,6 +111,7 @@ public class SongDeskActivity4 extends AppCompatActivity{
         initView();
         initLiter();
         getIntentData();
+        settingPullRefresh();
     }
 
     @Override
@@ -118,6 +132,21 @@ public class SongDeskActivity4 extends AppCompatActivity{
         }
     }
 
+    /**
+     * PullToRefreshScrollView 属性
+     */
+    private void settingPullRefresh() {
+        mLoadingLayoutProxy = mPullToRefresh.getLoadingLayoutProxy(true, false);
+        mLoadingLayoutProxy.setPullLabel("下拉刷新");
+        mLoadingLayoutProxy.setRefreshingLabel("正在刷新");
+        mLoadingLayoutProxy.setReleaseLabel("松开刷新");
+
+        ILoadingLayout endLoading = mPullToRefresh.getLoadingLayoutProxy(false, true);
+        endLoading.setPullLabel("上拉加载更多");
+        endLoading.setRefreshingLabel("拼命加载中...");
+        endLoading.setReleaseLabel("释放即可加载更多");
+    }
+
     private void initView(){
         musicPlayBeans=new ArrayList<>();
 
@@ -129,6 +158,7 @@ public class SongDeskActivity4 extends AppCompatActivity{
         mSongBang=findViewById(R.id.song_song110_tvw);
         getmSongBangList=findViewById(R.id.song1_song111_tvw);
         mQuanbuPlay=findViewById(R.id.quanbu_llt1);
+        mPullToRefresh = findViewById(R.id.sv);
 
         mListView=findViewById(R.id.list_view_2);
         mRinkingAdater=new RinkingListAdater(mContext,R.layout.item_ringlist_layout,musicPlayBeans);
@@ -138,6 +168,30 @@ public class SongDeskActivity4 extends AppCompatActivity{
     private void initLiter(){
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
+        mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
+    }
+
+    /**
+     * 下拉刷新
+     */
+    private class MyPullToRefresh implements PullToRefreshBase.OnRefreshListener2 {
+        @Override
+        public void onPullDownToRefresh(PullToRefreshBase pullToRefreshBase) {
+            mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
+            mPage=1;
+            musicPlayBeans.clear();
+            getRankingListData();
+        }
+
+        /**
+         * 上拉加载
+         */
+        @Override
+        public void onPullUpToRefresh(PullToRefreshBase pullToRefreshBase) {
+            mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
+            mPage++;
+            getRankingListData();
+        }
     }
 
     /**
@@ -161,8 +215,8 @@ public class SongDeskActivity4 extends AppCompatActivity{
         Logger.i(TAG,"tel.."+tel+"..token.."+token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
-        weakHashMap.put("page",1+"");//第几页    不填默认1
-        weakHashMap.put("limit",10+"");//页码量   不填默认10，最大限度100
+        weakHashMap.put("page", mPage + "");//第几页    不填默认1
+        weakHashMap.put("limit", mLimit + "");//页码量   不填默认10，最大限度100
         weakHashMap.put("singerId",mRangId);//歌手id
 
         String url = App.getRqstUrl(App.headurl + "song", weakHashMap);
@@ -198,6 +252,7 @@ public class SongDeskActivity4 extends AppCompatActivity{
                 }
             });
         } else {
+            mPullToRefresh.onRefreshComplete();
             mSvProgressHUD.dismiss();
             ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
         }
