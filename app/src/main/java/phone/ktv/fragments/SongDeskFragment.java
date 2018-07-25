@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import phone.ktv.R;
+import phone.ktv.activitys.songdesk_activitys.SongDeskActivity2;
 import phone.ktv.activitys.songdesk_activitys.SongDeskjMoreActivity;
 import phone.ktv.adaters.SongDeskGrid1Adater;
 import phone.ktv.app.App;
@@ -148,7 +149,10 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        ListInfo item= list.get(i);
+        if (item!=null){
+            IntentUtils.strIntentString(mContext, SongDeskActivity2.class,"id","name",item.getId(),item.getName());
+        }
     }
 
     private class MyOnClickListenerMore implements View.OnClickListener{

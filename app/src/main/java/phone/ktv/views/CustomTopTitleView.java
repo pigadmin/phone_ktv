@@ -59,4 +59,8 @@ public class CustomTopTitleView extends RelativeLayout {
     public void toBackReturn(OnClickListener listener){
         mSrcLogo.setOnClickListener(listener);
     }
+
+    public void setTopText(String text){
+        mTextTitle.setText(text);
+    }
 }

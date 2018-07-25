@@ -121,7 +121,7 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             ListInfo item= mGridItemList.get(position);
             if (item!=null){
-                IntentUtils.strIntentString(mContext, RankingListActivity.class,"rangId","rangName",item.getId(),item.getName());
+                IntentUtils.strIntentString(mContext, SongDeskActivity2.class,"id","name",item.getId(),item.getName());
             }
         }
     }
