@@ -2,6 +2,7 @@ package phone.ktv.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,13 +13,19 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.activitys.songdesk_activitys.SongDeskActivity2;
 import phone.ktv.activitys.songdesk_activitys.SongDeskjMoreActivity;
@@ -28,70 +35,96 @@ import phone.ktv.bean.AJson;
 import phone.ktv.bean.GridList;
 import phone.ktv.bean.ListInfo;
 import phone.ktv.bgabanner.BGABanner;
-import phone.ktv.req.VolleyReq;
+import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
+import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.NetUtils;
+import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
+import phone.ktv.tootls.ToastUtils;
 
 /**
  * 点歌台(歌曲大类) 1级
  */
-public class SongDeskFragment extends Fragment implements VolleyReq.Api, AdapterView.OnItemClickListener {
+public class SongDeskFragment extends Fragment {
 
     private static final String TAG = "SongDeskFragment";
     View mNewsView;
 
     private Context mContext;
     private BGABanner mBanner;
-    private SPUtil spUtil;
 
-    private TextView mMore15;//点歌台更多
+    private SongDeskGrid1Adater mDeskAdater;
+
+    private GridView mGridView;
+
+    private SPUtil mSP;
+
+    private List<ListInfo> mGridItemList;
+
+    public static final int RankingListSuccess=100;//点歌台分类获取成功
+    public static final int RankingListError=200;//点歌台分类获取失败
+    public static final int RankingExpiredToken=300;//Token过期
+
+    private SVProgressHUD mSvProgressHUD;
+
+    private TextView mMore;//更多
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case RankingListSuccess://获取成功
+                    mSvProgressHUD.dismiss();
+                    mDeskAdater.notifyDataSetChanged();
+                    break;
+
+                case RankingListError://获取失败
+                    mSvProgressHUD.dismiss();
+                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    break;
+
+                case RankingExpiredToken://Token过期
+                    mSvProgressHUD.dismiss();
+                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    break;
+            }
+        }
+    };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mNewsView = inflater.inflate(R.layout.songdesk_fragment_layout, null);
-        mContext = getActivity();
-        req = new VolleyReq(mContext, this);
-        spUtil = new SPUtil(mContext);
+
+        mContext=getActivity();
+        mSvProgressHUD=new SVProgressHUD(mContext);
+        mSP=new SPUtil(mContext);
+
         initView();
         initLiter();
-
-        initGrid();
         return mNewsView;
     }
 
-    private VolleyReq req;
-    private String updategrid;
+    private void initView(){
+        mGridItemList=new ArrayList<>();
 
-    private void initGrid() {
-
-        updategrid = App.headurl + "song/getSongType?telPhone=" + spUtil.getString("telPhone", "")
-                + "&token=" + spUtil.getString("token", "");
-        req.get(updategrid);
-    }
-
-    private GridView songgrid;
-    private SongDeskGrid1Adater playAdater;
-
-    private void initView() {
-        mMore15 = mNewsView.findViewById(R.id.more15);
+        mMore= mNewsView.findViewById(R.id.more15);
 
         mBanner = mNewsView.findViewById(R.id.banner_main_accordion);
         mBanner.measure(0, 0);
-        songgrid = mNewsView.findViewById(R.id.songgrid);
-        songgrid.setOnItemClickListener(this);
 
-        playAdater = new SongDeskGrid1Adater(mContext, R.layout.item_gridicon_image, list);
-        songgrid.setAdapter(playAdater);
+        mGridView=mNewsView.findViewById(R.id.grid_view_1231);
+        mDeskAdater=new SongDeskGrid1Adater(mContext,R.layout.item_gridicon_image,mGridItemList);
+        mGridView.setAdapter(mDeskAdater);
     }
 
-    private void initLiter() {
-        List<Integer> int1 = new ArrayList<>();
+    private void initLiter(){
+        List<Integer> int1=new ArrayList<>();
         int1.add(R.mipmap.lu_1);
         int1.add(R.mipmap.lu_2);
         int1.add(R.mipmap.lu_3);
 
-        List<String> int2 = new ArrayList<>();
+        List<String> int2=new ArrayList<>();
         int2.add("图1");
         int2.add("图2");
         int2.add("图3");
@@ -117,41 +150,17 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
             }
         });
 
-        mMore15.setOnClickListener(new MyOnClickListenerMore());//更多
+        mMore.setOnClickListener(new MyOnClickListenerMore());//更多
+        mGridView.setOnItemClickListener(new MyOnItemClickListener());
     }
 
-    List<ListInfo> list = new ArrayList<>();
-
-    @Override
-    public void finish(String tag, String json) {
-        try {
-            System.out.println(json);
-            if (tag.equals(updategrid)) {
-                GridList gridList = App.jsonToObject(json, new TypeToken<AJson<GridList>>() {
-                }).getData();
-                if (gridList != null) {
-                    //                list = gridList.getList();
-                    list.addAll(gridList.getList());
-                    System.out.println(list.size());
-                    playAdater.notifyDataSetChanged();
-                }
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ListInfo item= mGridItemList.get(position);
+            if (item!=null){
+                IntentUtils.strIntentString(mContext, SongDeskActivity2.class,"id","name",item.getId(),item.getName());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void error(String tag, String json) {
-
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        ListInfo item= list.get(i);
-        if (item!=null){
-            IntentUtils.strIntentString(mContext, SongDeskActivity2.class,"id","name",item.getId(),item.getName());
         }
     }
 
@@ -159,6 +168,83 @@ public class SongDeskFragment extends Fragment implements VolleyReq.Api, Adapter
         @Override
         public void onClick(View v) {
             IntentUtils.thisToOther(mContext, SongDeskjMoreActivity.class);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getRankingListData();
+    }
+
+    private void setState(List<ListInfo> itemList){
+        mGridItemList.clear();
+        if (itemList!=null&&!itemList.isEmpty()){
+            if (itemList.size()>9){
+                for (int i=0;i<9;i++){
+                    ListInfo item= itemList.get(i);
+                    mGridItemList.add(item);
+                }
+            } else {
+                mGridItemList.addAll(itemList);
+            }
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    /**
+     * 获取排行榜分类
+     */
+    private void getRankingListData(){
+        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
+        WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
+        String tel= mSP.getString("telPhone",null);//tel
+        String token= mSP.getString("token",null);//token
+        Logger.i(TAG,"tel.."+tel+"..token.."+token);
+        weakHashMap.put("telPhone", tel);//手机号
+        weakHashMap.put("token", token);//token
+
+        String url = App.getRqstUrl(App.headurl + "song/getSongType", weakHashMap);
+        Logger.i(TAG, "url.." + url);
+
+        if (NetUtils.hasNetwork(mContext)) {
+            OkhttpUtils.doStart(url, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    //返回失败
+                    mHandler.obtainMessage(RankingListError, e.getMessage()).sendToTarget();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string();
+                    Logger.i(TAG,"s.."+s);
+
+                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                    if (aJson!=null){
+                        if (aJson.getCode()==0){
+                            GridList gridList = App.jsonToObject(s, new TypeToken<AJson<GridList>>() {}).getData();
+                            mHandler.sendEmptyMessage(RankingListSuccess);
+                            Logger.i(TAG,"aJson1..."+aJson.toString());
+                            setState(gridList.getList());
+                        } else if (aJson.getCode()==500){
+                            mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
+                        } else {
+                            mHandler.obtainMessage(RankingListError, aJson.getMsg()).sendToTarget();
+                        }
+                    }
+                    if (response.body() != null) {
+                        response.body().close();
+                    }
+                }
+            });
+        } else {
+            mSvProgressHUD.dismiss();
+            ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
         }
     }
 }

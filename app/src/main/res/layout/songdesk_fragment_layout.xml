@@ -48,7 +48,7 @@
     </RelativeLayout>
 
     <GridView
-        android:id="@+id/songgrid"
+        android:id="@+id/grid_view_1231"
         android:numColumns="3"
         android:verticalSpacing="15dp"
         android:layout_marginLeft="15dp"
