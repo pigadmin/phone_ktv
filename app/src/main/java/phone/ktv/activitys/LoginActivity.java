@@ -23,14 +23,12 @@ import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.UserBean;
-import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
-import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomEditView;
 import phone.ktv.views.CustomTopTitleView;
 

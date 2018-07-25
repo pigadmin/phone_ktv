@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
-
 import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import phone.ktv.MainActivity;
@@ -20,7 +17,6 @@ import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.WelcomAd;
-import phone.ktv.req.OkReq;
 import phone.ktv.req.VolleyReq;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;

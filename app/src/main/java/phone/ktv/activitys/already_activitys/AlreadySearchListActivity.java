@@ -32,8 +32,8 @@ import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.adaters.SingerPlayAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
-import phone.ktv.bean.MusicNumBean;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.bean.ResultBean;
 import phone.ktv.bean.SingerNumBean;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
@@ -50,7 +50,7 @@ import phone.ktv.tootls.ToastUtils;
  */
 public class AlreadySearchListActivity extends AppCompatActivity {
 
-    private static final String TAG = "AlreadySearchActivity";
+    private static final String TAG = "AlreadySearchListActivity";
 
     Context mContext;
 
@@ -186,7 +186,6 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     private class MyOnItemClickListener1 implements AdapterView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ToastUtils.showLongToast(mContext,"1");
         }
     }
 
@@ -310,17 +309,16 @@ public class AlreadySearchListActivity extends AppCompatActivity {
                     String s = response.body().string();
                     Logger.i(TAG,"s.."+s);
                     if (isState){
-                        AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                        ResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ResultBean.class);
                         if (aJson!=null){
-                            if (aJson.getCode()==0){
-                                MusicNumBean numBean = App.jsonToObject(s, new TypeToken<AJson<MusicNumBean>>() {}).getData();
+                            if (aJson.code==0){
                                 mHandler.sendEmptyMessage(RankingSearchSuccess);
                                 Logger.i(TAG,"aJson1..."+aJson.toString());
-                                setStateSongName(numBean.list);
-                            } else if (aJson.getCode()==500){
-                                mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
+                                setStateSongName(aJson.data.list);
+                            } else if (aJson.code==500){
+                                mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
                             } else {
-                                mHandler.obtainMessage(RankingSearchError, aJson.getMsg()).sendToTarget();
+                                mHandler.obtainMessage(RankingSearchError, aJson.msg).sendToTarget();
                             }
                         }
                     } else {

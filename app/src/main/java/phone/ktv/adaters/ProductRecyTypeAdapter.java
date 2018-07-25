@@ -7,7 +7,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import phone.ktv.R;
-import phone.ktv.bean.ProductRecyBean;
 import phone.ktv.bean.ProductRecyTypeBean;
 
 public class ProductRecyTypeAdapter extends BAdapter<ProductRecyTypeBean> {

@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,9 +26,8 @@ import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.app.App;
-import phone.ktv.bean.AJson;
-import phone.ktv.bean.MusicNumBean;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.bean.ResultBean;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
@@ -43,7 +41,7 @@ import phone.ktv.tootls.ToastUtils;
  */
 public class AlreadySearchListActivity2 extends AppCompatActivity {
 
-    private static final String TAG = "AlreadySearchActivity";
+    private static final String TAG = "AlreadySearchListActivity2";
 
     Context mContext;
 
@@ -233,21 +231,18 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
                     Logger.i(TAG,"s.."+s);
-
-                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                    ResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ResultBean.class);
                     if (aJson!=null){
-                        if (aJson.getCode()==0){
-                            MusicNumBean numBean = App.jsonToObject(s, new TypeToken<AJson<MusicNumBean>>() {}).getData();
+                        if (aJson.code==0){
                             mHandler.sendEmptyMessage(RankingSearch2Success);
                             Logger.i(TAG,"aJson1..."+aJson.toString());
-                            setStateSongName(numBean.list);
-                        } else if (aJson.getCode()==500){
-                            mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
+                            setStateSongName(aJson.data.list);
+                        } else if (aJson.code==500){
+                            mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
                         } else {
-                            mHandler.obtainMessage(RankingSearch2Error, aJson.getMsg()).sendToTarget();
+                            mHandler.obtainMessage(RankingSearch2Error, aJson.msg).sendToTarget();
                         }
                     }
-
                     if (response.body() != null) {
                         response.body().close();
                     }

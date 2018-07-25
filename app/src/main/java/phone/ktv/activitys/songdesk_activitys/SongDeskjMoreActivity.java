@@ -21,7 +21,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import phone.ktv.R;
-import phone.ktv.activitys.rank_activitys.RankingListActivity;
 import phone.ktv.adaters.SongDeskGrid1Adater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;

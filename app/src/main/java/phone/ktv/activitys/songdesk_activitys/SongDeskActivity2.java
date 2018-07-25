@@ -26,6 +26,7 @@ import phone.ktv.R;
 import phone.ktv.adaters.SongDeskGrid2Adater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
+import phone.ktv.bean.ResultBean;
 import phone.ktv.bean.SingerNumBean;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
@@ -184,7 +185,6 @@ public class SongDeskActivity2 extends AppCompatActivity{
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
                     Logger.i(TAG,"s.."+s);
-
                     AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
                     if (aJson!=null){
                         if (aJson.getCode()==0){
@@ -198,7 +198,6 @@ public class SongDeskActivity2 extends AppCompatActivity{
                             mHandler.obtainMessage(SongDesk2Error, aJson.getMsg()).sendToTarget();
                         }
                     }
-
                     if (response.body() != null) {
                         response.body().close();
                     }

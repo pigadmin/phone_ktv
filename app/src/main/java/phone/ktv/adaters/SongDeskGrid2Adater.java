@@ -9,7 +9,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import phone.ktv.R;
-import phone.ktv.bean.ListInfo;
 import phone.ktv.bean.SingerNumBean;
 import phone.ktv.tootls.PicassoUtil;
 

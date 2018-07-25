@@ -1,12 +1,10 @@
 package phone.ktv.activitys;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.TextView;
 
 import phone.ktv.R;
 import phone.ktv.views.CustomTopTitleView;
