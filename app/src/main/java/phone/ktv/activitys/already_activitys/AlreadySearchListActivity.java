@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -31,8 +30,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import phone.ktv.R;
-import phone.ktv.adaters.RinkingListAdater;
-import phone.ktv.adaters.SingerPlayAdater;
+import phone.ktv.adaters.AlreadySearchAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.MusicPlayBean;
@@ -66,12 +64,10 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     private TextView mSearch;//搜索按钮
 
     private MyListView mListView1;
-    private MyListView mListView2;
     private PullToRefreshScrollView mPullToRefresh;
     private ILoadingLayout mLoadingLayoutProxy;
 
-    private RinkingListAdater mRinkingAdater;
-    private SingerPlayAdater mSingerAdater;
+    private AlreadySearchAdater mAlreadyAdater;
 
     private List<MusicPlayBean> musicPlayBeans;
     private List<SingerNumBean.SingerBean> mnumBeanList;
@@ -95,10 +91,8 @@ public class AlreadySearchListActivity extends AppCompatActivity {
             switch (msg.what) {
                 case RankingSearchSuccess://搜索成功
                     if (isState){
-                        mRinkingAdater.notifyDataSetChanged();
                         updateData1();
                     } else {
-                        mSingerAdater.notifyDataSetChanged();
                         updateData2();
                     }
                     break;
@@ -143,12 +137,9 @@ public class AlreadySearchListActivity extends AppCompatActivity {
         mPullToRefresh = findViewById(R.id.sv);
 
         mListView1 = findViewById(R.id.list112_view);
-        mRinkingAdater=new RinkingListAdater(mContext,R.layout.item_ringlist_layout,musicPlayBeans);
-        mListView1.setAdapter(mRinkingAdater);
 
-        mListView2 = findViewById(R.id.list113_view);
-        mSingerAdater=new SingerPlayAdater(mContext,R.layout.singer_play_item, mnumBeanList);
-        mListView2.setAdapter(mSingerAdater);
+        mAlreadyAdater=new AlreadySearchAdater(mContext,musicPlayBeans,mnumBeanList,isState);
+        mListView1.setAdapter(mAlreadyAdater);
     }
 
     private void initLiter() {
@@ -157,7 +148,6 @@ public class AlreadySearchListActivity extends AppCompatActivity {
         mVoice.setOnClickListener(new MyOnClickListenerVoice());
         mSearch.setOnClickListener(new MyOnClickListenerSearch());
         mListView1.setOnItemClickListener(new MyOnItemClickListener1());
-        mListView2.setOnItemClickListener(new MyOnItemClickListener2());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
     }
 
@@ -186,6 +176,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
             mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
             mPage=1;
             musicPlayBeans.clear();
+            mnumBeanList.clear();
             getSongNameData();
         }
 
@@ -215,6 +206,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     }
 
     private void updateData1(){
+        mAlreadyAdater.notifyDataSetChanged();
         if (musicPlayBeans!=null&&!musicPlayBeans.isEmpty()){
             mNoData.setVisibility(View.GONE);
         } else {
@@ -223,11 +215,13 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     }
 
     private void updateData2(){
+        mAlreadyAdater.notifyDataSetChanged();
         if (mnumBeanList!=null&&!mnumBeanList.isEmpty()){
             mNoData.setVisibility(View.GONE);
         } else {
             mNoData.setVisibility(View.VISIBLE);
         }
+
     }
 
     /**
@@ -236,17 +230,12 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     private class MyOnItemClickListener1 implements AdapterView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        }
-    }
+            if (isState){
 
-    /**
-     * item事件
-     */
-    private class MyOnItemClickListener2 implements AdapterView.OnItemClickListener{
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            SingerNumBean.SingerBean bean = mnumBeanList.get(position);
-            IntentUtils.strIntentString(mContext, AlreadySearchListActivity2.class,"id","name",bean.id,bean.name);
+            } else {
+                SingerNumBean.SingerBean bean = mnumBeanList.get(position);
+                IntentUtils.strIntentString(mContext, AlreadySearchListActivity2.class,"id","name",bean.id,bean.name);
+            }
         }
     }
 
@@ -297,6 +286,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mSongType.setText(song1.getText().toString().trim());
                 isState=true;
+                mAlreadyAdater.updaState(isState);
                 window.dismiss();
             }
         });
@@ -306,6 +296,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mSongType.setText(song2.getText().toString().trim());
                 isState=false;
+                mAlreadyAdater.updaState(isState);
                 window.dismiss();
             }
         });
