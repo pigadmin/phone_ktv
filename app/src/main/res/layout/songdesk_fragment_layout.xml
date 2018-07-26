@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <phone.ktv.bgabanner.BGABanner
         android:id="@+id/banner_main_accordion"
@@ -32,30 +32,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tabTitle1_cat"
+            android:textColor="@color/white"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="@color/white" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/more15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="15sp"
             android:text="@string/more"
-            android:textStyle="bold"
-            android:textColor="@drawable/selector_btn_more12" />
+            android:textColor="@drawable/selector_btn_more12"
+            android:textSize="15sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <GridView
         android:id="@+id/grid_view_1231"
-        android:numColumns="3"
-        android:verticalSpacing="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:horizontalSpacing="15dp"
         android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:horizontalSpacing="15dp"
+        android:numColumns="3"
+        android:verticalSpacing="15dp" />
 
 </LinearLayout>

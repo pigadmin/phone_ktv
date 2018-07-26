@@ -13,16 +13,16 @@ import phone.ktv.fragments.SongDeskFragment;
 
 public class TabAdater extends FragmentPagerAdapter {
 
-    public static final int                           oneTab   = 0;
-    public static final int                           twoTab   = 1;
-    public static final int                           threeTab   = 2;
+    public static final int oneTab = 0;
+    public static final int twoTab = 1;
+    public static final int threeTab = 2;
     public static Map<Integer, Fragment> cahceTab = new HashMap<>();
 
     private String tabTitle[];
 
-    public TabAdater(FragmentManager fm,String taTitle[]) {
+    public TabAdater(FragmentManager fm, String taTitle[]) {
         super(fm);
-        this.tabTitle=taTitle;
+        this.tabTitle = taTitle;
     }
 
     @Override

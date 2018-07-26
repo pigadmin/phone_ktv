@@ -29,13 +29,13 @@ public class SetUpActivity extends AppCompatActivity {
         initLiter();
     }
 
-    private void initView(){
-        mContext=SetUpActivity.this;
+    private void initView() {
+        mContext = SetUpActivity.this;
 
-        mTopTitleView1=findViewById(R.id.customTopTitleView1);
+        mTopTitleView1 = findViewById(R.id.customTopTitleView1);
     }
 
-    private void initLiter(){
+    private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
 
     }
@@ -43,7 +43,7 @@ public class SetUpActivity extends AppCompatActivity {
     /**
      * 返回事件
      */
-    public class MyOnClickBackReturn implements View.OnClickListener{
+    public class MyOnClickBackReturn implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             finish();

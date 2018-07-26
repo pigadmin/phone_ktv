@@ -36,7 +36,7 @@ public class CustomTextView extends LinearLayout {
         View textView = LayoutInflater.from(context).inflate(R.layout.custom_textview, this);
 
         mSrcLogo = textView.findViewById(R.id.src_logo_ivw);
-        mTextTitle= textView.findViewById(R.id.text_title_tvw);
+        mTextTitle = textView.findViewById(R.id.text_title_tvw);
         mNumFirst = textView.findViewById(R.id.num_first_tvw);
     }
 
@@ -49,13 +49,13 @@ public class CustomTextView extends LinearLayout {
         String firstString = typedArray.getString(R.styleable.CustomTextView_num_first_string);//多少首动态设置文字
 
         typedArray.recycle();
-        setDefinedView(srclog, titleType,firstState,firstString);
+        setDefinedView(srclog, titleType, firstState, firstString);
     }
 
-    private void setDefinedView(int srclog,String titleType, boolean firstState,String firstString) {
+    private void setDefinedView(int srclog, String titleType, boolean firstState, String firstString) {
         mSrcLogo.setImageResource(srclog);
         mTextTitle.setText(titleType);
-        mNumFirst.setVisibility(firstState?View.VISIBLE:View.GONE);
+        mNumFirst.setVisibility(firstState ? View.VISIBLE : View.GONE);
         mNumFirst.setText(firstString);
     }
 }

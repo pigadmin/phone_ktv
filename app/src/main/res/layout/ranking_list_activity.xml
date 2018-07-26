@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    xmlns:ptr="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content">
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <phone.ktv.views.CustomTopTitleView
         android:id="@+id/customTopTitleView1"
-        custom:back_text_type="@string/tabTitle3_cat"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        custom:back_text_type="@string/tabTitle3_cat" />
 
     <LinearLayout
         android:id="@+id/llt123_llt"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_below="@+id/customTopTitleView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/customTopTitleView1"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/song_song110_tvw"
             android:layout_width="wrap_content"
-            android:text="悲伤情歌榜"
-            android:textSize="18sp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
-            android:textStyle="bold"
+            android:text="悲伤情歌榜"
             android:textColor="@color/white"
-            android:layout_height="wrap_content" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/song1_song111_tvw"
             android:layout_width="wrap_content"
-            android:text="/100首"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/white"
-            android:layout_height="wrap_content" />
+            android:text="/100首"
+            android:textColor="@color/white" />
 
         <LinearLayout
             android:id="@+id/quanbu_llt1"
-            android:orientation="horizontal"
-            android:layout_marginRight="25dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:src="@drawable/select_play"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/select_play" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="全部播放"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:layout_height="wrap_content" />
+                android:text="全部播放"
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </LinearLayout>
@@ -68,17 +68,17 @@
         android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/llt123_llt"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:layout_below="@+id/llt123_llt"
         android:scrollbars="none"
         ptr:ptrMode="both">
 
         <phone.ktv.views.MyListView
             android:id="@+id/list_view_2"
-            android:dividerHeight="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:dividerHeight="5dp" />
 
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 

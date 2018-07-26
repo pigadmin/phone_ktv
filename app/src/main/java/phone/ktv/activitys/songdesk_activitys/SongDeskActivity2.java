@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.reflect.TypeToken;
@@ -24,11 +25,14 @@ import java.util.WeakHashMap;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import phone.ktv.MainActivity;
 import phone.ktv.R;
+import phone.ktv.activitys.LoginActivity;
 import phone.ktv.adaters.SongDeskGrid2Adater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.SingerNumBean;
+import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
@@ -37,13 +41,14 @@ import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.TimeUtils;
 import phone.ktv.tootls.ToastUtils;
+import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomTopTitleView;
 import phone.ktv.views.MyGridView;
 
 /**
  * 歌星分类(点歌台) (大陆男歌星,内地女歌星,港台女歌星,国语合唱)  2级
  */
-public class SongDeskActivity2 extends AppCompatActivity{
+public class SongDeskActivity2 extends AppCompatActivity {
 
     private static final String TAG = "SongDeskActivity2";
 
@@ -59,15 +64,15 @@ public class SongDeskActivity2 extends AppCompatActivity{
 
     private List<SingerNumBean.SingerBean> mSingerNumBeans;
 
-    public static final int SongDesk2Success=100;//获取成功
-    public static final int SongDesk2Error=200;//获取失败
-    public static final int SongDeskExpiredToken=300;//Token过期
+    public static final int SongDesk2Success = 100;//获取成功
+    public static final int SongDesk2Error = 200;//获取失败
+    public static final int SongDeskExpiredToken = 300;//Token过期
 
     private SVProgressHUD mSvProgressHUD;
 
     private SPUtil mSP;
 
-    private String mRangId,mRangName;
+    private String mRangId, mRangName;
 
     private TextView mNoData;
 
@@ -84,11 +89,12 @@ public class SongDeskActivity2 extends AppCompatActivity{
                     break;
 
                 case SongDesk2Error://获取失败
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
 
                 case SongDeskExpiredToken://Token过期
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
+                    setTokenState();
                     break;
             }
             mSvProgressHUD.dismiss();
@@ -115,17 +121,17 @@ public class SongDeskActivity2 extends AppCompatActivity{
     /**
      * Bundle传值
      */
-    private void getIntentData(){
-        Intent intent=getIntent();
-        if (intent!=null){
-          mRangId= intent.getStringExtra("id");
-          mRangName= intent.getStringExtra("name");
-          Logger.i(TAG,"id..."+mRangId+"..name..."+mRangName);
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            mRangId = intent.getStringExtra("id");
+            mRangName = intent.getStringExtra("name");
+            Logger.i(TAG, "id..." + mRangId + "..name..." + mRangName);
         }
     }
 
-    private void updateData(){
-        if (mSingerNumBeans!=null&&!mSingerNumBeans.isEmpty()){
+    private void updateData() {
+        if (mSingerNumBeans != null && !mSingerNumBeans.isEmpty()) {
             mNoData.setVisibility(View.GONE);
         } else {
             mNoData.setVisibility(View.VISIBLE);
@@ -148,36 +154,36 @@ public class SongDeskActivity2 extends AppCompatActivity{
         endLoading.setReleaseLabel("释放即可加载更多");
     }
 
-    private void initView(){
-        mSingerNumBeans=new ArrayList<>();
+    private void initView() {
+        mSingerNumBeans = new ArrayList<>();
 
-        mContext= SongDeskActivity2.this;
-        mSvProgressHUD=new SVProgressHUD(mContext);
-        mSP=new SPUtil(mContext);
+        mContext = SongDeskActivity2.this;
+        mSvProgressHUD = new SVProgressHUD(mContext);
+        mSP = new SPUtil(mContext);
 
-        mTopTitleView1=findViewById(R.id.customTopTitleView1);
+        mTopTitleView1 = findViewById(R.id.customTopTitleView1);
         mPullToRefresh = findViewById(R.id.sv);
-        mNoData=findViewById(R.id.no_data_tvw123);
-        mGridView=findViewById(R.id.grid_view_8);
-        mRinkingAdater=new SongDeskGrid2Adater(mContext,R.layout.item_gridicon_image,mSingerNumBeans);
+        mNoData = findViewById(R.id.no_data_tvw123);
+        mGridView = findViewById(R.id.grid_view_8);
+        mRinkingAdater = new SongDeskGrid2Adater(mContext, R.layout.item_gridicon_image, mSingerNumBeans);
         mGridView.setAdapter(mRinkingAdater);
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         getRankingListData();
     }
 
-    private void initLiter(){
+    private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mGridView.setOnItemClickListener(new MyOnItemClickListener());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
     }
 
-    private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            SingerNumBean.SingerBean item= mSingerNumBeans.get(position);
-            if (item!=null){
-                IntentUtils.strIntentString(mContext, SongDeskActivity3.class,"id","name",item.id,item.name);
+            SingerNumBean.SingerBean item = mSingerNumBeans.get(position);
+            if (item != null) {
+                IntentUtils.strIntentString(mContext, SongDeskActivity3.class, "id", "name", item.id, item.name);
             }
         }
     }
@@ -189,7 +195,7 @@ public class SongDeskActivity2 extends AppCompatActivity{
         @Override
         public void onPullDownToRefresh(PullToRefreshBase pullToRefreshBase) {
             mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
-            mPage=1;
+            mPage = 1;
             mSingerNumBeans.clear();
             getRankingListData();
         }
@@ -208,16 +214,16 @@ public class SongDeskActivity2 extends AppCompatActivity{
     /**
      * 排行榜获取歌曲
      */
-    private void getRankingListData(){
+    private void getRankingListData() {
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
-        String tel= mSP.getString("telPhone",null);//tel
-        String token= mSP.getString("token",null);//token
-        Logger.i(TAG,"tel.."+tel+"..token.."+token);
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        Logger.i(TAG, "tel.." + tel + "..token.." + token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
         weakHashMap.put("page", mPage + "");//第几页    不填默认1
         weakHashMap.put("limit", mLimit + "");//页码量   不填默认10，最大限度100
-        weakHashMap.put("songtypeid",mRangId);//歌手id
+        weakHashMap.put("songtypeid", mRangId);//歌手id
 
         String url = App.getRqstUrl(App.headurl + "song/getsongSingerType", weakHashMap);
         Logger.i(TAG, "url.." + url);
@@ -233,15 +239,16 @@ public class SongDeskActivity2 extends AppCompatActivity{
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"s.."+s);
+                    Logger.i(TAG, "s.." + s);
                     AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                    if (aJson!=null){
-                        if (aJson.getCode()==0){
-                            SingerNumBean numBean = App.jsonToObject(s, new TypeToken<AJson<SingerNumBean>>() {}).getData();
+                    if (aJson != null) {
+                        if (aJson.getCode() == 0) {
+                            SingerNumBean numBean = App.jsonToObject(s, new TypeToken<AJson<SingerNumBean>>() {
+                            }).getData();
                             mHandler.sendEmptyMessage(SongDesk2Success);
-                            Logger.i(TAG,"aJson1..."+aJson.toString());
+                            Logger.i(TAG, "aJson1..." + aJson.toString());
                             setState(numBean.list);
-                        } else if (aJson.getCode()==500){
+                        } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(SongDeskExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {
                             mHandler.obtainMessage(SongDesk2Error, aJson.getMsg()).sendToTarget();
@@ -255,12 +262,12 @@ public class SongDeskActivity2 extends AppCompatActivity{
         } else {
             mPullToRefresh.onRefreshComplete();
             mSvProgressHUD.dismiss();
-            ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
 
-    private void setState(List<SingerNumBean.SingerBean> itemList){
-        if (itemList!=null&&!itemList.isEmpty()){
+    private void setState(List<SingerNumBean.SingerBean> itemList) {
+        if (itemList != null && !itemList.isEmpty()) {
             mSingerNumBeans.addAll(itemList);
         }
     }
@@ -268,7 +275,7 @@ public class SongDeskActivity2 extends AppCompatActivity{
     /**
      * 返回事件
      */
-    public class MyOnClickBackReturn implements View.OnClickListener{
+    public class MyOnClickBackReturn implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             finish();
@@ -281,5 +288,16 @@ public class SongDeskActivity2 extends AppCompatActivity{
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void setTokenState() {
+        final BtmDialog dialog = new BtmDialog(mContext, "温馨提示", "您的身份已过期,请重新登录");
+        AlertDialogHelper.BtmDialogDerive2(dialog, true, false, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.thisToOther(mContext, LoginActivity.class);
+                finish();
+            }
+        });
     }
 }

@@ -42,7 +42,7 @@ import phone.ktv.views.MyGridView;
 /**
  * 歌星列表(点歌台) (薛之谦,许嵩,刘德华)  3级
  */
-public class SongDeskActivity3 extends AppCompatActivity{
+public class SongDeskActivity3 extends AppCompatActivity {
 
     private static final String TAG = "SongDeskActivity3";
 
@@ -58,15 +58,15 @@ public class SongDeskActivity3 extends AppCompatActivity{
 
     private List<SingerNumBean.SingerBean> mSingerNumBeans;
 
-    public static final int SongDesk3Success=100;//获取成功
-    public static final int SongDesk3Error=200;//获取失败
-    public static final int SongDeskExpiredToken=300;//Token过期
+    public static final int SongDesk3Success = 100;//获取成功
+    public static final int SongDesk3Error = 200;//获取失败
+    public static final int SongDeskExpiredToken = 300;//Token过期
 
     private SVProgressHUD mSvProgressHUD;
 
     private SPUtil mSP;
 
-    private String mRangId,mRangName;
+    private String mRangId, mRangName;
 
     private TextView mNoData;
 
@@ -83,11 +83,11 @@ public class SongDeskActivity3 extends AppCompatActivity{
                     break;
 
                 case SongDesk3Error://获取失败
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
 
                 case SongDeskExpiredToken://Token过期
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
             }
             mSvProgressHUD.dismiss();
@@ -114,17 +114,17 @@ public class SongDeskActivity3 extends AppCompatActivity{
     /**
      * Bundle传值
      */
-    private void getIntentData(){
-        Intent intent=getIntent();
-        if (intent!=null){
-            mRangId= intent.getStringExtra("id");
-            mRangName= intent.getStringExtra("name");
-            Logger.i(TAG,"id..."+mRangId+"..name..."+mRangName);
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            mRangId = intent.getStringExtra("id");
+            mRangName = intent.getStringExtra("name");
+            Logger.i(TAG, "id..." + mRangId + "..name..." + mRangName);
         }
     }
 
-    private void updateData(){
-        if (mSingerNumBeans!=null&&!mSingerNumBeans.isEmpty()){
+    private void updateData() {
+        if (mSingerNumBeans != null && !mSingerNumBeans.isEmpty()) {
             mNoData.setVisibility(View.GONE);
         } else {
             mNoData.setVisibility(View.VISIBLE);
@@ -147,26 +147,26 @@ public class SongDeskActivity3 extends AppCompatActivity{
         endLoading.setReleaseLabel("释放即可加载更多");
     }
 
-    private void initView(){
-        mSingerNumBeans=new ArrayList<>();
+    private void initView() {
+        mSingerNumBeans = new ArrayList<>();
 
-        mContext= SongDeskActivity3.this;
-        mSvProgressHUD=new SVProgressHUD(mContext);
-        mSP=new SPUtil(mContext);
+        mContext = SongDeskActivity3.this;
+        mSvProgressHUD = new SVProgressHUD(mContext);
+        mSP = new SPUtil(mContext);
 
-        mTopTitleView1=findViewById(R.id.customTopTitleView1);
+        mTopTitleView1 = findViewById(R.id.customTopTitleView1);
         mPullToRefresh = findViewById(R.id.sv);
-        mNoData=findViewById(R.id.no_data_tvw123);
+        mNoData = findViewById(R.id.no_data_tvw123);
 
-        mGridView=findViewById(R.id.grid_view_8);
-        mRinkingAdater=new SongDeskGrid2Adater(mContext,R.layout.item_gridicon_image,mSingerNumBeans);
+        mGridView = findViewById(R.id.grid_view_8);
+        mRinkingAdater = new SongDeskGrid2Adater(mContext, R.layout.item_gridicon_image, mSingerNumBeans);
         mGridView.setAdapter(mRinkingAdater);
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         getRankingListData();
     }
 
-    private void initLiter(){
+    private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mGridView.setOnItemClickListener(new MyOnItemClickListener());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
@@ -179,7 +179,7 @@ public class SongDeskActivity3 extends AppCompatActivity{
         @Override
         public void onPullDownToRefresh(PullToRefreshBase pullToRefreshBase) {
             mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
-            mPage=1;
+            mPage = 1;
             mSingerNumBeans.clear();
             getRankingListData();
         }
@@ -195,12 +195,12 @@ public class SongDeskActivity3 extends AppCompatActivity{
         }
     }
 
-    private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            SingerNumBean.SingerBean item= mSingerNumBeans.get(position);
-            if (item!=null){
-                IntentUtils.strIntentString(mContext, SongDeskActivity4.class,"id","name",item.id,item.name);
+            SingerNumBean.SingerBean item = mSingerNumBeans.get(position);
+            if (item != null) {
+                IntentUtils.strIntentString(mContext, SongDeskActivity4.class, "id", "name", item.id, item.name);
             }
         }
     }
@@ -208,16 +208,16 @@ public class SongDeskActivity3 extends AppCompatActivity{
     /**
      * 排行榜获取歌曲
      */
-    private void getRankingListData(){
+    private void getRankingListData() {
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
-        String tel= mSP.getString("telPhone",null);//tel
-        String token= mSP.getString("token",null);//token
-        Logger.i(TAG,"tel.."+tel+"..token.."+token);
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        Logger.i(TAG, "tel.." + tel + "..token.." + token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
         weakHashMap.put("page", mPage + "");//第几页    不填默认1
         weakHashMap.put("limit", mLimit + "");//页码量   不填默认10，最大限度100
-        weakHashMap.put("singertypeid",mRangId);//歌手id
+        weakHashMap.put("singertypeid", mRangId);//歌手id
 
         String url = App.getRqstUrl(App.headurl + "song/singer", weakHashMap);
         Logger.i(TAG, "url.." + url);
@@ -233,15 +233,16 @@ public class SongDeskActivity3 extends AppCompatActivity{
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"s.."+s);
+                    Logger.i(TAG, "s.." + s);
 
-                    AJson<List<SingerNumBean.SingerBean>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<SingerNumBean.SingerBean>>>() {});
-                    if (aJson!=null){
-                        if (aJson.getCode()==0){
+                    AJson<List<SingerNumBean.SingerBean>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<SingerNumBean.SingerBean>>>() {
+                    });
+                    if (aJson != null) {
+                        if (aJson.getCode() == 0) {
                             mHandler.sendEmptyMessage(SongDesk3Success);
-                            Logger.i(TAG,"aJson1..."+aJson.toString());
+                            Logger.i(TAG, "aJson1..." + aJson.toString());
                             setState(aJson.getData());
-                        } else if (aJson.getCode()==500){
+                        } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(SongDeskExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {
                             mHandler.obtainMessage(SongDesk3Error, aJson.getMsg()).sendToTarget();
@@ -256,12 +257,12 @@ public class SongDeskActivity3 extends AppCompatActivity{
         } else {
             mPullToRefresh.onRefreshComplete();
             mSvProgressHUD.dismiss();
-            ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
 
-    private void setState(List<SingerNumBean.SingerBean> itemList){
-        if (itemList!=null&&!itemList.isEmpty()){
+    private void setState(List<SingerNumBean.SingerBean> itemList) {
+        if (itemList != null && !itemList.isEmpty()) {
             mSingerNumBeans.addAll(itemList);
         }
     }
@@ -269,7 +270,7 @@ public class SongDeskActivity3 extends AppCompatActivity{
     /**
      * 返回事件
      */
-    public class MyOnClickBackReturn implements View.OnClickListener{
+    public class MyOnClickBackReturn implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             finish();

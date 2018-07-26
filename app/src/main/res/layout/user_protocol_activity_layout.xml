@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@mipmap/bg_fla_src"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <phone.ktv.views.CustomTopTitleView
         android:id="@+id/customTopTitleView1"
-        custom:back_text_type="用户协议"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        custom:back_text_type="用户协议" />
 
     <View style="@style/view_line_sbc_header_text" />
 

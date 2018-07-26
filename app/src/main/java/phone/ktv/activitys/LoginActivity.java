@@ -35,7 +35,7 @@ import phone.ktv.views.CustomTopTitleView;
 /**
  * 登录页
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "LoginActivity";
     private Context mContext;
@@ -50,8 +50,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CustomEditView customEditView1;//手机号
     private CustomEditView customEditView2;//密码
 
-    public static final int LoginRequestSuccess=100;//登录成功
-    public static final int LoginRequestError=200;//登录失败
+    public static final int LoginRequestSuccess = 100;//登录成功
+    public static final int LoginRequestError = 200;//登录失败
 
     private SVProgressHUD mSvProgressHUD;
 
@@ -62,15 +62,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             switch (msg.what) {
                 case LoginRequestSuccess://提交成功
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,"登录成功");
-                    saveLoginData((AJson)msg.obj);
+                    ToastUtils.showLongToast(mContext, "登录成功");
+                    saveLoginData((AJson) msg.obj);
                     clearInput();
                     finish();
                     break;
 
                 case LoginRequestError://提交失败
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,"登录失败:"+msg.obj);
+                    ToastUtils.showLongToast(mContext, "登录失败:" + msg.obj);
                     clearInput();
                     break;
             }
@@ -87,24 +87,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initView() {
         mContext = LoginActivity.this;
-        mSP=new SPUtil(mContext);
+        mSP = new SPUtil(mContext);
         mSvProgressHUD = new SVProgressHUD(mContext);
 
-        mTopTitleView1=findViewById(R.id.customTopTitleView1);
-        customEditView1=findViewById(R.id.customEditView1);
-        customEditView2=findViewById(R.id.customEditView2);
+        mTopTitleView1 = findViewById(R.id.customTopTitleView1);
+        customEditView1 = findViewById(R.id.customEditView1);
+        customEditView2 = findViewById(R.id.customEditView2);
 
-        mJizhuPsd=findViewById(R.id.jizhu_ckb);
-        mWangjiPsd=findViewById(R.id.wangji_tvw);
-        mLogin=findViewById(R.id.login_tvw);
-        mReginster=findViewById(R.id.register_tvw);
+        mJizhuPsd = findViewById(R.id.jizhu_ckb);
+        mWangjiPsd = findViewById(R.id.wangji_tvw);
+        mLogin = findViewById(R.id.login_tvw);
+        mReginster = findViewById(R.id.register_tvw);
 
         //优先到sp里面拿.
-        customEditView1.setInputTitle(mSP.getString("telPhone",null));
-        customEditView2.setInputTitle(mSP.getString("password",null));
+        customEditView1.setInputTitle(mSP.getString("telPhone", null));
+        customEditView2.setInputTitle(mSP.getString("password", null));
     }
 
-    private void initLiter(){
+    private void initLiter() {
         mWangjiPsd.setOnClickListener(this);
         mLogin.setOnClickListener(this);
         mReginster.setOnClickListener(this);
@@ -114,26 +114,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * 保存 id
      */
-    private void saveLoginData(AJson aJson){
-        String id= ((UserBean) aJson.getData()).id;
-        String tel= ((UserBean) aJson.getData()).telPhone;
-        String useName= ((UserBean) aJson.getData()).username;
-        String token=aJson.getToken();
-        Logger.i(TAG,".....sp保存......"+(aJson.getData()).toString());
+    private void saveLoginData(AJson aJson) {
+        String id = ((UserBean) aJson.getData()).id;
+        String tel = ((UserBean) aJson.getData()).telPhone;
+        String useName = ((UserBean) aJson.getData()).username;
+        String token = aJson.getToken();
+        Logger.i(TAG, ".....sp保存......" + (aJson.getData()).toString());
         mSP.clearSpData();
-        if (mJizhuPsd.isChecked()){
-            mSP.putString("password",customEditView2.getInputTitle());
+        if (mJizhuPsd.isChecked()) {
+            mSP.putString("password", customEditView2.getInputTitle());
         }
-        mSP.putString("id",id);
-        mSP.putString("telPhone",tel);
-        mSP.putString("username",useName);
-        mSP.putString("token",token);
+        mSP.putString("id", id);
+        mSP.putString("telPhone", tel);
+        mSP.putString("username", useName);
+        mSP.putString("token", token);
     }
 
     /**
      * 返回事件
      */
-    public class MyOnClickBackReturn implements View.OnClickListener{
+    public class MyOnClickBackReturn implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             finish();
@@ -142,9 +142,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.wangji_tvw://忘记密码
-                IntentUtils.thisToOther(mContext,ForgetPsdActivity.class);
+                IntentUtils.thisToOther(mContext, ForgetPsdActivity.class);
                 break;
 
             case R.id.login_tvw://登录
@@ -152,7 +152,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.register_tvw://注册
-                IntentUtils.thisToOther(mContext,RegisterActivity.class);
+                IntentUtils.thisToOther(mContext, RegisterActivity.class);
                 break;
         }
     }
@@ -160,20 +160,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * 登录事件
      */
-    private void loginClick(){
-        if (TextUtils.isEmpty(customEditView1.getInputTitle())){
+    private void loginClick() {
+        if (TextUtils.isEmpty(customEditView1.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请输入手机号码");
             return;
         }
-        if (customEditView1.getInputTitle().length()!=11){
+        if (customEditView1.getInputTitle().length() != 11) {
             mSvProgressHUD.showInfoWithStatus("请输入正确的手机号码(11位)");
             return;
         }
-        if (TextUtils.isEmpty(customEditView2.getInputTitle())){
+        if (TextUtils.isEmpty(customEditView2.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请输入密码");
             return;
         }
-        if (customEditView2.getInputTitle().length() < 6){
+        if (customEditView2.getInputTitle().length() < 6) {
             mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
             return;
         }
@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * 提交登录数据
      */
-    private void submLoginData(){
+    private void submLoginData() {
         mSvProgressHUD.showWithStatus("请稍等,数据提交中...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         weakHashMap.put("telPhone", customEditView1.getInputTitle());//手机号
@@ -202,10 +202,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"登录s.."+s);
-                    AJson aJson = App.jsonToObject(s, new TypeToken<AJson<UserBean>>() {});
-                    if (aJson!=null){
-                        if (aJson.getCode()==0){
+                    Logger.i(TAG, "登录s.." + s);
+                    AJson aJson = App.jsonToObject(s, new TypeToken<AJson<UserBean>>() {
+                    });
+                    if (aJson != null) {
+                        if (aJson.getCode() == 0) {
                             mHandler.obtainMessage(LoginRequestSuccess, aJson).sendToTarget();
                         } else {
                             mHandler.obtainMessage(LoginRequestError, aJson.getMsg()).sendToTarget();
@@ -230,7 +231,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return super.onKeyDown(keyCode, event);
     }
 
-    private void clearInput(){
+    private void clearInput() {
         customEditView1.setInputTitle(null);
         customEditView2.setInputTitle(null);
     }

@@ -36,7 +36,7 @@ import phone.ktv.views.CustomTopTitleView;
 /**
  * 忘记密码
  */
-public class ForgetPsdActivity extends AppCompatActivity implements View.OnClickListener{
+public class ForgetPsdActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ForgetPsdActivity";
     private Context mContext;
@@ -50,10 +50,10 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
 
     private TextView mRegister;
 
-    public static final int ForgetRequestSuccess=100;//找回密码成功
-    public static final int ForgetRequestError=200;//找回密码失败
-    public static final int ForgetCodeSuccess=300;//获取验证码成功
-    public static final int ForgetCodeError=400;//获取验证码失败
+    public static final int ForgetRequestSuccess = 100;//找回密码成功
+    public static final int ForgetRequestError = 200;//找回密码失败
+    public static final int ForgetCodeSuccess = 300;//获取验证码成功
+    public static final int ForgetCodeError = 400;//获取验证码失败
 
     private Timer timer;
     private int recLen = 1 * 60;
@@ -63,14 +63,14 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
 
     private SPUtil mSP;
 
-    private WeakHashMap<String, String> weakHashMap=new WeakHashMap<>();
+    private WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case ForgetRequestSuccess://提交成功
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,"找回密码成功");
+                    ToastUtils.showLongToast(mContext, "找回密码成功");
                     clearInput();
                     finish();
                     mSP.clearSpData();
@@ -78,19 +78,19 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
 
                 case ForgetRequestError://提交失败
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,"找回密码失败:"+msg.obj);
+                    ToastUtils.showLongToast(mContext, "找回密码失败:" + msg.obj);
                     clearTimerState();
                     break;
 
                 case ForgetCodeSuccess://获取验证码成功
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,"验证码获取成功");
+                    ToastUtils.showLongToast(mContext, "验证码获取成功");
                     customEditView2.setInputTitle((String) msg.obj);
                     break;
 
                 case ForgetCodeError://获取验证码失败
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     clearTimerState();
                     break;
             }
@@ -108,18 +108,18 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
     private void initView() {
         mContext = ForgetPsdActivity.this;
         mSvProgressHUD = new SVProgressHUD(mContext);
-        mSP=new SPUtil(mContext);
+        mSP = new SPUtil(mContext);
 
-        mTopTitleView1=findViewById(R.id.customTopTitleView1);
-        customEditView1=findViewById(R.id.customEditView1);
-        customEditView2=findViewById(R.id.customEditView2);
-        customEditView3=findViewById(R.id.customEditView3);
-        customEditView4=findViewById(R.id.customEditView4);
+        mTopTitleView1 = findViewById(R.id.customTopTitleView1);
+        customEditView1 = findViewById(R.id.customEditView1);
+        customEditView2 = findViewById(R.id.customEditView2);
+        customEditView3 = findViewById(R.id.customEditView3);
+        customEditView4 = findViewById(R.id.customEditView4);
 
-        mRegister=findViewById(R.id.register_tvw);
+        mRegister = findViewById(R.id.register_tvw);
     }
 
-    private void initLiter(){
+    private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         customEditView2.sendOnClick(new MyOnClickSendCode());
         mRegister.setOnClickListener(this);
@@ -127,47 +127,47 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.register_tvw://注册
                 registerClick();
                 break;
         }
     }
 
-    private void registerClick(){
-        if (TextUtils.isEmpty(customEditView1.getInputTitle())){
+    private void registerClick() {
+        if (TextUtils.isEmpty(customEditView1.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请输入手机号码");
             return;
         }
-        if (customEditView1.getInputTitle().length()!=11){
+        if (customEditView1.getInputTitle().length() != 11) {
             mSvProgressHUD.showInfoWithStatus("请输入正确的手机号码(11位)");
             return;
         }
-        if (TextUtils.isEmpty(customEditView2.getInputTitle())){
+        if (TextUtils.isEmpty(customEditView2.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请输入验证码");
             return;
         }
-        if (customEditView2.getInputTitle().length()!=6){
+        if (customEditView2.getInputTitle().length() != 6) {
             mSvProgressHUD.showInfoWithStatus("请输入正确的验证码(6位)");
             return;
         }
-        if (TextUtils.isEmpty(customEditView3.getInputTitle())){
+        if (TextUtils.isEmpty(customEditView3.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请输入新密码");
             return;
         }
-        if (customEditView3.getInputTitle().length() < 6){
+        if (customEditView3.getInputTitle().length() < 6) {
             mSvProgressHUD.showInfoWithStatus("新密码不能小于6位");
             return;
         }
-        if (TextUtils.isEmpty(customEditView4.getInputTitle())){
+        if (TextUtils.isEmpty(customEditView4.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请确认新密码");
             return;
         }
-        if (customEditView4.getInputTitle().length() < 6){
+        if (customEditView4.getInputTitle().length() < 6) {
             mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
             return;
         }
-        if (!customEditView3.getInputTitle().equals(customEditView4.getInputTitle())){
+        if (!customEditView3.getInputTitle().equals(customEditView4.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("2次输入密码不一致,请认真输入");
             return;
         }
@@ -178,7 +178,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
     /**
      * 提交修改数据
      */
-    private void submRegisterData(){
+    private void submRegisterData() {
         mSvProgressHUD.showWithStatus("请稍等,数据提交中...");
         weakHashMap.clear();
         weakHashMap.put("telPhone", customEditView1.getInputTitle());//手机号
@@ -199,10 +199,10 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"s.."+s);
+                    Logger.i(TAG, "s.." + s);
                     AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                    if (aJson!=null){
-                        if (aJson.getCode()==0){
+                    if (aJson != null) {
+                        if (aJson.getCode() == 0) {
                             mHandler.sendEmptyMessage(ForgetRequestSuccess);
 //                        } else if (aJson.getCode()==500){
                             //TODO
@@ -224,7 +224,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
     /**
      * 返回事件
      */
-    public class MyOnClickBackReturn implements View.OnClickListener{
+    public class MyOnClickBackReturn implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             isReturn();
@@ -234,10 +234,10 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
     /**
      * 发送验证码
      */
-    public class MyOnClickSendCode implements View.OnClickListener{
+    public class MyOnClickSendCode implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            if (TextUtils.isEmpty(customEditView1.getInputTitle())){
+            if (TextUtils.isEmpty(customEditView1.getInputTitle())) {
                 mSvProgressHUD.showInfoWithStatus("请输入手机号");
                 return;
             }
@@ -277,7 +277,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
     /**
      * 提交验证码
      */
-    private void subCodeData(){
+    private void subCodeData() {
         mSvProgressHUD.showWithStatus("请稍等,验证码发送中...");
         weakHashMap.clear();
         weakHashMap.put("telPhone", customEditView1.getInputTitle());//手机号
@@ -294,10 +294,10 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String s = response.body().string();
-                Logger.i(TAG,"验证码s.."+s);
+                Logger.i(TAG, "验证码s.." + s);
                 AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                if (aJson!=null){
-                    if (aJson.getCode()==0){
+                if (aJson != null) {
+                    if (aJson.getCode() == 0) {
                         mHandler.obtainMessage(ForgetCodeSuccess, aJson.getData()).sendToTarget();
                     } else {
                         mHandler.obtainMessage(ForgetCodeError, aJson.getMsg()).sendToTarget();
@@ -318,13 +318,13 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
         return super.onKeyDown(keyCode, event);
     }
 
-    private void isReturn(){
+    private void isReturn() {
         if (!TextUtils.isEmpty(customEditView1.getInputTitle())
                 || !TextUtils.isEmpty(customEditView2.getInputTitle())
                 || !TextUtils.isEmpty(customEditView3.getInputTitle())
-                ||!TextUtils.isEmpty(customEditView4.getInputTitle())) {
+                || !TextUtils.isEmpty(customEditView4.getInputTitle())) {
             final BtmDialog dialog = new BtmDialog(this, "温馨提示", "确定放弃本次操作吗?");
-            AlertDialogHelper.BtmDialogDerive1(dialog, false, true,new View.OnClickListener() {
+            AlertDialogHelper.BtmDialogDerive1(dialog, false, true, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finish();
@@ -339,14 +339,14 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
     /**
      * 重置验证码状态
      */
-    private void clearTimerState(){
+    private void clearTimerState() {
         isClick = true;
         customEditView2.setVerdCode("点击发送");
         timer.cancel();
         customEditView2.mVerdCode.setBackgroundResource(R.drawable.selector_btn_yanzm);
     }
 
-    private void clearInput(){
+    private void clearInput() {
         customEditView1.setInputTitle(null);
         customEditView2.setInputTitle(null);
         customEditView3.setInputTitle(null);

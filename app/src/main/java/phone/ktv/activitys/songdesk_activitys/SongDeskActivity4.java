@@ -24,17 +24,21 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import phone.ktv.R;
+import phone.ktv.activitys.LoginActivity;
 import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.bean.ResultBean;
+import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.GsonJsonUtils;
+import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.TimeUtils;
 import phone.ktv.tootls.ToastUtils;
+import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomTopTitleView;
 import phone.ktv.views.MyListView;
 
@@ -91,6 +95,7 @@ public class SongDeskActivity4 extends AppCompatActivity{
 
                 case SongDesk4ExpiredToken://Token过期
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    setTokenState();
                     break;
             }
             mSvProgressHUD.dismiss();
@@ -277,5 +282,16 @@ public class SongDeskActivity4 extends AppCompatActivity{
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void setTokenState() {
+        final BtmDialog dialog = new BtmDialog(mContext, "温馨提示", "您的身份已过期,请重新登录");
+        AlertDialogHelper.BtmDialogDerive2(dialog, true, false, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.thisToOther(mContext,LoginActivity.class);
+                finish();
+            }
+        });
     }
 }

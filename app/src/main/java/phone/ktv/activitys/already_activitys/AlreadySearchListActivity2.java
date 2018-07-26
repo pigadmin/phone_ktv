@@ -63,9 +63,9 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
 
     private List<MusicPlayBean> musicPlayBeans;
 
-    public static final int RankingSearch2Success=100;//搜索歌曲获取成功
-    public static final int RankingSearch2Error=200;//搜索歌曲获取失败
-    public static final int RankingExpiredToken=300;//Token过期
+    public static final int RankingSearch2Success = 100;//搜索歌曲获取成功
+    public static final int RankingSearch2Error = 200;//搜索歌曲获取失败
+    public static final int RankingExpiredToken = 300;//Token过期
 
     private SVProgressHUD mSvProgressHUD;
     private SPUtil mSP;
@@ -75,7 +75,7 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
 
     private TextView mNoData;
 
-    private String mId,mName;
+    private String mId, mName;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -86,11 +86,11 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
                     break;
 
                 case RankingSearch2Error://搜索失败
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
 
                 case RankingExpiredToken://Token过期
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
             }
             mSvProgressHUD.dismiss();
@@ -112,12 +112,12 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
     /**
      * Bundle传值
      */
-    private void getIntentData(){
-        Intent intent=getIntent();
-        if (intent!=null){
-            mId= intent.getStringExtra("id");
-            mName= intent.getStringExtra("name");
-            Logger.i(TAG,"mId..."+mId+"..mName..."+mName);
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            mId = intent.getStringExtra("id");
+            mName = intent.getStringExtra("name");
+            Logger.i(TAG, "mId..." + mId + "..mName..." + mName);
         }
     }
 
@@ -138,23 +138,23 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
     }
 
     private void initView() {
-        musicPlayBeans=new ArrayList<>();
+        musicPlayBeans = new ArrayList<>();
 
         mContext = AlreadySearchListActivity2.this;
-        mSvProgressHUD=new SVProgressHUD(mContext);
-        mSP=new SPUtil(mContext);
+        mSvProgressHUD = new SVProgressHUD(mContext);
+        mSP = new SPUtil(mContext);
 
-        mNoData= findViewById(R.id.no_data_tvw1);
+        mNoData = findViewById(R.id.no_data_tvw1);
         mSrcBack11 = findViewById(R.id.src_back11_ivw);
         mSongType = findViewById(R.id.songType_tvw11);
         mSongType.setVisibility(View.GONE);
         mPullToRefresh = findViewById(R.id.sv);
-        mVoice= findViewById(R.id.voice12_ivw);
-        mSearchContent= findViewById(R.id.search_content_edt);
-        mSearch= findViewById(R.id.text_search11_tvw);
+        mVoice = findViewById(R.id.voice12_ivw);
+        mSearchContent = findViewById(R.id.search_content_edt);
+        mSearch = findViewById(R.id.text_search11_tvw);
 
         mListView1 = findViewById(R.id.list1122_view);
-        mRinkingAdater=new RinkingListAdater(mContext,R.layout.item_ringlist_layout,musicPlayBeans);
+        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans);
         mListView1.setAdapter(mRinkingAdater);
 
         getSongNameData();
@@ -175,7 +175,7 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
         @Override
         public void onPullDownToRefresh(PullToRefreshBase pullToRefreshBase) {
             mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
-            mPage=1;
+            mPage = 1;
             musicPlayBeans.clear();
             getSongNameData();
         }
@@ -194,18 +194,18 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
     /**
      * 搜索事件
      */
-    private class MyOnClickListenerSearch implements View.OnClickListener{
+    private class MyOnClickListenerSearch implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            SoftKeyboard.closeKeybord(mSearchContent,mContext);
-            mPage=1;
+            SoftKeyboard.closeKeybord(mSearchContent, mContext);
+            mPage = 1;
             musicPlayBeans.clear();
             getSongNameData();
         }
     }
 
-    private void updateData1(){
-        if (musicPlayBeans!=null&&!musicPlayBeans.isEmpty()){
+    private void updateData1() {
+        if (musicPlayBeans != null && !musicPlayBeans.isEmpty()) {
             mNoData.setVisibility(View.GONE);
         } else {
             mNoData.setVisibility(View.VISIBLE);
@@ -215,17 +215,17 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
     /**
      * item事件
      */
-    private class MyOnItemClickListener1 implements AdapterView.OnItemClickListener{
+    private class MyOnItemClickListener1 implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ToastUtils.showLongToast(mContext,"1");
+            ToastUtils.showLongToast(mContext, "1");
         }
     }
 
     /**
      * 语音
      */
-    private class MyOnClickListenerVoice implements View.OnClickListener{
+    private class MyOnClickListenerVoice implements View.OnClickListener {
         @Override
         public void onClick(View v) {
 
@@ -253,21 +253,21 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
     /**
      * 歌名搜索
      */
-    private void getSongNameData(){
+    private void getSongNameData() {
         mSvProgressHUD.showWithStatus("正在搜索中,请稍后...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
-        String tel= mSP.getString("telPhone",null);//tel
-        String token= mSP.getString("token",null);//token
-        Logger.i(TAG,"tel.."+tel+"..token.."+token);
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        Logger.i(TAG, "tel.." + tel + "..token.." + token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
         weakHashMap.put("name", "");//名称  （语音输入时直接按名称搜)
         weakHashMap.put("page", mPage + "");//第几页    不填默认1
         weakHashMap.put("limit", mLimit + "");//页码量   不填默认10，最大限度100
-        weakHashMap.put("singerId",mId);//歌手id
-        weakHashMap.put("keyword",mSearchContent.getText().toString().trim());//搜索关键字
+        weakHashMap.put("singerId", mId);//歌手id
+        weakHashMap.put("keyword", mSearchContent.getText().toString().trim());//搜索关键字
 
-        String  url= App.getRqstUrl(App.headurl + "song", weakHashMap);
+        String url = App.getRqstUrl(App.headurl + "song", weakHashMap);
 
         Logger.i(TAG, "url.." + url);
 
@@ -282,14 +282,14 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"s.."+s);
+                    Logger.i(TAG, "s.." + s);
                     ResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ResultBean.class);
-                    if (aJson!=null){
-                        if (aJson.code==0){
+                    if (aJson != null) {
+                        if (aJson.code == 0) {
                             mHandler.sendEmptyMessage(RankingSearch2Success);
-                            Logger.i(TAG,"aJson1..."+aJson.toString());
+                            Logger.i(TAG, "aJson1..." + aJson.toString());
                             setStateSongName(aJson.data.list);
-                        } else if (aJson.code==500){
+                        } else if (aJson.code == 500) {
                             mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
                         } else {
                             mHandler.obtainMessage(RankingSearch2Error, aJson.msg).sendToTarget();
@@ -303,12 +303,12 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
         } else {
             mSvProgressHUD.dismiss();
             mPullToRefresh.onRefreshComplete();
-            ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
 
-    private void setStateSongName(List<MusicPlayBean> itemList){
-        if (itemList!=null&&!itemList.isEmpty()){
+    private void setStateSongName(List<MusicPlayBean> itemList) {
+        if (itemList != null && !itemList.isEmpty()) {
             musicPlayBeans.addAll(itemList);
         }
     }

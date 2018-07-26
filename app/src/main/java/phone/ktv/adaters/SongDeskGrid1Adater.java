@@ -28,16 +28,16 @@ public class SongDeskGrid1Adater extends BAdapter<ListInfo> {
     @Override
     public void onInitView(View convertView, final int position) {
         ImageView icon = get(convertView, R.id.music_icon);//图片
-        TextView name = get(convertView,R.id.music_name);//名称
+        TextView name = get(convertView, R.id.music_name);//名称
 
         ListInfo item = getItem(position);
 
         name.setText(item.getName());
-        if (TextUtils.isEmpty(item.getNgPath())){
+        if (TextUtils.isEmpty(item.getNgPath())) {
             icon.setImageResource(R.mipmap.logo);
         } else {
-            String srcPath= PicassoUtil.utf8Togb2312(item.getNgPath());
-            PicassoUtil.picassoAdvanced(context,srcPath,R.mipmap.station_src,R.mipmap.logo,icon);
+            String srcPath = PicassoUtil.utf8Togb2312(item.getNgPath());
+            PicassoUtil.picassoAdvanced(context, srcPath, R.mipmap.station_src, R.mipmap.logo, icon);
         }
     }
 }

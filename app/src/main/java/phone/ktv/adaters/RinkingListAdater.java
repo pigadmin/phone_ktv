@@ -26,9 +26,9 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
 
     @Override
     public void onInitView(View convertView, final int position) {
-        TextView name = get(convertView,R.id.name_tvw12);//歌曲名称
-        TextView songName = get(convertView,R.id.song_name12_tvw);//歌手名称
-        TextView songType = get(convertView,R.id.song_type12_tvw);//标识HD or 演唱会
+        TextView name = get(convertView, R.id.name_tvw12);//歌曲名称
+        TextView songName = get(convertView, R.id.song_name12_tvw);//歌手名称
+        TextView songType = get(convertView, R.id.song_type12_tvw);//标识HD or 演唱会
 
         ImageView shoucang12 = get(convertView, R.id.shoucang12_ivw);//收藏
         ImageView tianjia12 = get(convertView, R.id.tianjia12_ivw);//添加
@@ -37,7 +37,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
         name.setText(item.name);
         songName.setText(item.singerName);
 
-        if (TextUtils.isEmpty(item.label)){
+        if (TextUtils.isEmpty(item.label)) {
             songType.setVisibility(View.GONE);
         } else {
             songType.setVisibility(View.VISIBLE);

@@ -39,7 +39,7 @@ import phone.ktv.views.CustomTopTitleView;
 /**
  * 注册页
  */
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "RegisterActivity";
 
@@ -60,40 +60,41 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private int recLen = 1 * 60;
     private boolean isClick = true;
 
-    private WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();;
+    private WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
+    ;
 
     private SVProgressHUD mSvProgressHUD;
 
-    public static final int RegisRequestSuccess=100;//注册成功
-    public static final int RegisRequestError=200;//注册失败
-    public static final int RegisCodeSuccess=300;//获取验证码成功
-    public static final int RegisCodeError=400;//获取验证码失败
+    public static final int RegisRequestSuccess = 100;//注册成功
+    public static final int RegisRequestError = 200;//注册失败
+    public static final int RegisCodeSuccess = 300;//获取验证码成功
+    public static final int RegisCodeError = 400;//获取验证码失败
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case RegisRequestSuccess://提交成功
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,"注册成功");
+                    ToastUtils.showLongToast(mContext, "注册成功");
                     clearInput();
                     finish();
                     break;
 
                 case RegisRequestError://提交失败
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,"注册失败:"+msg.obj);
+                    ToastUtils.showLongToast(mContext, "注册失败:" + msg.obj);
                     clearTimerState();
                     break;
 
                 case RegisCodeSuccess://获取验证码成功
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,"验证码获取成功");
+                    ToastUtils.showLongToast(mContext, "验证码获取成功");
                     customEditView3.setInputTitle((String) msg.obj);
                     break;
 
                 case RegisCodeError://获取验证码失败
                     mSvProgressHUD.dismiss();
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     clearTimerState();
                     break;
             }
@@ -109,25 +110,25 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         initLiter();
     }
 
-    private void initView(){
-        mContext=RegisterActivity.this;
-        mSvProgressHUD=new SVProgressHUD(mContext);
+    private void initView() {
+        mContext = RegisterActivity.this;
+        mSvProgressHUD = new SVProgressHUD(mContext);
 
-        mTopTitleView1=findViewById(R.id.customTopTitleView1);
+        mTopTitleView1 = findViewById(R.id.customTopTitleView1);
 
-        mRegister=findViewById(R.id.register_tvw);
-        mCheckjiBox=findViewById(R.id.jizhu_ckb);
+        mRegister = findViewById(R.id.register_tvw);
+        mCheckjiBox = findViewById(R.id.jizhu_ckb);
 
-        mRegistProtocol=findViewById(R.id.regist_protocol_tvw);
+        mRegistProtocol = findViewById(R.id.regist_protocol_tvw);
         mRegistProtocol.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);//下划线
 
-        customEditView1=findViewById(R.id.customEditView1);
-        customEditView2=findViewById(R.id.customEditView2);
-        customEditView3=findViewById(R.id.customEditView3);
-        customEditView4=findViewById(R.id.customEditView4);
+        customEditView1 = findViewById(R.id.customEditView1);
+        customEditView2 = findViewById(R.id.customEditView2);
+        customEditView3 = findViewById(R.id.customEditView3);
+        customEditView4 = findViewById(R.id.customEditView4);
     }
 
-    private void initLiter(){
+    private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         customEditView3.sendOnClick(new MyOnClickSendCode());
 
@@ -152,9 +153,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.regist_protocol_tvw:
-                IntentUtils.thisToOther(mContext,UserProtocolActivity.class);
+                IntentUtils.thisToOther(mContext, UserProtocolActivity.class);
                 break;
 
             case R.id.register_tvw://注册
@@ -166,32 +167,32 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /**
      * 注册
      */
-    private void registerClick(){
-        if (TextUtils.isEmpty(customEditView1.getInputTitle())){
+    private void registerClick() {
+        if (TextUtils.isEmpty(customEditView1.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请输入用户名");
             return;
         }
-        if (TextUtils.isEmpty(customEditView2.getInputTitle())){
+        if (TextUtils.isEmpty(customEditView2.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请输入手机号");
             return;
         }
-        if (customEditView2.getInputTitle().length()!=11){
+        if (customEditView2.getInputTitle().length() != 11) {
             mSvProgressHUD.showInfoWithStatus("请输入正确的手机号码(11位)");
             return;
         }
-        if (TextUtils.isEmpty(customEditView3.getInputTitle())){
+        if (TextUtils.isEmpty(customEditView3.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请点击获取验证码");
             return;
         }
-        if (customEditView3.getInputTitle().length()!=6){
+        if (customEditView3.getInputTitle().length() != 6) {
             mSvProgressHUD.showInfoWithStatus("请输入正确的验证码(6位)");
             return;
         }
-        if (TextUtils.isEmpty(customEditView4.getInputTitle())){
+        if (TextUtils.isEmpty(customEditView4.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请输入密码");
             return;
         }
-        if (customEditView4.getInputTitle().length() < 6){
+        if (customEditView4.getInputTitle().length() < 6) {
             mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
             return;
         }
@@ -206,7 +207,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /**
      * 提交注册数据
      */
-    private void submLoginData(){
+    private void submLoginData() {
         mSvProgressHUD.showWithStatus("请稍等,数据提交中...");
         weakHashMap.clear();
         weakHashMap.put("telPhone", customEditView2.getInputTitle());//手机号
@@ -227,10 +228,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"注册s.."+s);
+                    Logger.i(TAG, "注册s.." + s);
                     AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                    if (aJson!=null){
-                        if (aJson.getCode()==0){
+                    if (aJson != null) {
+                        if (aJson.getCode() == 0) {
                             mHandler.sendEmptyMessage(RegisRequestSuccess);
                         } else {
                             mHandler.obtainMessage(RegisRequestError, aJson.getMsg()).sendToTarget();
@@ -250,7 +251,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /**
      * 返回事件
      */
-    public class MyOnClickBackReturn implements View.OnClickListener{
+    public class MyOnClickBackReturn implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             isReturn();
@@ -260,7 +261,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /**
      * 提交验证码
      */
-    private void subCodeData(){
+    private void subCodeData() {
         mSvProgressHUD.showWithStatus("请稍等,验证码发送中...");
         weakHashMap.clear();
         weakHashMap.put("telPhone", customEditView2.getInputTitle());//手机号
@@ -278,10 +279,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"验证码s.."+s);
+                    Logger.i(TAG, "验证码s.." + s);
                     AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                    if (aJson!=null){
-                        if (aJson.getCode()==0){
+                    if (aJson != null) {
+                        if (aJson.getCode() == 0) {
                             mHandler.obtainMessage(RegisCodeSuccess, aJson.getData()).sendToTarget();
                         } else {
                             mHandler.obtainMessage(RegisCodeError, aJson.getMsg()).sendToTarget();
@@ -301,10 +302,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /**
      * 发送验证码
      */
-    public class MyOnClickSendCode implements View.OnClickListener{
+    public class MyOnClickSendCode implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            if (TextUtils.isEmpty(customEditView2.getInputTitle())){
+            if (TextUtils.isEmpty(customEditView2.getInputTitle())) {
                 mSvProgressHUD.showInfoWithStatus("请输入手机号");
                 return;
             }
@@ -341,13 +342,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void isReturn(){
+    private void isReturn() {
         if (!TextUtils.isEmpty(customEditView1.getInputTitle())
                 || !TextUtils.isEmpty(customEditView2.getInputTitle())
                 || !TextUtils.isEmpty(customEditView3.getInputTitle())
-                ||!TextUtils.isEmpty(customEditView4.getInputTitle())) {
+                || !TextUtils.isEmpty(customEditView4.getInputTitle())) {
             final BtmDialog dialog = new BtmDialog(this, "温馨提示", "确定放弃本次操作吗?");
-            AlertDialogHelper.BtmDialogDerive1(dialog, false, true,new View.OnClickListener() {
+            AlertDialogHelper.BtmDialogDerive1(dialog, false, true, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finish();
@@ -362,14 +363,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /**
      * 重置验证码状态
      */
-    private void clearTimerState(){
+    private void clearTimerState() {
         isClick = true;
         customEditView3.setVerdCode("点击发送");
         timer.cancel();
         customEditView3.mVerdCode.setBackgroundResource(R.drawable.selector_btn_yanzm);
     }
 
-    private void clearInput(){
+    private void clearInput() {
         customEditView1.setInputTitle(null);
         customEditView2.setInputTitle(null);
         customEditView3.setInputTitle(null);

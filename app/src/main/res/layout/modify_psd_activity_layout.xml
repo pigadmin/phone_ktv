@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@mipmap/bg_fla_src"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
 
     <phone.ktv.views.CustomTopTitleView
         android:id="@+id/customTopTitleView1"
-        custom:back_text_type="修改密码"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        custom:back_text_type="修改密码" />
 
     <phone.ktv.views.CustomEditView
         android:id="@+id/customEditView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        custom:maxLength="20"
+        custom:password_isState="true"
         custom:src_log_type1="@mipmap/shouji"
         custom:title_hint_type="请输入您的原密码"
-        custom:verd_code_isState="false"
-        custom:password_isState="true"
-        custom:maxLength="20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        custom:verd_code_isState="false" />
 
     <phone.ktv.views.CustomEditView
         android:id="@+id/customEditView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        custom:src_log_type1="@mipmap/mima"
-        custom:title_hint_type="请输入您的新密码"
-        custom:verd_code_isState="false"
         custom:maxLength="20"
         custom:password_isState="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        custom:src_log_type1="@mipmap/mima"
+        custom:title_hint_type="请输入您的新密码"
+        custom:verd_code_isState="false" />
 
     <phone.ktv.views.CustomEditView
         android:id="@+id/customEditView3"
-        android:layout_marginTop="10dp"
-        custom:src_log_type1="@mipmap/mima"
-        custom:maxLength="20"
-        custom:title_hint_type="请确认您的新密码"
-        custom:password_isState="true"
-        custom:verd_code_isState="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        custom:maxLength="20"
+        custom:password_isState="true"
+        custom:src_log_type1="@mipmap/mima"
+        custom:title_hint_type="请确认您的新密码"
+        custom:verd_code_isState="false" />
 
     <TextView
         android:id="@+id/determine_tvw"
         android:layout_width="match_parent"
-        android:text="确定"
-        android:background="@drawable/selector_btn"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
         android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/selector_btn"
         android:gravity="center"
-        android:textColor="@color/white"
-        android:layout_height="wrap_content" />
+        android:text="确定"
+        android:textColor="@color/white" />
 </LinearLayout>

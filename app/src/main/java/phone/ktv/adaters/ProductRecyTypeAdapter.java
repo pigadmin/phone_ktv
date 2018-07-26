@@ -21,7 +21,7 @@ public class ProductRecyTypeAdapter extends BAdapter<ProductRecyTypeBean> {
     @Override
     public void onInitView(View convertView, int position) {
         TextView songName = get(convertView, R.id.song_name_tvw);//名称
-        TextView openUp = get(convertView,R.id.open_up_tvw);//地址
+        TextView openUp = get(convertView, R.id.open_up_tvw);//地址
 
         ProductRecyTypeBean item = getItem(position);
         songName.setText(item.address);

@@ -43,7 +43,7 @@ import phone.ktv.views.MyGridView;
 /**
  * 点歌台分类(歌曲大类-更多) 1级
  */
-public class SongDeskjMoreActivity extends AppCompatActivity{
+public class SongDeskjMoreActivity extends AppCompatActivity {
 
     private static final String TAG = "SongDeskjMoreActivity";
 
@@ -57,9 +57,9 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
 
     private List<ListInfo> mGridItemList;
 
-    public static final int SongDeskMoreSuccess=100;//点歌台分类获取成功
-    public static final int SongDeskMoreError=200;//点歌台分类获取失败
-    public static final int SongDeskExpiredToken=300;//Token过期
+    public static final int SongDeskMoreSuccess = 100;//点歌台分类获取成功
+    public static final int SongDeskMoreError = 200;//点歌台分类获取失败
+    public static final int SongDeskExpiredToken = 300;//Token过期
 
     private SVProgressHUD mSvProgressHUD;
 
@@ -82,11 +82,11 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
                     break;
 
                 case SongDeskMoreError://获取失败
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
 
                 case SongDeskExpiredToken://Token过期
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
             }
             mSvProgressHUD.dismiss();
@@ -109,44 +109,44 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
         super.onResume();
     }
 
-    private void updateData(){
-        if (mGridItemList!=null&&!mGridItemList.isEmpty()){
+    private void updateData() {
+        if (mGridItemList != null && !mGridItemList.isEmpty()) {
             mNoData.setVisibility(View.GONE);
         } else {
             mNoData.setVisibility(View.VISIBLE);
         }
     }
 
-    private void initView(){
-        mGridItemList=new ArrayList<>();
+    private void initView() {
+        mGridItemList = new ArrayList<>();
 
-        mContext= SongDeskjMoreActivity.this;
-        mSvProgressHUD=new SVProgressHUD(mContext);
-        mSP=new SPUtil(mContext);
+        mContext = SongDeskjMoreActivity.this;
+        mSvProgressHUD = new SVProgressHUD(mContext);
+        mSP = new SPUtil(mContext);
 
-        mTopTitleView1=findViewById(R.id.customTopTitleView1);
+        mTopTitleView1 = findViewById(R.id.customTopTitleView1);
         mPullToRefresh = findViewById(R.id.sv);
-        mNoData=findViewById(R.id.no_data_tvw123);
-        mGridView=findViewById(R.id.grid_view_8);
-        mGridAdater=new SongDeskGrid1Adater(mContext,R.layout.item_gridicon_image,mGridItemList);
+        mNoData = findViewById(R.id.no_data_tvw123);
+        mGridView = findViewById(R.id.grid_view_8);
+        mGridAdater = new SongDeskGrid1Adater(mContext, R.layout.item_gridicon_image, mGridItemList);
         mGridView.setAdapter(mGridAdater);
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         getRankingListData();
     }
 
-    private void initLiter(){
+    private void initLiter() {
         mGridView.setOnItemClickListener(new MyOnItemClickListener());
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
     }
 
-    private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ListInfo item= mGridItemList.get(position);
-            if (item!=null){
-                IntentUtils.strIntentString(mContext, SongDeskActivity2.class,"id","name",item.getId(),item.getName());
+            ListInfo item = mGridItemList.get(position);
+            if (item != null) {
+                IntentUtils.strIntentString(mContext, SongDeskActivity2.class, "id", "name", item.getId(), item.getName());
             }
         }
     }
@@ -174,7 +174,7 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
         @Override
         public void onPullDownToRefresh(PullToRefreshBase pullToRefreshBase) {
             mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
-            mPage=1;
+            mPage = 1;
             mGridItemList.clear();
             getRankingListData();
         }
@@ -193,11 +193,11 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
     /**
      * 获取排行榜分类(更多)
      */
-    private void getRankingListData(){
+    private void getRankingListData() {
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
-        String tel= mSP.getString("telPhone",null);//tel
-        String token= mSP.getString("token",null);//token
-        Logger.i(TAG,"tel.."+tel+"..token.."+token);
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        Logger.i(TAG, "tel.." + tel + "..token.." + token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
         weakHashMap.put("page", mPage + "");//第几页    不填默认1
@@ -217,16 +217,17 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"s.."+s);
+                    Logger.i(TAG, "s.." + s);
 
                     AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                    if (aJson!=null){
-                        if (aJson.getCode()==0){
-                            GridList gridList = App.jsonToObject(s, new TypeToken<AJson<GridList>>() {}).getData();
+                    if (aJson != null) {
+                        if (aJson.getCode() == 0) {
+                            GridList gridList = App.jsonToObject(s, new TypeToken<AJson<GridList>>() {
+                            }).getData();
                             mHandler.sendEmptyMessage(SongDeskMoreSuccess);
-                            Logger.i(TAG,"aJson1..."+aJson.toString());
+                            Logger.i(TAG, "aJson1..." + aJson.toString());
                             setState(gridList.getList());
-                        } else if (aJson.getCode()==500){
+                        } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(SongDeskExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {
                             mHandler.obtainMessage(SongDeskMoreError, aJson.getMsg()).sendToTarget();
@@ -241,12 +242,12 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
         } else {
             mSvProgressHUD.dismiss();
             mPullToRefresh.onRefreshComplete();
-            ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
 
-    private void setState(List<ListInfo> itemList){
-        if (itemList!=null&&!itemList.isEmpty()){
+    private void setState(List<ListInfo> itemList) {
+        if (itemList != null && !itemList.isEmpty()) {
             mGridItemList.addAll(itemList);
         }
     }
@@ -254,7 +255,7 @@ public class SongDeskjMoreActivity extends AppCompatActivity{
     /**
      * 返回事件
      */
-    public class MyOnClickBackReturn implements View.OnClickListener{
+    public class MyOnClickBackReturn implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             finish();

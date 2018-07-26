@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="60dp"
-    android:background="@drawable/powindos_roids_bk"
     android:layout_marginRight="60dp"
+    android:background="@drawable/powindos_roids_bk"
     android:orientation="vertical">
 
     <TextView
@@ -26,9 +26,9 @@
         android:id="@+id/song_btn_1"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:background="@drawable/selector_btn_powin1"
         android:gravity="center"
         android:text="歌名"
-        android:background="@drawable/selector_btn_powin1"
         android:textColor="@color/white"
         android:textSize="20sp" />
 

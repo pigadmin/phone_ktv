@@ -27,7 +27,7 @@ public class SingerPlayAdater extends BAdapter<SingerNumBean.SingerBean> {
         TextView singertitle = get(convertView, R.id.singertitle12_tvw);//歌手名称
         TextView singerTypeName = get(convertView, R.id.singerTypeName12_tvw);//大陆男演员
 
-        SingerNumBean.SingerBean playBean= getItem(position);
+        SingerNumBean.SingerBean playBean = getItem(position);
         singertitle.setText(playBean.name);
         singerTypeName.setText(playBean.singerTypeName);
     }

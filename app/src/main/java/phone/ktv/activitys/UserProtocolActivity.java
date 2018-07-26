@@ -19,11 +19,11 @@ import phone.ktv.views.CustomTopTitleView;
 /**
  * 用户协议
  */
-public class UserProtocolActivity extends AppCompatActivity implements View.OnClickListener{
+public class UserProtocolActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "UserProtocolActivity";
 
-    private static final String url="http://192.168.2.25:8060/xieyi/xieyi.html";
+    private static final String url = "http://192.168.2.25:8060/xieyi/xieyi.html";
 
     Context mContext;
 
@@ -41,11 +41,11 @@ public class UserProtocolActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initView() {
-        mContext=UserProtocolActivity.this;
+        mContext = UserProtocolActivity.this;
 
 //        mSvProgressHUD = new SVProgressHUD(mContext);
 
-        mTopTitleView1=findViewById(R.id.customTopTitleView1);
+        mTopTitleView1 = findViewById(R.id.customTopTitleView1);
 
         mWebView = findViewById(R.id.user_proto_wvw);
 
@@ -96,7 +96,7 @@ public class UserProtocolActivity extends AppCompatActivity implements View.OnCl
         mWebView.loadUrl(url);
     }
 
-    private void initLiter(){
+    private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
 
     }
@@ -127,7 +127,7 @@ public class UserProtocolActivity extends AppCompatActivity implements View.OnCl
     /**
      * 返回事件
      */
-    public class MyOnClickBackReturn implements View.OnClickListener{
+    public class MyOnClickBackReturn implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             finish();

@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="10dp"
-    android:layout_marginRight="20dp"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="20dp"
-    android:layout_height="wrap_content">
+    android:layout_marginRight="20dp"
+    android:padding="10dp">
 
     <RelativeLayout
-        android:layout_alignParentLeft="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
 
         <TextView
             android:id="@+id/name_tvw12"
             android:layout_width="wrap_content"
-            android:text="骆驼"
+            android:layout_height="wrap_content"
             android:padding="2dp"
-            android:textColor="@color/white"
-            android:layout_height="wrap_content" />
+            android:text="骆驼"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/song_name12_tvw"
             android:layout_width="wrap_content"
-            android:text="薛之谦"
-            android:padding="2dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/name_tvw12"
-            android:textColor="@color/white"
-            android:layout_height="wrap_content" />
+            android:padding="2dp"
+            android:text="薛之谦"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/song_type12_tvw"
-            android:textColor="@color/viewfinder_laser"
-            android:background="@drawable/secector_play_type"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/name_tvw12"
+            android:background="@drawable/secector_play_type"
             android:padding="2dp"
             android:text="HD"
-            android:layout_marginLeft="8dp"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/viewfinder_laser" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
 
         <ImageView
             android:id="@+id/shoucang12_ivw"
-            android:src="@mipmap/n_t_sc"
-            android:padding="2dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />、
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:src="@mipmap/n_t_sc" />、
 
         <ImageView
             android:id="@+id/tianjia12_ivw"
-            android:src="@mipmap/n_t_tj"
-            android:padding="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/shoucang12_ivw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />、
+            android:padding="2dp"
+            android:src="@mipmap/n_t_tj" />、
 
     </RelativeLayout>
 </RelativeLayout>

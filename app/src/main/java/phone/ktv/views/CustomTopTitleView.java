@@ -36,7 +36,7 @@ public class CustomTopTitleView extends RelativeLayout {
         View textView = LayoutInflater.from(context).inflate(R.layout.custom_top_title_layout, this);
 
         mSrcLogo = textView.findViewById(R.id.src_back_ivw);
-        mTextTitle= textView.findViewById(R.id.text_back_tvw);
+        mTextTitle = textView.findViewById(R.id.text_back_tvw);
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
@@ -54,13 +54,14 @@ public class CustomTopTitleView extends RelativeLayout {
 
     /**
      * 返回事件
+     *
      * @param listener
      */
-    public void toBackReturn(OnClickListener listener){
+    public void toBackReturn(OnClickListener listener) {
         mSrcLogo.setOnClickListener(listener);
     }
 
-    public void setTopText(String text){
+    public void setTopText(String text) {
         mTextTitle.setText(text);
     }
 }

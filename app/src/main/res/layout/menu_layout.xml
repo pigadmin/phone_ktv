@@ -1,157 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:background="@mipmap/bg_fla_src"
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@mipmap/bg_fla_src"
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <LinearLayout
-        android:id="@+id/loging_llt"
-        android:padding="20dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:src="@mipmap/wd_nrq_tx"
-            android:layout_height="wrap_content" />
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/loging_llt"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="20dp">
 
-            <TextView
-                android:id="@+id/user_name_tvw"
+            <ImageView
                 android:layout_width="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginLeft="10dp"
-                android:text="立即登录"
-                android:gravity="center"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wd_nrq_tx" />
 
-            <TextView
-                android:id="@+id/tel_phone_tvw"
-                android:layout_width="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginLeft="10dp"
-                android:text="手机号"
-                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_name_tvw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="立即登录"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tel_phone_tvw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="手机号"
+                    android:textColor="@color/white" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
         <View style="@style/view_line_sbc_header_text" />
 
-    <phone.ktv.views.CustomTextView
-        android:id="@+id/custom_menu_1"
-        android:layout_width="match_parent"
-        custom:src_log_type="@mipmap/wd_icon_1"
-        custom:title_type="收藏列表"
-        custom:num_first_isState="true"
-        custom:num_first_string="0首"
-        android:layout_height="wrap_content"/>
+        <phone.ktv.views.CustomTextView
+            android:id="@+id/custom_menu_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            custom:num_first_isState="true"
+            custom:num_first_string="0首"
+            custom:src_log_type="@mipmap/wd_icon_1"
+            custom:title_type="收藏列表" />
 
         <View style="@style/view_line_sbc_header_text" />
 
-    <phone.ktv.views.CustomTextView
-        android:id="@+id/custom_menu_2"
-        android:layout_width="match_parent"
-        custom:src_log_type="@mipmap/wd_icon_2"
-        custom:title_type="最近播放"
-        custom:num_first_isState="true"
-        custom:num_first_string="0首"
-        android:layout_height="wrap_content"/>
+        <phone.ktv.views.CustomTextView
+            android:id="@+id/custom_menu_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            custom:num_first_isState="true"
+            custom:num_first_string="0首"
+            custom:src_log_type="@mipmap/wd_icon_2"
+            custom:title_type="最近播放" />
 
         <View style="@style/view_line_sbc_header_text" />
 
-    <phone.ktv.views.CustomTextView
-        android:id="@+id/custom_menu_3"
-        android:layout_width="match_parent"
-        custom:src_log_type="@mipmap/wd_icon_3"
-        custom:title_type="产品中心"
-        custom:num_first_isState="false"
-        custom:num_first_string="0首"
-        android:layout_height="wrap_content"/>
+        <phone.ktv.views.CustomTextView
+            android:id="@+id/custom_menu_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            custom:num_first_isState="false"
+            custom:num_first_string="0首"
+            custom:src_log_type="@mipmap/wd_icon_3"
+            custom:title_type="产品中心" />
 
         <View style="@style/view_line_sbc_header_text" />
 
-    <phone.ktv.views.CustomTextView
-        android:id="@+id/custom_menu_4"
-        android:layout_width="match_parent"
-        custom:src_log_type="@mipmap/wd_icon_4"
-        custom:title_type="修改密码"
-        custom:num_first_isState="false"
-        custom:num_first_string="0首"
-        android:layout_height="wrap_content"/>
+        <phone.ktv.views.CustomTextView
+            android:id="@+id/custom_menu_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            custom:num_first_isState="false"
+            custom:num_first_string="0首"
+            custom:src_log_type="@mipmap/wd_icon_4"
+            custom:title_type="修改密码" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/setup_llt"
-            android:padding="20dp"
-            android:orientation="horizontal"
-            android:background="@mipmap/phb_nrq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:layout_gravity="center"
+            android:background="@mipmap/phb_nrq"
             android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal"
+            android:padding="20dp">
 
             <ImageView
-                android:src="@mipmap/wd_bottom_sz"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@mipmap/wd_bottom_sz" />
 
             <TextView
-                android:text="设置"
-                android:textSize="18sp"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/white"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="设置"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/sign_out_llt"
-            android:padding="20dp"
-            android:orientation="horizontal"
-            android:background="@mipmap/phb_nrq"
-            android:layout_marginLeft="1dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:background="@mipmap/phb_nrq"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="20dp">
 
             <ImageView
-                android:src="@mipmap/wd_bottom_tc_15"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@mipmap/wd_bottom_tc_15" />
 
             <TextView
-                android:text="退出"
-                android:textSize="18sp"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/white"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="退出"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -28,16 +28,16 @@ public class RinkingFragmentAdater extends BAdapter<GridItem> {
     @Override
     public void onInitView(View convertView, final int position) {
         ImageView icon = get(convertView, R.id.music_icon);//图片
-        TextView name = get(convertView,R.id.music_name);//名称
+        TextView name = get(convertView, R.id.music_name);//名称
 
         GridItem item = getItem(position);
 
         name.setText(item.name);
-        if (TextUtils.isEmpty(item.icon)){
+        if (TextUtils.isEmpty(item.icon)) {
             icon.setImageResource(R.mipmap.logo);
         } else {
-            String srcPath= PicassoUtil.utf8Togb2312(item.icon);
-            PicassoUtil.picassoAdvanced(context,srcPath,R.mipmap.station_src,R.mipmap.logo,icon);
+            String srcPath = PicassoUtil.utf8Togb2312(item.icon);
+            PicassoUtil.picassoAdvanced(context, srcPath, R.mipmap.station_src, R.mipmap.logo, icon);
         }
     }
 }

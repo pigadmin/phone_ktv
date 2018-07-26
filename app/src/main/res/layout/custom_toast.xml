@@ -2,16 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/toast_message"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
         android:background="@drawable/toast_bg_shape"
-        android:textSize="16sp"
         android:gravity="center"
-        android:textColor="@color/ivory"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        />
+        android:textColor="@color/ivory"
+        android:textSize="16sp" />
 </LinearLayout>

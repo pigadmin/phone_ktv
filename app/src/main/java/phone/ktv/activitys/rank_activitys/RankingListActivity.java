@@ -41,7 +41,7 @@ import phone.ktv.views.MyListView;
 /**
  * 歌曲排行榜 2级
  */
-public class RankingListActivity extends AppCompatActivity{
+public class RankingListActivity extends AppCompatActivity {
 
     private static final String TAG = "RankingListActivity";
 
@@ -57,15 +57,15 @@ public class RankingListActivity extends AppCompatActivity{
 
     private List<MusicPlayBean> musicPlayBeans;
 
-    public static final int RankingListSuccess=100;//排行榜歌曲获取成功
-    public static final int RankingListError=200;//排行榜歌曲获取失败
-    public static final int RankingExpiredToken=300;//Token过期
+    public static final int RankingListSuccess = 100;//排行榜歌曲获取成功
+    public static final int RankingListError = 200;//排行榜歌曲获取失败
+    public static final int RankingExpiredToken = 300;//Token过期
 
     private SVProgressHUD mSvProgressHUD;
 
     private SPUtil mSP;
 
-    private String mRangId,mRangName;
+    private String mRangId, mRangName;
 
     private TextView mSongBang;//情歌榜
     private TextView getmSongBangList;//情歌多少首
@@ -81,15 +81,15 @@ public class RankingListActivity extends AppCompatActivity{
                 case RankingListSuccess://获取成功
                     mRinkingAdater.notifyDataSetChanged();
                     mSongBang.setText(mRangName);
-                    getmSongBangList.setText("/"+musicPlayBeans.size());
+                    getmSongBangList.setText("/" + musicPlayBeans.size());
                     break;
 
                 case RankingListError://获取失败
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
 
                 case RankingExpiredToken://Token过期
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
             }
             mSvProgressHUD.dismiss();
@@ -116,12 +116,12 @@ public class RankingListActivity extends AppCompatActivity{
     /**
      * Bundle传值
      */
-    private void getIntentData(){
-        Intent intent=getIntent();
-        if (intent!=null){
-          mRangId= intent.getStringExtra("rangId");
-          mRangName= intent.getStringExtra("rangName");
-          Logger.i(TAG,"mRangId..."+mRangId+"..mRangName..."+mRangName);
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            mRangId = intent.getStringExtra("rangId");
+            mRangName = intent.getStringExtra("rangName");
+            Logger.i(TAG, "mRangId..." + mRangId + "..mRangName..." + mRangName);
         }
     }
 
@@ -141,28 +141,28 @@ public class RankingListActivity extends AppCompatActivity{
         endLoading.setReleaseLabel("释放即可加载更多");
     }
 
-    private void initView(){
-        musicPlayBeans=new ArrayList<>();
+    private void initView() {
+        musicPlayBeans = new ArrayList<>();
 
-        mContext= RankingListActivity.this;
-        mSvProgressHUD=new SVProgressHUD(mContext);
-        mSP=new SPUtil(mContext);
+        mContext = RankingListActivity.this;
+        mSvProgressHUD = new SVProgressHUD(mContext);
+        mSP = new SPUtil(mContext);
 
-        mTopTitleView1=findViewById(R.id.customTopTitleView1);
+        mTopTitleView1 = findViewById(R.id.customTopTitleView1);
         mPullToRefresh = findViewById(R.id.sv);
-        mSongBang=findViewById(R.id.song_song110_tvw);
-        getmSongBangList=findViewById(R.id.song1_song111_tvw);
-        mQuanbuPlay=findViewById(R.id.quanbu_llt1);
+        mSongBang = findViewById(R.id.song_song110_tvw);
+        getmSongBangList = findViewById(R.id.song1_song111_tvw);
+        mQuanbuPlay = findViewById(R.id.quanbu_llt1);
 
-        mListView=findViewById(R.id.list_view_2);
-        mRinkingAdater=new RinkingListAdater(mContext,R.layout.item_ringlist_layout,musicPlayBeans);
+        mListView = findViewById(R.id.list_view_2);
+        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans);
         mListView.setAdapter(mRinkingAdater);
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         getRankingListData();
     }
 
-    private void initLiter(){
+    private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
@@ -175,7 +175,7 @@ public class RankingListActivity extends AppCompatActivity{
         @Override
         public void onPullDownToRefresh(PullToRefreshBase pullToRefreshBase) {
             mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
-            mPage=1;
+            mPage = 1;
             musicPlayBeans.clear();
             getRankingListData();
         }
@@ -194,7 +194,7 @@ public class RankingListActivity extends AppCompatActivity{
     /**
      * 全部播放
      */
-    private class MyQuanbuPlayOnClick implements View.OnClickListener{
+    private class MyQuanbuPlayOnClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
 
@@ -204,16 +204,16 @@ public class RankingListActivity extends AppCompatActivity{
     /**
      * 排行榜获取歌曲
      */
-    private void getRankingListData(){
+    private void getRankingListData() {
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
-        String tel= mSP.getString("telPhone",null);//tel
-        String token= mSP.getString("token",null);//token
-        Logger.i(TAG,"tel.."+tel+"..token.."+token);
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        Logger.i(TAG, "tel.." + tel + "..token.." + token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
         weakHashMap.put("page", mPage + "");//第几页    不填默认1
         weakHashMap.put("limit", mLimit + "");//页码量   不填默认10，最大限度100
-        weakHashMap.put("rangId",mRangId);//歌手id
+        weakHashMap.put("rangId", mRangId);//歌手id
 
         String url = App.getRqstUrl(App.headurl + "song/getRangeSong", weakHashMap);
         Logger.i(TAG, "url.." + url);
@@ -229,14 +229,15 @@ public class RankingListActivity extends AppCompatActivity{
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"s.."+s);
-                    AJson<List<MusicPlayBean>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<MusicPlayBean>>>() {});
-                    if (aJson!=null){
-                        if (aJson.getCode()==0){
+                    Logger.i(TAG, "s.." + s);
+                    AJson<List<MusicPlayBean>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<MusicPlayBean>>>() {
+                    });
+                    if (aJson != null) {
+                        if (aJson.getCode() == 0) {
                             mHandler.sendEmptyMessage(RankingListSuccess);
-                            Logger.i(TAG,"aJson..."+aJson.toString());
+                            Logger.i(TAG, "aJson..." + aJson.toString());
                             setState(aJson.getData());
-                        } else if (aJson.getCode()==500){
+                        } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {
                             mHandler.obtainMessage(RankingListError, aJson.getMsg()).sendToTarget();
@@ -250,12 +251,12 @@ public class RankingListActivity extends AppCompatActivity{
         } else {
             mSvProgressHUD.dismiss();
             mPullToRefresh.onRefreshComplete();
-            ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
 
-    private void setState(List<MusicPlayBean> itemList){
-        if (itemList!=null&&!itemList.isEmpty()){
+    private void setState(List<MusicPlayBean> itemList) {
+        if (itemList != null && !itemList.isEmpty()) {
             musicPlayBeans.addAll(itemList);
         }
     }
@@ -263,7 +264,7 @@ public class RankingListActivity extends AppCompatActivity{
     /**
      * 返回事件
      */
-    public class MyOnClickBackReturn implements View.OnClickListener{
+    public class MyOnClickBackReturn implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             finish();

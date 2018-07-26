@@ -21,9 +21,9 @@ public class ProductRecyAdapter extends BAdapter<ProductRecyBean> {
     @Override
     public void onInitView(View convertView, int position) {
         TextView name = get(convertView, R.id.name_tvw);//名称
-        TextView address = get(convertView,R.id.address_tvw);//地址
-        TextView nameDate = get(convertView,R.id.name_date_tvw);//时间
-        TextView date = get(convertView,R.id.date_tvw);//时间内容
+        TextView address = get(convertView, R.id.address_tvw);//地址
+        TextView nameDate = get(convertView, R.id.name_date_tvw);//时间
+        TextView date = get(convertView, R.id.date_tvw);//时间内容
 
         ProductRecyBean item = getItem(position);
         address.setText(item.address);

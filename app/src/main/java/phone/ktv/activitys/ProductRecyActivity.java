@@ -41,49 +41,49 @@ public class ProductRecyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_recy_activity_view);
 
-        mContext=ProductRecyActivity.this;
+        mContext = ProductRecyActivity.this;
         initView();
         initLiter();
     }
 
-    private void initView(){
+    private void initView() {
 
-        mTopTitleView1=findViewById(R.id.customTopTitleView1);
+        mTopTitleView1 = findViewById(R.id.customTopTitleView1);
 
-        mProductListView=findViewById(R.id.product_list_lvw);
-        mProductTypeListView=findViewById(R.id.class_list_lvw);
+        mProductListView = findViewById(R.id.product_list_lvw);
+        mProductTypeListView = findViewById(R.id.class_list_lvw);
 
-        mProductBeanList=new ArrayList<>();
-        mProductTypeBeanList=new ArrayList<>();
+        mProductBeanList = new ArrayList<>();
+        mProductTypeBeanList = new ArrayList<>();
 
-        mProductBeanList.add(new ProductRecyBean("台湾","2018-03-28/2018-06-22"));
-        mProductBeanList.add(new ProductRecyBean("台湾","2018-03-28/2018-06-22"));
-        mProductBeanList.add(new ProductRecyBean("台湾","2018-03-28/2018-06-22"));
-        mProductBeanList.add(new ProductRecyBean("台湾","2018-03-28/2018-06-22"));
-        mProductBeanList.add(new ProductRecyBean("台湾","2018-03-28/2018-06-22"));
+        mProductBeanList.add(new ProductRecyBean("台湾", "2018-03-28/2018-06-22"));
+        mProductBeanList.add(new ProductRecyBean("台湾", "2018-03-28/2018-06-22"));
+        mProductBeanList.add(new ProductRecyBean("台湾", "2018-03-28/2018-06-22"));
+        mProductBeanList.add(new ProductRecyBean("台湾", "2018-03-28/2018-06-22"));
+        mProductBeanList.add(new ProductRecyBean("台湾", "2018-03-28/2018-06-22"));
 
-        mProductTypeBeanList.add(new ProductRecyTypeBean("台湾歌曲","立即开通"));
-        mProductTypeBeanList.add(new ProductRecyTypeBean("台湾歌曲","立即开通"));
-        mProductTypeBeanList.add(new ProductRecyTypeBean("台湾歌曲","立即开通"));
-        mProductTypeBeanList.add(new ProductRecyTypeBean("台湾歌曲","立即开通"));
-        mProductTypeBeanList.add(new ProductRecyTypeBean("台湾歌曲","立即开通"));
+        mProductTypeBeanList.add(new ProductRecyTypeBean("台湾歌曲", "立即开通"));
+        mProductTypeBeanList.add(new ProductRecyTypeBean("台湾歌曲", "立即开通"));
+        mProductTypeBeanList.add(new ProductRecyTypeBean("台湾歌曲", "立即开通"));
+        mProductTypeBeanList.add(new ProductRecyTypeBean("台湾歌曲", "立即开通"));
+        mProductTypeBeanList.add(new ProductRecyTypeBean("台湾歌曲", "立即开通"));
 
-        mProductAdapter=new ProductRecyAdapter(mContext,R.layout.item_prord_list_view,mProductBeanList);
+        mProductAdapter = new ProductRecyAdapter(mContext, R.layout.item_prord_list_view, mProductBeanList);
         mProductListView.setAdapter(mProductAdapter);
 
-        mProductTypeAdapter=new ProductRecyTypeAdapter(mContext,R.layout.item_prord_type_list_view,mProductTypeBeanList);
+        mProductTypeAdapter = new ProductRecyTypeAdapter(mContext, R.layout.item_prord_type_list_view, mProductTypeBeanList);
         mProductTypeListView.setAdapter(mProductTypeAdapter);
 
     }
 
-    private void initLiter(){
+    private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
     }
 
     /**
      * 返回事件
      */
-    public class MyOnClickBackReturn implements View.OnClickListener{
+    public class MyOnClickBackReturn implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             finish();

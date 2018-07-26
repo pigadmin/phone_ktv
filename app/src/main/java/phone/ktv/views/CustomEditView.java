@@ -43,8 +43,8 @@ public class CustomEditView extends LinearLayout {
         View textView = LayoutInflater.from(context).inflate(R.layout.custom_edit_view, this);
 
         mSrcLogo = textView.findViewById(R.id.src_logo_ivw1);
-        mInputTitle= textView.findViewById(R.id.input_edt);
-        mVerdCode= textView.findViewById(R.id.verd_code_tvw);
+        mInputTitle = textView.findViewById(R.id.input_edt);
+        mVerdCode = textView.findViewById(R.id.verd_code_tvw);
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
@@ -61,15 +61,16 @@ public class CustomEditView extends LinearLayout {
         int maxLength = typedArray.getInteger(R.styleable.CustomEditView_maxLength, 15);//EditText的maxLeng (内容)
 
         typedArray.recycle();
-        setDefinedView(srclog, titleType,inputState,firstState,passWordState,digits,inputType,maxLength);
+        setDefinedView(srclog, titleType, inputState, firstState, passWordState, digits, inputType, maxLength);
     }
-//
-    private void setDefinedView(int srclog,String titleType,boolean inputState, boolean firstState,boolean passWordState,String digits,int inputType,int maxLength) {
+
+    //
+    private void setDefinedView(int srclog, String titleType, boolean inputState, boolean firstState, boolean passWordState, String digits, int inputType, int maxLength) {
         mSrcLogo.setImageResource(srclog);
         mInputTitle.setHint(titleType);
-        mInputTitle.setEnabled(inputState?true:false);
-        mInputTitle.setTransformationMethod(passWordState?PasswordTransformationMethod.getInstance():HideReturnsTransformationMethod.getInstance());
-        mVerdCode.setVisibility(firstState?View.VISIBLE:View.GONE);
+        mInputTitle.setEnabled(inputState ? true : false);
+        mInputTitle.setTransformationMethod(passWordState ? PasswordTransformationMethod.getInstance() : HideReturnsTransformationMethod.getInstance());
+        mVerdCode.setVisibility(firstState ? View.VISIBLE : View.GONE);
         setCutomInputDigits(digits);//指定字符输入
         mInputTitle.setInputType(inputType);//输入类型
         mInputTitle.setFilters(new InputFilter[]{setInputLength(maxLength)});//输入长度
@@ -77,40 +78,46 @@ public class CustomEditView extends LinearLayout {
 
     /**
      * set输入框值
+     *
      * @param s
      */
-    public void setInputTitle(String s){
-         mInputTitle.setText(s);
+    public void setInputTitle(String s) {
+        mInputTitle.setText(s);
     }
 
     /**
      * get输入框值
+     *
      * @return
      */
-    public String getInputTitle(){
+    public String getInputTitle() {
         return mInputTitle.getText().toString().trim();
     }
+
     /**
      * set验证码按钮文本
+     *
      * @param s
      */
-    public void setVerdCode(String s){
+    public void setVerdCode(String s) {
         mVerdCode.setText(s);
     }
 
     /**
      * get验证码按钮文本
+     *
      * @return
      */
-    public String getVerdCode(){
+    public String getVerdCode() {
         return mVerdCode.getText().toString().trim();
     }
 
     /**
      * 发送验证码
+     *
      * @param listener
      */
-    public void sendOnClick(OnClickListener listener){
+    public void sendOnClick(OnClickListener listener) {
         mVerdCode.setOnClickListener(listener);
     }
 

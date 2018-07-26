@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStripExtends;
 
@@ -55,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView mTelPhone;//手机号
 
     private SPUtil mSP;
+
+    private long firstTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,7 +209,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mCoordinatorMenu.isOpened()) {
             mCoordinatorMenu.closeMenu();
         } else {
-            super.onBackPressed();
+            toReturn();
+        }
+    }
+
+    private void toReturn() {
+        long secondTime = System.currentTimeMillis();
+        if (secondTime - firstTime > 2000) {
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            firstTime = secondTime;//更新firstTime
+        } else {
+            System.exit(0);
         }
     }
 }

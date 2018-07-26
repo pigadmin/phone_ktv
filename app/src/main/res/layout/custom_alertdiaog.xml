@@ -54,8 +54,8 @@
             android:background="@drawable/xiugai_quxiao_left_selector"
             android:gravity="center"
             android:text="取消"
-            android:textStyle="bold"
             android:textColor="#1089E1"
+            android:textStyle="bold"
             android:typeface="sans" />
 
         <View
@@ -72,8 +72,8 @@
             android:background="@drawable/xiugai_quding_regft_selector"
             android:gravity="center"
             android:text="确定"
-            android:textStyle="bold"
             android:textColor="#1089E1"
+            android:textStyle="bold"
             android:typeface="sans" />
     </LinearLayout>
 </LinearLayout>

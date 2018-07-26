@@ -28,16 +28,16 @@ public class SongDeskGrid2Adater extends BAdapter<SingerNumBean.SingerBean> {
     @Override
     public void onInitView(View convertView, final int position) {
         ImageView icon = get(convertView, R.id.music_icon);//图片
-        TextView name = get(convertView,R.id.music_name);//名称
+        TextView name = get(convertView, R.id.music_name);//名称
 
         SingerNumBean.SingerBean item = getItem(position);
 
         name.setText(item.name);
-        if (TextUtils.isEmpty(item.ngPath)){
+        if (TextUtils.isEmpty(item.ngPath)) {
             icon.setImageResource(R.mipmap.logo);
         } else {
-            String srcPath= PicassoUtil.utf8Togb2312(item.ngPath);
-            PicassoUtil.picassoAdvanced(context,srcPath,R.mipmap.station_src,R.mipmap.logo,icon);
+            String srcPath = PicassoUtil.utf8Togb2312(item.ngPath);
+            PicassoUtil.picassoAdvanced(context, srcPath, R.mipmap.station_src, R.mipmap.logo, icon);
         }
     }
 }

@@ -2,6 +2,7 @@ package phone.ktv.tootls;
 
 import android.view.View;
 
+import phone.ktv.R;
 import phone.ktv.views.BtmDialog;
 
 /**
@@ -50,6 +51,7 @@ public class AlertDialogHelper {
         }
         dialog.setCancelable(canle);
         dialog.cancel.setVisibility(View.GONE);
+        dialog.confirm.setBackgroundResource(R.drawable.selector_back3_shape);
         dialog.show();
     }
 }

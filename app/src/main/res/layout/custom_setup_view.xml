@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp"
     android:layout_gravity="center"
-    android:background="@mipmap/phb_nrq">
+    android:background="@mipmap/phb_nrq"
+    android:orientation="horizontal"
+    android:padding="10dp">
 
-        <TextView
-            android:id="@+id/text_title1_tvw"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:textColor="@color/white"
-            android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/text_title1_tvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:textColor="@color/white" />
 
-        <TextView
-            android:id="@+id/text_title2_tvw"
-            android:layout_width="wrap_content"
-            android:text="不开启"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/text_title2_tvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="不开启"
+        android:textColor="@color/white" />
 
-        <phone.ktv.views.SwitchButton
-            android:id="@+id/switch_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            app:sb_shadow_effect="true"
-            app:sb_checked_color="@color/bule"
-            app:sb_checked="true" />
+    <phone.ktv.views.SwitchButton
+        android:id="@+id/switch_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        app:sb_checked="true"
+        app:sb_checked_color="@color/bule"
+        app:sb_shadow_effect="true" />
 
 </LinearLayout>

@@ -37,7 +37,7 @@ public class CustomSetupView extends LinearLayout {
 
         mTextTitle1 = textView.findViewById(R.id.text_title1_tvw);
         mTextTitle2 = textView.findViewById(R.id.text_title2_tvw);
-        mSwitch= textView.findViewById(R.id.switch_btn);
+        mSwitch = textView.findViewById(R.id.switch_btn);
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
@@ -50,21 +50,22 @@ public class CustomSetupView extends LinearLayout {
 
 
         typedArray.recycle();
-        setDefinedView(titleType,oPenText,oPenSwitchState,switchState);
+        setDefinedView(titleType, oPenText, oPenSwitchState, switchState);
     }
 
-    private void setDefinedView(String titleType, boolean oPenText,boolean oPenSwitchState,boolean switchState) {
+    private void setDefinedView(String titleType, boolean oPenText, boolean oPenSwitchState, boolean switchState) {
         mTextTitle1.setText(titleType);
-        mTextTitle2.setVisibility(oPenText?View.VISIBLE:View.GONE);
-        mSwitch.setVisibility(oPenSwitchState?View.VISIBLE:View.GONE);
-        mSwitch.setChecked(switchState?true:false);
+        mTextTitle2.setVisibility(oPenText ? View.VISIBLE : View.GONE);
+        mSwitch.setVisibility(oPenSwitchState ? View.VISIBLE : View.GONE);
+        mSwitch.setChecked(switchState ? true : false);
     }
 
     /**
      * 开关事件
+     *
      * @param listener
      */
-    private void OnCheckSwitchLiter(SwitchButton.OnCheckedChangeListener listener){
+    private void OnCheckSwitchLiter(SwitchButton.OnCheckedChangeListener listener) {
         mSwitch.setOnCheckedChangeListener(listener);
     }
 }

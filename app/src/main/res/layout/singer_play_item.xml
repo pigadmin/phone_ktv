@@ -2,30 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/singertitle12_tvw"
         android:layout_width="match_parent"
-        android:text="歌手"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="歌手"
         android:textColor="@color/white"
-        android:layout_height="wrap_content" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/singerTypeName12_tvw"
         android:layout_width="match_parent"
-        android:text="大陆歌星"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_gravity="center"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="20sp"
-        android:layout_alignParentRight="true"
+        android:text="大陆歌星"
         android:textColor="@color/white"
-        android:layout_height="wrap_content" />
+        android:textSize="20sp" />
 </LinearLayout>
  
