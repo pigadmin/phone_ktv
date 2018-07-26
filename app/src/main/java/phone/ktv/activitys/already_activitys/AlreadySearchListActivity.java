@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.ILoadingLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +46,9 @@ import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ScreenUtils;
 import phone.ktv.tootls.SoftKeyboard;
+import phone.ktv.tootls.TimeUtils;
 import phone.ktv.tootls.ToastUtils;
+import phone.ktv.views.MyListView;
 
 /**
  * 搜索1级  (搜索歌曲,歌星)
@@ -60,8 +65,10 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     private EditText mSearchContent;//搜索内容
     private TextView mSearch;//搜索按钮
 
-    private ListView mListView1;
-    private ListView mListView2;
+    private MyListView mListView1;
+    private MyListView mListView2;
+    private PullToRefreshScrollView mPullToRefresh;
+    private ILoadingLayout mLoadingLayoutProxy;
 
     private RinkingListAdater mRinkingAdater;
     private SingerPlayAdater mSingerAdater;
@@ -78,14 +85,15 @@ public class AlreadySearchListActivity extends AppCompatActivity {
 
     private TextView mNoData;
 
+    private int mLimit = App.Maxlimit;//页码量
+    private int mPage = 1;//第几页
+
     private boolean isState=true;//标识歌名,歌手
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case RankingSearchSuccess://搜索成功
-                    mSvProgressHUD.dismiss();
-
                     if (isState){
                         mRinkingAdater.notifyDataSetChanged();
                         updateData1();
@@ -93,19 +101,18 @@ public class AlreadySearchListActivity extends AppCompatActivity {
                         mSingerAdater.notifyDataSetChanged();
                         updateData2();
                     }
-
                     break;
 
                 case RankingSearchError://搜索失败
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
 
                 case RankingExpiredToken://Token过期
-                    mSvProgressHUD.dismiss();
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
                     break;
             }
+            mSvProgressHUD.dismiss();
+            mPullToRefresh.onRefreshComplete();
         }
     };
 
@@ -116,6 +123,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
 
         initView();
         initLiter();
+        settingPullRefresh();
     }
 
     private void initView() {
@@ -132,6 +140,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
         mVoice= findViewById(R.id.voice12_ivw);
         mSearchContent= findViewById(R.id.search_content_edt);
         mSearch= findViewById(R.id.text_search11_tvw);
+        mPullToRefresh = findViewById(R.id.sv);
 
         mListView1 = findViewById(R.id.list112_view);
         mRinkingAdater=new RinkingListAdater(mContext,R.layout.item_ringlist_layout,musicPlayBeans);
@@ -149,6 +158,46 @@ public class AlreadySearchListActivity extends AppCompatActivity {
         mSearch.setOnClickListener(new MyOnClickListenerSearch());
         mListView1.setOnItemClickListener(new MyOnItemClickListener1());
         mListView2.setOnItemClickListener(new MyOnItemClickListener2());
+        mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
+    }
+
+    /**
+     * PullToRefreshScrollView 属性
+     */
+    private void settingPullRefresh() {
+        mPullToRefresh.setMode(PullToRefreshBase.Mode.BOTH);
+        mLoadingLayoutProxy = mPullToRefresh.getLoadingLayoutProxy(true, false);
+        mLoadingLayoutProxy.setPullLabel("下拉刷新");
+        mLoadingLayoutProxy.setRefreshingLabel("正在刷新");
+        mLoadingLayoutProxy.setReleaseLabel("松开刷新");
+
+        ILoadingLayout endLoading = mPullToRefresh.getLoadingLayoutProxy(false, true);
+        endLoading.setPullLabel("上拉加载更多");
+        endLoading.setRefreshingLabel("拼命加载中...");
+        endLoading.setReleaseLabel("释放即可加载更多");
+    }
+
+    /**
+     * 下拉刷新
+     */
+    private class MyPullToRefresh implements PullToRefreshBase.OnRefreshListener2 {
+        @Override
+        public void onPullDownToRefresh(PullToRefreshBase pullToRefreshBase) {
+            mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
+            mPage=1;
+            musicPlayBeans.clear();
+            getSongNameData();
+        }
+
+        /**
+         * 上拉加载
+         */
+        @Override
+        public void onPullUpToRefresh(PullToRefreshBase pullToRefreshBase) {
+            mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
+            mPage++;
+            getSongNameData();
+        }
     }
 
     /**
@@ -158,9 +207,10 @@ public class AlreadySearchListActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             SoftKeyboard.closeKeybord(mSearchContent,mContext);
+            mPage=1;
             musicPlayBeans.clear();
             mnumBeanList.clear();
-            getSongNameData(mSearchContent.getText().toString().trim());
+            getSongNameData();
         }
     }
 
@@ -272,7 +322,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     /**
      * 歌名搜索
      */
-    private void getSongNameData(String serachConent){
+    private void getSongNameData(){
         mSvProgressHUD.showWithStatus("正在搜索中,请稍后...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         String tel= mSP.getString("telPhone",null);//tel
@@ -281,9 +331,9 @@ public class AlreadySearchListActivity extends AppCompatActivity {
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
         weakHashMap.put("name", "");//名称  （语音输入时直接按名称搜)
-        weakHashMap.put("page",1+"");//第几页    不填默认1
-        weakHashMap.put("limit",10+"");//页码量   不填默认10，最大限度100
-        weakHashMap.put("keyword",serachConent);//搜索关键字
+        weakHashMap.put("page", mPage + "");//第几页    不填默认1
+        weakHashMap.put("limit", mLimit + "");//页码量   不填默认10，最大限度100
+        weakHashMap.put("keyword",mSearchContent.getText().toString().trim());//搜索关键字
 
         String url;
         if (isState){
@@ -342,19 +392,18 @@ public class AlreadySearchListActivity extends AppCompatActivity {
             });
         } else {
             mSvProgressHUD.dismiss();
+            mPullToRefresh.onRefreshComplete();
             ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
         }
     }
 
     private void setStateSongName(List<MusicPlayBean> itemList){
-        musicPlayBeans.clear();
         if (itemList!=null&&!itemList.isEmpty()){
             musicPlayBeans.addAll(itemList);
         }
     }
 
     private void setStateSong(List<SingerNumBean.SingerBean> itemList){
-        mnumBeanList.clear();
         if (itemList!=null&&!itemList.isEmpty()){
             mnumBeanList.addAll(itemList);
         }
