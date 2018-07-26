@@ -4,45 +4,40 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@mipmap/cpzx_k"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="10dp">
 
     <TextView
         android:id="@+id/song_name_tvw"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
         android:singleLine="true"
+        android:layout_weight="1.5"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"
         android:text="台湾歌曲"
         android:textColor="@color/white" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/day_info_tvw"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"
         android:gravity="center_vertical"
+        android:layout_weight="1"
         android:text="(90天/20元)"
         android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/open_up_tvw"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
+        android:textStyle="bold"
+        android:drawableRight="@mipmap/wd_dy"
         android:gravity="center"
+        android:layout_weight="1.5"
         android:text="立即开通:"
-        android:textColor="@color/white" />
+        android:textColor="@drawable/selector_btn_recytype" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
-        android:src="@mipmap/wd_dy" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 </LinearLayout>

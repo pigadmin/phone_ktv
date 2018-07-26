@@ -2,13 +2,29 @@ package phone.ktv.bean;
 
 import java.io.Serializable;
 
+/**
+ * 查看现有产品
+ */
 public class ProductRecyTypeBean implements Serializable {
 
-    public String address;
-    public String date;
+    public String id;
+    public String name;
+    public String type;
+    public String cid;
+    public String days;
+    public int price;
+    public String cName;
 
-    public ProductRecyTypeBean(String address, String date) {
-        this.address = address;
-        this.date = date;
+    @Override
+    public String toString() {
+        return "ProductRecyTypeBean{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", cid='" + cid + '\'' +
+                ", days='" + days + '\'' +
+                ", price='" + price + '\'' +
+                ", cName='" + cName + '\'' +
+                '}';
     }
 }

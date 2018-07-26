@@ -8,13 +8,13 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/name_tvw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
         android:singleLine="true"
-        android:text="名称:"
+        android:textStyle="bold"
+        android:text="名称 :"
         android:textColor="@color/white" />
 
     <TextView
@@ -22,29 +22,52 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
+        android:textStyle="bold"
         android:gravity="center"
         android:text="台湾"
         android:textColor="@color/white" />
 
     <TextView
-        android:id="@+id/name_date_tvw"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="20dp"
         android:gravity="center"
-        android:text="时间:"
+        android:textStyle="bold"
+        android:text="时间 :"
         android:textColor="@color/white" />
 
     <TextView
-        android:id="@+id/date_tvw"
+        android:id="@+id/date_star_tvw"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
         android:gravity="center"
+        android:maxLength="10"
         android:singleLine="true"
         android:text="2018-03-28/2018-06-22"
         android:textColor="@color/white" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:maxLength="1"
+        android:singleLine="true"
+        android:text="/"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/date_end_tvw"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:maxLength="10"
+        android:singleLine="true"
+        android:text="2018-03-28/2018-06-22"
+        android:textColor="@color/white" />
 
 </LinearLayout>

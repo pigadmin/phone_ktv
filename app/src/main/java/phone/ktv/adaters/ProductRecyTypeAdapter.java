@@ -9,6 +9,9 @@ import java.util.List;
 import phone.ktv.R;
 import phone.ktv.bean.ProductRecyTypeBean;
 
+/**
+ * 查看现有产品adater
+ */
 public class ProductRecyTypeAdapter extends BAdapter<ProductRecyTypeBean> {
 
     Context mContext;
@@ -20,11 +23,23 @@ public class ProductRecyTypeAdapter extends BAdapter<ProductRecyTypeBean> {
 
     @Override
     public void onInitView(View convertView, int position) {
-        TextView songName = get(convertView, R.id.song_name_tvw);//名称
-        TextView openUp = get(convertView, R.id.open_up_tvw);//地址
+        TextView songName = get(convertView, R.id.song_name_tvw);//台湾歌曲
+        TextView dayInfo = get(convertView, R.id.day_info_tvw);//(X天/X元)
+        TextView openUp = get(convertView, R.id.open_up_tvw);//立即开通
 
         ProductRecyTypeBean item = getItem(position);
-        songName.setText(item.address);
-        openUp.setText(item.date);
+        if (item != null) {
+            songName.setText(item.name);
+
+            String s = "("+item.days + "天/" + item.price + "元)";
+            dayInfo.setText(s);
+        }
+
+        openUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
