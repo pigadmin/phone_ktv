@@ -24,8 +24,6 @@
         android:scrollbars="none"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        ptr:ptrHeaderSubTextColor="@color/black"
-        ptr:ptrHeaderTextColor="@color/colorAccent"
         ptr:ptrMode="both">
 
         <phone.ktv.views.MyGridView

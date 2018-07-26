@@ -72,8 +72,6 @@
         android:focusableInTouchMode="true"
         android:layout_below="@+id/llt123_llt"
         android:scrollbars="none"
-        ptr:ptrHeaderSubTextColor="@color/white"
-        ptr:ptrHeaderTextColor="@color/white"
         ptr:ptrMode="both">
 
         <phone.ktv.views.MyListView

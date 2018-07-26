@@ -17,8 +17,6 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scrollbars="none"
-        ptr:ptrHeaderSubTextColor="@color/white"
-        ptr:ptrHeaderTextColor="@color/white"
         ptr:ptrMode="both">
 
         <phone.ktv.views.MyListView

@@ -24,8 +24,6 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scrollbars="none"
-        ptr:ptrHeaderSubTextColor="@color/black"
-        ptr:ptrHeaderTextColor="@color/black"
         ptr:ptrMode="both">
 
         <phone.ktv.views.MyGridView
