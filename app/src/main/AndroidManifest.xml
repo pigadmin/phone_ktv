@@ -38,7 +38,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activitys.FlashScreenActivity">
+        <activity
+            android:name=".activitys.FlashScreenActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,67 +52,83 @@
         <!--主页面-->
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--注册页面-->
         <activity
             android:name=".activitys.RegisterActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--登录页面-->
         <activity
             android:name=".activitys.LoginActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--忘记密码-->
         <activity
             android:name=".activitys.ForgetPsdActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--产品中心-->
         <activity
             android:name=".activitys.ProductRecyActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--设置-->
         <activity
             android:name=".activitys.SetUpActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--用户协议-->
         <activity
             android:name=".activitys.UserProtocolActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--修改密码-->
         <activity
             android:name=".activitys.ModifyPsdActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--点歌台分类(更多)-->
         <activity
             android:name=".activitys.songdesk_activitys.SongDeskjMoreActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--点歌台2级-->
         <activity
             android:name=".activitys.songdesk_activitys.SongDeskActivity2"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--点歌台3级-->
         <activity
             android:name=".activitys.songdesk_activitys.SongDeskActivity3"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--点歌台4级-->
         <activity
             android:name=".activitys.songdesk_activitys.SongDeskActivity4"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--排行榜分类(更多)-->
         <activity
             android:name=".activitys.rank_activitys.RankingMoreActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--排行榜歌曲-->
         <activity
             android:name=".activitys.rank_activitys.RankingListActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <!--已点搜索-->
         <activity
             android:name=".activitys.already_activitys.AlreadySearchListActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <!--已点搜索2-->
         <activity
             android:name=".activitys.already_activitys.AlreadySearchListActivity2"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
