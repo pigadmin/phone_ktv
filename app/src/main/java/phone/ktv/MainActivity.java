@@ -1,11 +1,11 @@
 package phone.ktv;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStripExtends;
+import com.bigkoo.svprogresshud.SVProgressHUD;
 
 import phone.ktv.activitys.LoginActivity;
 import phone.ktv.activitys.ModifyPsdActivity;
@@ -21,15 +22,18 @@ import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
 import phone.ktv.activitys.already_activitys.AlreadySearchListActivity;
 import phone.ktv.adaters.TabAdater;
+import phone.ktv.tootls.Contants;
 import phone.ktv.tootls.IntentUtils;
+import phone.ktv.tootls.PermissionRequestUtil;
 import phone.ktv.tootls.SPUtil;
+import phone.ktv.tootls.UpdateVersionUtils;
 import phone.ktv.views.CoordinatorMenu;
 import phone.ktv.views.CustomTextView;
 
 /**
  * 主页
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,PermissionRequestUtil.PermissionRequestListener {
 
     private static final String TAG = "MainActivity";
     private PagerSlidingTabStripExtends mNewsTabs;
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CustomTextView mCustomTextView2;//最近播放
     private CustomTextView mCustomTextView3;//产品中心
     private CustomTextView mCustomTextView4;//修改密码
+    private CustomTextView mCustomTextView5;//版本更新
 
     private LinearLayout mSetup;//设置
     private LinearLayout mSignOut;//退出
@@ -58,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SPUtil mSP;
 
+    private SVProgressHUD mSvProgressHUD;
+
     private long firstTime;
 
     @Override
@@ -65,6 +72,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
+
+        //动态申请权限(动态申请的权限需要在AndroidManifest.xml中声明)
+        PermissionRequestUtil.judgePermissionOver23(this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                Contants.PermissRequest);
 
         initView();
         initMenuView();
@@ -78,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCustomTextView2 = findViewById(R.id.custom_menu_2);
         mCustomTextView3 = findViewById(R.id.custom_menu_3);
         mCustomTextView4 = findViewById(R.id.custom_menu_4);
+        mCustomTextView5 = findViewById(R.id.custom_menu_5);
 
         mSetup = findViewById(R.id.setup_llt);
         mSignOut = findViewById(R.id.sign_out_llt);
@@ -103,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         mSP=new SPUtil(mContext);
+        mSvProgressHUD=new SVProgressHUD(mContext);
         mPagerChange = new onPageChangeListener();
 
         mCoordinatorMenu = findViewById(R.id.menu);
@@ -132,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCustomTextView2.setOnClickListener(this);
         mCustomTextView3.setOnClickListener(this);
         mCustomTextView4.setOnClickListener(this);
+        mCustomTextView5.setOnClickListener(this);
 
         mSetup.setOnClickListener(this);
         mSignOut.setOnClickListener(this);
@@ -173,6 +188,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 IntentUtils.thisToOther(mContext, ModifyPsdActivity.class);
                 break;
 
+            case R.id.custom_menu_5://版本更新
+                updateApk();
+                break;
+
             case R.id.setup_llt://设置
                 IntentUtils.thisToOther(mContext, SetUpActivity.class);
                 break;
@@ -181,6 +200,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
         }
+    }
+
+    private void updateApk(){
+        UpdateVersionUtils utils=new UpdateVersionUtils(mSvProgressHUD,mContext);
+        utils.submLoginData();
     }
 
     /**
@@ -221,5 +245,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             System.exit(0);
         }
+    }
+
+
+    @Override
+    public void onPermissionReqResult(int reqCode, boolean isAllow) {
+        if (reqCode != Contants.PermissRequest) {
+            return;
+        }
+        if (isAllow) {
+            //被授权
+            Toast.makeText(this, "已获取所有权限", Toast.LENGTH_SHORT).show();
+        } else {
+            //App申请的权限已被拒绝,为了能正常使用,请进入设置--权限管理打开相关权限
+            PermissionRequestUtil.openAppDetails(this);
+        }
+    }
+
+    /**
+     * 重写这个系统方法
+     *
+     * @param requestCode  请求码
+     * @param permissions  权限数组
+     * @param grantResults 请求结果数据集
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //调用封装好的方法
+        PermissionRequestUtil.solvePermissionRequest(this, requestCode, grantResults);
     }
 }

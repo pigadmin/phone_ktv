@@ -78,7 +78,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             custom:num_first_isState="false"
-            custom:num_first_string="0首"
             custom:src_log_type="@mipmap/wd_icon_3"
             custom:title_type="产品中心" />
 
@@ -89,9 +88,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             custom:num_first_isState="false"
-            custom:num_first_string="0首"
             custom:src_log_type="@mipmap/wd_icon_4"
             custom:title_type="修改密码" />
+
+        <View style="@style/view_line_sbc_header_text" />
+
+        <phone.ktv.views.CustomTextView
+            android:id="@+id/custom_menu_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            custom:num_first_isState="false"
+            custom:src_log_type="@mipmap/wd_icon_4"
+            custom:title_type="版本更新" />
     </LinearLayout>
 
     <LinearLayout
