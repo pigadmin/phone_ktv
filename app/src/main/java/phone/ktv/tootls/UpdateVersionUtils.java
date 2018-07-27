@@ -52,16 +52,15 @@ public class UpdateVersionUtils {
                     String json = GsonJsonUtils.parseObj2Json(((AJson) msg.obj).getData());
                     UpdateVerBean verBean = GsonJsonUtils.parseJson2Obj(json, UpdateVerBean.class);
                     state(verBean);
-                    mSvProgressHUD.dismiss();
                     break;
                 case Request_Failure:
                     ToastUtils.showLongToast(context, "更新失败:" + msg.obj);
-                    mSvProgressHUD.dismiss();
                     break;
                 case Version_New_Date:
-                    mSvProgressHUD.showSuccessWithStatus("版本已最新");
+                    ToastUtils.showLongToast(context, "当前版本已最新");
                     break;
             }
+            mSvProgressHUD.dismiss();
         }
     };
 
@@ -143,6 +142,7 @@ public class UpdateVersionUtils {
         pd = new ProgressDialog(context);
         pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         pd.setMessage("正在下载更新");
+        pd.setCancelable(false);
         pd.show();
         //启动子线程下载任务
         new Thread() {
