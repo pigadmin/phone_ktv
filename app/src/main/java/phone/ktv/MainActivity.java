@@ -22,11 +22,13 @@ import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
 import phone.ktv.activitys.already_activitys.AlreadySearchListActivity;
 import phone.ktv.adaters.TabAdater;
+import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.Contants;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.PermissionRequestUtil;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.UpdateVersionUtils;
+import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CoordinatorMenu;
 import phone.ktv.views.CustomTextView;
 
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private long firstTime;
 
+    private TextView mSintUser;//退出账户
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,11 +102,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mUserName = findViewById(R.id.user_name_tvw);
         mTelPhone = findViewById(R.id.tel_phone_tvw);
+
+        mSintUser = findViewById(R.id.sint_user_tvw);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        updateState();
+    }
+
+    private void updateState(){
         if (mSP != null) {
             String username = mSP.getString("username", null);
             String telPhone = mSP.getString("telPhone", null);
@@ -152,6 +162,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSetup.setOnClickListener(this);
         mSignOut.setOnClickListener(this);
         mSearch.setOnClickListener(this);
+
+        mSintUser.setOnClickListener(this);
     }
 
     @Override
@@ -199,6 +211,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.sign_out_llt://退出
 
+                break;
+
+            case R.id.sint_user_tvw://退出账户
+                exitOnClick();
                 break;
         }
     }
@@ -275,5 +291,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //调用封装好的方法
         PermissionRequestUtil.solvePermissionRequest(this, requestCode, grantResults);
+    }
+
+    private void exitOnClick(){
+        if (mSP != null) {
+            String token= mSP.getString("token",null);//token
+            if (TextUtils.isEmpty(token)){
+                toLoginInfo();
+            } else {
+                exitAccount();
+            }
+        }
+    }
+
+    /**
+     * 提示框
+     */
+    private void toLoginInfo(){
+        final BtmDialog dialog = new BtmDialog(this, "温馨提示", "当前无账户,请先登录");
+        AlertDialogHelper.BtmDialogDerive2(dialog,false,true,null);
+    }
+
+    /**
+     * 退出当前账户提示框
+     */
+    private void exitAccount(){
+        final BtmDialog dialog = new BtmDialog(this, "温馨提示", "确定退出当前账户吗?");
+        AlertDialogHelper.BtmDialogDerive1(dialog, false, true, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSP.clearSpData();
+                updateState();
+                dialog.dismiss();
+            }
+        }, null);
     }
 }

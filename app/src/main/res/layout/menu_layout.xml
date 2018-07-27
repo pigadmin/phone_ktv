@@ -28,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -47,6 +48,15 @@
                     android:text="手机号"
                     android:textColor="@color/white" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/sint_user_tvw"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:text="退出账户"
+                android:textColor="@drawable/selector_btn_more12" />
+
         </LinearLayout>
 
         <View style="@style/view_line_sbc_header_text" />
