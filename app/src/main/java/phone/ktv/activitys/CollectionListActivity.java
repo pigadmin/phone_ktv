@@ -198,7 +198,7 @@ public class CollectionListActivity extends AppCompatActivity {
      * 获取收藏列表
      */
     private void getSongNameData() {
-        mSvProgressHUD.showWithStatus("正在搜索中,请稍后...");
+        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         String tel = mSP.getString("telPhone", null);//tel
         String token = mSP.getString("token", null);//token

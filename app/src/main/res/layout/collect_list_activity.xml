@@ -15,15 +15,15 @@
 
     <View
         android:id="@+id/vs1_vw"
-        android:layout_below="@+id/customTopTitleView1"
-        style="@style/view_line_sbc_header_text_19" />
+        style="@style/view_line_sbc_header_text_19"
+        android:layout_below="@+id/customTopTitleView1" />
 
     <include
         android:id="@+id/inclub_ilb_9"
+        layout="@layout/inclub_play_select_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/vs1_vw"
-        layout="@layout/inclub_play_select_layout" />
+        android:layout_below="@+id/vs1_vw" />
 
     <com.handmark.pulltorefresh.library.PullToRefreshScrollView
         android:id="@+id/sv"

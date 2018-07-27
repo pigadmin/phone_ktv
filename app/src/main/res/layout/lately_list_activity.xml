@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -13,73 +12,42 @@
         android:layout_alignParentTop="true"
         custom:back_text_type="@string/tabTitle5_cat" />
 
-    <LinearLayout
-        android:id="@+id/llt123_llt"
+    <View
+        android:id="@+id/vs1_vw"
+        style="@style/view_line_sbc_header_text_19"
+        android:layout_below="@+id/customTopTitleView1" />
+
+    <include
+        android:id="@+id/inclub_ilb_9"
+        layout="@layout/inclub_play_select_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/vs1_vw" />
+
+    <phone.ktv.views.MyListView
+        android:id="@+id/list_view_22"
+        android:layout_below="@+id/inclub_ilb_9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/customTopTitleView1"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
+        android:dividerHeight="5dp" />
 
-        <TextView
-            android:id="@+id/song_song110_tvw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:text="悲伤情歌榜"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/song1_song111_tvw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="/100首"
-            android:textColor="@color/white" />
-
-        <LinearLayout
-            android:id="@+id/quanbu_llt1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="25dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/select_play" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="全部播放"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
-        android:id="@+id/sv"
+    <TextView
+        android:id="@+id/no_data_tvw16"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/llt123_llt"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:scrollbars="none"
-        ptr:ptrMode="both">
+        android:gravity="center"
+        android:text="当前无搜索结果"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:visibility="gone" />
 
-        <phone.ktv.views.MyListView
-            android:id="@+id/list_view_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="5dp" />
-
-    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+    <TextView
+        android:layout_width="match_parent"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/list_view_22"
+        android:text="这里会记录你最近播放的1000首歌曲"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

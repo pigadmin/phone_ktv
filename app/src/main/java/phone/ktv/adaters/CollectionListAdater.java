@@ -3,7 +3,6 @@ package phone.ktv.adaters;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import phone.ktv.R;
 import phone.ktv.bean.MusicPlayBean;
 
 /**
- * 收藏列表adater
+ * 收藏列表、最近播放adater
  */
 public class CollectionListAdater extends BAdapter<MusicPlayBean> {
     private static final String TAG = "CollectionListAdater";
