@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <phone.ktv.views.CustomTopTitleView
+        android:id="@+id/customTopTitleView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        custom:back_text_type="@string/tabTitle4_cat" />
+
+    <View
+        android:id="@+id/vs1_vw"
+        android:layout_below="@+id/customTopTitleView1"
+        style="@style/view_line_sbc_header_text_19" />
+
     <include
         android:id="@+id/inclub_ilb_9"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_below="@+id/vs1_vw"
         layout="@layout/inclub_play_select_layout" />
 
     <com.handmark.pulltorefresh.library.PullToRefreshScrollView

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStripExtends;
 import com.bigkoo.svprogresshud.SVProgressHUD;
 
+import phone.ktv.activitys.CollectionListActivity;
 import phone.ktv.activitys.LoginActivity;
 import phone.ktv.activitys.ModifyPsdActivity;
 import phone.ktv.activitys.ProductRecyActivity;
@@ -186,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.custom_menu_1://收藏列表
-
+                IntentUtils.thisToOther(mContext, CollectionListActivity.class);
                 break;
 
             case R.id.custom_menu_2://最近播放

@@ -11,19 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        custom:back_text_type="@string/tabTitle3_cat" />
-
-    <View
-        android:id="@+id/vs1_vw"
-        android:layout_below="@+id/customTopTitleView1"
-        style="@style/view_line_sbc_header_text_19" />
+        custom:back_text_type="@string/tabTitle5_cat" />
 
     <LinearLayout
         android:id="@+id/llt123_llt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/customTopTitleView1"
-        android:padding="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <TextView
@@ -56,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/top_icon_1" />
+                android:src="@drawable/select_play" />
 
             <TextView
                 android:layout_width="wrap_content"

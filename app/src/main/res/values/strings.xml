@@ -10,4 +10,6 @@
     <string name="tabTitle1_cat">點歌臺分類</string>
     <string name="tabTitle2_cat">排行榜分類</string>
     <string name="tabTitle3_cat">歌曲排行榜</string>
+    <string name="tabTitle4_cat">收藏列表</string>
+    <string name="tabTitle5_cat">最近播放</string>
 </resources>

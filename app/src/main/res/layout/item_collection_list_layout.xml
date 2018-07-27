@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/name_tvw13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:text="骆驼"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/song_name13_tvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name_tvw13"
+        android:padding="2dp"
+        android:text="薛之谦"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/song_type13_tvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/name_tvw13"
+        android:background="@drawable/secector_play_type"
+        android:padding="2dp"
+        android:text="HD"
+        android:textColor="@color/viewfinder_laser" />
+
+</RelativeLayout>
+
+
