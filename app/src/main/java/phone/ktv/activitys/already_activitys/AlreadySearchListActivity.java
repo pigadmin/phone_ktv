@@ -118,6 +118,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
         initView();
         initLiter();
         settingPullRefresh();
+        getSongNameData();
     }
 
     private void initView() {

@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.sign_out_llt://退出
-
+                toExit();
                 break;
 
             case R.id.sint_user_tvw://退出账户
@@ -263,7 +263,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.exit(0);
         }
     }
-
 
     @Override
     public void onPermissionReqResult(int reqCode, boolean isAllow) {
@@ -322,6 +321,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 mSP.clearSpData();
                 updateState();
+                dialog.dismiss();
+            }
+        }, null);
+    }
+
+
+    private void toExit() {
+        final BtmDialog dialog = new BtmDialog(this, "温馨提示", "是否退出程序?");
+        AlertDialogHelper.BtmDialogDerive1(dialog, false, false, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.exit(0);
                 dialog.dismiss();
             }
         }, null);
