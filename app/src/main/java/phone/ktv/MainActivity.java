@@ -33,7 +33,7 @@ import phone.ktv.views.CustomTextView;
 /**
  * 主页
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,PermissionRequestUtil.PermissionRequestListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, PermissionRequestUtil.PermissionRequestListener {
 
     private static final String TAG = "MainActivity";
     private PagerSlidingTabStripExtends mNewsTabs;
@@ -103,20 +103,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        if (mSP!=null){
-            String username= mSP.getString("username",null);
-            String telPhone= mSP.getString("telPhone",null);
+        if (mSP != null) {
+            String username = mSP.getString("username", null);
+            String telPhone = mSP.getString("telPhone", null);
 
-            mUserName.setText(TextUtils.isEmpty(username)?"立即登录":username);
-            mTelPhone.setText(TextUtils.isEmpty(telPhone)?null:telPhone);
-            mTelPhone.setVisibility(TextUtils.isEmpty(telPhone)?View.GONE:View.VISIBLE);
-            mCustomTextView4.setVisibility(TextUtils.isEmpty(telPhone)?View.GONE:View.VISIBLE);
+            mUserName.setText(TextUtils.isEmpty(username) ? "立即登录" : username);
+            mTelPhone.setText(TextUtils.isEmpty(telPhone) ? null : telPhone);
+            mTelPhone.setVisibility(TextUtils.isEmpty(telPhone) ? View.GONE : View.VISIBLE);
+            mCustomTextView4.setVisibility(TextUtils.isEmpty(telPhone) ? View.GONE : View.VISIBLE);
         }
     }
 
     private void initView() {
-        mSP=new SPUtil(mContext);
-        mSvProgressHUD=new SVProgressHUD(mContext);
+        mSP = new SPUtil(mContext);
+
+        mSvProgressHUD = new SVProgressHUD(mContext);
         mPagerChange = new onPageChangeListener();
 
         mCoordinatorMenu = findViewById(R.id.menu);
@@ -202,8 +203,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void updateApk(){
-        UpdateVersionUtils utils=new UpdateVersionUtils(mSvProgressHUD,mContext);
+    private void updateApk() {
+        UpdateVersionUtils utils = new UpdateVersionUtils(mSvProgressHUD, mContext);
         utils.submLoginData();
     }
 
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 登录
      */
     private void isStateLogin() {
-        IntentUtils.thisToOther(mContext, LoginActivity.class);
+        IntentUtils.intIntent(mContext, LoginActivity.class,"index",1);
     }
 
     class onPageChangeListener implements ViewPager.OnPageChangeListener {

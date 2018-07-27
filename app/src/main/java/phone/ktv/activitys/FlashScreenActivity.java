@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import phone.ktv.bean.WelcomAd;
 import phone.ktv.req.VolleyReq;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.SPUtil;
 
 /**
  * 闪屏页面
@@ -32,6 +34,10 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
 
     private CountDownTimer timer;
     private VolleyReq req;
+
+    private SPUtil mSP;
+
+    private String mToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,10 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
 
     private void initView() {
         mContext = FlashScreenActivity.this;
+        mSP = new SPUtil(mContext);
+
+        mToken = mSP.getString("token", null);//token
+
         mNumtext = findViewById(R.id.num);
         mNumtext.setOnClickListener(this);
 
@@ -56,11 +66,12 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.num:
-                IntentUtils.thisToOther(mContext, MainActivity.class);
+                IntentUtils.thisToOther(mContext, TextUtils.isEmpty(mToken) ? LoginActivity.class : MainActivity.class);
                 finish();
                 break;
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -90,7 +101,7 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            IntentUtils.thisToOther(mContext, MainActivity.class);
+            IntentUtils.thisToOther(mContext, TextUtils.isEmpty(mToken) ? LoginActivity.class : MainActivity.class);
             finish();
         }
         return super.onKeyDown(keyCode, event);

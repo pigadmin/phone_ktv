@@ -1,6 +1,7 @@
 package phone.ktv.activitys;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import java.util.WeakHashMap;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import phone.ktv.MainActivity;
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
@@ -57,6 +59,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private SPUtil mSP;
 
+    private int mIndex = 0;
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -66,6 +70,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     saveLoginData((AJson) msg.obj);
                     clearInput();
                     finish();
+                    if (mIndex==0){
+                        IntentUtils.thisToOther(mContext, MainActivity.class);
+                    }
                     break;
 
                 case LoginRequestError://提交失败
@@ -81,8 +88,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_layout);
+
+        getIntentData();
         initView();
         initLiter();
+    }
+
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            mIndex = intent.getIntExtra("index", 0);
+        }
     }
 
     private void initView() {
