@@ -24,28 +24,24 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import phone.ktv.R;
-import phone.ktv.activitys.LoginActivity;
 import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.bean.ResultBean;
-import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.GsonJsonUtils;
-import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.TimeUtils;
 import phone.ktv.tootls.ToastUtils;
-import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomTopTitleView;
 import phone.ktv.views.MyListView;
 
 /**
  * (点歌台)通过歌星搜索歌曲的列表  4级
  */
-public class SongDeskActivity4 extends AppCompatActivity{
+public class SongDeskActivity4 extends AppCompatActivity {
 
     private static final String TAG = "SongDeskActivity4";
 
@@ -63,13 +59,13 @@ public class SongDeskActivity4 extends AppCompatActivity{
 
     private List<MusicPlayBean> musicPlayBeans;
 
-    public static final int SongDesk4Success=100;//排行榜歌曲获取成功
-    public static final int SongDesk4Error=200;//排行榜歌曲获取失败
-    public static final int SongDesk4ExpiredToken=300;//Token过期
+    public static final int SongDesk4Success = 100;//排行榜歌曲获取成功
+    public static final int SongDesk4Error = 200;//排行榜歌曲获取失败
+    public static final int SongDesk4ExpiredToken = 300;//Token过期
 
     private SPUtil mSP;
 
-    private String mRangId,mRangName;
+    private String mRangId, mRangName;
 
     private TextView mSongBang;//情歌榜
     private TextView getmSongBangList;//情歌多少首
@@ -85,17 +81,16 @@ public class SongDeskActivity4 extends AppCompatActivity{
                 case SongDesk4Success://获取成功
                     mRinkingAdater.notifyDataSetChanged();
                     mSongBang.setText(mRangName);
-                    getmSongBangList.setText("/"+musicPlayBeans.size());
+                    getmSongBangList.setText("/" + musicPlayBeans.size());
                     mTopTitleView1.setTopText(mRangName);
                     break;
 
                 case SongDesk4Error://获取失败
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
 
                 case SongDesk4ExpiredToken://Token过期
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
-                    setTokenState();
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
             }
             mSvProgressHUD.dismiss();
@@ -122,12 +117,12 @@ public class SongDeskActivity4 extends AppCompatActivity{
     /**
      * Bundle传值
      */
-    private void getIntentData(){
-        Intent intent=getIntent();
-        if (intent!=null){
-            mRangId= intent.getStringExtra("id");
-            mRangName= intent.getStringExtra("name");
-            Logger.i(TAG,"id..."+mRangId+"..name..."+mRangName);
+    private void getIntentData() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            mRangId = intent.getStringExtra("id");
+            mRangName = intent.getStringExtra("name");
+            Logger.i(TAG, "id..." + mRangId + "..name..." + mRangName);
         }
     }
 
@@ -147,28 +142,28 @@ public class SongDeskActivity4 extends AppCompatActivity{
         endLoading.setReleaseLabel("释放即可加载更多");
     }
 
-    private void initView(){
-        musicPlayBeans=new ArrayList<>();
+    private void initView() {
+        musicPlayBeans = new ArrayList<>();
 
-        mContext= SongDeskActivity4.this;
-        mSvProgressHUD=new SVProgressHUD(mContext);
-        mSP=new SPUtil(mContext);
+        mContext = SongDeskActivity4.this;
+        mSvProgressHUD = new SVProgressHUD(mContext);
+        mSP = new SPUtil(mContext);
 
-        mTopTitleView1=findViewById(R.id.customTopTitleView1);
-        mSongBang=findViewById(R.id.song_song110_tvw);
-        getmSongBangList=findViewById(R.id.song1_song111_tvw);
-        mQuanbuPlay=findViewById(R.id.quanbu_llt1);
+        mTopTitleView1 = findViewById(R.id.customTopTitleView1);
+        mSongBang = findViewById(R.id.song_song110_tvw);
+        getmSongBangList = findViewById(R.id.song1_song111_tvw);
+        mQuanbuPlay = findViewById(R.id.quanbu_llt1);
         mPullToRefresh = findViewById(R.id.sv);
 
-        mListView=findViewById(R.id.list_view_2);
-        mRinkingAdater=new RinkingListAdater(mContext,R.layout.item_ringlist_layout,musicPlayBeans);
+        mListView = findViewById(R.id.list_view_2);
+        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans);
         mListView.setAdapter(mRinkingAdater);
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         getRankingListData();
     }
 
-    private void initLiter(){
+    private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
@@ -181,7 +176,7 @@ public class SongDeskActivity4 extends AppCompatActivity{
         @Override
         public void onPullDownToRefresh(PullToRefreshBase pullToRefreshBase) {
             mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
-            mPage=1;
+            mPage = 1;
             musicPlayBeans.clear();
             getRankingListData();
         }
@@ -200,7 +195,7 @@ public class SongDeskActivity4 extends AppCompatActivity{
     /**
      * 全部播放
      */
-    private class MyQuanbuPlayOnClick implements View.OnClickListener{
+    private class MyQuanbuPlayOnClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
 
@@ -210,16 +205,16 @@ public class SongDeskActivity4 extends AppCompatActivity{
     /**
      * 排行榜获取歌曲
      */
-    private void getRankingListData(){
+    private void getRankingListData() {
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
-        String tel= mSP.getString("telPhone",null);//tel
-        String token= mSP.getString("token",null);//token
-        Logger.i(TAG,"tel.."+tel+"..token.."+token);
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        Logger.i(TAG, "tel.." + tel + "..token.." + token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
         weakHashMap.put("page", mPage + "");//第几页    不填默认1
         weakHashMap.put("limit", mLimit + "");//页码量   不填默认10，最大限度100
-        weakHashMap.put("singerId",mRangId);//歌手id
+        weakHashMap.put("singerId", mRangId);//歌手id
 
         String url = App.getRqstUrl(App.headurl + "song", weakHashMap);
         Logger.i(TAG, "url.." + url);
@@ -235,14 +230,14 @@ public class SongDeskActivity4 extends AppCompatActivity{
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"s.."+s);
+                    Logger.i(TAG, "s.." + s);
                     ResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ResultBean.class);
-                    if (aJson!=null){
-                        if (aJson.code==0){
+                    if (aJson != null) {
+                        if (aJson.code == 0) {
                             mHandler.sendEmptyMessage(SongDesk4Success);
-                            Logger.i(TAG,"aJson1..."+aJson.toString());
+                            Logger.i(TAG, "aJson1..." + aJson.toString());
                             setState(aJson.data.list);
-                        } else if (aJson.code==500){
+                        } else if (aJson.code == 500) {
                             mHandler.obtainMessage(SongDesk4ExpiredToken, aJson.msg).sendToTarget();
                         } else {
                             mHandler.obtainMessage(SongDesk4Error, aJson.msg).sendToTarget();
@@ -256,12 +251,12 @@ public class SongDeskActivity4 extends AppCompatActivity{
         } else {
             mPullToRefresh.onRefreshComplete();
             mSvProgressHUD.dismiss();
-            ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
 
-    private void setState(List<MusicPlayBean> itemList){
-        if (itemList!=null&&!itemList.isEmpty()){
+    private void setState(List<MusicPlayBean> itemList) {
+        if (itemList != null && !itemList.isEmpty()) {
             musicPlayBeans.addAll(itemList);
         }
     }
@@ -269,7 +264,7 @@ public class SongDeskActivity4 extends AppCompatActivity{
     /**
      * 返回事件
      */
-    public class MyOnClickBackReturn implements View.OnClickListener{
+    public class MyOnClickBackReturn implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             finish();
@@ -282,16 +277,5 @@ public class SongDeskActivity4 extends AppCompatActivity{
             finish();
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    public void setTokenState() {
-        final BtmDialog dialog = new BtmDialog(mContext, "温馨提示", "您的身份已过期,请重新登录");
-        AlertDialogHelper.BtmDialogDerive2(dialog, true, false, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentUtils.thisToOther(mContext,LoginActivity.class);
-                finish();
-            }
-        });
     }
 }
