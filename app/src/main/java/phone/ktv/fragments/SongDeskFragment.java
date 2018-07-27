@@ -38,6 +38,7 @@ import phone.ktv.bgabanner.BGABanner;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.LoginRequestUtils;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
@@ -83,6 +84,16 @@ public class SongDeskFragment extends Fragment {
 
                 case RankingExpiredToken://Token过期
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
+//                    LoginRequestUtils requestUtils=new LoginRequestUtils(mSP,mContext);
+//                    requestUtils.requestLoginData();
+//                    if (requestUtils.getRequestIndex()==10){
+//                    Logger.d(TAG,"10..........");
+//                        getRankingListData();
+//                    } else if (requestUtils.getRequestIndex()==20){
+//                        Logger.d(TAG,"20..........");
+//                    } else {
+//                        Logger.d(TAG,"0..........");
+//                    }
                     break;
             }
             mSvProgressHUD.dismiss();
@@ -221,7 +232,6 @@ public class SongDeskFragment extends Fragment {
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
                     Logger.i(TAG,"s.."+s);
-
                     AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
                     if (aJson!=null){
                         if (aJson.getCode()==0){

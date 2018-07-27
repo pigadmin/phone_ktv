@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     saveLoginData((AJson) msg.obj);
                     clearInput();
                     finish();
-                    if (mIndex==0){
+                    if (mIndex == 0) {
                         IntentUtils.thisToOther(mContext, MainActivity.class);
                     }
                     break;
@@ -117,7 +117,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //优先到sp里面拿.
         customEditView1.setInputTitle(mSP.getString("telPhone", null));
-        customEditView2.setInputTitle(mSP.getString("password", null));
+        customEditView2.setInputTitle(mSP.getBoolean("isCheck", false) ? mSP.getString("password", null) : null);
+        mJizhuPsd.setChecked(mSP.getBoolean("isCheck", false));
     }
 
     private void initLiter() {
@@ -137,13 +138,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String token = aJson.getToken();
         Logger.i(TAG, ".....sp保存......" + (aJson.getData()).toString());
         mSP.clearSpData();
-        if (mJizhuPsd.isChecked()) {
-            mSP.putString("password", customEditView2.getInputTitle());
-        }
+        mSP.putString("password", customEditView2.getInputTitle());
         mSP.putString("id", id);
         mSP.putString("telPhone", tel);
         mSP.putString("username", useName);
         mSP.putString("token", token);
+        mSP.putBoolean("isCheck", mJizhuPsd.isChecked());
     }
 
     /**
