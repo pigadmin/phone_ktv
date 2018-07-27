@@ -22,7 +22,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/wd_nrq_tx" />
+                android:src="@mipmap/wd_nrq_tx_1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             custom:num_first_isState="false"
-            custom:src_log_type="@mipmap/wd_icon_4"
+            custom:src_log_type="@mipmap/wd_icon_5"
             custom:title_type="版本更新" />
     </LinearLayout>
 

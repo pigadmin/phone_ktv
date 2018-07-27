@@ -1,15 +1,12 @@
 package phone.ktv.activitys;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
@@ -27,7 +24,6 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.adaters.CollectionListAdater;
-import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.bean.ResultBean;
@@ -36,7 +32,6 @@ import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
-import phone.ktv.tootls.SoftKeyboard;
 import phone.ktv.tootls.TimeUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomTopTitleView;
@@ -199,15 +194,19 @@ public class CollectionListActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * 获取收藏列表
+     */
     private void getSongNameData() {
         mSvProgressHUD.showWithStatus("正在搜索中,请稍后...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         String tel = mSP.getString("telPhone", null);//tel
         String token = mSP.getString("token", null);//token
-        Logger.i(TAG, "tel.." + tel + "..token.." + token);
+        Logger.i(TAG, "tel.." + tel+"..token.."+token);
         weakHashMap.put("telPhone", tel);//手机号
+        weakHashMap.put("token", token);//token
 
-        String url = App.getRqstUrl(App.headurl + "song", weakHashMap);
+        String url = App.getRqstUrl(App.headurl + "song/collect", weakHashMap);
 
         Logger.i(TAG, "url.." + url);
 
