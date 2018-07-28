@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.FileProvider;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
@@ -30,6 +31,7 @@ import phone.ktv.BuildConfig;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.UpdateVerBean;
+import phone.ktv.views.BtmDialog;
 
 /**
  * 版本更新Utils
@@ -115,10 +117,19 @@ public class UpdateVersionUtils {
         }
     }
 
-    private void state(UpdateVerBean verBean) {
+    private void state(final UpdateVerBean verBean) {
         if (verBean != null) {
-            loadNewVersionProgress(verBean.path);
-            Logger.d(TAG, "verBean.path.." + verBean.path);
+            final BtmDialog dialog = new BtmDialog(context, "温馨提示", "发现新版本");
+            dialog.confirm.setText("立刻升级");
+            dialog.cancel.setText("稍后再说");
+            AlertDialogHelper.BtmDialogDerive1(dialog, false, false, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadNewVersionProgress(verBean.path);
+                    Logger.d(TAG, "verBean.path.." + verBean.path);
+                    dialog.dismiss();
+                }
+            }, null);
         }
     }
 
