@@ -65,19 +65,24 @@ public class RankingFragment extends Fragment {
 
     private TextView mMore;//更多
 
+    private TextView mErrorRetry;
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case RankingListSuccess://获取成功
-                    mDeskAdater.notifyDataSetChanged();
+                    updateData();
                     break;
 
                 case RankingListError://获取失败
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    updateData();
                     break;
 
                 case RankingExpiredToken://Token过期
                     ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    updateData();
+                    Logger.d(TAG,"1111111111111111111");
                     break;
             }
         }
@@ -103,6 +108,8 @@ public class RankingFragment extends Fragment {
 
         mBanner = mNewsView.findViewById(R.id.banner_main_accordion);
         mBanner.measure(0, 0);
+
+        mErrorRetry=mNewsView.findViewById(R.id.error_btn_retry_2);
 
         mGridView=mNewsView.findViewById(R.id.grid_view_1);
         mDeskAdater=new RinkingFragmentAdater(mContext,R.layout.item_gridicon_image,mGridItemList);
@@ -143,6 +150,7 @@ public class RankingFragment extends Fragment {
 
         mMore.setOnClickListener(new MyOnClickListenerMore());//更多
         mGridView.setOnItemClickListener(new MyOnItemClickListener());
+        mErrorRetry.setOnClickListener(new MyOnClickListenerErrorRetry());
     }
 
     private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
@@ -152,6 +160,25 @@ public class RankingFragment extends Fragment {
             if (item!=null){
                 IntentUtils.strIntentString(mContext, RankingListActivity.class,"rangId","rangName",item.id,item.name);
             }
+        }
+    }
+
+    private void updateData() {
+        mDeskAdater.notifyDataSetChanged();
+        if (mGridItemList != null && !mGridItemList.isEmpty()) {
+            mErrorRetry.setVisibility(View.GONE);
+        } else {
+            mErrorRetry.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 无数据加载
+     */
+    private class MyOnClickListenerErrorRetry implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            getRankingListData();
         }
     }
 

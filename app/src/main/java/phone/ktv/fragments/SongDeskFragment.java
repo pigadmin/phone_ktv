@@ -63,27 +63,30 @@ public class SongDeskFragment extends Fragment {
 
     private List<ListInfo> mGridItemList;
 
-    public static final int RankingListSuccess=100;//点歌台分类获取成功
-    public static final int RankingListError=200;//点歌台分类获取失败
-    public static final int RankingExpiredToken=300;//Token过期
+    public static final int RankingListSuccess = 100;//点歌台分类获取成功
+    public static final int RankingListError = 200;//点歌台分类获取失败
+    public static final int RankingExpiredToken = 300;//Token过期
 
     private SVProgressHUD mSvProgressHUD;
 
     private TextView mMore;//更多
 
+    private TextView mErrorRetry;
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case RankingListSuccess://获取成功
-                    mDeskAdater.notifyDataSetChanged();
+                    updateData();
                     break;
 
                 case RankingListError://获取失败
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
+                    updateData();
                     break;
 
                 case RankingExpiredToken://Token过期
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
 //                    LoginRequestUtils requestUtils=new LoginRequestUtils(mSP,mContext);
 //                    requestUtils.requestLoginData();
 //                    if (requestUtils.getRequestIndex()==10){
@@ -94,6 +97,7 @@ public class SongDeskFragment extends Fragment {
 //                    } else {
 //                        Logger.d(TAG,"0..........");
 //                    }
+                    updateData();
                     break;
             }
             mSvProgressHUD.dismiss();
@@ -105,9 +109,9 @@ public class SongDeskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mNewsView = inflater.inflate(R.layout.songdesk_fragment_layout, null);
 
-        mContext=getActivity();
-        mSvProgressHUD=new SVProgressHUD(mContext);
-        mSP=new SPUtil(mContext);
+        mContext = getActivity();
+        mSvProgressHUD = new SVProgressHUD(mContext);
+        mSP = new SPUtil(mContext);
 
         initView();
         initLiter();
@@ -115,26 +119,28 @@ public class SongDeskFragment extends Fragment {
         return mNewsView;
     }
 
-    private void initView(){
-        mGridItemList=new ArrayList<>();
+    private void initView() {
+        mGridItemList = new ArrayList<>();
 
-        mMore= mNewsView.findViewById(R.id.more15);
+        mMore = mNewsView.findViewById(R.id.more15);
 
         mBanner = mNewsView.findViewById(R.id.banner_main_accordion);
         mBanner.measure(0, 0);
 
-        mGridView=mNewsView.findViewById(R.id.grid_view_1231);
-        mDeskAdater=new SongDeskGrid1Adater(mContext,R.layout.item_gridicon_image,mGridItemList);
+        mErrorRetry = mNewsView.findViewById(R.id.error_btn_retry_1);
+
+        mGridView = mNewsView.findViewById(R.id.grid_view_1231);
+        mDeskAdater = new SongDeskGrid1Adater(mContext, R.layout.item_gridicon_image, mGridItemList);
         mGridView.setAdapter(mDeskAdater);
     }
 
-    private void initLiter(){
-        List<Integer> int1=new ArrayList<>();
+    private void initLiter() {
+        List<Integer> int1 = new ArrayList<>();
         int1.add(R.mipmap.lu_1);
         int1.add(R.mipmap.lu_2);
         int1.add(R.mipmap.lu_3);
 
-        List<String> int2=new ArrayList<>();
+        List<String> int2 = new ArrayList<>();
         int2.add("图1");
         int2.add("图2");
         int2.add("图3");
@@ -162,19 +168,39 @@ public class SongDeskFragment extends Fragment {
 
         mMore.setOnClickListener(new MyOnClickListenerMore());//更多
         mGridView.setOnItemClickListener(new MyOnItemClickListener());
+        mErrorRetry.setOnClickListener(new MyOnClickListenerErrorRetry());
     }
 
-    private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ListInfo item= mGridItemList.get(position);
-            if (item!=null){
-                IntentUtils.strIntentString(mContext, SongDeskActivity2.class,"id","name",item.getId(),item.getName());
+            ListInfo item = mGridItemList.get(position);
+            if (item != null) {
+                IntentUtils.strIntentString(mContext, SongDeskActivity2.class, "id", "name", item.getId(), item.getName());
             }
         }
     }
 
-    private class MyOnClickListenerMore implements View.OnClickListener{
+    private void updateData() {
+        mDeskAdater.notifyDataSetChanged();
+        if (mGridItemList != null && !mGridItemList.isEmpty()) {
+            mErrorRetry.setVisibility(View.GONE);
+        } else {
+            mErrorRetry.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 无数据加载
+     */
+    private class MyOnClickListenerErrorRetry implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            getRankingListData();
+        }
+    }
+
+    private class MyOnClickListenerMore implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             IntentUtils.thisToOther(mContext, SongDeskjMoreActivity.class);
@@ -186,12 +212,12 @@ public class SongDeskFragment extends Fragment {
         super.onResume();
     }
 
-    private void setState(List<ListInfo> itemList){
+    private void setState(List<ListInfo> itemList) {
         mGridItemList.clear();
-        if (itemList!=null&&!itemList.isEmpty()){
-            if (itemList.size()>9){
-                for (int i=0;i<9;i++){
-                    ListInfo item= itemList.get(i);
+        if (itemList != null && !itemList.isEmpty()) {
+            if (itemList.size() > 9) {
+                for (int i = 0; i < 9; i++) {
+                    ListInfo item = itemList.get(i);
                     mGridItemList.add(item);
                 }
             } else {
@@ -208,12 +234,12 @@ public class SongDeskFragment extends Fragment {
     /**
      * 获取点歌台分类
      */
-    private void getRankingListData(){
+    private void getRankingListData() {
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
-        String tel= mSP.getString("telPhone",null);//tel
-        String token= mSP.getString("token",null);//token
-        Logger.i(TAG,"tel.."+tel+"..token.."+token);
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        Logger.i(TAG, "tel.." + tel + "..token.." + token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
 
@@ -231,15 +257,16 @@ public class SongDeskFragment extends Fragment {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"s.."+s);
+                    Logger.i(TAG, "s.." + s);
                     AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                    if (aJson!=null){
-                        if (aJson.getCode()==0){
-                            GridList gridList = App.jsonToObject(s, new TypeToken<AJson<GridList>>() {}).getData();
+                    if (aJson != null) {
+                        if (aJson.getCode() == 0) {
+                            GridList gridList = App.jsonToObject(s, new TypeToken<AJson<GridList>>() {
+                            }).getData();
                             mHandler.sendEmptyMessage(RankingListSuccess);
-                            Logger.i(TAG,"aJson1..."+aJson.toString());
+                            Logger.i(TAG, "aJson1..." + aJson.toString());
                             setState(gridList.getList());
-                        } else if (aJson.getCode()==500){
+                        } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {
                             mHandler.obtainMessage(RankingListError, aJson.getMsg()).sendToTarget();
@@ -252,7 +279,7 @@ public class SongDeskFragment extends Fragment {
             });
         } else {
             mSvProgressHUD.dismiss();
-            ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
 }
