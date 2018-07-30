@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+import com.iflytek.cloud.SpeechRecognizer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ScreenUtils;
 import phone.ktv.tootls.SoftKeyboard;
+import phone.ktv.tootls.SpeechRecognitionUtils;
 import phone.ktv.tootls.TimeUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.MyListView;
@@ -246,8 +248,15 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     private class MyOnClickListenerVoice implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            SpeechRecognitionUtils utils=new SpeechRecognitionUtils(mContext,mSearchContent);
+            utils.startDialog();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        SpeechRecognizer.getRecognizer().destroy();
     }
 
     /**

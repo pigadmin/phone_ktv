@@ -21,19 +21,18 @@
     <LinearLayout
         android:id="@+id/llt123_llt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:background="@mipmap/phb_nrq"
+        android:layout_height="40dp"
         android:layout_below="@+id/customTopTitleView1"
-        android:padding="5dp"
+        android:padding="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/song_song110_tvw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
             android:text="悲伤情歌榜"
             android:textColor="@color/white"
-            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -48,7 +47,6 @@
             android:id="@+id/quanbu_llt1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="25dp"
             android:orientation="horizontal">
 
             <ImageView
