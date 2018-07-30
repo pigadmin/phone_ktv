@@ -11,6 +11,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 
 import org.xutils.x;
 
@@ -37,6 +39,7 @@ public class App extends Application {
         gson = new GsonBuilder().setDateFormat(
                 "yyyy-MM-dd'T'HH:mm:ss").create();
         config = getSharedPreferences("config", Context.MODE_PRIVATE);
+        initSpeech();
         config();
         getip();
         //    initDBUtils();
@@ -115,11 +118,22 @@ public class App extends Application {
         return builder.toString();
     }
 
+    /**
+     * 讯飞语音初始化
+     * APPID : 5b5c45cf;
+     */
+    private void initSpeech() {
+        //初始化即创建语音配置对象，只有初始化后才可以使用MSC的各项服务，
+        //将XXXXX改成自己应用的AppID,如果不知道AppId在哪，请看第1步中第③小步
+        SpeechUtility.createUtility(context, SpeechConstant.APPID
+                + "=5b5c45cf");
+    }
+
     public void initDBUtils() {
         x.Ext.init(this);
         x.Ext.setDebug(false);// 是否输出debug日志, 开启debug会影响性能
 //        DBUtils = new xDBUtils();
     }
 
-    public static int Maxlimit=10;
+    public static int Maxlimit = 10;
 }
