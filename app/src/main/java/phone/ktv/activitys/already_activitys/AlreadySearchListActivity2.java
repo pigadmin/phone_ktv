@@ -238,7 +238,7 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SpeechRecognizer.getRecognizer().destroy();
+//        SpeechRecognizer.getRecognizer().destroy();
     }
 
     /**

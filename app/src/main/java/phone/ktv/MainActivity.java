@@ -82,7 +82,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //动态申请权限(动态申请的权限需要在AndroidManifest.xml中声明)
         PermissionRequestUtil.judgePermissionOver23(this,
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.RECORD_AUDIO},
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.READ_CONTACTS},
                 Contants.PermissRequest);
 
         initView();
@@ -116,14 +121,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         updateState();
     }
 
-    private void updateState(){
+    private void updateState() {
         if (mSP != null) {
             String username = mSP.getString("username", null);
             String telPhone = mSP.getString("telPhone", null);
 
             mUserName.setText(TextUtils.isEmpty(username) ? "立即登录" : username);
             mTelPhone.setText(TextUtils.isEmpty(telPhone) ? null : telPhone);
-            mUserSrc.setImageResource(TextUtils.isEmpty(telPhone)?R.mipmap.wd_nrq_tx:R.mipmap.wd_nrq_tx_1);
+            mUserSrc.setImageResource(TextUtils.isEmpty(telPhone) ? R.mipmap.wd_nrq_tx : R.mipmap.wd_nrq_tx_1);
             mTelPhone.setVisibility(TextUtils.isEmpty(telPhone) ? View.GONE : View.VISIBLE);
             mCustomTextView4.setVisibility(TextUtils.isEmpty(telPhone) ? View.GONE : View.VISIBLE);
         }
@@ -233,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 登录
      */
     private void isStateLogin() {
-        IntentUtils.intIntent(mContext, LoginActivity.class,"index",1);
+        IntentUtils.intIntent(mContext, LoginActivity.class, "index", 1);
     }
 
     class onPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -297,10 +302,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         PermissionRequestUtil.solvePermissionRequest(this, requestCode, grantResults);
     }
 
-    private void exitOnClick(){
+    private void exitOnClick() {
         if (mSP != null) {
-            String token= mSP.getString("token",null);//token
-            if (TextUtils.isEmpty(token)){
+            String token = mSP.getString("token", null);//token
+            if (TextUtils.isEmpty(token)) {
                 toLoginInfo();
             } else {
                 exitAccount();
@@ -311,15 +316,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 提示框
      */
-    private void toLoginInfo(){
+    private void toLoginInfo() {
         final BtmDialog dialog = new BtmDialog(this, "温馨提示", "当前无账户,请先登录");
-        AlertDialogHelper.BtmDialogDerive2(dialog,false,true,null);
+        AlertDialogHelper.BtmDialogDerive2(dialog, false, true, null);
     }
 
     /**
      * 退出当前账户提示框
      */
-    private void exitAccount(){
+    private void exitAccount() {
         final BtmDialog dialog = new BtmDialog(this, "温馨提示", "确定退出当前账户吗?");
         AlertDialogHelper.BtmDialogDerive1(dialog, false, true, new View.OnClickListener() {
             @Override

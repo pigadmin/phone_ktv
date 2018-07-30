@@ -58,12 +58,12 @@ public class SpeechRecognitionUtils implements RecognizerDialogListener, InitLis
     public void startDialog() {
         RecognizerDialog dialog = new RecognizerDialog(context, this);
         dialog.setListener(this);
-//        dialog.setParameter(SpeechConstant.DOMAIN, "iat"); // domain:域名
-        dialog.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
-        dialog.setParameter(SpeechConstant.ACCENT, "mandarin"); // mandarin:普通话
+        dialog.setParameter(SpeechConstant.LANGUAGE, "zh_cn");//语种，这里可以有zh_cn和en_us
+        dialog.setParameter(SpeechConstant.ACCENT, "mandarin");//设置口音，这里设置的是汉语普通话 具体支持口音请查看讯飞文档
+        dialog.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");//设置编码类型
         dialog.show();
         TextView txt = dialog.getWindow().getDecorView().findViewWithTag("textlink");
-        txt.setText(null);
+        txt.setText("");
     }
 
     //打印结果
