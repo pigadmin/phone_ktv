@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/powindos_roids_bk"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/play_style_1_rbn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_play_style_bg3"
+        android:drawableLeft="@mipmap/popovers_x_1"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/popovers_y_1"
+        android:padding="15dp"
+        android:text="顺序播放"
+        android:textColor="@color/mybuttonbg2"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/play_style_2_rbn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_play_style_bg1"
+        android:drawableLeft="@mipmap/popovers_s_1"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/popovers_y_1"
+        android:padding="15dp"
+        android:text="随机播放"
+        android:textColor="@color/mybuttonbg2"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/play_style_3_rbn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_play_style_bg2"
+        android:drawableLeft="@mipmap/popovers_n_1"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/popovers_y_1"
+        android:padding="15dp"
+        android:text="单曲循环"
+        android:textColor="@color/mybuttonbg2"
+        android:textStyle="bold" />
+
+</LinearLayout>

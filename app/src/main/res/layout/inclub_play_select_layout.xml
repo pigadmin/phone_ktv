@@ -5,17 +5,17 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/a1"
+        android:id="@+id/title_1_ivw"
         android:layout_width="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:layout_height="wrap_content"
-        android:src="@mipmap/popovers_sx1" />
+        android:src="@mipmap/popovers_x_0" />
 
     <View
         android:id="@+id/a2"
-        android:layout_toRightOf="@id/a1"
+        android:layout_toRightOf="@id/title_1_ivw"
         android:layout_width="1px"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"

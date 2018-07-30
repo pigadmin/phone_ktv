@@ -20,9 +20,9 @@
             android:padding="20dp">
 
             <ImageView
+                android:id="@+id/user_src_ivw"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/wd_nrq_tx_1" />
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"

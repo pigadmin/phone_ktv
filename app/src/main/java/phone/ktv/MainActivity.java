@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageView mSearch;//搜索
 
+    private ImageView mUserSrc;//用户头像
     private TextView mUserName;//用户名
     private TextView mTelPhone;//手机号
 
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSignOut = findViewById(R.id.sign_out_llt);
         mSearch = findViewById(R.id.main_btn_search);
 
+        mUserSrc = findViewById(R.id.user_src_ivw);
         mUserName = findViewById(R.id.user_name_tvw);
         mTelPhone = findViewById(R.id.tel_phone_tvw);
 
@@ -121,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             mUserName.setText(TextUtils.isEmpty(username) ? "立即登录" : username);
             mTelPhone.setText(TextUtils.isEmpty(telPhone) ? null : telPhone);
+            mUserSrc.setImageResource(TextUtils.isEmpty(telPhone)?R.mipmap.wd_nrq_tx:R.mipmap.wd_nrq_tx_1);
             mTelPhone.setVisibility(TextUtils.isEmpty(telPhone) ? View.GONE : View.VISIBLE);
             mCustomTextView4.setVisibility(TextUtils.isEmpty(telPhone) ? View.GONE : View.VISIBLE);
         }

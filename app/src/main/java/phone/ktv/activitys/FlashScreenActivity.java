@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -44,6 +45,8 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
 
     private String mToken;
 
+    private List<AdverOpenOne.AdverOpenTwo> mOpenTwoList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,8 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
 
 
     private void initView() {
+        mOpenTwoList = new ArrayList<>();
+
         mContext = FlashScreenActivity.this;
         mSP = new SPUtil(mContext);
 
@@ -135,14 +140,12 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
                     if (aJson != null) {
                         if (aJson.getCode() == 0) {
                             Logger.i(TAG, "aJson1.." + aJson.toString());
-                            List<AdverOpenOne> openOne=aJson.getData();
-                            if (openOne!=null){
-                                Logger.i(TAG, "openOne.." + openOne.toString());
-                                AdverOpenOne.AdverOpenTwo openTwo= openOne.get(0).ad;
-                                if (openTwo!=null){
-                                    Logger.i(TAG, "openTwo.." + openTwo.toString());
-                                } else {
-
+                            List<AdverOpenOne> openOne = aJson.getData();
+                            if (openOne != null) {
+                                for (AdverOpenOne one : openOne) {
+                                    if (one.ad != null) {
+                                        mOpenTwoList.add(one.ad);
+                                    }
                                 }
                             } else {
 
