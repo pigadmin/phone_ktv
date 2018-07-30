@@ -238,41 +238,45 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case UPDATE_AD:
-                    if (currentad < openOne.size()) {
-                        ad = mOpenTwoList.get(currentad);
-                        switch (ad.type) {
-                            case 1:
-                                if (ad_image.isShown()) {
-                                    ad_image.setVisibility(View.GONE);
-                                }
-                                if (!ad_video.isShown()) {
-                                    ad_video.setVisibility(View.VISIBLE);
-                                }
-                                videourl = ad.path;
-                                if (mediaPlayer.isPlaying()) {
-                                    mediaPlayer.stop();
-                                    mediaPlayer.reset();
-                                }
-                                playvideo();
-                                break;
-                            case 2:
-                                if (!ad_image.isShown()) {
-                                    ad_image.setVisibility(View.VISIBLE);
-                                }
-                                if (ad_video.isShown()) {
-                                    ad_video.setVisibility(View.GONE);
-                                }
-                                videourl = ad.backFile;
-                                Picasso.with(FlashScreenActivity.this).load(ad.path).into(ad_image);
-                                playmusic();
-                                break;
+            try {
+                switch (msg.what) {
+                    case UPDATE_AD:
+                        if (currentad < openOne.size()) {
+                            ad = mOpenTwoList.get(currentad);
+                            switch (ad.type) {
+                                case 1:
+                                    if (ad_image.isShown()) {
+                                        ad_image.setVisibility(View.GONE);
+                                    }
+                                    if (!ad_video.isShown()) {
+                                        ad_video.setVisibility(View.VISIBLE);
+                                    }
+                                    videourl = ad.path;
+                                    if (mediaPlayer.isPlaying()) {
+                                        mediaPlayer.stop();
+                                        mediaPlayer.reset();
+                                    }
+                                    playvideo();
+                                    break;
+                                case 2:
+                                    if (!ad_image.isShown()) {
+                                        ad_image.setVisibility(View.VISIBLE);
+                                    }
+                                    if (ad_video.isShown()) {
+                                        ad_video.setVisibility(View.GONE);
+                                    }
+                                    videourl = ad.backFile;
+                                    Picasso.with(FlashScreenActivity.this).load(ad.path).into(ad_image);
+                                    playmusic();
+                                    break;
+                            }
+                            handler.sendEmptyMessageDelayed(UPDATE_AD, openOne.get(currentad).playTime * 1000);
+                            currentad++;
                         }
-                        handler.sendEmptyMessageDelayed(UPDATE_AD, openOne.get(currentad).playTime * 1000);
-                        currentad++;
-                    }
-                    break;
+                        break;
+                }
+            } catch (Exception e) {
+//                e.printStackTrace();
             }
         }
     };
