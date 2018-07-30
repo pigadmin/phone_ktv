@@ -63,7 +63,7 @@ public class ModifyPsdActivity extends AppCompatActivity implements View.OnClick
                     ToastUtils.showLongToast(mContext, "修改密码成功");
                     clearInput();
                     finish();
-                    IntentUtils.thisToOther(mContext, LoginActivity.class);
+                    IntentUtils.intIntent(mContext, LoginActivity.class,"index",1);
                     mSP.clearSpData();
                     break;
 
