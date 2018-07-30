@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
@@ -40,4 +40,6 @@ dependencies {
     implementation(name: 'PagerSlidingTabStrip_Lib-release', ext: 'aar')
     implementation(name: 'svprogresshud-release', ext: 'aar')
     implementation(name: 'pullToRefreshLib-release', ext: 'aar')
+    implementation files('libs/Msc.jar')
+    implementation files('libs/Sunflower.jar')
 }

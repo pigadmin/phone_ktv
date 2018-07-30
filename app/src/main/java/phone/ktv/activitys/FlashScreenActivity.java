@@ -285,7 +285,6 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     private void playvideo() {
 
         if (!videourl.equals("")) {
-            System.out.println("___________________________");
             System.out.println(videourl);
             ad_video.setVideoURI(Uri.parse(videourl));
         }
@@ -314,7 +313,6 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        System.out.println("=================");
         mediaPlayer.start();
     }
 }

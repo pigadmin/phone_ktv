@@ -14,12 +14,14 @@ import com.google.gson.reflect.TypeToken;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 
+import org.xutils.DbManager;
 import org.xutils.x;
 
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.xDBUtils;
 
 public class App extends Application {
 
@@ -42,7 +44,7 @@ public class App extends Application {
         initSpeech();
         config();
         getip();
-        //    initDBUtils();
+        initDBUtils();
     }
 
     public static <T> T jsonToObject(String json, TypeToken<T> typeToken) {
@@ -129,10 +131,15 @@ public class App extends Application {
                 + "=5b5c45cf");
     }
 
+    public static DbManager mDb;
+
     public void initDBUtils() {
         x.Ext.init(this);
         x.Ext.setDebug(false);// 是否输出debug日志, 开启debug会影响性能
-//        DBUtils = new xDBUtils();
+        xDBUtils DBUtils = new xDBUtils();
+
+        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig();
+        mDb = x.getDb(daoConfig);
     }
 
     public static int Maxlimit = 10;

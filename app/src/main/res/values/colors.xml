@@ -76,14 +76,16 @@
     <color name="myblue">#00A0E9</color>
     <color name="mytextview_gray">#e1e1e1</color>
     <color name="mytextview_blue">#1abc9c</color>
-    <color name="myspeedbg"> #F7F5F5</color>
-    <color name="mybuttonbg1"> #f4f4f4</color>
-    <color name="mybuttonbg2"> #6e6e6e</color>
+    <color name="myspeedbg">#F7F5F5</color>
+    <color name="mybuttonbg1">#f4f4f4</color>
+    <color name="mybuttonbg2">#6e6e6e</color>
     <color name="zhxfLab">#313b4b</color>
-    <color name="zhxfText"> #707070</color>
-    <color name="zhxfState"> #F60000</color>
-    <color name="zhxfFooterBarBg"> #4DA3F5</color>
+    <color name="zhxfText">#707070</color>
+    <color name="zhxfState">#F60000</color>
+    <color name="zhxfFooterBarBg">#4DA3F5</color>
     <color name="found_text_color">#353535</color>
     <color name="found_description_color">#aaaaaa</color>
     <color name="found_divide_color">#d9d9d9</color>
+    <color name="ktv_seekbar_p">#1593fd</color>
+    <color name="ktv_seekbar_n">#cccccc</color>
 </resources>

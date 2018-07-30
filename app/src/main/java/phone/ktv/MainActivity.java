@@ -2,19 +2,31 @@ package phone.ktv;
 
 import android.Manifest;
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.astuetz.PagerSlidingTabStripExtends;
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.squareup.picasso.Picasso;
+
+import org.xutils.ex.DbException;
+
+import java.util.List;
 
 import phone.ktv.activitys.CollectionListActivity;
 import phone.ktv.activitys.LatelyListActivity;
@@ -24,6 +36,8 @@ import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
 import phone.ktv.activitys.already_activitys.AlreadySearchListActivity;
 import phone.ktv.adaters.TabAdater;
+import phone.ktv.app.App;
+import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.Contants;
 import phone.ktv.tootls.IntentUtils;
@@ -37,7 +51,7 @@ import phone.ktv.views.CustomTextView;
 /**
  * 主页
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, PermissionRequestUtil.PermissionRequestListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, PermissionRequestUtil.PermissionRequestListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 
     private static final String TAG = "MainActivity";
     private PagerSlidingTabStripExtends mNewsTabs;
@@ -73,11 +87,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private long firstTime;
 
     private TextView mSintUser;//退出账户
+    private App app;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        app = (App) getApplication();
+
+
         mContext = MainActivity.this;
 
         //动态申请权限(动态申请的权限需要在AndroidManifest.xml中声明)
@@ -90,10 +109,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Manifest.permission.READ_CONTACTS},
                 Contants.PermissRequest);
 
+
         initView();
         initMenuView();
+        initPlayer();
         initListener();
+
+        initPlaylist();
     }
+
+    private ImageView mini_icon;
+    private SeekBar player_progress;
+    private TextView player_name, player_singer;
+    private ImageView player_last, player_play, player_next;
+    private VideoView player;
+
+    private void initPlayer() {
+        mini_icon = findViewById(R.id.mini_icon);
+        mini_icon.setOnClickListener(this);
+
+        player_progress = findViewById(R.id.player_progress);
+        player_name = findViewById(R.id.player_name);
+        player_singer = findViewById(R.id.player_singer);
+
+        player_last = findViewById(R.id.player_last);
+        player_last.setOnClickListener(this);
+        player_play = findViewById(R.id.player_play);
+        player_play.setOnClickListener(this);
+        player_next = findViewById(R.id.player_next);
+        player_next.setOnClickListener(this);
+
+//        player = new VideoView(this);
+        player = findViewById(R.id.player);
+        player.setOnPreparedListener(this);
+        player.setOnCompletionListener(this);
+        player.setOnErrorListener(this);
+    }
+
+    private List<MusicPlayBean> playlist;
+
+    private void initPlaylist() {
+        try {
+            playlist = App.mDb.selector(MusicPlayBean.class).findAll();
+            if (!playlist.isEmpty()) {
+//                Picasso.with(this).load(playlist.get(0).n)
+                if (!player.isPlaying()) {
+                    player_name.setText(playlist.get(0).name);
+                    player_singer.setText(playlist.get(0).singerName);
+                    System.out.println("888" + playlist.get(0).path);
+                    player.setVideoURI(Uri.parse(playlist.get(0).path));
+                }
+            }
+
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void initMenuView() {
         mLoging = findViewById(R.id.loging_llt);
@@ -134,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     private void initView() {
         mSP = new SPUtil(mContext);
 
@@ -145,6 +218,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mVpTab = findViewById(R.id.news_vp_tab);
 
         mHeadIv = findViewById(R.id.main_btn_menu);
+
+
     }
 
     private void initListener() {
@@ -240,6 +315,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void isStateLogin() {
         IntentUtils.intIntent(mContext, LoginActivity.class, "index", 1);
     }
+
 
     class onPageChangeListener implements ViewPager.OnPageChangeListener {
         @Override
@@ -347,4 +423,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }, null);
     }
+
+    @Override
+    public void onCompletion(MediaPlayer mediaPlayer) {
+        playnext();
+    }
+
+    private void playnext() {
+    }
+
+    @Override
+    public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+        System.out.println("8888888888888888888888a");
+        return true;
+    }
+
+    private int tmp = 0;
+    private CountDownTimer timer = null;
+
+    @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        System.out.println("2222222222222222222222");
+        mediaPlayer.start();
+        player_progress.setMax(mediaPlayer.getDuration());
+        tmp = 0;
+        timer = new CountDownTimer(mediaPlayer.getDuration(), 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tmp += 1000;
+                player_progress.setProgress(tmp);
+            }
+
+            @Override
+            public void onFinish() {
+                timer.cancel();
+            }
+        }.start();
+
+    }
+
+
 }

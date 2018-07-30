@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,7 +42,7 @@ import phone.ktv.views.MyListView;
 /**
  * (点歌台)通过歌星搜索歌曲的列表  4级
  */
-public class SongDeskActivity4 extends AppCompatActivity {
+public class SongDeskActivity4 extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private static final String TAG = "SongDeskActivity4";
 
@@ -161,12 +162,22 @@ public class SongDeskActivity4 extends AppCompatActivity {
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         getRankingListData();
+        mListView.setOnItemClickListener(this);
     }
 
     private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        try {
+            App.mDb.save(musicPlayBeans.get(i));
+        } catch (Exception e) {
+            ToastUtils.showShortToast(SongDeskActivity4.this, "请勿重复添加");
+        }
     }
 
     /**
