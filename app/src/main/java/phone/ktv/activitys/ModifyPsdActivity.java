@@ -27,6 +27,7 @@ import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
+import phone.ktv.tootls.StingUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomEditView;
@@ -122,6 +123,10 @@ public class ModifyPsdActivity extends AppCompatActivity implements View.OnClick
             mSvProgressHUD.showInfoWithStatus("原密码不能小于6位");
             return;
         }
+        if (StingUtils.isContainChinese(customEditView1.getInputTitle())) {
+            mSvProgressHUD.showInfoWithStatus("原密码不允许含中文");
+            return;
+        }
         if (TextUtils.isEmpty(customEditView2.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请输入您的新密码");
             return;
@@ -130,12 +135,20 @@ public class ModifyPsdActivity extends AppCompatActivity implements View.OnClick
             mSvProgressHUD.showInfoWithStatus("新密码不能小于6位");
             return;
         }
+        if (StingUtils.isContainChinese(customEditView2.getInputTitle())) {
+            mSvProgressHUD.showInfoWithStatus("新密码不允许含中文");
+            return;
+        }
         if (TextUtils.isEmpty(customEditView3.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请确认您的新密码");
             return;
         }
         if (customEditView3.getInputTitle().length() < 6) {
             mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
+            return;
+        }
+        if (StingUtils.isContainChinese(customEditView3.getInputTitle())) {
+            mSvProgressHUD.showInfoWithStatus("新密码不允许含中文");
             return;
         }
         if (!customEditView2.getInputTitle().equals(customEditView3.getInputTitle())) {

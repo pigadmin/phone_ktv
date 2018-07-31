@@ -161,7 +161,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
             return;
         }
         if (StingUtils.isContainChinese(customEditView3.getInputTitle())) {
-            mSvProgressHUD.showInfoWithStatus("新密码不允许输入中文");
+            mSvProgressHUD.showInfoWithStatus("新密码不允许含中文");
             return;
         }
         if (TextUtils.isEmpty(customEditView4.getInputTitle())) {
@@ -173,7 +173,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
             return;
         }
         if (StingUtils.isContainChinese(customEditView4.getInputTitle())) {
-            mSvProgressHUD.showInfoWithStatus("密码不允许输入中文");
+            mSvProgressHUD.showInfoWithStatus("密码不允许含中文");
             return;
         }
         if (!customEditView3.getInputTitle().equals(customEditView4.getInputTitle())) {

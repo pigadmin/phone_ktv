@@ -202,7 +202,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
         if (StingUtils.isContainChinese(customEditView4.getInputTitle())) {
-            mSvProgressHUD.showInfoWithStatus("密码不允许输入中文");
+            mSvProgressHUD.showInfoWithStatus("密码不允许含中文");
             return;
         }
         if (!mCheckjiBox.isChecked()) {
