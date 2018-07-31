@@ -4,7 +4,7 @@ import java.util.List;
 
 public class MusicNumBean {
 
-    public String totalCount;
+    public int totalCount;
     public String pageSize;
     public String totalPage;
     public String currPage;

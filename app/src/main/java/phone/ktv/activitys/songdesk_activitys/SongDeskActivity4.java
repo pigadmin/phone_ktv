@@ -76,13 +76,15 @@ public class SongDeskActivity4 extends AppCompatActivity implements AdapterView.
     private int mLimit = App.Maxlimit;//页码量
     private int mPage = 1;//第几页
 
+    public int totalCount = 0;//歌曲总数量
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case SongDesk4Success://获取成功
                     mRinkingAdater.notifyDataSetChanged();
                     mSongBang.setText(mRangName);
-                    getmSongBangList.setText("/" + musicPlayBeans.size());
+                    getmSongBangList.setText("/" + totalCount);
                     mTopTitleView1.setTopText(mRangName);
                     break;
 
@@ -248,6 +250,7 @@ public class SongDeskActivity4 extends AppCompatActivity implements AdapterView.
                             mHandler.sendEmptyMessage(SongDesk4Success);
                             Logger.i(TAG, "aJson1..." + aJson.toString());
                             setState(aJson.data.list);
+                            totalCount = aJson.data.totalCount;
                         } else if (aJson.code == 500) {
                             mHandler.obtainMessage(SongDesk4ExpiredToken, aJson.msg).sendToTarget();
                         } else {
