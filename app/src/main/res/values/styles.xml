@@ -34,6 +34,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AnimationPreview">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
     <style name="view_line_sbc_header_text">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2px</item>
@@ -47,7 +52,7 @@
     </style>
 
     <style name="view_line">
-        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
         <item name="android:background">@color/mywhite2</item>
     </style>

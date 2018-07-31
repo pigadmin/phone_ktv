@@ -2,46 +2,111 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/powindos_roids_bk"
+    android:background="@color/transparent"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:id="@+id/play_style_1_rbn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_play_style_bg3"
-        android:drawableLeft="@mipmap/popovers_x_1"
-        android:drawablePadding="10dp"
-        android:drawableRight="@mipmap/popovers_y_1"
-        android:padding="15dp"
-        android:text="顺序播放"
-        android:textColor="@color/mybuttonbg2"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-    <TextView
+        <ImageView
+            android:id="@+id/src1_ivw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/popovers_x_1" />
+
+        <TextView
+            android:id="@+id/text1_tvw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="顺序播放"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/src1_go_ivw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/popovers_y_1" />
+    </LinearLayout>
+
+
+    <View style="@style/view_line" />
+
+    <LinearLayout
         android:id="@+id/play_style_2_rbn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_play_style_bg1"
-        android:drawableLeft="@mipmap/popovers_s_1"
-        android:drawablePadding="10dp"
-        android:drawableRight="@mipmap/popovers_y_1"
-        android:padding="15dp"
-        android:text="随机播放"
-        android:textColor="@color/mybuttonbg2"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-    <TextView
+        <ImageView
+            android:id="@+id/src2_ivw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/popovers_s_1" />
+
+        <TextView
+            android:id="@+id/text2_tvw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="随机播放"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/src2_go_ivw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/popovers_y_1" />
+    </LinearLayout>
+
+    <View style="@style/view_line" />
+
+    <LinearLayout
         android:id="@+id/play_style_3_rbn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_play_style_bg2"
-        android:drawableLeft="@mipmap/popovers_n_1"
-        android:drawablePadding="10dp"
-        android:drawableRight="@mipmap/popovers_y_1"
-        android:padding="15dp"
-        android:text="单曲循环"
-        android:textColor="@color/mybuttonbg2"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/src3_ivw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/popovers_n_1" />
+
+        <TextView
+            android:id="@+id/text3_tvw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="单曲循环"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/src3_go_ivw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/popovers_y_1" />
+    </LinearLayout>
 
 </LinearLayout>
