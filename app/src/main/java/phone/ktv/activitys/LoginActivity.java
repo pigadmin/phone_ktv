@@ -25,6 +25,7 @@ import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.UserBean;
+import phone.ktv.tootls.AddSpaceTextWatcher;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
@@ -108,8 +109,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mTopTitleView1 = findViewById(R.id.customTopTitleView1);
         customEditView1 = findViewById(R.id.customEditView1);
+        setPhoneFormat();
         customEditView2 = findViewById(R.id.customEditView2);
-
         mJizhuPsd = findViewById(R.id.jizhu_ckb);
         mWangjiPsd = findViewById(R.id.wangji_tvw);
         mLogin = findViewById(R.id.login_tvw);
@@ -119,6 +120,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         customEditView1.setInputTitle(mSP.getString("telPhone", null));
         customEditView2.setInputTitle(mSP.getBoolean("isCheck", false) ? mSP.getString("password", null) : null);
         mJizhuPsd.setChecked(mSP.getBoolean("isCheck", false));
+    }
+
+    private void setPhoneFormat(){
+        AddSpaceTextWatcher asEditTexts = new AddSpaceTextWatcher(customEditView1.mInputTitle, 13);
+        asEditTexts.setSpaceType(AddSpaceTextWatcher.SpaceType.mobilePhoneNumberType);
     }
 
     private void initLiter() {

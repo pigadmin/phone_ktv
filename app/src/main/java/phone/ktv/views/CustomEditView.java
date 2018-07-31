@@ -17,10 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import phone.ktv.R;
+import phone.ktv.tootls.StringUtils;
 
 public class CustomEditView extends LinearLayout {
-    private ImageView mSrcLogo;//图标log
-    private EditText mInputTitle;//输入框
+    public ImageView mSrcLogo;//图标log
+    public EditText mInputTitle;//输入框
     public TextView mVerdCode;//发送验证码
 
     public CustomEditView(Context context) {
@@ -91,7 +92,7 @@ public class CustomEditView extends LinearLayout {
      * @return
      */
     public String getInputTitle() {
-        return mInputTitle.getText().toString().trim();
+        return StringUtils.removeSpace(mInputTitle.getText().toString().trim());
     }
 
     /**

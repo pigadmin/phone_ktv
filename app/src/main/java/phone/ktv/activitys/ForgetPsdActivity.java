@@ -22,13 +22,14 @@ import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
+import phone.ktv.tootls.AddSpaceTextWatcher;
 import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
-import phone.ktv.tootls.StingUtils;
+import phone.ktv.tootls.StringUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomEditView;
@@ -113,6 +114,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
 
         mTopTitleView1 = findViewById(R.id.customTopTitleView1);
         customEditView1 = findViewById(R.id.customEditView1);
+        setPhoneFormat();
         customEditView2 = findViewById(R.id.customEditView2);
         customEditView3 = findViewById(R.id.customEditView3);
         customEditView4 = findViewById(R.id.customEditView4);
@@ -133,6 +135,11 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
                 registerClick();
                 break;
         }
+    }
+
+    private void setPhoneFormat(){
+        AddSpaceTextWatcher asEditTexts = new AddSpaceTextWatcher(customEditView1.mInputTitle, 13);
+        asEditTexts.setSpaceType(AddSpaceTextWatcher.SpaceType.mobilePhoneNumberType);
     }
 
     private void registerClick() {
@@ -160,7 +167,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
             mSvProgressHUD.showInfoWithStatus("新密码不能小于6位");
             return;
         }
-        if (StingUtils.isContainChinese(customEditView3.getInputTitle())) {
+        if (StringUtils.isContainChinese(customEditView3.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("新密码不允许含中文");
             return;
         }
@@ -172,7 +179,7 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
             mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
             return;
         }
-        if (StingUtils.isContainChinese(customEditView4.getInputTitle())) {
+        if (StringUtils.isContainChinese(customEditView4.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("密码不允许含中文");
             return;
         }

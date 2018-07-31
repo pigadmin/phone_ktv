@@ -6,12 +6,12 @@ import java.util.regex.Pattern;
 /**
  * 字符串处理类
  */
-public class StingUtils {
+public class StringUtils {
     /**
      * 禁止输入特殊字符
      */
     public static boolean specialString(String s) {
-        String regEx="[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+        String regEx = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(s);
         return m.find() ? true : false;
@@ -27,5 +27,17 @@ public class StingUtils {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 去除空格回车符等
+     *
+     * @param s
+     */
+    public static String removeSpace(String s) {
+        String regex = "\\s";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(s);
+        return matcher.replaceAll("");
     }
 }

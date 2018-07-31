@@ -25,13 +25,14 @@ import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
+import phone.ktv.tootls.AddSpaceTextWatcher;
 import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
-import phone.ktv.tootls.StingUtils;
+import phone.ktv.tootls.StringUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomEditView;
@@ -125,6 +126,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         customEditView1 = findViewById(R.id.customEditView1);
         customEditView2 = findViewById(R.id.customEditView2);
+        setPhoneFormat();
         customEditView3 = findViewById(R.id.customEditView3);
         customEditView4 = findViewById(R.id.customEditView4);
     }
@@ -165,6 +167,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    private void setPhoneFormat(){
+        AddSpaceTextWatcher asEditTexts = new AddSpaceTextWatcher(customEditView2.mInputTitle, 13);
+        asEditTexts.setSpaceType(AddSpaceTextWatcher.SpaceType.mobilePhoneNumberType);
+    }
+
     /**
      * 注册
      */
@@ -173,7 +180,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             mSvProgressHUD.showInfoWithStatus("请输入用户名");
             return;
         }
-        if (StingUtils.specialString(customEditView1.getInputTitle())) {
+        if (StringUtils.specialString(customEditView1.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("姓名不允许输入特殊符号!");
             return;
         }
@@ -201,7 +208,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
             return;
         }
-        if (StingUtils.isContainChinese(customEditView4.getInputTitle())) {
+        if (StringUtils.isContainChinese(customEditView4.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("密码不允许含中文");
             return;
         }
