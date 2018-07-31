@@ -2,11 +2,13 @@ package phone.ktv;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -35,9 +37,11 @@ import phone.ktv.activitys.ModifyPsdActivity;
 import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
 import phone.ktv.activitys.already_activitys.AlreadySearchListActivity;
+import phone.ktv.activitys.player.PlayerActivity;
 import phone.ktv.adaters.TabAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.service.MyService;
 import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.Contants;
 import phone.ktv.tootls.IntentUtils;
@@ -94,6 +98,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+//        intent.setData(Uri.parse("package:" + getPackageName()));
+//        startActivityForResult(intent,100);
+
+        startService(new Intent(this, MyService.class));
+
         app = (App) getApplication();
 
 
@@ -156,12 +167,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (!player.isPlaying()) {
                     player_name.setText(playlist.get(0).name);
                     player_singer.setText(playlist.get(0).singerName);
-                    System.out.println("888" + playlist.get(0).path);
-                    player.setVideoURI(Uri.parse(playlist.get(0).path));
+//                    player.setVideoURI(Uri.parse(playlist.get(0).path));
+
                 }
             }
 
-        } catch (DbException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -254,6 +265,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.mini_icon:
+                startActivity(new Intent(mContext, PlayerActivity.class));
+                break;
             case R.id.main_btn_menu://侧滑
                 if (mCoordinatorMenu.isOpened()) {
                     mCoordinatorMenu.closeMenu();

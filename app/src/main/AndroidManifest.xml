@@ -2,30 +2,30 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="phone.ktv">
 
-    <!--连接网络权限，用于执行云端语音能力 -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!--获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <!--读取网络信息状态 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!--获取当前wifi状态 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <!--允许程序改变网络连接状态 -->
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <!--读取手机信息权限 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <!--读取联系人权限，上传联系人需要用到此权限 -->
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <!--外存储写权限，构建语法需要用到此权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!--外存储读权限，构建语法需要用到此权限 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!--配置权限，用来记录应用配置信息 -->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <!--手机定位信息，用来为语义等功能提供定位，提供更精准的服务-->
-    <!--定位信息是敏感信息，可通过Setting.setLocationEnable(false)关闭定位请求 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <!--如需使用人脸识别，还要添加：摄相头权限，拍照需要用到 -->
+    <!-- 连接网络权限，用于执行云端语音能力 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 读取网络信息状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 获取当前wifi状态 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 允许程序改变网络连接状态 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!-- 读取手机信息权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 读取联系人权限，上传联系人需要用到此权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- 外存储写权限，构建语法需要用到此权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 外存储读权限，构建语法需要用到此权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 配置权限，用来记录应用配置信息 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 手机定位信息，用来为语义等功能提供定位，提供更精准的服务 -->
+    <!-- 定位信息是敏感信息，可通过Setting.setLocationEnable(false)关闭定位请求 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 如需使用人脸识别，还要添加：摄相头权限，拍照需要用到 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -76,100 +76,104 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <!--主页面-->
+        <!-- 主页面 -->
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--注册页面-->
+        <!-- 注册页面 -->
         <activity
             android:name=".activitys.RegisterActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--登录页面-->
+        <!-- 登录页面 -->
         <activity
             android:name=".activitys.LoginActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--忘记密码-->
+        <!-- 忘记密码 -->
         <activity
             android:name=".activitys.ForgetPsdActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--产品中心-->
+        <!-- 产品中心 -->
         <activity
             android:name=".activitys.ProductRecyActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--设置-->
+        <!-- 设置 -->
         <activity
             android:name=".activitys.SetUpActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--用户协议-->
+        <!-- 用户协议 -->
         <activity
             android:name=".activitys.UserProtocolActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--修改密码-->
+        <!-- 修改密码 -->
         <activity
             android:name=".activitys.ModifyPsdActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--点歌台分类(更多)-->
+        <!-- 点歌台分类(更多) -->
         <activity
             android:name=".activitys.songdesk_activitys.SongDeskjMoreActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--点歌台2级-->
+        <!-- 点歌台2级 -->
         <activity
             android:name=".activitys.songdesk_activitys.SongDeskActivity2"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--点歌台3级-->
+        <!-- 点歌台3级 -->
         <activity
             android:name=".activitys.songdesk_activitys.SongDeskActivity3"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--点歌台4级-->
+        <!-- 点歌台4级 -->
         <activity
             android:name=".activitys.songdesk_activitys.SongDeskActivity4"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--排行榜分类(更多)-->
+        <!-- 排行榜分类(更多) -->
         <activity
             android:name=".activitys.rank_activitys.RankingMoreActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--排行榜歌曲-->
+        <!-- 排行榜歌曲 -->
         <activity
             android:name=".activitys.rank_activitys.RankingListActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--已点搜索-->
+        <!-- 已点搜索 -->
         <activity
             android:name=".activitys.already_activitys.AlreadySearchListActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <!--已点搜索2-->
+        <!-- 已点搜索2 -->
         <activity
             android:name=".activitys.already_activitys.AlreadySearchListActivity2"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <!--收藏列表-->
+        <!-- 收藏列表 -->
         <activity
             android:name=".activitys.CollectionListActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <!--最近播放列表-->
+        <!-- 最近播放列表 -->
         <activity
             android:name=".activitys.LatelyListActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <service android:name=".service.MyService" />
+
+        <activity android:name=".activitys.player.PlayerActivity"></activity>
     </application>
 
 </manifest>

@@ -3,13 +3,16 @@ package phone.ktv.service;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import phone.ktv.R;
@@ -30,7 +33,9 @@ public class MyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
         createFloatView();
+
     }
 
     private LayoutParams wmParams;
@@ -41,6 +46,7 @@ public class MyService extends Service {
 
     private void createFloatView() {
         try {
+
             wmParams = new WindowManager.LayoutParams();
 
             // 获取WindowManagerImpl.CompatModeWrapper
@@ -68,8 +74,8 @@ public class MyService extends Service {
             // 调整悬浮窗显示的停靠位置为左侧置顶
             wmParams.gravity = Gravity.LEFT | Gravity.TOP;
             // 以屏幕左上角为原点，设置x、y初始值
-            wmParams.x = DensityUtil.px2dip(this, 0);
-            wmParams.y = DensityUtil.px2dip(this, 0);
+            wmParams.x = DensityUtil.px2dip(this, 111);
+            wmParams.y = DensityUtil.px2dip(this, 111);
 //		wmParams.x = DensityUtil.px2dip(this, 1200 -10);
 //		wmParams.y = DensityUtil.px2dip(this, 80);wmParams
 
@@ -78,7 +84,7 @@ public class MyService extends Service {
             wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
             // 获取浮动窗口视图所在布局
-            mFloatLayout = (LinearLayout) LayoutInflater.from(getApplication()).inflate(R.layout.flashscreen_activity,
+            mFloatLayout = (LinearLayout) LayoutInflater.from(getApplication()).inflate(R.layout.player_mini,
                     null);
 
             // 添加mFloatLayout
