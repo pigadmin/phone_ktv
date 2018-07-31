@@ -71,7 +71,7 @@ public class SongDeskActivity2 extends AppCompatActivity {
 
     private TextView mNoData;
 
-    private int mLimit = App.Maxlimit;//页码量
+    private int mLimit = App.MaxlimitSrc;//页码量
     private int mPage = 1;//第几页
 
     private Handler mHandler = new Handler() {

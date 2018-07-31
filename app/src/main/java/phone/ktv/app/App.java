@@ -143,4 +143,5 @@ public class App extends Application {
     }
 
     public static int Maxlimit = 10;
+    public static int MaxlimitSrc = 15;
 }
