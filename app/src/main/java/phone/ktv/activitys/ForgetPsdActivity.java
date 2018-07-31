@@ -28,6 +28,7 @@ import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
+import phone.ktv.tootls.StingUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomEditView;
@@ -159,12 +160,20 @@ public class ForgetPsdActivity extends AppCompatActivity implements View.OnClick
             mSvProgressHUD.showInfoWithStatus("新密码不能小于6位");
             return;
         }
+        if (StingUtils.isContainChinese(customEditView3.getInputTitle())) {
+            mSvProgressHUD.showInfoWithStatus("新密码不允许输入中文");
+            return;
+        }
         if (TextUtils.isEmpty(customEditView4.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请确认新密码");
             return;
         }
         if (customEditView4.getInputTitle().length() < 6) {
             mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
+            return;
+        }
+        if (StingUtils.isContainChinese(customEditView4.getInputTitle())) {
+            mSvProgressHUD.showInfoWithStatus("密码不允许输入中文");
             return;
         }
         if (!customEditView3.getInputTitle().equals(customEditView4.getInputTitle())) {
