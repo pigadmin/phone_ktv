@@ -117,9 +117,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.REQUEST_INSTALL_PACKAGES,
                         Manifest.permission.READ_CONTACTS},
                 Contants.PermissRequest);
-
 
         initView();
         initMenuView();

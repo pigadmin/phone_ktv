@@ -48,6 +48,15 @@
             android:textColorHint="@color/found_description_color"
             android:textSize="15sp" />
 
+        <ImageView
+            android:id="@+id/delete_ivw_12"
+            android:layout_width="wrap_content"
+            android:src="@drawable/select_top_search_icon"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content" />
+
         <TextView
             android:id="@+id/songType_tvw11"
             android:layout_width="wrap_content"

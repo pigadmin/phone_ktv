@@ -5,6 +5,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,7 +23,6 @@ import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
-import com.iflytek.cloud.SpeechRecognizer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,6 +66,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     private TextView mSongType;//歌名/歌星
     private EditText mSearchContent;//搜索内容
     private TextView mSearch;//搜索按钮
+    private ImageView mDelete;//删除
 
     private MyListView mListView1;
     private PullToRefreshScrollView mPullToRefresh;
@@ -134,6 +137,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
         mNoData = findViewById(R.id.no_data_tvw);
         mSrcBack11 = findViewById(R.id.src_back11_ivw);
         mSongType = findViewById(R.id.songType_tvw11);
+        mDelete = findViewById(R.id.delete_ivw_12);
         mVoice = findViewById(R.id.voice12_ivw);
         mSearchContent = findViewById(R.id.search_content_edt);
         mSearch = findViewById(R.id.text_search11_tvw);
@@ -152,6 +156,36 @@ public class AlreadySearchListActivity extends AppCompatActivity {
         mSearch.setOnClickListener(new MyOnClickListenerSearch());
         mListView1.setOnItemClickListener(new MyOnItemClickListener1());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
+        mSearchContent.addTextChangedListener(new MyAddTextChanged());
+        mDelete.setOnClickListener(new MyOnClickDelete());
+        mDelete.setVisibility(View.INVISIBLE);
+    }
+
+    private class MyAddTextChanged implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mDelete.setVisibility(TextUtils.isEmpty(mSearchContent.getText().toString().trim()) ? View.INVISIBLE : View.VISIBLE);
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    }
+
+    /**
+     * 清空文本
+     */
+    private class MyOnClickDelete implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            mSearchContent.setText(null);
+        }
     }
 
     /**
@@ -248,7 +282,7 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     private class MyOnClickListenerVoice implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            SpeechRecognitionUtils utils=new SpeechRecognitionUtils(mContext,mSearchContent);
+            SpeechRecognitionUtils utils = new SpeechRecognitionUtils(mContext, mSearchContent);
             utils.startDialog();
         }
     }

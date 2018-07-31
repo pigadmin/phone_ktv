@@ -31,6 +31,7 @@ import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
+import phone.ktv.tootls.StingUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomEditView;
@@ -172,6 +173,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             mSvProgressHUD.showInfoWithStatus("请输入用户名");
             return;
         }
+        if (StingUtils.specialString(customEditView1.getInputTitle())) {
+            mSvProgressHUD.showInfoWithStatus("姓名不允许输入特殊符号!");
+            return;
+        }
+
+
         if (TextUtils.isEmpty(customEditView2.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请输入手机号");
             return;
