@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
@@ -33,6 +34,7 @@ import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
+import phone.ktv.views.CustomPopuWindw;
 import phone.ktv.views.CustomTopTitleView;
 import phone.ktv.views.MyListView;
 
@@ -50,6 +52,10 @@ public class LatelyListActivity extends AppCompatActivity {
     private CustomTopTitleView mTopTitleView1;//返回事件
 
     private CollectionListAdater mCollectionAdater;
+
+    public ImageView mTitle1;//选择 播放形式:顺序播放、随机播放、单曲循环
+    private TextView mTitle2;//全部播放
+    private TextView mTitle3;//多选
 
     public static final int RankingSearch2Success = 100;//搜索歌曲获取成功
     public static final int RankingSearch2Error = 200;//搜索歌曲获取失败
@@ -101,6 +107,11 @@ public class LatelyListActivity extends AppCompatActivity {
         mNoData = findViewById(R.id.no_data_tvw16);
         mTopTitleView1 = findViewById(R.id.customTopTitleView1);
 
+        mTitle1 = findViewById(R.id.title_1_ivw);
+        setLogo(CustomPopuWindw.postion);
+
+        mTitle2 = findViewById(R.id.title_2_tvw);
+        mTitle3 = findViewById(R.id.title_3_tvw);
 
         mListView1 = findViewById(R.id.list_view_22);
         mCollectionAdater = new CollectionListAdater(mContext, R.layout.item_collection_list_layout, mCollentBean3s);
@@ -112,6 +123,9 @@ public class LatelyListActivity extends AppCompatActivity {
     private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mListView1.setOnItemClickListener(new MyOnItemClickListener1());
+        mTitle1.setOnClickListener(new MyOnClickListenTitle1());
+        mTitle2.setOnClickListener(new MyOnClickListenTitle2());
+        mTitle3.setOnClickListener(new MyOnClickListenTitle3());
     }
 
     private void updateData() {
@@ -217,4 +231,78 @@ public class LatelyListActivity extends AppCompatActivity {
             mCollentBean3s.addAll(itemList);
         }
     }
+
+    /**
+     * 播放形式
+     */
+    private class MyOnClickListenTitle1 implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            showPoWindo();
+        }
+    }
+
+    /**
+     * 全部播放
+     */
+    private class MyOnClickListenTitle2 implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+
+    /**
+     * 多选
+     */
+    private class MyOnClickListenTitle3 implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+
+    private void showPoWindo() {
+        final CustomPopuWindw windw = new CustomPopuWindw(mContext);
+        windw.showPopupWindow(mTitle1);
+        windw.mPlayStyle1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                windw.setState(windw.mSrc1, windw.mText1, windw.mSrc1Go, 1);
+                setLogo(CustomPopuWindw.postion);
+                windw.dismiss();
+            }
+        });
+        windw.mPlayStyle2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                windw.setState(windw.mSrc2, windw.mText2, windw.mSrc2Go, 2);
+                setLogo(CustomPopuWindw.postion);
+                windw.dismiss();
+            }
+        });
+        windw.mPlayStyle3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                windw.setState(windw.mSrc3, windw.mText3, windw.mSrc3Go, 3);
+                setLogo(CustomPopuWindw.postion);
+                windw.dismiss();
+            }
+        });
+    }
+
+    private void setLogo(int index) {
+        switch (index) {
+            case 1:
+                mTitle1.setImageResource(R.mipmap.popovers_x_0);
+                break;
+            case 2:
+                mTitle1.setImageResource(R.mipmap.popovers_s_0);
+                break;
+            case 3:
+                mTitle1.setImageResource(R.mipmap.popovers_n_0);
+                break;
+        }
+    }
+
 }

@@ -24,9 +24,7 @@ public class AlreadyFragment extends Fragment {
     public Context mContext;
 
     public ImageView mTitle1;//选择 播放形式:顺序播放、随机播放、单曲循环
-
     private TextView mTitle2;//全部播放
-
     private TextView mTitle3;//多选
 
     @Nullable
@@ -41,6 +39,8 @@ public class AlreadyFragment extends Fragment {
 
     private void initView() {
         mTitle1 = mNewsView.findViewById(R.id.title_1_ivw);
+        setLogo(CustomPopuWindw.postion);
+
         mTitle2 = mNewsView.findViewById(R.id.title_2_tvw);
         mTitle3 = mNewsView.findViewById(R.id.title_3_tvw);
     }
@@ -83,12 +83,12 @@ public class AlreadyFragment extends Fragment {
 
     private void showPoWindo() {
         final CustomPopuWindw windw = new CustomPopuWindw(getActivity());
-        windw.showPopupWindow(mNewsView.findViewById(R.id.title_1_ivw));
+        windw.showPopupWindow(mTitle1);
         windw.mPlayStyle1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 windw.setState(windw.mSrc1, windw.mText1, windw.mSrc1Go, 1);
-                sq(1);
+                setLogo(CustomPopuWindw.postion);
                 windw.dismiss();
             }
         });
@@ -96,7 +96,7 @@ public class AlreadyFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 windw.setState(windw.mSrc2, windw.mText2, windw.mSrc2Go, 2);
-                sq(2);
+                setLogo(CustomPopuWindw.postion);
                 windw.dismiss();
             }
         });
@@ -104,22 +104,20 @@ public class AlreadyFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 windw.setState(windw.mSrc3, windw.mText3, windw.mSrc3Go, 3);
-                sq(3);
+                setLogo(CustomPopuWindw.postion);
                 windw.dismiss();
             }
         });
     }
 
-    private void sq(int index){
+    private void setLogo(int index){
         switch (index){
             case 1:
                 mTitle1.setImageResource(R.mipmap.popovers_x_0);
                 break;
-
             case 2:
                 mTitle1.setImageResource(R.mipmap.popovers_s_0);
                 break;
-
             case 3:
                 mTitle1.setImageResource(R.mipmap.popovers_n_0);
                 break;

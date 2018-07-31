@@ -91,7 +91,7 @@ public class CustomPopuWindw extends PopupWindow {
     }
 
     private void initialState(ImageView src1, TextView text1, ImageView src1go, ImageView src2, TextView text2, ImageView src2go, ImageView src3, TextView text3, ImageView src3go) {
-        Logger.d(TAG,"postion1..."+postion);
+        Logger.d(TAG, "postion1..." + postion);
         switch (postion) {
             case 1:
                 src1.setImageResource(R.mipmap.popovers_x_2);
@@ -139,29 +139,26 @@ public class CustomPopuWindw extends PopupWindow {
     }
 
     public void setState(ImageView playStyle1, TextView playStyle2, ImageView playStyle3, int index) {
+        postion = index;
         switch (index) {
             case 1:
                 playStyle1.setImageResource(R.mipmap.popovers_x_2);
                 playStyle2.setTextColor(context.getResources().getColor(R.color.bule));
                 playStyle3.setImageResource(R.mipmap.popovers_y_2);
-                postion = 1;
                 break;
 
             case 2:
                 playStyle1.setImageResource(R.mipmap.popovers_s_2);
                 playStyle2.setTextColor(context.getResources().getColor(R.color.bule));
                 playStyle3.setImageResource(R.mipmap.popovers_y_2);
-                postion = 2;
                 break;
 
             case 3:
                 playStyle1.setImageResource(R.mipmap.popovers_n_2);
                 playStyle2.setTextColor(context.getResources().getColor(R.color.bule));
                 playStyle3.setImageResource(R.mipmap.popovers_y_2);
-                postion = 3;
                 break;
         }
-        Logger.d(TAG,"postion2..."+postion);
     }
 
     public void showPopupWindow(View parent) {
