@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initPlaylist() {
         try {
             playlist = App.mDb.selector(MusicPlayBean.class).findAll();
-            if (!playlist.isEmpty()) {
+            if (playlist!=null&&!playlist.isEmpty()) {
 //                Picasso.with(this).load(playlist.get(0).n)
                 if (!player.isPlaying()) {
                     player_name.setText(playlist.get(0).name);
