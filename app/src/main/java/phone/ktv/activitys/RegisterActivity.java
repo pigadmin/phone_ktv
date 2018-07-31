@@ -177,8 +177,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             mSvProgressHUD.showInfoWithStatus("姓名不允许输入特殊符号!");
             return;
         }
-
-
         if (TextUtils.isEmpty(customEditView2.getInputTitle())) {
             mSvProgressHUD.showInfoWithStatus("请输入手机号");
             return;
@@ -201,6 +199,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         if (customEditView4.getInputTitle().length() < 6) {
             mSvProgressHUD.showInfoWithStatus("密码不能小于6位");
+            return;
+        }
+        if (StingUtils.isContainChinese(customEditView4.getInputTitle())) {
+            mSvProgressHUD.showInfoWithStatus("密码不允许输入中文");
             return;
         }
         if (!mCheckjiBox.isChecked()) {
