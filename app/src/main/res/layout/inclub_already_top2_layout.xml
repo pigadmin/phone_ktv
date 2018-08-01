@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@mipmap/phb_nrq"
+    android:gravity="center"
+    android:padding="10dp">
+
+    <CheckBox
+        android:id="@+id/delete_all_cbx119"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8dp"
+        android:button="@drawable/select_n_edit" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:padding="2dp"
+        android:text="全选"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/title_11_ivw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="已选0首"
+        android:textColor="@drawable/selector_play_type_bg" />
+
+    <TextView
+        android:id="@+id/cancel_top_12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:text="取消"
+        android:textColor="@color/white" />
+
+</LinearLayout>
+

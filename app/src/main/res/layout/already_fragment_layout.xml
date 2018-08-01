@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
 
     <include
         android:id="@+id/inclub_ilb_9"
@@ -10,10 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 
+    <include
+        android:id="@+id/inclub_ilb_10"
+        layout="@layout/inclub_already_top2_layout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="40dp" />
+
     <phone.ktv.views.MyListView
-        android:id="@+id/list_view_21"
+        android:id="@+id/list_view_29"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/inclub_ilb_9"
         android:dividerHeight="5dp" />
 
     <TextView
@@ -26,4 +34,4 @@
         android:textSize="15sp"
         android:visibility="gone" />
 
-</RelativeLayout>
+</LinearLayout>

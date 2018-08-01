@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:src="@mipmap/searchbar_yy" />
+            android:src="@drawable/selector_searchbar_yy" />
 
         <EditText
             android:id="@+id/search_content_edt"
