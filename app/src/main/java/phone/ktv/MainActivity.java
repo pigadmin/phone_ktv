@@ -4,15 +4,11 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.provider.Settings;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -24,9 +20,6 @@ import android.widget.VideoView;
 
 import com.astuetz.PagerSlidingTabStripExtends;
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.squareup.picasso.Picasso;
-
-import org.xutils.ex.DbException;
 
 import java.util.List;
 
@@ -117,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.REQUEST_INSTALL_PACKAGES,
                         Manifest.permission.READ_CONTACTS},
                 Contants.PermissRequest);
 
