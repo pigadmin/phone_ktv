@@ -16,6 +16,10 @@ import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
+import org.xutils.x;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -171,13 +175,20 @@ public class SongDeskActivity4 extends AppCompatActivity implements AdapterView.
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
+
+        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig();
+        mDb = x.getDb(daoConfig);
     }
 
+    DbManager mDb;
+
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
         try {
-            App.mDb.save(musicPlayBeans.get(i));
+            System.out.println(mDb);
+            mDb.save(musicPlayBeans.get(i));
         } catch (Exception e) {
+            e.printStackTrace();
             ToastUtils.showShortToast(SongDeskActivity4.this, "请勿重复添加");
         }
     }

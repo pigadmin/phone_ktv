@@ -2,7 +2,9 @@ package phone.ktv.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -17,14 +19,20 @@ import com.iflytek.cloud.SpeechUtility;
 import org.xutils.DbManager;
 import org.xutils.x;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
+import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.service.MyService;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.xDBUtils;
 
 public class App extends Application {
-
+    public static final String PLAY = "PLAY";
+    public static final String START = "START";
+    public static final String LAST = "LAST";
+    public static final String NEXT = "NEXT";
     public static Context context;
 
     public static Gson gson;
@@ -45,6 +53,7 @@ public class App extends Application {
         config();
         getip();
         initDBUtils();
+
     }
 
     public static <T> T jsonToObject(String json, TypeToken<T> typeToken) {
@@ -140,8 +149,30 @@ public class App extends Application {
 
         DbManager.DaoConfig daoConfig = new DbManager.DaoConfig();
         mDb = x.getDb(daoConfig);
+
     }
 
     public static int Maxlimit = 10;
     public static int MaxlimitSrc = 15;
+
+    public List<MusicPlayBean> getTestlist() {
+        return testlist;
+    }
+
+    public void setTestlist(List<MusicPlayBean> testlist) {
+        this.testlist = testlist;
+    }
+
+    private List<MusicPlayBean> testlist;
+
+
+    private MediaPlayer mediaPlayer;
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public void setMediaPlayer(MediaPlayer mediaPlayer) {
+        this.mediaPlayer = mediaPlayer;
+    }
 }

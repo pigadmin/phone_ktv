@@ -1,14 +1,20 @@
 package phone.ktv;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.provider.Settings;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -20,6 +26,9 @@ import android.widget.VideoView;
 
 import com.astuetz.PagerSlidingTabStripExtends;
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.squareup.picasso.Picasso;
+
+import org.xutils.ex.DbException;
 
 import java.util.List;
 
@@ -31,6 +40,7 @@ import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
 import phone.ktv.activitys.already_activitys.AlreadySearchListActivity;
 import phone.ktv.activitys.player.PlayerActivity;
+import phone.ktv.activitys.songdesk_activitys.SongDeskActivity4;
 import phone.ktv.adaters.TabAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
@@ -40,6 +50,7 @@ import phone.ktv.tootls.Contants;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.PermissionRequestUtil;
 import phone.ktv.tootls.SPUtil;
+import phone.ktv.tootls.ToastUtils;
 import phone.ktv.tootls.UpdateVersionUtils;
 import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CoordinatorMenu;
@@ -48,7 +59,9 @@ import phone.ktv.views.CustomTextView;
 /**
  * 主页
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, PermissionRequestUtil.PermissionRequestListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+        PermissionRequestUtil.PermissionRequestListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
+        MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener {
 
     private static final String TAG = "MainActivity";
     private PagerSlidingTabStripExtends mNewsTabs;
@@ -96,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        intent.setData(Uri.parse("package:" + getPackageName()));
 //        startActivityForResult(intent,100);
 
-        startService(new Intent(this, MyService.class));
 
         app = (App) getApplication();
 
@@ -110,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.SYSTEM_ALERT_WINDOW,
+//                        Manifest.permission.REQUEST_INSTALL_PACKAGES,
                         Manifest.permission.READ_CONTACTS},
                 Contants.PermissRequest);
 
@@ -119,19 +133,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initListener();
 
         initPlaylist();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(App.START);
+        registerReceiver(receiver, filter);
     }
 
-    private ImageView mini_icon;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+    }
+
+    private MusicPlayBean now;
+    private CountDownTimer timer = null;
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                if (intent.getAction().equals(App.START)) {
+                    now = (MusicPlayBean) intent.getSerializableExtra("key");
+                    player_name.setText(now.name);
+                    player_singer.setText(now.singerName);
+
+                    player_progress.setMax(app.getMediaPlayer().getDuration());
+                    if (timer != null)
+                        timer.cancel();
+                    timer = new CountDownTimer(app.getMediaPlayer().getDuration(), 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            player_progress.setProgress(app.getMediaPlayer().getCurrentPosition());
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            timer.cancel();
+                        }
+                    }.start();
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private ImageView singer_icon;
     private SeekBar player_progress;
     private TextView player_name, player_singer;
     private ImageView player_last, player_play, player_next;
     private VideoView player;
 
     private void initPlayer() {
-        mini_icon = findViewById(R.id.mini_icon);
-        mini_icon.setOnClickListener(this);
+        singer_icon = findViewById(R.id.singer_icon);
+        singer_icon.setOnClickListener(this);
 
         player_progress = findViewById(R.id.player_progress);
+        player_progress.setOnSeekBarChangeListener(this);
         player_name = findViewById(R.id.player_name);
         player_singer = findViewById(R.id.player_singer);
 
@@ -154,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initPlaylist() {
         try {
             playlist = App.mDb.selector(MusicPlayBean.class).findAll();
-            if (playlist!=null&&!playlist.isEmpty()) {
+            if (playlist != null && !playlist.isEmpty()) {
 //                Picasso.with(this).load(playlist.get(0).n)
                 if (!player.isPlaying()) {
                     player_name.setText(playlist.get(0).name);
@@ -257,7 +315,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.mini_icon:
+            case R.id.player_last://上一首
+                if (app.getTestlist() == null || app.getTestlist().isEmpty()) {
+                    ToastUtils.showShortToast(MainActivity.this, "先添加");
+                    break;
+                } else {
+                    sendBroadcast(new Intent(App.LAST));
+                }
+                break;
+            case R.id.player_play://播放暂停
+                if (app.getTestlist() == null || app.getTestlist().isEmpty()) {
+                    ToastUtils.showShortToast(MainActivity.this, "先添加");
+                } else {
+                    if (app.getMediaPlayer() == null) {
+                        sendBroadcast(new Intent(App.PLAY));
+                        player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
+                    } else {
+                        if (app.getMediaPlayer().isPlaying()) {
+                            app.getMediaPlayer().pause();
+                            player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
+                        } else {
+                            app.getMediaPlayer().start();
+                            player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
+                        }
+                    }
+                }
+                break;
+            case R.id.player_next://下一首
+                if (app.getTestlist() == null || app.getTestlist().isEmpty()) {
+                    ToastUtils.showShortToast(MainActivity.this, "先添加");
+                } else {
+                    sendBroadcast(new Intent(App.NEXT));
+                }
+                break;
+            case R.id.singer_icon://图标
                 startActivity(new Intent(mContext, PlayerActivity.class));
                 break;
             case R.id.main_btn_menu://侧滑
@@ -320,6 +411,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void isStateLogin() {
         IntentUtils.intIntent(mContext, LoginActivity.class, "index", 1);
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        System.out.println("onProgressChanged" + i);
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        System.out.println("onStartTrackingTouch" + seekBar.getProgress());
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        System.out.println("onStopTrackingTouch" + seekBar.getProgress());
+        if (app.getMediaPlayer() == null)
+            return;
+        app.getMediaPlayer().seekTo(seekBar.getProgress());
+
     }
 
 
@@ -444,27 +555,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    private int tmp = 0;
-    private CountDownTimer timer = null;
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         System.out.println("2222222222222222222222");
         mediaPlayer.start();
-        player_progress.setMax(mediaPlayer.getDuration());
-        tmp = 0;
-        timer = new CountDownTimer(mediaPlayer.getDuration(), 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                tmp += 1000;
-                player_progress.setProgress(tmp);
-            }
-
-            @Override
-            public void onFinish() {
-                timer.cancel();
-            }
-        }.start();
 
     }
 

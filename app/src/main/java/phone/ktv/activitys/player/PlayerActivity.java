@@ -1,5 +1,6 @@
 package phone.ktv.activitys.player;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.WindowManager;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
 import org.xutils.ex.DbException;
@@ -21,7 +23,7 @@ import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.FULL;
 
-public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
+public class PlayerActivity extends  Activity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
     private AudioManager audioManager;
     int screenWidth;
     int screenHeight;
@@ -30,8 +32,8 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_player);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         init();
         initPlaylist();
@@ -62,6 +64,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnP
     private void init() {
         player = findViewById(R.id.player);
         FULL.star(player);
+        player.setMediaController(new MediaController(this));
         player.setOnErrorListener(this);
         player.setOnCompletionListener(this);
         player.setOnPreparedListener(this);

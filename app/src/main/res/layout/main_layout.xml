@@ -70,7 +70,7 @@
             android:layout_height="1dp" />
 
         <ImageView
-            android:id="@+id/mini_icon"
+            android:id="@+id/singer_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -135,7 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:background="@mipmap/bottom_icon_1" />
+                        android:background="@drawable/player_last" />
 
                     <ImageView
                         android:id="@+id/player_play"

@@ -236,6 +236,7 @@ public class UpdateVersionUtils {
         context.startActivity(intent);
     }
 
+
     /**
      * 返回版本号
      *

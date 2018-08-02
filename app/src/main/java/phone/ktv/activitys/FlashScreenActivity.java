@@ -2,6 +2,7 @@ package phone.ktv.activitys;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,6 +33,8 @@ import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.AdverOpenOne;
+import phone.ktv.service.MusicService;
+import phone.ktv.service.MyService;
 import phone.ktv.tootls.FULL;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
@@ -60,6 +64,8 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.flashscreen_activity);
+
+        startService(new Intent(this, MusicService.class));
 
         initView();
         submData();
