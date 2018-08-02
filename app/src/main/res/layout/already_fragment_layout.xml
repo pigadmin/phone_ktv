@@ -17,11 +17,10 @@
         android:visibility="gone"
         android:layout_height="40dp" />
 
-    <phone.ktv.views.MyListView
+    <ListView
         android:id="@+id/list_view_29"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/inclub_ilb_9"
         android:dividerHeight="5dp" />
 
     <TextView
