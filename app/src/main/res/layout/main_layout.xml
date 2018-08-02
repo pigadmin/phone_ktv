@@ -2,7 +2,7 @@
 <phone.ktv.views.MainView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@mipmap/bg_fla_src">
 
     <LinearLayout
@@ -54,10 +54,11 @@
         android:id="@+id/news_vp_tab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/llt" />
-
+        android:layout_above="@+id/llt_115"
+        android:layout_below="@+id/vs1_vw" />
 
     <LinearLayout
+        android:id="@+id/llt_115"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

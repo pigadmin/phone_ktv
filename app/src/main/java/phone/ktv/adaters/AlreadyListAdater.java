@@ -27,15 +27,16 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
     private TextView songName;
     private TextView songType;
     private List<Boolean> booleanList;
-    private ImageView top12;
     private ImageView delete12;
 
     public boolean switchType;
+    public TextView title11;
 
-    public AlreadyListAdater(Context context, int layoutId, List<MusicPlayBean> list, List<Boolean> booleanList) {
+    public AlreadyListAdater(Context context, int layoutId, List<MusicPlayBean> list, List<Boolean> booleanList, TextView title11) {
         super(context, layoutId, list);
         this.booleanList = booleanList;
         this.context = context;
+        this.title11 = title11;
     }
 
     @Override
@@ -46,18 +47,15 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
         songName = get(convertView, R.id.song_name19_tvw);//歌手名称
         songType = get(convertView, R.id.song_type19_tvw);//标识HD or 演唱会
 
-        top12 = get(convertView, R.id.shoucang19_ivw);//置顶
         delete12 = get(convertView, R.id.tianjia19_ivw);//删除
 
         if (switchType) {
             deleCheckBox.setVisibility(View.VISIBLE);
             songType.setVisibility(View.INVISIBLE);
-            top12.setVisibility(View.INVISIBLE);
             delete12.setVisibility(View.INVISIBLE);
         } else {
             deleCheckBox.setVisibility(View.INVISIBLE);
             songType.setVisibility(View.VISIBLE);
-            top12.setVisibility(View.VISIBLE);
             delete12.setVisibility(View.VISIBLE);
         }
 
@@ -78,16 +76,7 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean b) {
                 booleanList.set((Integer) buttonView.getTag(), b);
-            }
-        });
-
-        /**
-         * 置顶
-         */
-        top12.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.showLongToast(context, "top12");
+                getSelectNum();
             }
         });
 
@@ -97,7 +86,8 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
         delete12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showLongToast(context, "delete12");
+                getAllData().remove(position);
+                notifyDataSetChanged();
             }
         });
     }
@@ -122,5 +112,15 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
         }
         this.booleanList = booleanList;
         notifyDataSetChanged();
+    }
+
+    private void getSelectNum() {
+        int num = 0;
+        for (int i = 0; i < booleanList.size(); i++) {
+            if (booleanList.get(i)) {
+                num++;
+            }
+        }
+        title11.setText("已选" + num + "首");
     }
 }
