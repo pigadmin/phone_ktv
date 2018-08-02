@@ -28,6 +28,7 @@ import phone.ktv.bean.AJson;
 import phone.ktv.bean.CollentBean1;
 import phone.ktv.bean.CollentBean3;
 import phone.ktv.bean.LatelyBean2;
+import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
@@ -66,7 +67,7 @@ public class LatelyListActivity extends AppCompatActivity {
 
     private TextView mNoData;
 
-    private List<CollentBean3> mCollentBean3s;
+    private List<MusicPlayBean> mCollentBean3s;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -226,7 +227,7 @@ public class LatelyListActivity extends AppCompatActivity {
         }
     }
 
-    private void setStateSongName(List<CollentBean3> itemList) {
+    private void setStateSongName(List<MusicPlayBean> itemList) {
         if (itemList != null && !itemList.isEmpty()) {
             mCollentBean3s.addAll(itemList);
         }

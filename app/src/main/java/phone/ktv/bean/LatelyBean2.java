@@ -9,7 +9,7 @@ public class LatelyBean2 implements Serializable {
     public int did;
     public int type;
     public String playTime;
-    public CollentBean3 song;
+    public MusicPlayBean song;
 
     @Override
     public String toString() {

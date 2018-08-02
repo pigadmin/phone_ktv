@@ -176,20 +176,16 @@ public class SongDeskActivity4 extends AppCompatActivity implements AdapterView.
         mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
 
-        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig();
-        mDb = x.getDb(daoConfig);
     }
 
-    DbManager mDb;
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
         try {
-            System.out.println(mDb);
-            mDb.save(musicPlayBeans.get(i));
+            App.mDb.save(musicPlayBeans.get(i));
         } catch (Exception e) {
             e.printStackTrace();
-            ToastUtils.showShortToast(SongDeskActivity4.this, "请勿重复添加");
+            ToastUtils.showShortToast(SongDeskActivity4.this, "播放列表已存在");
         }
     }
 

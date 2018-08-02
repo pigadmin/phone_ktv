@@ -9,16 +9,17 @@ import java.util.List;
 
 import phone.ktv.R;
 import phone.ktv.bean.CollentBean3;
+import phone.ktv.bean.MusicPlayBean;
 
 /**
  * 收藏列表、最近播放adater
  */
-public class CollectionListAdater extends BAdapter<CollentBean3> {
+public class CollectionListAdater extends BAdapter<MusicPlayBean> {
     private static final String TAG = "CollectionListAdater";
 
     Context context;
 
-    public CollectionListAdater(Context context, int layoutId, List<CollentBean3> list) {
+    public CollectionListAdater(Context context, int layoutId, List<MusicPlayBean> list) {
         super(context, layoutId, list);
         this.context = context;
     }
@@ -29,7 +30,8 @@ public class CollectionListAdater extends BAdapter<CollentBean3> {
         TextView songName = get(convertView, R.id.song_name13_tvw);//歌手名称
         TextView songType = get(convertView, R.id.song_type13_tvw);//标识HD or 演唱会
 
-        CollentBean3 item = getItem(position);
+        MusicPlayBean item = getItem(position);
+
         name.setText(item.name);
         songName.setText(item.singerName);
 

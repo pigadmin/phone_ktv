@@ -10,14 +10,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.widget.VideoView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import phone.ktv.activitys.songdesk_activitys.SongDeskActivity4;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
-import phone.ktv.tootls.ToastUtils;
 
 public class MusicService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
     @Nullable
@@ -39,19 +37,19 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         filter.addAction(App.LAST);
         filter.addAction(App.NEXT);
         registerReceiver(receiver, filter);
-        initPlaylist();
+        getList();
     }
 
-    private List<MusicPlayBean> playlist;
+    private List<MusicPlayBean> playlist = new ArrayList<>();
 
-    private void initPlaylist() {
+    private List<MusicPlayBean> getList() {
         try {
-//            playlist = App.mDb.selector(MusicPlayBean.class).findAll();
-            playlist = app.getTestlist();
+            playlist = App.mDb.selector(MusicPlayBean.class).findAll();
             System.out.println(playlist.size() + "@@@@@@@@@");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return playlist;
     }
 
     @Override
@@ -104,7 +102,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         app.setMediaPlayer(mediaPlayer);
         mediaPlayer.start();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("key", app.getTestlist().get(index));
+        bundle.putSerializable("key", getList().get(index));
         sendBroadcast(new Intent(App.START).putExtras(bundle));
 
     }
@@ -114,14 +112,14 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         if (index > 0) {
             index--;
         } else {
-            index = app.getTestlist().size() - 1;
+            index = getList().size() - 1;
         }
         playerSong();
     }
 
     //下一曲
     private void next() {
-        if (index < app.getTestlist().size() - 1) {
+        if (index < getList().size() - 1) {
             index++;
         } else {
             index = 0;
@@ -152,13 +150,13 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     // 播放歌曲
     private void playerSong() {
         try {
-            if (app.getTestlist() == null || app.getTestlist().isEmpty())
+            if (getList() == null || getList().isEmpty())
                 return;
             player.stop();
             player.reset();
-            System.out.println(app.getTestlist().get(index).name);
+            System.out.println(getList().get(index).name);
             player.setDataSource(this,
-                    Uri.parse(app.getTestlist().get(index).path));
+                    Uri.parse(getList().get(index).path));
             player.prepareAsync();
         } catch (Exception e) {
             e.printStackTrace();

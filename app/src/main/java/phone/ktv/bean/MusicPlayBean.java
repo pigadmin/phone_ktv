@@ -12,13 +12,13 @@ import java.io.Serializable;
 public class MusicPlayBean implements Serializable {
 
     @Column(name = "id", isId = true, autoGen = true)
-    public String id;//主键
+    public int id;//主键
 
     @Column(name = "songnumber")
     public String songnumber;//编号
 
     @Column(name = "singerid")
-    public String singerid;//
+    public int singerid;//
 
     @Column(name = "name")
     public String name;//歌曲名称
@@ -39,7 +39,7 @@ public class MusicPlayBean implements Serializable {
     public String path;//歌曲地址
 
     @Column(name = "lanId")
-    public String lanId;//
+    public int lanId;//
 
     @Column(name = "label")
     public String label;//
@@ -58,6 +58,9 @@ public class MusicPlayBean implements Serializable {
 
     @Column(name = "localTime")
     public long localTime;//本地时间
+
+    public MusicPlayBean() {
+    }
 
     public MusicPlayBean(String name, String singerName, String label) {
         this.name = name;

@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     player_singer.setText(now.singerName);
 
                     player_progress.setMax(app.getMediaPlayer().getDuration());
+
                     if (timer != null)
                         timer.cancel();
                     timer = new CountDownTimer(app.getMediaPlayer().getDuration(), 1000) {
@@ -210,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<MusicPlayBean> playlist;
 
     private void initPlaylist() {
+
         try {
             playlist = App.mDb.selector(MusicPlayBean.class).findAll();
             if (playlist != null && !playlist.isEmpty()) {

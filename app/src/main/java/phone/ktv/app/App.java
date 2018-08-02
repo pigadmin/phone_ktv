@@ -29,10 +29,10 @@ import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.xDBUtils;
 
 public class App extends Application {
-    public static final String PLAY = "PLAY";
-    public static final String START = "START";
-    public static final String LAST = "LAST";
-    public static final String NEXT = "NEXT";
+    public static final String PLAY = "PLAY";//去播放
+    public static final String START = "START";//开始播放
+    public static final String LAST = "LAST";//上一曲
+    public static final String NEXT = "NEXT";//下一曲
     public static Context context;
 
     public static Gson gson;
@@ -141,13 +141,15 @@ public class App extends Application {
     }
 
     public static DbManager mDb;
+    public xDBUtils DBUtils;
+    public DbManager.DaoConfig daoConfig;
 
     public void initDBUtils() {
         x.Ext.init(this);
         x.Ext.setDebug(false);// 是否输出debug日志, 开启debug会影响性能
-        xDBUtils DBUtils = new xDBUtils();
+        DBUtils = new xDBUtils();
 
-        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig();
+        daoConfig = new DbManager.DaoConfig();
         mDb = x.getDb(daoConfig);
 
     }

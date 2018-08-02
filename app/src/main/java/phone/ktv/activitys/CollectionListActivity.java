@@ -1,6 +1,7 @@
 package phone.ktv.activitys;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
+
+import org.xutils.ex.DbException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ import phone.ktv.bean.AJson;
 import phone.ktv.bean.CollentBean1;
 import phone.ktv.bean.CollentBean2;
 import phone.ktv.bean.CollentBean3;
+import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.fragments.AlreadyFragment;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.Logger;
@@ -73,7 +77,7 @@ public class CollectionListActivity extends AppCompatActivity {
 
     private TextView mNoData;
 
-    private List<CollentBean3> mCollentBean3s;
+    private List<MusicPlayBean> mCollentBean3s;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -155,6 +159,7 @@ public class CollectionListActivity extends AppCompatActivity {
         mTitle2.setOnClickListener(new MyOnClickListenTitle2());
         mTitle3.setOnClickListener(new MyOnClickListenTitle3());
     }
+
 
     /**
      * 下拉刷新
@@ -275,7 +280,7 @@ public class CollectionListActivity extends AppCompatActivity {
         }
     }
 
-    private void setStateSongName(List<CollentBean3> itemList) {
+    private void setStateSongName(List<MusicPlayBean> itemList) {
         if (itemList != null && !itemList.isEmpty()) {
             mCollentBean3s.addAll(itemList);
         }
@@ -297,7 +302,14 @@ public class CollectionListActivity extends AppCompatActivity {
     private class MyOnClickListenTitle2 implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            try {
+                for (MusicPlayBean musicPlayBean : mCollentBean3s) {
+                    App.mDb.save(musicPlayBean);
+                    sendBroadcast(new Intent(App.PLAY));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
