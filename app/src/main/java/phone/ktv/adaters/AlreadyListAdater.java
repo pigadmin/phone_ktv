@@ -45,8 +45,11 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
         name = get(convertView, R.id.name_tvw19);//歌曲名称
         songName = get(convertView, R.id.song_name19_tvw);//歌手名称
         songType = get(convertView, R.id.song_type19_tvw);//标识HD or 演唱会
-
         delete12 = get(convertView, R.id.tianjia19_ivw);//删除
+
+        MusicPlayBean item = getItem(position);
+        name.setText(item.name);
+        songName.setText(item.singerName);
 
         if (switchType) {
             deleCheckBox.setVisibility(View.VISIBLE);
@@ -56,17 +59,13 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
             deleCheckBox.setVisibility(View.INVISIBLE);
             songType.setVisibility(View.VISIBLE);
             delete12.setVisibility(View.VISIBLE);
-        }
 
-        MusicPlayBean item = getItem(position);
-        name.setText(item.name);
-        songName.setText(item.singerName);
-
-        if (TextUtils.isEmpty(item.label)) {
-            songType.setVisibility(View.GONE);
-        } else {
-            songType.setVisibility(View.VISIBLE);
-            songType.setText(item.label);
+            if (TextUtils.isEmpty(item.label)) {
+                songType.setVisibility(View.GONE);
+            } else {
+                songType.setVisibility(View.VISIBLE);
+                songType.setText(item.label);
+            }
         }
 
         deleCheckBox.setTag(position);
@@ -113,6 +112,9 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
         notifyDataSetChanged();
     }
 
+    /**
+     * 已选歌曲个数
+     */
     private void getSelectNum() {
         int num = 0;
         for (int i = 0; i < booleanList.size(); i++) {
