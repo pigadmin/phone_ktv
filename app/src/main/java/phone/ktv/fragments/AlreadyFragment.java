@@ -7,8 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,8 +20,9 @@ import java.util.List;
 import phone.ktv.R;
 import phone.ktv.adaters.AlreadyListAdater;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomPopuWindw;
-import phone.ktv.views.MyListView;
 
 /**
  * 已点歌曲 1级
@@ -39,10 +43,10 @@ public class AlreadyFragment extends Fragment {
     private TextView mTitle11;//已选多少首
 
     private AlreadyListAdater mAlreadyListAdater;
-    private MyListView mListView;
+    private ListView mListView;
 
     private List<MusicPlayBean> mPlayBeanList;
-
+    final List<Boolean> selectedStatus = new ArrayList<>();
 
     @Nullable
     @Override
@@ -63,6 +67,18 @@ public class AlreadyFragment extends Fragment {
         mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
         mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
         mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
+        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
 
         mTitle1 = mNewsView.findViewById(R.id.title_1_ivw);
         setLogo(CustomPopuWindw.postion);
@@ -75,7 +91,12 @@ public class AlreadyFragment extends Fragment {
         mTitle11 = mNewsView.findViewById(R.id.title_11_ivw);//已选多少首
 
         mListView = mNewsView.findViewById(R.id.list_view_29);
-        mAlreadyListAdater = new AlreadyListAdater(mContext, R.layout.item_songdesk_list_layout, mPlayBeanList);
+
+        for (int i = 0; i < mPlayBeanList.size(); i++) {
+            selectedStatus.add(false);
+        }
+        Logger.d(TAG, "..." + selectedStatus.size());
+        mAlreadyListAdater = new AlreadyListAdater(mContext, R.layout.item_songdesk_list_layout, mPlayBeanList, selectedStatus);
         mListView.setAdapter(mAlreadyListAdater);
     }
 
@@ -85,7 +106,18 @@ public class AlreadyFragment extends Fragment {
         mTitle3.setOnClickListener(new MyOnClickListenTitle3());
 
         mCancel12.setOnClickListener(new MyOnClickListenTitle4());
-        mSelectionTotal.setOnClickListener(new MyOnClickListenTitle5());
+        mSelectionTotal.setOnCheckedChangeListener(new MyOnClickListenTitle5());
+        mListView.setOnItemClickListener(new MyOnItemClickLiter());
+    }
+
+    /**
+     * item 事件
+     */
+    private class MyOnItemClickLiter implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        }
     }
 
     /**
@@ -116,6 +148,8 @@ public class AlreadyFragment extends Fragment {
         public void onClick(View v) {
             mNewsView.findViewById(R.id.inclub_ilb_9).setVisibility(View.GONE);
             mNewsView.findViewById(R.id.inclub_ilb_10).setVisibility(View.VISIBLE);
+            mAlreadyListAdater.setUpdateType(true);
+            ToastUtils.showLongToast(mContext, "多选");
         }
     }
 
@@ -125,17 +159,22 @@ public class AlreadyFragment extends Fragment {
     private class MyOnClickListenTitle4 implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            mNewsView.findViewById(R.id.inclub_ilb_9).setVisibility(View.VISIBLE);
+            mNewsView.findViewById(R.id.inclub_ilb_10).setVisibility(View.GONE);
+            mAlreadyListAdater.setUpdateType(false);
+            mAlreadyListAdater.setUpdateState(selectedStatus, false);
+            mSelectionTotal.setChecked(false);
+            ToastUtils.showLongToast(mContext, "取消");
         }
     }
 
     /**
      * 全选
      */
-    private class MyOnClickListenTitle5 implements View.OnClickListener {
+    private class MyOnClickListenTitle5 implements CompoundButton.OnCheckedChangeListener {
         @Override
-        public void onClick(View v) {
-
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            mAlreadyListAdater.setUpdateState(selectedStatus, isChecked ? true : false);
         }
     }
 
