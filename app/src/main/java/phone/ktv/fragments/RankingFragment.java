@@ -41,7 +41,7 @@ import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 
 /**
- *  排行榜 1级
+ * 排行榜 1级
  */
 public class RankingFragment extends Fragment {
 
@@ -59,9 +59,9 @@ public class RankingFragment extends Fragment {
 
     private List<GridItem> mGridItemList;
 
-    public static final int RankingListSuccess=100;//排行榜分类获取成功
-    public static final int RankingListError=200;//排行榜分类获取失败
-    public static final int RankingExpiredToken=300;//Token过期
+    public static final int RankingListSuccess = 100;//排行榜分类获取成功
+    public static final int RankingListError = 200;//排行榜分类获取失败
+    public static final int RankingExpiredToken = 300;//Token过期
 
     private TextView mMore;//更多
 
@@ -75,14 +75,13 @@ public class RankingFragment extends Fragment {
                     break;
 
                 case RankingListError://获取失败
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     updateData();
                     break;
 
                 case RankingExpiredToken://Token过期
-                    ToastUtils.showLongToast(mContext,(String) msg.obj);
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     updateData();
-                    Logger.d(TAG,"1111111111111111111");
                     break;
             }
         }
@@ -93,36 +92,35 @@ public class RankingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mNewsView = inflater.inflate(R.layout.ranking_fragment_layout, null);
 
-        mContext=getActivity();
-        mSP=new SPUtil(mContext);
+        mContext = getActivity();
+        mSP = new SPUtil(mContext);
         initView();
         initLiter();
-        getRankingListData();
         return mNewsView;
     }
 
-    private void initView(){
-        mGridItemList=new ArrayList<>();
+    private void initView() {
+        mGridItemList = new ArrayList<>();
 
-        mMore= mNewsView.findViewById(R.id.more1);
+        mMore = mNewsView.findViewById(R.id.more1);
 
         mBanner = mNewsView.findViewById(R.id.banner_main_accordion);
         mBanner.measure(0, 0);
 
-        mErrorRetry=mNewsView.findViewById(R.id.error_btn_retry_2);
+        mErrorRetry = mNewsView.findViewById(R.id.error_btn_retry_2);
 
-        mGridView=mNewsView.findViewById(R.id.grid_view_1);
-        mDeskAdater=new RinkingFragmentAdater(mContext,R.layout.item_gridicon_image,mGridItemList);
+        mGridView = mNewsView.findViewById(R.id.grid_view_1);
+        mDeskAdater = new RinkingFragmentAdater(mContext, R.layout.item_gridicon_image, mGridItemList);
         mGridView.setAdapter(mDeskAdater);
     }
 
-    private void initLiter(){
-        List<Integer> int1=new ArrayList<>();
+    private void initLiter() {
+        List<Integer> int1 = new ArrayList<>();
         int1.add(R.mipmap.lu_1);
         int1.add(R.mipmap.lu_2);
         int1.add(R.mipmap.lu_3);
 
-        List<String> int2=new ArrayList<>();
+        List<String> int2 = new ArrayList<>();
         int2.add("图1");
         int2.add("图2");
         int2.add("图3");
@@ -153,13 +151,27 @@ public class RankingFragment extends Fragment {
         mErrorRetry.setOnClickListener(new MyOnClickListenerErrorRetry());
     }
 
-    private class MyOnItemClickListener implements AdapterView.OnItemClickListener{
+    private class MyOnItemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            GridItem item= mGridItemList.get(position);
-            if (item!=null){
-                IntentUtils.strIntentString(mContext, RankingListActivity.class,"rangId","rangName",item.id,item.name);
+            GridItem item = mGridItemList.get(position);
+            if (item != null) {
+                IntentUtils.strIntentString(mContext, RankingListActivity.class, "rangId", "rangName", item.id, item.name);
             }
+        }
+    }
+
+    /**
+     * 判断当前的Fragment是否可见(种方式只限于再viewpager时使用)
+     *
+     * @param isVisibleToUser
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Logger.d(TAG, "排行榜当前isVisibleToUser.." + isVisibleToUser);
+        if (isVisibleToUser) {
+            getRankingListData();
         }
     }
 
@@ -175,14 +187,14 @@ public class RankingFragment extends Fragment {
     /**
      * 无数据加载
      */
-    private class MyOnClickListenerErrorRetry implements View.OnClickListener{
+    private class MyOnClickListenerErrorRetry implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             getRankingListData();
         }
     }
 
-    private class MyOnClickListenerMore implements View.OnClickListener{
+    private class MyOnClickListenerMore implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             IntentUtils.thisToOther(mContext, RankingMoreActivity.class);
@@ -194,12 +206,12 @@ public class RankingFragment extends Fragment {
         super.onResume();
     }
 
-    private void setState(List<GridItem> itemList){
+    private void setState(List<GridItem> itemList) {
         mGridItemList.clear();
-        if (itemList!=null&&!itemList.isEmpty()){
-            if (itemList.size()>9){
-                for (int i=0;i<9;i++){
-                    GridItem item= itemList.get(i);
+        if (itemList != null && !itemList.isEmpty()) {
+            if (itemList.size() > 9) {
+                for (int i = 0; i < 9; i++) {
+                    GridItem item = itemList.get(i);
                     mGridItemList.add(item);
                 }
             } else {
@@ -208,19 +220,14 @@ public class RankingFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
     /**
      * 获取排行榜分类
      */
-    private void getRankingListData(){
+    private void getRankingListData() {
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
-        String tel= mSP.getString("telPhone",null);//tel
-        String token= mSP.getString("token",null);//token
-        Logger.i(TAG,"tel.."+tel+"..token.."+token);
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        Logger.i(TAG, "tel.." + tel + "..token.." + token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
 
@@ -238,14 +245,15 @@ public class RankingFragment extends Fragment {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String s = response.body().string();
-                    Logger.i(TAG,"s.."+s);
-                    AJson<List<GridItem>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<GridItem>>>() {});
-                    if (aJson!=null){
-                        if (aJson.getCode()==0){
+                    Logger.i(TAG, "s.." + s);
+                    AJson<List<GridItem>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<GridItem>>>() {
+                    });
+                    if (aJson != null) {
+                        if (aJson.getCode() == 0) {
                             mHandler.sendEmptyMessage(RankingListSuccess);
-                            Logger.i(TAG,"aJson..."+aJson.toString());
+                            Logger.i(TAG, "aJson..." + aJson.toString());
                             setState(aJson.getData());
-                        } else if (aJson.getCode()==500){
+                        } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {
                             mHandler.obtainMessage(RankingListError, aJson.getMsg()).sendToTarget();
@@ -257,7 +265,7 @@ public class RankingFragment extends Fragment {
                 }
             });
         } else {
-            ToastUtils.showLongToast(mContext,"网络连接异常,请检查网络配置");
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
 }

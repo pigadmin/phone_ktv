@@ -185,7 +185,7 @@ public class AlreadyFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Logger.d(TAG, "isVisibleToUser.." + isVisibleToUser);
+        Logger.d(TAG, "已点歌曲isVisibleToUser.." + isVisibleToUser);
         if (!isVisibleToUser) {
             if (mSnackbar != null) {
                 mSnackbar.dismiss();
