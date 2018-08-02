@@ -50,14 +50,6 @@
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/shoucang19_ivw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="2dp"
-        android:src="@drawable/select_point" />
-
-    <ImageView
         android:id="@+id/tianjia19_ivw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

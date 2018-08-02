@@ -92,11 +92,8 @@ public class AlreadyFragment extends Fragment {
 
         mListView = mNewsView.findViewById(R.id.list_view_29);
 
-        for (int i = 0; i < mPlayBeanList.size(); i++) {
-            selectedStatus.add(false);
-        }
-        Logger.d(TAG, "..." + selectedStatus.size());
-        mAlreadyListAdater = new AlreadyListAdater(mContext, R.layout.item_songdesk_list_layout, mPlayBeanList, selectedStatus);
+        initBooleanList();
+        mAlreadyListAdater = new AlreadyListAdater(mContext, R.layout.item_songdesk_list_layout, mPlayBeanList, selectedStatus, mTitle11);
         mListView.setAdapter(mAlreadyListAdater);
     }
 
@@ -108,6 +105,14 @@ public class AlreadyFragment extends Fragment {
         mCancel12.setOnClickListener(new MyOnClickListenTitle4());
         mSelectionTotal.setOnCheckedChangeListener(new MyOnClickListenTitle5());
         mListView.setOnItemClickListener(new MyOnItemClickLiter());
+    }
+
+    private void initBooleanList() {
+        if (mPlayBeanList != null) {
+            for (int i = 0; i < mPlayBeanList.size(); i++) {
+                selectedStatus.add(false);
+            }
+        }
     }
 
     /**
@@ -149,7 +154,6 @@ public class AlreadyFragment extends Fragment {
             mNewsView.findViewById(R.id.inclub_ilb_9).setVisibility(View.GONE);
             mNewsView.findViewById(R.id.inclub_ilb_10).setVisibility(View.VISIBLE);
             mAlreadyListAdater.setUpdateType(true);
-            ToastUtils.showLongToast(mContext, "多选");
         }
     }
 
@@ -164,7 +168,6 @@ public class AlreadyFragment extends Fragment {
             mAlreadyListAdater.setUpdateType(false);
             mAlreadyListAdater.setUpdateState(selectedStatus, false);
             mSelectionTotal.setChecked(false);
-            ToastUtils.showLongToast(mContext, "取消");
         }
     }
 
