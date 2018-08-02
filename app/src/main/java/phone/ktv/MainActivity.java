@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SPUtil mSP;
 
-    private SVProgressHUD mSvProgressHUD;
+    private SVProgressHUD mSvProgressHUD;;
 
     private long firstTime;
 
