@@ -109,4 +109,14 @@ public class ScreenUtils {
 
     }
 
+    public static int dp2px(Context ctx, float dpValue) {
+        final float density = ctx.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * density + 0.5f);
+    }
+
+    public static int sp2px(Context ctx, float spValue) {
+        final float scaledDensity = ctx.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * scaledDensity + 0.5f);
+    }
+
 }

@@ -17,8 +17,6 @@ import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
-import org.xutils.ex.DbException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +31,7 @@ import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.CollentBean1;
 import phone.ktv.bean.CollentBean2;
-import phone.ktv.bean.CollentBean3;
 import phone.ktv.bean.MusicPlayBean;
-import phone.ktv.fragments.AlreadyFragment;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
@@ -159,7 +155,6 @@ public class CollectionListActivity extends AppCompatActivity {
         mTitle2.setOnClickListener(new MyOnClickListenTitle2());
         mTitle3.setOnClickListener(new MyOnClickListenTitle3());
     }
-
 
     /**
      * 下拉刷新

@@ -33,9 +33,4 @@
         android:textSize="15sp"
         android:visibility="gone" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:src="@mipmap/bottom_sc_1"
-        android:layout_height="wrap_content" />
-
 </LinearLayout>

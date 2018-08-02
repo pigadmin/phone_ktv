@@ -42,4 +42,5 @@ dependencies {
     implementation(name: 'pullToRefreshLib-release', ext: 'aar')
     implementation files('libs/Msc.jar')
     implementation files('libs/Sunflower.jar')
+    implementation 'com.android.support:design:27.+'
 }

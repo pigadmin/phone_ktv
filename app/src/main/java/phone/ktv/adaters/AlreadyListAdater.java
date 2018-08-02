@@ -12,7 +12,6 @@ import java.util.List;
 
 import phone.ktv.R;
 import phone.ktv.bean.MusicPlayBean;
-import phone.ktv.tootls.ToastUtils;
 
 /**
  * 已点歌曲adater

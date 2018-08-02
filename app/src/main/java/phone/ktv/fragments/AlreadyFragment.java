@@ -3,6 +3,7 @@ package phone.ktv.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,6 @@ import phone.ktv.R;
 import phone.ktv.adaters.AlreadyListAdater;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.Logger;
-import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomPopuWindw;
 
 /**
@@ -47,6 +47,8 @@ public class AlreadyFragment extends Fragment {
 
     private List<MusicPlayBean> mPlayBeanList;
     final List<Boolean> selectedStatus = new ArrayList<>();
+
+    public Snackbar mSnackbar;
 
     @Nullable
     @Override
@@ -154,6 +156,7 @@ public class AlreadyFragment extends Fragment {
             mNewsView.findViewById(R.id.inclub_ilb_9).setVisibility(View.GONE);
             mNewsView.findViewById(R.id.inclub_ilb_10).setVisibility(View.VISIBLE);
             mAlreadyListAdater.setUpdateType(true);
+            showSnackbar();
         }
     }
 
@@ -168,6 +171,32 @@ public class AlreadyFragment extends Fragment {
             mAlreadyListAdater.setUpdateType(false);
             mAlreadyListAdater.setUpdateState(selectedStatus, false);
             mSelectionTotal.setChecked(false);
+            if (mSnackbar != null) {
+                mSnackbar.dismiss();
+            }
+        }
+    }
+
+    /**
+     * 判断当前的Fragment是否可见(种方式只限于再viewpager时使用)
+     *
+     * @param isVisibleToUser
+     */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Logger.d(TAG, "isVisibleToUser.." + isVisibleToUser);
+        if (!isVisibleToUser) {
+            if (mSnackbar != null) {
+                mSnackbar.dismiss();
+            }
+            if (mAlreadyListAdater != null) {
+                mAlreadyListAdater.setUpdateType(false);
+            }
+            if (mNewsView != null) {
+                mNewsView.findViewById(R.id.inclub_ilb_9).setVisibility(View.VISIBLE);
+                mNewsView.findViewById(R.id.inclub_ilb_10).setVisibility(View.GONE);
+            }
         }
     }
 
@@ -222,5 +251,20 @@ public class AlreadyFragment extends Fragment {
                 mTitle1.setImageResource(R.mipmap.popovers_n_0);
                 break;
         }
+    }
+
+    private void showSnackbar() {
+        mSnackbar = Snackbar.make(getActivity().getWindow().getDecorView(), "确定删除吗?", Snackbar.LENGTH_INDEFINITE);
+        View view = mSnackbar.getView();
+        ((TextView) view.findViewById(R.id.snackbar_text)).setTextColor(mContext.getResources().getColor(R.color.white));//设置字体的颜色
+        view.setBackgroundColor(mContext.getResources().getColor(R.color.bule));//设置背景颜色
+        mSnackbar.setActionTextColor(mContext.getResources().getColor(R.color.white));
+        mSnackbar.setAction("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mSnackbar.show();
     }
 }
