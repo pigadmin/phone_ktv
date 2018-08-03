@@ -6,15 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -26,9 +24,6 @@ import android.widget.VideoView;
 
 import com.astuetz.PagerSlidingTabStripExtends;
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.squareup.picasso.Picasso;
-
-import org.xutils.ex.DbException;
 
 import java.util.List;
 
@@ -40,11 +35,9 @@ import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
 import phone.ktv.activitys.already_activitys.AlreadySearchListActivity;
 import phone.ktv.activitys.player.PlayerActivity;
-import phone.ktv.activitys.songdesk_activitys.SongDeskActivity4;
 import phone.ktv.adaters.TabAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
-import phone.ktv.service.MyService;
 import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.Contants;
 import phone.ktv.tootls.IntentUtils;
@@ -92,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SPUtil mSP;
 
-    private SVProgressHUD mSvProgressHUD;;
+    private SVProgressHUD mSvProgressHUD;
 
     private long firstTime;
 
@@ -105,14 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-//        intent.setData(Uri.parse("package:" + getPackageName()));
-//        startActivityForResult(intent,100);
-
-
         app = (App) getApplication();
-
-
         mContext = MainActivity.this;
 
         //动态申请权限(动态申请的权限需要在AndroidManifest.xml中声明)
@@ -122,10 +108,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.SYSTEM_ALERT_WINDOW,
-//                        Manifest.permission.REQUEST_INSTALL_PACKAGES,
                         Manifest.permission.READ_CONTACTS},
                 Contants.PermissRequest);
+
+//        PermissionRequestUtil.showSuspeWindow(MainActivity.this);
+//        startService(new Intent(this, MyService.class));
 
         initView();
         initMenuView();
@@ -549,6 +536,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void playnext() {
+
     }
 
     @Override
@@ -562,8 +550,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onPrepared(MediaPlayer mediaPlayer) {
         System.out.println("2222222222222222222222");
         mediaPlayer.start();
-
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Contants.PermissRequest) {
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (!Settings.canDrawOverlays(this)) {
+                    ToastUtils.showLongToast(mContext, "未允许");
+                    PermissionRequestUtil.showSuspeWindow(MainActivity.this);
+                } else {
+                    ToastUtils.showLongToast(mContext, "允许");
+                }
+            }
+        }
+    }
 }

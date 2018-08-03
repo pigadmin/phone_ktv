@@ -17,6 +17,9 @@ import java.util.ArrayList;
  * Android6.0动态权限请求工具类
  */
 public class PermissionRequestUtil {
+
+    private static final String TAG = "PermissionRequestUtil";
+
     /**
      * 默认构造方法
      */
@@ -48,7 +51,7 @@ public class PermissionRequestUtil {
         if (grantResults == null) {
             return;
         }
-        Log.e(null, "grantResults.length=" + grantResults.length);
+        Logger.d(TAG, "grantResults.length=" + grantResults.length);
         boolean isAllow = true;
         for (int i = 0; i < grantResults.length; i++) {
             if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
@@ -71,7 +74,7 @@ public class PermissionRequestUtil {
      */
     public static boolean judgePermissionOver23(Context context, String[] permissions, int requestCode) {
         try {
-            Log.e(null, "Android api=" + Build.VERSION.SDK_INT);
+            Logger.d(TAG, "Android api=" + Build.VERSION.SDK_INT);
             if (permissions == null || permissions.length == 0) {
                 return true;
             }
@@ -122,5 +125,32 @@ public class PermissionRequestUtil {
         builder.setNegativeButton("取消", null);
         builder.setCancelable(false);
         builder.show();
+    }
+
+    /**
+     * 系统悬浮窗权限(特殊)
+     */
+    public static void showSuspeWindow(final Activity activity) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (!Settings.canDrawOverlays(activity)) {
+                new AlertDialog.Builder(activity)
+                        .setTitle("提示")
+                        .setCancelable(false)
+                        .setMessage("悬浮窗权限,为了能正常使用,请进入设置--权限管理打开")
+                        .setPositiveButton("去手动授权", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                        Uri.parse("package:" + activity.getPackageName()));
+                                activity.startActivityForResult(intent, Contants.PermissRequest);
+                            }
+                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+            }
+        }
     }
 }

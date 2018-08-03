@@ -3,6 +3,8 @@ package phone.ktv.tootls;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -32,14 +34,11 @@ public class PicassoUtil {
     public static void picassoFile(Context context, String file, ImageView imageView) {
         Picasso.with(context).load(new File(file)).into(imageView);
     }
-    //Adapter取消已经在视野之外的ImageView- 此封装可能有误，建议不要使用此方法
-    public static void picassoCancel(Context context, String url,ImageView imageView){
-        /**
-         * 在Adapter的getView中执行String url = getItem(position)
-         * 之后获取url输入到第二个参数就可以
-         * */
-        Picasso.with(context).load(url).into(imageView);
+
+    public static void picassoPrimary11(Context context, String loadUrl, ImageView imageView) {
+        Picasso.with(context).load(loadUrl).networkPolicy(NetworkPolicy.OFFLINE).into(imageView);
     }
+
 
     /**
      * 加载中文网址
