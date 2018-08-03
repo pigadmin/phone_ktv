@@ -9,7 +9,9 @@ import android.widget.TextView;
 import java.util.List;
 
 import phone.ktv.R;
+import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.ToastUtils;
 
 /**
@@ -34,7 +36,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
         ImageView shoucang12 = get(convertView, R.id.shoucang12_ivw);//收藏
         ImageView tianjia12 = get(convertView, R.id.tianjia12_ivw);//添加
 
-        MusicPlayBean item = getItem(position);
+        final MusicPlayBean item = getItem(position);
         name.setText(item.name);
         songName.setText(item.singerName);
 
@@ -49,13 +51,20 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
             @Override
             public void onClick(View v) {
                 ToastUtils.showLongToast(context, "shoucang12");
+
             }
         });
 
         tianjia12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showLongToast(context, "tianjia12");
+                try {
+                    App.mDb.save(item);
+                    ToastUtils.showLongToast(context, "歌曲保存成功");
+                } catch (Exception e) {
+                    Logger.d(TAG, "e.." + e.getMessage());
+                    ToastUtils.showLongToast(context, "歌曲已保存");
+                }
             }
         });
     }

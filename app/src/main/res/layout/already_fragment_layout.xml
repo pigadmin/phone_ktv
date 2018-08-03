@@ -28,12 +28,12 @@
     <ListView
         android:id="@+id/list_view_29"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/linear_layout"
         android:dividerHeight="5dp" />
 
     <TextView
-        android:id="@+id/no_data_tvw15"
+        android:id="@+id/no_data_tvw25"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -41,6 +41,6 @@
         android:text="当前无搜索结果"
         android:textColor="@color/white"
         android:textSize="15sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </RelativeLayout>

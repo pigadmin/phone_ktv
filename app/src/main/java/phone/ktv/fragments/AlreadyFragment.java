@@ -3,13 +3,14 @@ package phone.ktv.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -48,33 +49,71 @@ public class AlreadyFragment extends Fragment {
     private AlreadyListAdater mAlreadyListAdater;
     private ListView mListView;
 
-    private List<MusicPlayBean> mPlayBeanList;
+    private List<MusicPlayBean> mPlayBeanList = new ArrayList<>();
     private List<Boolean> selectedStatus;
 
     public Snackbar mSnackbar;
+
+    public TextView mNoData25;
+
+    public static final int Search_Music_Success = 100;
+    public static final int Search_Music_Failure = 200;
+
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case Search_Music_Success:
+                    mNoData25.setVisibility(View.GONE);
+                    mAlreadyListAdater.notifyDataSetChanged();
+                    break;
+                case Search_Music_Failure:
+                    mNoData25.setVisibility(View.VISIBLE);
+                    mAlreadyListAdater.notifyDataSetChanged();
+                    break;
+            }
+        }
+    };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mNewsView = inflater.inflate(R.layout.already_fragment_layout, null);
         mContext = getActivity();
+
         initView();
         initLiter();
+        isMusicStateList();
         return mNewsView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Logger.d(TAG, "----onResume------");
+        isMusicStateList();
+    }
+
+    /**
+     * 查询DB
+     */
+    private void isMusicStateList() {
         try {
-            mPlayBeanList = App.mDb.selector(MusicPlayBean.class).findAll();
+            mPlayBeanList = App.mDb.selector(MusicPlayBean.class).findAll();//数据库查询
+            if (mPlayBeanList != null && !mPlayBeanList.isEmpty()) {
+                Logger.i(TAG, "mPlayBeanList..." + mPlayBeanList.size());
+                handler.sendEmptyMessage(Search_Music_Success);
+            } else {
+                handler.sendEmptyMessage(Search_Music_Failure);
+            }
         } catch (Exception e) {
-            Logger.d(TAG, "e.." + e.getMessage());
+            e.printStackTrace();
+            Logger.i(TAG, "DB查询异常.." + e.getMessage());
         }
     }
 
     private void initView() {
-        mPlayBeanList = new ArrayList<>();
         selectedStatus = new ArrayList<>();
 
         mTitle1 = mNewsView.findViewById(R.id.title_1_ivw);
@@ -83,6 +122,7 @@ public class AlreadyFragment extends Fragment {
         mTitle2 = mNewsView.findViewById(R.id.title_2_tvw);
         mTitle3 = mNewsView.findViewById(R.id.title_3_tvw);
 
+        mNoData25 = mNewsView.findViewById(R.id.no_data_tvw25);
         mCancel12 = mNewsView.findViewById(R.id.cancel_top_12);//取消
         mSelectionTotal = mNewsView.findViewById(R.id.delete_all_cbx119);//全选
         mTitle11 = mNewsView.findViewById(R.id.title_11_ivw);//已选多少首
@@ -101,7 +141,6 @@ public class AlreadyFragment extends Fragment {
 
         mCancel12.setOnClickListener(new MyOnClickListenTitle4());
         mSelectionTotal.setOnCheckedChangeListener(new MyOnClickListenTitle5());
-        mListView.setOnItemClickListener(new MyOnItemClickLiter());
     }
 
     private void initBooleanList() {
@@ -109,16 +148,6 @@ public class AlreadyFragment extends Fragment {
             for (int i = 0; i < mPlayBeanList.size(); i++) {
                 selectedStatus.add(false);
             }
-        }
-    }
-
-    /**
-     * item 事件
-     */
-    private class MyOnItemClickLiter implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         }
     }
 
@@ -198,6 +227,8 @@ public class AlreadyFragment extends Fragment {
             if (mSelectionTotal != null) {
                 mSelectionTotal.setChecked(false);
             }
+
+            isMusicStateList();
         }
     }
 
