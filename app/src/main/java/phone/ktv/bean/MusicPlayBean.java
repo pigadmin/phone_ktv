@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class MusicPlayBean implements Serializable {
 
     @Column(name = "id", isId = true, autoGen = true)
-    public int id;//主键
+    public String id;//主键
 
     @Column(name = "songnumber")
     public String songnumber;//编号

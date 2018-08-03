@@ -8,7 +8,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import phone.ktv.R;
-import phone.ktv.bean.CollentBean3;
 import phone.ktv.bean.MusicPlayBean;
 
 /**
