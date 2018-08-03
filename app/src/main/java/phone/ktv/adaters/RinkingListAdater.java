@@ -10,6 +10,7 @@ import java.util.List;
 
 import phone.ktv.R;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.ToastUtils;
 
 /**
  * 排行榜歌曲adater
@@ -43,5 +44,19 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
             songType.setVisibility(View.VISIBLE);
             songType.setText(item.label);
         }
+
+        shoucang12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.showLongToast(context, "shoucang12");
+            }
+        });
+
+        tianjia12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.showLongToast(context, "tianjia12");
+            }
+        });
     }
 }

@@ -7,18 +7,12 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
-
-import org.xutils.DbManager;
-import org.xutils.ex.DbException;
-import org.xutils.x;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,7 +40,7 @@ import phone.ktv.views.MyListView;
 /**
  * (点歌台)通过歌星搜索歌曲的列表  4级
  */
-public class SongDeskActivity4 extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class SongDeskActivity4 extends AppCompatActivity {
 
     private static final String TAG = "SongDeskActivity4";
 
@@ -168,7 +162,6 @@ public class SongDeskActivity4 extends AppCompatActivity implements AdapterView.
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         getRankingListData();
-        mListView.setOnItemClickListener(this);
     }
 
     private void initLiter() {
@@ -176,17 +169,6 @@ public class SongDeskActivity4 extends AppCompatActivity implements AdapterView.
         mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
 
-    }
-
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-        try {
-            App.mDb.save(musicPlayBeans.get(i));
-        } catch (Exception e) {
-            e.printStackTrace();
-            ToastUtils.showShortToast(SongDeskActivity4.this, "播放列表已存在");
-        }
     }
 
     /**
@@ -218,7 +200,16 @@ public class SongDeskActivity4 extends AppCompatActivity implements AdapterView.
     private class MyQuanbuPlayOnClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            if (musicPlayBeans != null) {
+                try {
+                    for (MusicPlayBean musicPlayBean : musicPlayBeans) {
+                        App.mDb.save(musicPlayBean);
+                        sendBroadcast(new Intent(App.PLAY));
+                    }
+                } catch (Exception e) {
+                    Logger.d(TAG, "...点歌台保存失败:" + e.getMessage());
+                }
+            }
         }
     }
 

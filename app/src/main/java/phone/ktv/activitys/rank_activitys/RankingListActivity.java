@@ -7,8 +7,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
@@ -16,8 +14,6 @@ import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
-
-import org.xutils.ex.DbException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +24,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import phone.ktv.R;
-import phone.ktv.activitys.songdesk_activitys.SongDeskActivity4;
 import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
@@ -45,7 +40,7 @@ import phone.ktv.views.MyListView;
 /**
  * 歌曲排行榜 2级
  */
-public class RankingListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class RankingListActivity extends AppCompatActivity {
 
     private static final String TAG = "RankingListActivity";
 
@@ -161,7 +156,6 @@ public class RankingListActivity extends AppCompatActivity implements AdapterVie
         mListView = findViewById(R.id.list_view_2);
         mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans);
         mListView.setAdapter(mRinkingAdater);
-        mListView.setOnItemClickListener(this);
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         getRankingListData();
@@ -171,16 +165,6 @@ public class RankingListActivity extends AppCompatActivity implements AdapterVie
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        try {
-            App.mDb.save(musicPlayBeans.get(i));
-        } catch (Exception e) {
-            e.printStackTrace();
-            ToastUtils.showShortToast(RankingListActivity.this, "播放列表已存在");
-        }
     }
 
     /**
@@ -212,7 +196,16 @@ public class RankingListActivity extends AppCompatActivity implements AdapterVie
     private class MyQuanbuPlayOnClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            if (musicPlayBeans != null) {
+                try {
+                    for (MusicPlayBean musicPlayBean : musicPlayBeans) {
+                        App.mDb.save(musicPlayBean);
+                        sendBroadcast(new Intent(App.PLAY));
+                    }
+                } catch (Exception e) {
+                    Logger.d(TAG, "...排行榜保存失败:" + e.getMessage());
+                }
+            }
         }
     }
 

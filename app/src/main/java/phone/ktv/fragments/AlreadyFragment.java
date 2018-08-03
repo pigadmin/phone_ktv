@@ -1,6 +1,7 @@
 package phone.ktv.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -137,7 +138,9 @@ public class AlreadyFragment extends Fragment {
     private class MyOnClickListenTitle2 implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            if (mPlayBeanList != null) {
+                mContext.sendBroadcast(new Intent(App.PLAY));
+            }
         }
     }
 

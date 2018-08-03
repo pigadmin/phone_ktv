@@ -297,13 +297,15 @@ public class CollectionListActivity extends AppCompatActivity {
     private class MyOnClickListenTitle2 implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            try {
-                for (MusicPlayBean musicPlayBean : mCollentBean3s) {
-                    App.mDb.save(musicPlayBean);
-                    sendBroadcast(new Intent(App.PLAY));
+            if (mCollentBean3s != null) {
+                try {
+                    for (MusicPlayBean musicPlayBean : mCollentBean3s) {
+                        App.mDb.save(musicPlayBean);
+                        sendBroadcast(new Intent(App.PLAY));
+                    }
+                } catch (Exception e) {
+                    Logger.d(TAG, "...收藏列表保存失败:" + e.getMessage());
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }

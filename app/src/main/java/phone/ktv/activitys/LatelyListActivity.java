@@ -1,6 +1,7 @@
 package phone.ktv.activitys;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +27,6 @@ import phone.ktv.adaters.CollectionListAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.CollentBean1;
-import phone.ktv.bean.CollentBean3;
 import phone.ktv.bean.LatelyBean2;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.GsonJsonUtils;
@@ -249,7 +249,16 @@ public class LatelyListActivity extends AppCompatActivity {
     private class MyOnClickListenTitle2 implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            if (mCollentBean3s != null) {
+                try {
+                    for (MusicPlayBean musicPlayBean : mCollentBean3s) {
+                        App.mDb.save(musicPlayBean);
+                        sendBroadcast(new Intent(App.PLAY));
+                    }
+                } catch (Exception e) {
+                    Logger.d(TAG, "...最近播放保存失败:" + e.getMessage());
+                }
+            }
         }
     }
 
