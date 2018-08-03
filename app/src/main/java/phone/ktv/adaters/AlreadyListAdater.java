@@ -39,7 +39,7 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
     }
 
     @Override
-    public void onInitView(View convertView, final int position) {
+    public void onInitView(final View convertView, final int position) {
 
         deleCheckBox = get(convertView, R.id.delete_all_cbx);//选中
         name = get(convertView, R.id.name_tvw19);//歌曲名称
@@ -74,7 +74,7 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean b) {
                 booleanList.set((Integer) buttonView.getTag(), b);
-                getSelectNum();
+                title11.setText("已选" + getSelectNum() + "首");
             }
         });
 
@@ -115,13 +115,13 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
     /**
      * 已选歌曲个数
      */
-    private void getSelectNum() {
+    public int getSelectNum() {
         int num = 0;
         for (int i = 0; i < booleanList.size(); i++) {
             if (booleanList.get(i)) {
                 num++;
             }
         }
-        title11.setText("已选" + num + "首");
+        return num;
     }
 }

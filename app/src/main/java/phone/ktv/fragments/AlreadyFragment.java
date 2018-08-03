@@ -22,6 +22,7 @@ import phone.ktv.R;
 import phone.ktv.adaters.AlreadyListAdater;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomPopuWindw;
 
 /**
@@ -46,7 +47,7 @@ public class AlreadyFragment extends Fragment {
     private ListView mListView;
 
     private List<MusicPlayBean> mPlayBeanList;
-    final List<Boolean> selectedStatus = new ArrayList<>();
+    private List<Boolean> selectedStatus;
 
     public Snackbar mSnackbar;
 
@@ -62,6 +63,7 @@ public class AlreadyFragment extends Fragment {
 
     private void initView() {
         mPlayBeanList = new ArrayList<>();
+        selectedStatus = new ArrayList<>();
 
         mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
         mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
@@ -192,10 +194,14 @@ public class AlreadyFragment extends Fragment {
             }
             if (mAlreadyListAdater != null) {
                 mAlreadyListAdater.setUpdateType(false);
+                mAlreadyListAdater.setUpdateState(selectedStatus, false);
             }
             if (mNewsView != null) {
                 mNewsView.findViewById(R.id.inclub_ilb_9).setVisibility(View.VISIBLE);
                 mNewsView.findViewById(R.id.inclub_ilb_10).setVisibility(View.GONE);
+            }
+            if (mSelectionTotal != null) {
+                mSelectionTotal.setChecked(false);
             }
         }
     }
@@ -253,16 +259,21 @@ public class AlreadyFragment extends Fragment {
         }
     }
 
-    private void showSnackbar() {
+    public void showSnackbar() {
         mSnackbar = Snackbar.make(getActivity().getWindow().getDecorView(), "确定删除吗?", Snackbar.LENGTH_INDEFINITE);
-        View view = mSnackbar.getView();
+        final View view = mSnackbar.getView();
         ((TextView) view.findViewById(R.id.snackbar_text)).setTextColor(mContext.getResources().getColor(R.color.white));//设置字体的颜色
         view.setBackgroundColor(mContext.getResources().getColor(R.color.bule));//设置背景颜色
         mSnackbar.setActionTextColor(mContext.getResources().getColor(R.color.white));
         mSnackbar.setAction("确定", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (mAlreadyListAdater.getSelectNum() > 0) {
+                    ToastUtils.showLongToast(mContext, "删除成功");
+                } else {
+                    ToastUtils.showLongToast(mContext, "请先勾选歌曲");
+                    showSnackbar();
+                }
             }
         });
         mSnackbar.show();
