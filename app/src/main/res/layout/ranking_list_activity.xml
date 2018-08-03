@@ -15,17 +15,17 @@
 
     <View
         android:id="@+id/vs1_vw"
-        android:layout_below="@+id/customTopTitleView1"
-        style="@style/view_line_sbc_header_text_19" />
+        style="@style/view_line_sbc_header_text_19"
+        android:layout_below="@+id/customTopTitleView1" />
 
     <LinearLayout
         android:id="@+id/llt123_llt"
         android:layout_width="match_parent"
-        android:background="@mipmap/phb_nrq"
         android:layout_height="40dp"
         android:layout_below="@+id/customTopTitleView1"
-        android:padding="10dp"
-        android:orientation="horizontal">
+        android:background="@mipmap/phb_nrq"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/song_song110_tvw"
@@ -44,7 +44,6 @@
             android:textColor="@color/white" />
 
         <LinearLayout
-            android:id="@+id/quanbu_llt1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -57,11 +56,12 @@
                 android:src="@mipmap/top_icon_1" />
 
             <TextView
+                android:id="@+id/quanbu_llt1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="全部播放"
-                android:textColor="@color/white" />
+                android:textColor="@drawable/selector_play_type_bg" />
 
         </LinearLayout>
     </LinearLayout>

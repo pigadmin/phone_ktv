@@ -74,7 +74,7 @@ public class RankingListActivity extends AppCompatActivity implements AdapterVie
     private TextView mSongBang;//情歌榜
     private TextView getmSongBangList;//情歌多少首
 
-    private LinearLayout mQuanbuPlay;//全部播放
+    private TextView mQuanbuPlay;//全部播放
 
     private int mLimit = App.Maxlimit;//页码量
     private int mPage = 1;//第几页
