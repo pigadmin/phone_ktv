@@ -11,7 +11,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import phone.ktv.R;
+import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.ToastUtils;
 
 /**
  * 已点歌曲adater
@@ -47,7 +50,7 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
         songType = get(convertView, R.id.song_type19_tvw);//标识HD or 演唱会
         delete12 = get(convertView, R.id.tianjia19_ivw);//删除
 
-        MusicPlayBean item = getItem(position);
+        final MusicPlayBean item = getItem(position);
         name.setText(item.name);
         songName.setText(item.singerName);
 
@@ -84,8 +87,14 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
         delete12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getAllData().remove(position);
-                notifyDataSetChanged();
+                try {
+                    ToastUtils.showShortToast(context, "删除成功");
+                    App.mDb.delete(item);//先删除DB数据
+                    getAllData().remove(position);//再删本地列表
+                    notifyDataSetChanged();
+                } catch (Exception e) {
+                    Logger.i(TAG, "删除异常e.." + e.getMessage());
+                }
             }
         });
     }

@@ -103,6 +103,7 @@ public class AlreadyFragment extends Fragment {
             mPlayBeanList = App.mDb.selector(MusicPlayBean.class).findAll();//数据库查询
             if (mPlayBeanList != null && !mPlayBeanList.isEmpty()) {
                 Logger.i(TAG, "mPlayBeanList..." + mPlayBeanList.size());
+                mAlreadyListAdater.notifyDataSetChanged();
                 handler.sendEmptyMessage(Search_Music_Success);
             } else {
                 handler.sendEmptyMessage(Search_Music_Failure);
