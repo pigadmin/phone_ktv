@@ -154,7 +154,7 @@ public class RankingListActivity extends AppCompatActivity {
         mQuanbuPlay = findViewById(R.id.quanbu_llt1);
 
         mListView = findViewById(R.id.list_view_2);
-        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans);
+        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans, mSP);
         mListView.setAdapter(mRinkingAdater);
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");

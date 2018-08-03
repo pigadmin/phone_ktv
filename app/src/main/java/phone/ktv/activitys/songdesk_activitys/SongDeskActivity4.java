@@ -157,7 +157,7 @@ public class SongDeskActivity4 extends AppCompatActivity {
         mPullToRefresh = findViewById(R.id.sv);
 
         mListView = findViewById(R.id.list_view_2);
-        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans);
+        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans,mSP);
         mListView.setAdapter(mRinkingAdater);
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
@@ -168,7 +168,6 @@ public class SongDeskActivity4 extends AppCompatActivity {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
-
     }
 
     /**

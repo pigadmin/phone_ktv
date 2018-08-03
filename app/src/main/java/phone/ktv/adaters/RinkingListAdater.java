@@ -6,12 +6,23 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.WeakHashMap;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.app.App;
+import phone.ktv.bean.AJson;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.NetUtils;
+import phone.ktv.tootls.OkhttpUtils;
+import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 
 /**
@@ -21,10 +32,12 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
     private static final String TAG = "RinkingListAdater";
 
     Context context;
+    SPUtil mSP;
 
-    public RinkingListAdater(Context context, int layoutId, List<MusicPlayBean> list) {
+    public RinkingListAdater(Context context, int layoutId, List<MusicPlayBean> list, SPUtil mSP) {
         super(context, layoutId, list);
         this.context = context;
+        this.mSP = mSP;
     }
 
     @Override
@@ -50,8 +63,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
         shoucang12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showLongToast(context, "shoucang12");
-
+                getRankingListData(item);
             }
         });
 
@@ -67,5 +79,50 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
                 }
             }
         });
+    }
+
+
+    private void getRankingListData(MusicPlayBean playBean) {
+        WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        Logger.i(TAG, "tel.." + tel);
+        weakHashMap.put("telPhone", tel);//手机号
+        weakHashMap.put("token", token);//token
+        weakHashMap.put("sid", playBean.id);//token
+
+        String url = App.getRqstUrl(App.headurl + "song/collect/add", weakHashMap);
+        Logger.i(TAG, "url.." + url);
+
+        if (NetUtils.hasNetwork(context)) {
+            OkhttpUtils.doStart(url, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    //返回失败
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String s = response.body().string();
+                    Logger.i(TAG, "s.." + s);
+                    AJson<List<MusicPlayBean>> aJson = App.jsonToObject(s, new TypeToken<AJson<List<MusicPlayBean>>>() {
+                    });
+                    if (aJson != null) {
+                        if (aJson.getCode() == 0) {
+                            Logger.i(TAG, "aJson..." + aJson.toString());
+                        } else if (aJson.getCode() == 500) {
+
+                        } else {
+
+                        }
+                    }
+                    if (response.body() != null) {
+                        response.body().close();
+                    }
+                }
+            });
+        } else {
+            ToastUtils.showLongToast(context, "网络连接异常,请检查网络配置");
+        }
     }
 }

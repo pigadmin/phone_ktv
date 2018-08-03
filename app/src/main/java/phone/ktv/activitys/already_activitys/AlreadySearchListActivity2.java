@@ -160,7 +160,7 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
         mSearch = findViewById(R.id.text_search11_tvw);
 
         mListView1 = findViewById(R.id.list1122_view);
-        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans);
+        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans,mSP);
         mListView1.setAdapter(mRinkingAdater);
 
         getSongNameData();
