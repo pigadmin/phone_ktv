@@ -20,6 +20,7 @@ import java.util.List;
 
 import phone.ktv.R;
 import phone.ktv.adaters.AlreadyListAdater;
+import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.ToastUtils;
@@ -61,28 +62,19 @@ public class AlreadyFragment extends Fragment {
         return mNewsView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            mPlayBeanList = App.mDb.selector(MusicPlayBean.class).findAll();
+        } catch (Exception e) {
+            Logger.d(TAG, "e.." + e.getMessage());
+        }
+    }
+
     private void initView() {
         mPlayBeanList = new ArrayList<>();
         selectedStatus = new ArrayList<>();
-
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
-        mPlayBeanList.add(new MusicPlayBean("周杰伦", "告白气球", "HD"));
 
         mTitle1 = mNewsView.findViewById(R.id.title_1_ivw);
         setLogo(CustomPopuWindw.postion);

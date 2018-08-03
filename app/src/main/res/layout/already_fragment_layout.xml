@@ -1,36 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <include
-        android:id="@+id/inclub_ilb_9"
-        layout="@layout/inclub_play_select_layout"
+    <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
 
-    <include
-        android:id="@+id/inclub_ilb_10"
-        layout="@layout/inclub_already_top2_layout"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="40dp" />
+        <include
+            android:id="@+id/inclub_ilb_9"
+            layout="@layout/inclub_play_select_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <include
+            android:id="@+id/inclub_ilb_10"
+            layout="@layout/inclub_already_top2_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/list_view_29"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/linear_layout"
         android:dividerHeight="5dp" />
 
     <TextView
         android:id="@+id/no_data_tvw15"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:gravity="center"
         android:text="当前无搜索结果"
         android:textColor="@color/white"
         android:textSize="15sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
-</LinearLayout>
+</RelativeLayout>
