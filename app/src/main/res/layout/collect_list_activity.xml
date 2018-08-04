@@ -29,6 +29,7 @@
         android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/min_player_mpr"
         android:layout_below="@+id/inclub_ilb_9"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -52,5 +53,11 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         android:visibility="gone" />
+
+    <phone.ktv.activitys.player.MiniPlayer
+        android:id="@+id/min_player_mpr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
