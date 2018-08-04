@@ -47,8 +47,8 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
-        android:padding="2dp"
-        android:src="@mipmap/n_t_tj" />
+        android:padding="8dp"
+        android:src="@drawable/selector_icon_dd" />
 </RelativeLayout>
 
 

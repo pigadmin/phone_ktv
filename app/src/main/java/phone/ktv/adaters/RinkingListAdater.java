@@ -131,7 +131,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
     }
 
     private void showDialog(final MusicPlayBean item) {
-        final SongBtmDialog btmDialog = new SongBtmDialog(context, "最远的你是我最近的爱", "最远");
+        final SongBtmDialog btmDialog = new SongBtmDialog(context, item.name, item.singerName);
         btmDialog.mStartPaly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,5 +178,4 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
             ToastUtils.showLongToast(context, "歌曲已保存");
         }
     }
-
 }
