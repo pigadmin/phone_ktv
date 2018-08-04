@@ -24,7 +24,7 @@
         android:layout_height="40dp"
         android:layout_below="@+id/vs1_vw" />
 
-    <phone.ktv.views.MyListView
+    <ListView
         android:id="@+id/list_view_22"
         android:layout_below="@+id/inclub_ilb_9"
         android:layout_width="match_parent"

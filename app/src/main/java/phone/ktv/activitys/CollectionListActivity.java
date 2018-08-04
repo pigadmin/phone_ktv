@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +27,7 @@ import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.adaters.CollectionListAdater;
 import phone.ktv.app.App;
-import phone.ktv.bean.AJson;
+import phone.ktv.bean.ColleResultBean;
 import phone.ktv.bean.CollentBean1;
 import phone.ktv.bean.CollentBean2;
 import phone.ktv.bean.MusicPlayBean;
@@ -149,7 +148,6 @@ public class CollectionListActivity extends AppCompatActivity {
 
     private void initLiter() {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
-        mListView1.setOnItemClickListener(new MyOnItemClickListener1());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
         mTitle1.setOnClickListener(new MyOnClickListenTitle1());
         mTitle2.setOnClickListener(new MyOnClickListenTitle2());
@@ -182,16 +180,6 @@ public class CollectionListActivity extends AppCompatActivity {
             mNoData.setVisibility(View.GONE);
         } else {
             mNoData.setVisibility(View.VISIBLE);
-        }
-    }
-
-    /**
-     * item事件
-     */
-    private class MyOnItemClickListener1 implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ToastUtils.showLongToast(mContext, "1");
         }
     }
 
@@ -242,12 +230,11 @@ public class CollectionListActivity extends AppCompatActivity {
                     String s = response.body().string();
                     Logger.i(TAG, "s.." + s);
 
-                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                    ColleResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ColleResultBean.class);
                     if (aJson != null) {
-                        if (aJson.getCode() == 0) {
-                            mHandler.sendEmptyMessage(RankingSearch2Success);
+                        if (aJson.code == 0) {
                             Logger.i(TAG, "aJson1..." + aJson.toString());
-                            String str = GsonJsonUtils.parseObj2Json(aJson.getData());
+                            String str = GsonJsonUtils.parseObj2Json(aJson.data);
                             CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
                             String string = GsonJsonUtils.parseObj2Json(collentBean1.list);
                             List<CollentBean2> collentBean = GsonJsonUtils.parseJson2Obj(string, new TypeToken<List<CollentBean2>>() {
@@ -255,11 +242,11 @@ public class CollectionListActivity extends AppCompatActivity {
                             for (CollentBean2 p : collentBean) {
                                 mCollentBean3s.add(p.song);
                             }
-                            setStateSongName(mCollentBean3s);
-                        } else if (aJson.getCode() == 500) {
-                            mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
+                            mHandler.sendEmptyMessage(RankingSearch2Success);
+                        } else if (aJson.code == 500) {
+                            mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
                         } else {
-                            mHandler.obtainMessage(RankingSearch2Error, aJson.getMsg()).sendToTarget();
+                            mHandler.obtainMessage(RankingSearch2Error, aJson.msg).sendToTarget();
                         }
                     }
 
@@ -272,12 +259,6 @@ public class CollectionListActivity extends AppCompatActivity {
             mSvProgressHUD.dismiss();
             mPullToRefresh.onRefreshComplete();
             ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
-        }
-    }
-
-    private void setStateSongName(List<MusicPlayBean> itemList) {
-        if (itemList != null && !itemList.isEmpty()) {
-            mCollentBean3s.addAll(itemList);
         }
     }
 

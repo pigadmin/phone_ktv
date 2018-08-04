@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
@@ -25,7 +26,7 @@ import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.adaters.CollectionListAdater;
 import phone.ktv.app.App;
-import phone.ktv.bean.AJson;
+import phone.ktv.bean.ColleResultBean;
 import phone.ktv.bean.CollentBean1;
 import phone.ktv.bean.LatelyBean2;
 import phone.ktv.bean.MusicPlayBean;
@@ -48,7 +49,7 @@ public class LatelyListActivity extends AppCompatActivity {
 
     Context mContext;
 
-    private MyListView mListView1;
+    private ListView mListView1;
 
     private CustomTopTitleView mTopTitleView1;//返回事件
 
@@ -194,12 +195,12 @@ public class LatelyListActivity extends AppCompatActivity {
                     String s = response.body().string();
                     Logger.i(TAG, "s.." + s);
 
-                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
+                    ColleResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ColleResultBean.class);
                     if (aJson != null) {
-                        if (aJson.getCode() == 0) {
+                        if (aJson.code== 0) {
                             mHandler.sendEmptyMessage(RankingSearch2Success);
                             Logger.i(TAG, "aJson1..." + aJson.toString());
-                            String str = GsonJsonUtils.parseObj2Json(aJson.getData());
+                            String str = GsonJsonUtils.parseObj2Json(aJson.data);
                             CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
                             String string = GsonJsonUtils.parseObj2Json(collentBean1.list);
                             List<LatelyBean2> collentBean = GsonJsonUtils.parseJson2Obj(string, new TypeToken<List<LatelyBean2>>() {
@@ -207,11 +208,10 @@ public class LatelyListActivity extends AppCompatActivity {
                             for (LatelyBean2 p : collentBean) {
                                 mCollentBean3s.add(p.song);
                             }
-                            setStateSongName(mCollentBean3s);
-                        } else if (aJson.getCode() == 500) {
-                            mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
+                        } else if (aJson.code == 500) {
+                            mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
                         } else {
-                            mHandler.obtainMessage(RankingSearch2Error, aJson.getMsg()).sendToTarget();
+                            mHandler.obtainMessage(RankingSearch2Error, aJson.msg).sendToTarget();
                         }
                     }
 
@@ -224,12 +224,6 @@ public class LatelyListActivity extends AppCompatActivity {
         } else {
             mSvProgressHUD.dismiss();
             ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
-        }
-    }
-
-    private void setStateSongName(List<MusicPlayBean> itemList) {
-        if (itemList != null && !itemList.isEmpty()) {
-            mCollentBean3s.addAll(itemList);
         }
     }
 
