@@ -29,6 +29,7 @@ import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.LatelyListUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
@@ -172,7 +173,10 @@ public class RankingListActivity extends AppCompatActivity {
     private class MyOnItemClickLis implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            MusicPlayBean bean = musicPlayBeans.get(position);
+            LatelyListUtils utils = new LatelyListUtils(mSP, RankingListActivity.this, bean);
+            utils.getLatelyList();
+            App.saveData(bean, mContext, TAG, false);
         }
     }
 

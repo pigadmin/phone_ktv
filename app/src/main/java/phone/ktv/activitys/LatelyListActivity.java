@@ -197,8 +197,7 @@ public class LatelyListActivity extends AppCompatActivity {
 
                     ColleResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ColleResultBean.class);
                     if (aJson != null) {
-                        if (aJson.code== 0) {
-                            mHandler.sendEmptyMessage(RankingSearch2Success);
+                        if (aJson.code == 0) {
                             Logger.i(TAG, "aJson1..." + aJson.toString());
                             String str = GsonJsonUtils.parseObj2Json(aJson.data);
                             CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
@@ -208,13 +207,13 @@ public class LatelyListActivity extends AppCompatActivity {
                             for (LatelyBean2 p : collentBean) {
                                 mCollentBean3s.add(p.song);
                             }
+                            mHandler.sendEmptyMessage(RankingSearch2Success);
                         } else if (aJson.code == 500) {
                             mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
                         } else {
                             mHandler.obtainMessage(RankingSearch2Error, aJson.msg).sendToTarget();
                         }
                     }
-
 
                     if (response.body() != null) {
                         response.body().close();
@@ -308,5 +307,4 @@ public class LatelyListActivity extends AppCompatActivity {
                 break;
         }
     }
-
 }
