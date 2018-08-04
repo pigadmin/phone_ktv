@@ -2,12 +2,10 @@ package phone.ktv.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.VideoView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -20,13 +18,12 @@ import com.iflytek.cloud.SpeechUtility;
 import org.xutils.DbManager;
 import org.xutils.x;
 
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import phone.ktv.bean.MusicPlayBean;
-import phone.ktv.service.MyService;
 import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.ToastUtils;
 import phone.ktv.tootls.xDBUtils;
 
 public class App extends Application {
@@ -169,7 +166,6 @@ public class App extends Application {
 //    private List<MusicPlayBean> testlist;
 
 
-
     private MediaPlayer mediaPlayer;
 
     public MediaPlayer getMediaPlayer() {
@@ -178,5 +174,27 @@ public class App extends Application {
 
     public void setMediaPlayer(MediaPlayer mediaPlayer) {
         this.mediaPlayer = mediaPlayer;
+    }
+
+    /**
+     * 保存数据到DB
+     *
+     * @param item
+     * @param context
+     * @param TAG
+     * @param s
+     */
+    public static void saveData(MusicPlayBean item, Context context, String TAG, boolean s) {
+        try {
+            App.mDb.save(item);
+            if (s) {
+                ToastUtils.showLongToast(context, "歌曲保存成功");
+            }
+        } catch (Exception e) {
+            Logger.d(TAG, "e.." + e.getMessage());
+            if (s) {
+                ToastUtils.showLongToast(context, "歌曲已保存");
+            }
+        }
     }
 }

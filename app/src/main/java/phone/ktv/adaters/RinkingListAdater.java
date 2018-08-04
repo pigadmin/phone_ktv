@@ -20,6 +20,7 @@ import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.LatelyListUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
@@ -135,6 +136,9 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
         btmDialog.mStartPaly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LatelyListUtils utils = new LatelyListUtils(mSP, activity, item);
+                utils.getLatelyList();
+                App.saveData(item, activity, TAG,false);
                 btmDialog.dismiss();
             }
         });
@@ -151,7 +155,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
             @Override
             public void onClick(View v) {
                 btmDialog.dismiss();
-                saveData(item);
+                App.saveData(item, context, TAG,true);
             }
         });
 
@@ -162,20 +166,5 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
             }
         });
         btmDialog.show();
-    }
-
-    /**
-     * 保存数据到DB
-     *
-     * @param item
-     */
-    private void saveData(MusicPlayBean item) {
-        try {
-            App.mDb.save(item);
-            ToastUtils.showLongToast(context, "歌曲保存成功");
-        } catch (Exception e) {
-            Logger.d(TAG, "e.." + e.getMessage());
-            ToastUtils.showLongToast(context, "歌曲已保存");
-        }
     }
 }

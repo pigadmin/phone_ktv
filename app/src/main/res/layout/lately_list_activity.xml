@@ -26,9 +26,9 @@
 
     <ListView
         android:id="@+id/list_view_22"
-        android:layout_below="@+id/inclub_ilb_9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/inclub_ilb_9"
         android:dividerHeight="5dp" />
 
     <TextView
@@ -40,14 +40,5 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         android:visibility="gone" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/list_view_22"
-        android:text="这里会记录你最近播放的1000首歌曲"
-        android:layout_height="wrap_content" />
 
 </RelativeLayout>
