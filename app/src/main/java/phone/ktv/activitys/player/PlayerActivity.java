@@ -113,6 +113,7 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
     MediaPlayer mediaPlayer;
 
     private void init() {
+        try {
 //        player = findViewById(R.id.player);
 //
 //        FULL.star(player);
@@ -120,29 +121,32 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
 //        player.setOnErrorListener(this);
 //        player.setOnCompletionListener(this);
 //        player.setOnPreparedListener(this);
-        mediaPlayer = app.getMediaPlayer();
-        mediaPlayer.setOnErrorListener(this);
-        mediaPlayer.setOnCompletionListener(this);
-        mediaPlayer.setOnPreparedListener(this);
-        surface = findViewById(R.id.surface);
-        holder = surface.getHolder();
-        holder.addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                System.out.println("surfaceCreatedsurfaceCreated");
-                mediaPlayer.setDisplay(surfaceHolder);
-            }
+//            mediaPlayer = app.getMediaPlayer();
+            app.getMediaPlayer().setOnErrorListener(this);
+            app.getMediaPlayer().setOnCompletionListener(this);
+            app.getMediaPlayer().setOnPreparedListener(this);
+            surface = findViewById(R.id.surface);
+            holder = surface.getHolder();
+            holder.addCallback(new SurfaceHolder.Callback() {
+                @Override
+                public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                    System.out.println("surfaceCreatedsurfaceCreated");
+                    app.getMediaPlayer().setDisplay(surfaceHolder);
+                }
 
-            @Override
-            public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-                System.out.println("surfaceChangedsurfaceChanged");
-            }
+                @Override
+                public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+                    System.out.println("surfaceChangedsurfaceChanged");
+                }
 
-            @Override
-            public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-                System.out.println("surfaceDestroyedsurfaceDestroyed");
-            }
-        });
+                @Override
+                public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+                    System.out.println("surfaceDestroyedsurfaceDestroyed");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

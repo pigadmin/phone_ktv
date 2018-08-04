@@ -177,9 +177,10 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             System.out.println(getList().get(index).name);
             player.setDataSource(this,
                     Uri.parse(getList().get(index).path));
-            if (!player.isPlaying()) {
-                player.prepareAsync();
-            }
+            System.out.println("1111111111111111111" + (player == null));
+//            if (!player.isPlaying()) {
+                player.prepare();
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

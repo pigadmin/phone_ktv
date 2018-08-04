@@ -46,4 +46,10 @@
         android:textSize="15sp"
         android:visibility="gone" />
 
+    <phone.ktv.activitys.player.MiniPlayer
+        android:id="@+id/miniplayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"></phone.ktv.activitys.player.MiniPlayer>
+
 </RelativeLayout>

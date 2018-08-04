@@ -57,13 +57,19 @@
         android:layout_above="@+id/llt_115"
         android:layout_below="@+id/vs1_vw" />
 
+    <phone.ktv.activitys.player.MiniPlayer
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"></phone.ktv.activitys.player.MiniPlayer>
+
     <LinearLayout
         android:id="@+id/llt_115"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@mipmap/bottom_gequ_k"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <VideoView
             android:id="@+id/player"
@@ -135,21 +141,21 @@
 
                     <ImageView
                         android:id="@+id/player_last"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
                         android:background="@drawable/player_last" />
 
                     <ImageView
                         android:id="@+id/player_play"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
                         android:background="@mipmap/bottom_icon_3" />
 
                     <ImageView
                         android:id="@+id/player_next"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
                         android:background="@mipmap/bottom_icon_2" />
