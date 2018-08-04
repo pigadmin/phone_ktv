@@ -38,7 +38,6 @@ import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomPopuWindw;
 import phone.ktv.views.CustomTopTitleView;
-import phone.ktv.views.MyListView;
 
 /**
  * 最近播放列表
@@ -128,6 +127,14 @@ public class LatelyListActivity extends AppCompatActivity {
         mTitle1.setOnClickListener(new MyOnClickListenTitle1());
         mTitle2.setOnClickListener(new MyOnClickListenTitle2());
         mTitle3.setOnClickListener(new MyOnClickListenTitle3());
+        mListView1.setOnItemClickListener(new MyOnItemClickLis());
+    }
+
+    private class MyOnItemClickLis implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        }
     }
 
     private void updateData() {

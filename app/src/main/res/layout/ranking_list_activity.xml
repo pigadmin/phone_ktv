@@ -23,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/customTopTitleView1"
-        android:background="@mipmap/phb_nrq"
         android:orientation="horizontal"
+        android:background="#0A2B62"
         android:padding="10dp">
 
         <TextView

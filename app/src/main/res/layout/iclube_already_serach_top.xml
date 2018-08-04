@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:background="@mipmap/phb_nrq"
+    android:layout_height="50dp"
+    android:background="#0A2B62"
     android:orientation="horizontal">
-
-    <ImageView
-        android:id="@+id/src_back11_ivw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="15dp"
-        android:src="@drawable/selector_back" />
 
     <LinearLayout
         android:id="@+id/search_llt"
@@ -35,7 +27,7 @@
         <EditText
             android:id="@+id/search_content_edt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -51,11 +43,11 @@
         <ImageView
             android:id="@+id/delete_ivw_12"
             android:layout_width="wrap_content"
-            android:src="@drawable/select_top_search_icon"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_height="wrap_content" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/select_top_search_icon" />
 
         <TextView
             android:id="@+id/songType_tvw11"

@@ -61,7 +61,6 @@ public class AlreadySearchListActivity extends AppCompatActivity {
 
     Context mContext;
 
-    private ImageView mSrcBack11;//返回
     private ImageView mVoice;//语音功能
     private TextView mSongType;//歌名/歌星
     private EditText mSearchContent;//搜索内容
@@ -135,7 +134,6 @@ public class AlreadySearchListActivity extends AppCompatActivity {
         mSP = new SPUtil(mContext);
 
         mNoData = findViewById(R.id.no_data_tvw);
-        mSrcBack11 = findViewById(R.id.src_back11_ivw);
         mSongType = findViewById(R.id.songType_tvw11);
         mDelete = findViewById(R.id.delete_ivw_12);
         mVoice = findViewById(R.id.voice12_ivw);
@@ -150,7 +148,6 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     }
 
     private void initLiter() {
-        mSrcBack11.setOnClickListener(new MyOnClickBackReturn());//返回事件
         mSongType.setOnClickListener(new MyOnClickSongType());
         mVoice.setOnClickListener(new MyOnClickListenerVoice());
         mSearch.setOnClickListener(new MyOnClickListenerSearch());
@@ -291,16 +288,6 @@ public class AlreadySearchListActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 //        SpeechRecognizer.getRecognizer().destroy();
-    }
-
-    /**
-     * 返回事件
-     */
-    public class MyOnClickBackReturn implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            finish();
-        }
     }
 
     /**

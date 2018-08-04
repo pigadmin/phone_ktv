@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -152,6 +153,14 @@ public class CollectionListActivity extends AppCompatActivity {
         mTitle1.setOnClickListener(new MyOnClickListenTitle1());
         mTitle2.setOnClickListener(new MyOnClickListenTitle2());
         mTitle3.setOnClickListener(new MyOnClickListenTitle3());
+        mListView1.setOnItemClickListener(new MyOnItemClickLis());
+    }
+
+    private class MyOnItemClickLis implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        }
     }
 
     /**

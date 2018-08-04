@@ -9,7 +9,7 @@
         android:id="@+id/llt"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@mipmap/phb_nrq"
+        android:background="#0A2B62"
         android:orientation="horizontal">
 
         <ImageView
