@@ -65,8 +65,6 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.flashscreen_activity);
 
-        startService(new Intent(this, MusicService.class));
-
         initView();
         submData();
     }

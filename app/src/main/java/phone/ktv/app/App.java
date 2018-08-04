@@ -2,6 +2,7 @@ package phone.ktv.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.text.TextUtils;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.service.MusicService;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.tootls.xDBUtils;
@@ -51,7 +53,7 @@ public class App extends Application {
         config();
         getip();
         initDBUtils();
-
+        startService(new Intent(this, MusicService.class));
     }
 
     public static <T> T jsonToObject(String json, TypeToken<T> typeToken) {

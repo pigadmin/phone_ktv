@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +30,8 @@ import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 
 public class MiniPlayer extends LinearLayout implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+    private String TAG = "MiniPlayer";
+
 
     private View view;
     private Context mContext;
@@ -97,6 +100,8 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
         player_next.setOnClickListener(this);
 
         player = app.getMediaPlayer();
+
+
     }
 
     @Override
@@ -209,4 +214,6 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
             e.printStackTrace();
         }
     }
+
+
 }
