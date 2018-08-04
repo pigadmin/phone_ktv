@@ -1,5 +1,6 @@
 package phone.ktv.adaters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,6 +25,7 @@ import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
+import phone.ktv.views.SongBtmDialog;
 
 /**
  * 排行榜歌曲adater
@@ -31,13 +33,15 @@ import phone.ktv.tootls.ToastUtils;
 public class RinkingListAdater extends BAdapter<MusicPlayBean> {
     private static final String TAG = "RinkingListAdater";
 
-    Context context;
-    SPUtil mSP;
+    public Context context;
+    public SPUtil mSP;
+    public Activity activity;
 
-    public RinkingListAdater(Context context, int layoutId, List<MusicPlayBean> list, SPUtil mSP) {
+    public RinkingListAdater(Context context, int layoutId, List<MusicPlayBean> list, SPUtil mSP, Activity activity) {
         super(context, layoutId, list);
         this.context = context;
         this.mSP = mSP;
+        this.activity = activity;
     }
 
     @Override
@@ -45,9 +49,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
         TextView name = get(convertView, R.id.name_tvw12);//歌曲名称
         TextView songName = get(convertView, R.id.song_name12_tvw);//歌手名称
         TextView songType = get(convertView, R.id.song_type12_tvw);//标识HD or 演唱会
-
-        ImageView shoucang12 = get(convertView, R.id.shoucang12_ivw);//收藏
-        ImageView tianjia12 = get(convertView, R.id.tianjia12_ivw);//添加
+        ImageView dianOn = get(convertView, R.id.dian_12_tvw);//标识HD or 演唱会
 
         final MusicPlayBean item = getItem(position);
         name.setText(item.name);
@@ -60,28 +62,19 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
             songType.setText(item.label);
         }
 
-        shoucang12.setOnClickListener(new View.OnClickListener() {
+        dianOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getRankingListData(item);
-            }
-        });
-
-        tianjia12.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    App.mDb.save(item);
-                    ToastUtils.showLongToast(context, "歌曲保存成功");
-                } catch (Exception e) {
-                    Logger.d(TAG, "e.." + e.getMessage());
-                    ToastUtils.showLongToast(context, "歌曲已保存");
-                }
+                showDialog(item);
             }
         });
     }
 
-
+    /**
+     * 添加收藏
+     *
+     * @param playBean
+     */
     private void getRankingListData(MusicPlayBean playBean) {
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         String tel = mSP.getString("telPhone", null);//tel
@@ -99,6 +92,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     //返回失败
+                    getResult(e.getMessage());
                 }
 
                 @Override
@@ -110,10 +104,11 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
                     if (aJson != null) {
                         if (aJson.getCode() == 0) {
                             Logger.i(TAG, "aJson..." + aJson.toString());
+                            getResult("歌曲收藏成功");
                         } else if (aJson.getCode() == 500) {
-
+                            getResult(aJson.getMsg());
                         } else {
-
+                            getResult(aJson.getMsg());
                         }
                     }
                     if (response.body() != null) {
@@ -125,4 +120,63 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
             ToastUtils.showLongToast(context, "网络连接异常,请检查网络配置");
         }
     }
+
+    private void getResult(final String msg) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtils.showLongToast(activity, msg);
+            }
+        });
+    }
+
+    private void showDialog(final MusicPlayBean item) {
+        final SongBtmDialog btmDialog = new SongBtmDialog(context, "最远的你是我最近的爱", "最远");
+        btmDialog.mStartPaly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btmDialog.dismiss();
+            }
+        });
+
+        btmDialog.mAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRankingListData(item);
+                btmDialog.dismiss();
+            }
+        });
+
+        btmDialog.mPoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btmDialog.dismiss();
+                saveData(item);
+            }
+        });
+
+        btmDialog.mCanel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btmDialog.dismiss();
+            }
+        });
+        btmDialog.show();
+    }
+
+    /**
+     * 保存数据到DB
+     *
+     * @param item
+     */
+    private void saveData(MusicPlayBean item) {
+        try {
+            App.mDb.save(item);
+            ToastUtils.showLongToast(context, "歌曲保存成功");
+        } catch (Exception e) {
+            Logger.d(TAG, "e.." + e.getMessage());
+            ToastUtils.showLongToast(context, "歌曲已保存");
+        }
+    }
+
 }

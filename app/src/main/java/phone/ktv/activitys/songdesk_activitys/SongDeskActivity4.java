@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
@@ -157,7 +158,7 @@ public class SongDeskActivity4 extends AppCompatActivity {
         mPullToRefresh = findViewById(R.id.sv);
 
         mListView = findViewById(R.id.list_view_2);
-        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans,mSP);
+        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans, mSP, SongDeskActivity4.this);
         mListView.setAdapter(mRinkingAdater);
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
@@ -168,6 +169,14 @@ public class SongDeskActivity4 extends AppCompatActivity {
         mTopTitleView1.toBackReturn(new MyOnClickBackReturn());//返回事件
         mQuanbuPlay.setOnClickListener(new MyQuanbuPlayOnClick());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
+        mListView.setOnItemClickListener(new MyOnItemClickLis());
+    }
+
+    private class MyOnItemClickLis implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        }
     }
 
     /**
