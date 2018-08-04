@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.VideoView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -157,15 +158,16 @@ public class App extends Application {
     public static int Maxlimit = 10;
     public static int MaxlimitSrc = 15;
 
-    public List<MusicPlayBean> getTestlist() {
-        return testlist;
-    }
+//    public List<MusicPlayBean> getTestlist() {
+//        return testlist;
+//    }
+//
+//    public void setTestlist(List<MusicPlayBean> testlist) {
+//        this.testlist = testlist;
+//    }
+//
+//    private List<MusicPlayBean> testlist;
 
-    public void setTestlist(List<MusicPlayBean> testlist) {
-        this.testlist = testlist;
-    }
-
-    private List<MusicPlayBean> testlist;
 
 
     private MediaPlayer mediaPlayer;

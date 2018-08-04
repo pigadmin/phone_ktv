@@ -25,6 +25,7 @@ import android.widget.VideoView;
 import com.astuetz.PagerSlidingTabStripExtends;
 import com.bigkoo.svprogresshud.SVProgressHUD;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import phone.ktv.activitys.CollectionListActivity;
@@ -119,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initPlayer();
         initListener();
 
-        initPlaylist();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(App.START);
@@ -195,25 +195,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player.setOnErrorListener(this);
     }
 
-    private List<MusicPlayBean> playlist;
+    private List<MusicPlayBean> playlist = new ArrayList<>();
 
-    private void initPlaylist() {
+    private List<MusicPlayBean> getList() {
 
         try {
             playlist = App.mDb.selector(MusicPlayBean.class).findAll();
             if (playlist != null && !playlist.isEmpty()) {
 //                Picasso.with(this).load(playlist.get(0).n)
                 if (!player.isPlaying()) {
-                    player_name.setText(playlist.get(0).name);
-                    player_singer.setText(playlist.get(0).singerName);
-//                    player.setVideoURI(Uri.parse(playlist.get(0).path));
-
+                    player_name.setText(playlist.get(mSP.getInt("play_index", 0)).name);
+                    player_singer.setText(playlist.get(mSP.getInt("play_index", 0)).singerName);
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return playlist;
     }
 
 
@@ -241,7 +239,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         updateState();
+        getList();
     }
+
 
     private void updateState() {
         if (mSP != null) {
@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.player_last://上一首
-                if (app.getTestlist() == null || app.getTestlist().isEmpty()) {
+                if (getList() == null || getList().isEmpty()) {
                     ToastUtils.showShortToast(MainActivity.this, "先添加");
                     break;
                 } else {
@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.player_play://播放暂停
-                if (app.getTestlist() == null || app.getTestlist().isEmpty()) {
+                if (getList() == null || getList().isEmpty()) {
                     ToastUtils.showShortToast(MainActivity.this, "先添加");
                 } else {
                     if (app.getMediaPlayer() == null) {
@@ -331,14 +331,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.player_next://下一首
-                if (app.getTestlist() == null || app.getTestlist().isEmpty()) {
+                if (getList() == null || getList().isEmpty()) {
                     ToastUtils.showShortToast(MainActivity.this, "先添加");
                 } else {
                     sendBroadcast(new Intent(App.NEXT));
                 }
                 break;
             case R.id.singer_icon://图标
-                startActivity(new Intent(mContext, PlayerActivity.class));
+                if (getList() == null || getList().isEmpty()) {
+                    ToastUtils.showShortToast(MainActivity.this, "先添加");
+                    break;
+                } else {
+                    if (app.getMediaPlayer() == null)
+                        return;
+                    if (app.getMediaPlayer().isPlaying()) {
+                        app.getMediaPlayer().pause();
+                        player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
+                    }
+                    startActivity(new Intent(mContext, PlayerActivity.class));
+                }
                 break;
             case R.id.main_btn_menu://侧滑
                 if (mCoordinatorMenu.isOpened()) {
@@ -541,14 +552,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
-        System.out.println("8888888888888888888888a");
         return true;
     }
 
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        System.out.println("2222222222222222222222");
         mediaPlayer.start();
     }
 

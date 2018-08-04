@@ -266,9 +266,6 @@ public class RankingListActivity extends AppCompatActivity {
     private void setState(List<MusicPlayBean> itemList) {
         if (itemList != null && !itemList.isEmpty()) {
             musicPlayBeans.addAll(itemList);
-
-
-            ((App) getApplication()).setTestlist(musicPlayBeans);
         }
     }
 

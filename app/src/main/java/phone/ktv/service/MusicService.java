@@ -16,6 +16,7 @@ import java.util.List;
 
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.SPUtil;
 
 public class MusicService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
     @Nullable
@@ -25,6 +26,8 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     private App app;
+    private SPUtil spUtil;
+    private int index = 0;
 
     @Override
     public void onCreate() {
@@ -32,13 +35,24 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         app = (App) getApplication();
         setMediaListene();
 
+        spUtil = new SPUtil(this);
+        getindex();
+
+        getList();
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(App.PLAY);
         filter.addAction(App.LAST);
         filter.addAction(App.NEXT);
         registerReceiver(receiver, filter);
-        getList();
+
+
     }
+
+    private int getindex() {
+        return index = spUtil.getInt("play_index", 0);
+    }
+
 
     private List<MusicPlayBean> playlist = new ArrayList<>();
 
@@ -61,6 +75,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            getindex();//刷新下标
             if (intent.getAction().equals(App.PLAY)) {
                 System.out.println("播放");
                 playerSong();
@@ -104,7 +119,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         Bundle bundle = new Bundle();
         bundle.putSerializable("key", getList().get(index));
         sendBroadcast(new Intent(App.START).putExtras(bundle));
-
+        spUtil.putInt("play_index", index);//播放完成更新下标
     }
 
     //上一曲
@@ -145,11 +160,11 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         }
     }
 
-    private int index = 0;
 
     // 播放歌曲
     private void playerSong() {
         try {
+
             if (getList() == null || getList().isEmpty())
                 return;
             player.stop();

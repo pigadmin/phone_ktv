@@ -2,6 +2,7 @@ package phone.ktv.activitys.player;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -10,79 +11,169 @@ import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
 import org.xutils.ex.DbException;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.FULL;
+import phone.ktv.tootls.SPUtil;
 
-public class PlayerActivity extends  Activity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
+public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
     private AudioManager audioManager;
-    int screenWidth;
-    int screenHeight;
-    int maxVolume;
+    private int screenWidth;
+    private int screenHeight;
+    private int maxVolume;
+    private WindowManager wm;
+    private SPUtil spUtil;
+    private App app;
+    private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+        app = (App) getApplication();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        spUtil = new SPUtil(this);
+        index = spUtil.getInt("play_index", 0);
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         init();
-        initPlaylist();
 
-        WindowManager wm = (WindowManager) this
+
+        wm = (WindowManager) this
                 .getSystemService(Context.WINDOW_SERVICE);
         screenWidth = wm.getDefaultDisplay().getWidth();
         screenHeight = wm.getDefaultDisplay().getHeight();
         maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        play();
     }
 
-    private List<MusicPlayBean> playlist;
-
-    private void initPlaylist() {
+    private void play() {
         try {
-            playlist = App.mDb.selector(MusicPlayBean.class).findAll();
-            if (!playlist.isEmpty()) {
-                player.setVideoURI(Uri.parse(playlist.get(0).path));
-            }
+            if (!getList().isEmpty()) {
+                //            player.setVideoURI(Uri.parse(getList().get(index).path));
+                //            if (app.getMediaPlayer() != null) {
+                //                if (app.getMediaPlayer().getCurrentPosition() > 0) {
+                //                    player.seekTo(app.getMediaPlayer().getCurrentPosition());
+                //                }
+                //            }
+//                mediaPlayer.setDataSource(this, Uri.parse(getList().get(index).path));
+//
+//                mediaPlayer.prepareAsync();
 
+                mediaPlayer.start();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private VideoView player;
+    @Override
+    public void onBackPressed() {
+//        System.out.println("onBackPressed" + player.getCurrentPosition());
+//        try {
+//            app.getMediaPlayer().seekTo(player.getCurrentPosition());
+//            if (!app.getMediaPlayer().isPlaying()) {
+//                app.getMediaPlayer().start();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        super.onBackPressed();
+    }
+
+
+    private List<MusicPlayBean> playlist = new ArrayList<>();
+
+    private List<MusicPlayBean> getList() {
+        try {
+            playlist = App.mDb.selector(MusicPlayBean.class).findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return playlist;
+    }
+
+    //    private VideoView player;
+    SurfaceView surface;
+    SurfaceHolder holder;
+    MediaPlayer mediaPlayer;
 
     private void init() {
-        player = findViewById(R.id.player);
-        FULL.star(player);
-        player.setMediaController(new MediaController(this));
-        player.setOnErrorListener(this);
-        player.setOnCompletionListener(this);
-        player.setOnPreparedListener(this);
+//        player = findViewById(R.id.player);
+//
+//        FULL.star(player);
+//        player.setMediaController(new MediaController(this));
+//        player.setOnErrorListener(this);
+//        player.setOnCompletionListener(this);
+//        player.setOnPreparedListener(this);
+        mediaPlayer = app.getMediaPlayer();
+        mediaPlayer.setOnErrorListener(this);
+        mediaPlayer.setOnCompletionListener(this);
+        mediaPlayer.setOnPreparedListener(this);
+        surface = findViewById(R.id.surface);
+        holder = surface.getHolder();
+        holder.addCallback(new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                System.out.println("surfaceCreatedsurfaceCreated");
+                mediaPlayer.setDisplay(surfaceHolder);
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+                System.out.println("surfaceChangedsurfaceChanged");
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+                System.out.println("surfaceDestroyedsurfaceDestroyed");
+            }
+        });
+
     }
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
+        System.out.println("下一首");
+        next();
+    }
 
+    //下一曲
+    private void next() {
+        if (index < getList().size() - 1) {
+            index++;
+        } else {
+            index = 0;
+        }
+        play();
     }
 
     @Override
     public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
-        return false;
+        return true;
     }
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
+        System.out.println("准备播放。。。。");
         mediaPlayer.start();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("key", getList().get(index));
+        sendBroadcast(new Intent(App.START).putExtras(bundle));
+        spUtil.putInt("play_index", index);
     }
 
     @Override
