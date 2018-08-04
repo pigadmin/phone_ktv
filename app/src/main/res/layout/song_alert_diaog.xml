@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/pow_tvw_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:text=""
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/pow_tvw_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:text=""
+        android:textColor="@color/zhxfText" />
+
+    <View style="@style/view_line" />
+
+    <TextView
+        android:id="@+id/pow_tvw_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_play_style_bg1"
+        android:drawableLeft="@mipmap/bottom_icon_13"
+        android:drawablePadding="20dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:text="开始播放"
+        android:textColor="@color/black" />
+
+    <View
+        style="@style/view_line"
+        android:layout_marginLeft="45dp" />
+
+    <TextView
+        android:id="@+id/pow_tvw_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_play_style_bg1"
+        android:drawableLeft="@mipmap/bottom_icon_12"
+        android:drawablePadding="20dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:text="添加收藏"
+        android:textColor="@color/black" />
+
+    <View
+        style="@style/view_line"
+        android:layout_marginLeft="45dp" />
+
+    <TextView
+        android:id="@+id/pow_tvw_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_play_style_bg1"
+        android:drawableLeft="@mipmap/bottom_icon_14"
+        android:drawablePadding="20dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:text="添加已点"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/pow_tvw_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_play_style_bg1"
+        android:drawablePadding="20dp"
+        android:gravity="center"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:text="取消"
+        android:textColor="@color/black" />
+
+</LinearLayout>

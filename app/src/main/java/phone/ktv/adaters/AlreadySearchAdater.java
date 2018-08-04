@@ -64,8 +64,6 @@ public class AlreadySearchAdater extends BaseAdapter {
                 holder1.text1 = convertView.findViewById(R.id.name_tvw12);
                 holder1.text2 = convertView.findViewById(R.id.song_name12_tvw);
                 holder1.text3 = convertView.findViewById(R.id.song_type12_tvw);
-                holder1.src1 = convertView.findViewById(R.id.shoucang12_ivw);
-                holder1.src2 = convertView.findViewById(R.id.tianjia12_ivw);
                 convertView.setTag(holder1);
             } else {
                 holder2 = new ViewHolder2();

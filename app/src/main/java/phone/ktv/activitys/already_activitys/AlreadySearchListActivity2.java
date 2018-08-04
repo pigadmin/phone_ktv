@@ -160,7 +160,7 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
         mSearch = findViewById(R.id.text_search11_tvw);
 
         mListView1 = findViewById(R.id.list1122_view);
-        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans,mSP);
+        mRinkingAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans, mSP, AlreadySearchListActivity2.this);
         mListView1.setAdapter(mRinkingAdater);
 
         getSongNameData();
@@ -175,6 +175,14 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
         mSearchContent.addTextChangedListener(new MyAddTextChanged());
         mDelete.setOnClickListener(new MyOnClickDelete());
         mDelete.setVisibility(View.INVISIBLE);
+        mListView1.setOnItemClickListener(new MyOnItemClickLis());
+    }
+
+    private class MyOnItemClickLis implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        }
     }
 
     private class MyAddTextChanged implements TextWatcher {
@@ -264,7 +272,7 @@ public class AlreadySearchListActivity2 extends AppCompatActivity {
     private class MyOnClickListenerVoice implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            SpeechRecognitionUtils utils=new SpeechRecognitionUtils(mContext,mSearchContent);
+            SpeechRecognitionUtils utils = new SpeechRecognitionUtils(mContext, mSearchContent);
             utils.startDialog();
         }
     }
