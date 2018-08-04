@@ -60,6 +60,7 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
         play();
     }
 
+
     private void play() {
         try {
             if (!getList().isEmpty()) {

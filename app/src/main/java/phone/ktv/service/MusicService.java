@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,8 @@ import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.SPUtil;
 
 public class MusicService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
+    private String TAG = "MusicService";
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -134,6 +138,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     //下一曲
     private void next() {
+        Log.e(TAG, index + "@@@@" + (getList().size() - 1) + "@@@@" + (index < getList().size() - 1));
         if (index < getList().size() - 1) {
             index++;
         } else {
@@ -172,7 +177,9 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             System.out.println(getList().get(index).name);
             player.setDataSource(this,
                     Uri.parse(getList().get(index).path));
-            player.prepareAsync();
+            if (!player.isPlaying()) {
+                player.prepareAsync();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -317,13 +317,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ToastUtils.showShortToast(MainActivity.this, "先添加");
                 } else {
                     if (app.getMediaPlayer() == null) {
+                        ToastUtils.showShortToast(MainActivity.this, "第一次播放");
                         sendBroadcast(new Intent(App.PLAY));
                         player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
                     } else {
                         if (app.getMediaPlayer().isPlaying()) {
+                            ToastUtils.showShortToast(MainActivity.this, "暂停");
                             app.getMediaPlayer().pause();
                             player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
                         } else {
+                            ToastUtils.showShortToast(MainActivity.this, "播放");
                             app.getMediaPlayer().start();
                             player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
                         }
@@ -342,12 +345,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ToastUtils.showShortToast(MainActivity.this, "先添加");
                     break;
                 } else {
-                    if (app.getMediaPlayer() == null)
-                        return;
-                    if (app.getMediaPlayer().isPlaying()) {
-                        app.getMediaPlayer().pause();
-                        player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
-                    }
+//                    if (app.getMediaPlayer() == null)
+//                        return;
+//                    if (app.getMediaPlayer().isPlaying()) {
+//                        app.getMediaPlayer().pause();
+//                        player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
+//                    }
                     startActivity(new Intent(mContext, PlayerActivity.class));
                 }
                 break;
@@ -427,9 +430,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         System.out.println("onStopTrackingTouch" + seekBar.getProgress());
-        if (app.getMediaPlayer() == null)
-            return;
-        app.getMediaPlayer().seekTo(seekBar.getProgress());
+        if (app.getMediaPlayer() != null) {
+            app.getMediaPlayer().seekTo(seekBar.getProgress());
+        }
 
     }
 
