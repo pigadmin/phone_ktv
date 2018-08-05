@@ -76,6 +76,8 @@ public class RankingListActivity extends AppCompatActivity {
     private int mLimit = App.Maxlimit;//页码量
     private int mPage = 1;//第几页
 
+    private TextView mNoData;
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -83,6 +85,7 @@ public class RankingListActivity extends AppCompatActivity {
                     mRinkingAdater.notifyDataSetChanged();
                     mSongBang.setText(mRangName);
                     getmSongBangList.setText("/" + musicPlayBeans.size());
+                    updateData();
                     break;
 
                 case RankingListError://获取失败
@@ -149,6 +152,8 @@ public class RankingListActivity extends AppCompatActivity {
         mSvProgressHUD = new SVProgressHUD(mContext);
         mSP = new SPUtil(mContext);
 
+        mNoData = findViewById(R.id.no_data_tvw99);
+
         mTopTitleView1 = findViewById(R.id.customTopTitleView1);
         mPullToRefresh = findViewById(R.id.sv);
         mSongBang = findViewById(R.id.song_song110_tvw);
@@ -161,6 +166,14 @@ public class RankingListActivity extends AppCompatActivity {
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         getRankingListData();
+    }
+
+    private void updateData() {
+        if (musicPlayBeans != null && !musicPlayBeans.isEmpty()) {
+            mNoData.setVisibility(View.GONE);
+        } else {
+            mNoData.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initLiter() {

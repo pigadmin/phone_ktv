@@ -22,7 +22,7 @@
         android:id="@+id/llt123_llt"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/customTopTitleView1"
+        android:layout_below="@+id/vs1_vw"
         android:orientation="horizontal"
         android:background="#0A2B62"
         android:padding="10dp">
@@ -84,6 +84,16 @@
             android:dividerHeight="5dp" />
 
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+
+    <TextView
+        android:id="@+id/no_data_tvw99"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="当前无搜索结果"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:visibility="gone" />
 
     <phone.ktv.activitys.player.MiniPlayer
         android:id="@+id/min_player_mpr"

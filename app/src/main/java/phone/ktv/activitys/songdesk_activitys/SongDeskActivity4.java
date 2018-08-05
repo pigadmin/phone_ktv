@@ -78,6 +78,8 @@ public class SongDeskActivity4 extends AppCompatActivity {
 
     public int totalCount = 0;//歌曲总数量
 
+    private TextView mNoData;
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -86,6 +88,7 @@ public class SongDeskActivity4 extends AppCompatActivity {
                     mSongBang.setText(mRangName);
                     getmSongBangList.setText("/" + totalCount);
                     mTopTitleView1.setTopText(mRangName);
+                    updateData();
                     break;
 
                 case SongDesk4Error://获取失败
@@ -145,12 +148,22 @@ public class SongDeskActivity4 extends AppCompatActivity {
         endLoading.setReleaseLabel("释放即可加载更多");
     }
 
+    private void updateData() {
+        if (musicPlayBeans != null && !musicPlayBeans.isEmpty()) {
+            mNoData.setVisibility(View.GONE);
+        } else {
+            mNoData.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void initView() {
         musicPlayBeans = new ArrayList<>();
 
         mContext = SongDeskActivity4.this;
         mSvProgressHUD = new SVProgressHUD(mContext);
         mSP = new SPUtil(mContext);
+
+        mNoData = findViewById(R.id.no_data_tvw99);
 
         mTopTitleView1 = findViewById(R.id.customTopTitleView1);
         mSongBang = findViewById(R.id.song_song110_tvw);
@@ -257,10 +270,10 @@ public class SongDeskActivity4 extends AppCompatActivity {
                     ResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ResultBean.class);
                     if (aJson != null) {
                         if (aJson.code == 0) {
-                            mHandler.sendEmptyMessage(SongDesk4Success);
                             Logger.i(TAG, "aJson1..." + aJson.toString());
                             setState(aJson.data.list);
                             totalCount = aJson.data.totalCount;
+                            mHandler.sendEmptyMessage(SongDesk4Success);
                         } else if (aJson.code == 500) {
                             mHandler.obtainMessage(SongDesk4ExpiredToken, aJson.msg).sendToTarget();
                         } else {

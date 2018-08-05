@@ -384,9 +384,9 @@ public class AlreadySearchListActivity extends AppCompatActivity {
                         ResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ResultBean.class);
                         if (aJson != null) {
                             if (aJson.code == 0) {
-                                mHandler.sendEmptyMessage(RankingSearchSuccess);
                                 Logger.i(TAG, "aJson1..." + aJson.toString());
                                 setStateSongName(aJson.data.list);
+                                mHandler.sendEmptyMessage(RankingSearchSuccess);
                             } else if (aJson.code == 500) {
                                 mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
                             } else {
@@ -398,9 +398,9 @@ public class AlreadySearchListActivity extends AppCompatActivity {
                         });
                         if (aJson != null) {
                             if (aJson.getCode() == 0) {
-                                mHandler.sendEmptyMessage(RankingSearchSuccess);
                                 Logger.i(TAG, "aJson2..." + aJson.toString());
                                 setStateSong(aJson.getData());
+                                mHandler.sendEmptyMessage(RankingSearchSuccess);
                             } else if (aJson.getCode() == 500) {
                                 mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
                             } else {

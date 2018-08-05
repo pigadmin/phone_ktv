@@ -239,9 +239,9 @@ public class SongDeskActivity2 extends AppCompatActivity {
                         if (aJson.getCode() == 0) {
                             SingerNumBean numBean = App.jsonToObject(s, new TypeToken<AJson<SingerNumBean>>() {
                             }).getData();
-                            mHandler.sendEmptyMessage(SongDesk2Success);
                             Logger.i(TAG, "aJson1..." + aJson.toString());
                             setState(numBean.list);
+                            mHandler.sendEmptyMessage(SongDesk2Success);
                         } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(SongDeskExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {

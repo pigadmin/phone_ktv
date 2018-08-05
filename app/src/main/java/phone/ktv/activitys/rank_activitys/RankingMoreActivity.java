@@ -213,9 +213,9 @@ public class RankingMoreActivity extends AppCompatActivity {
                     });
                     if (aJson != null) {
                         if (aJson.getCode() == 0) {
-                            mHandler.sendEmptyMessage(RankingMoreSuccess);
                             Logger.i(TAG, "aJson..." + aJson.toString());
                             setState(aJson.getData());
+                            mHandler.sendEmptyMessage(RankingMoreSuccess);
                         } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {

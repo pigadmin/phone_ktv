@@ -239,9 +239,9 @@ public class SongDeskActivity3 extends AppCompatActivity {
                     });
                     if (aJson != null) {
                         if (aJson.getCode() == 0) {
-                            mHandler.sendEmptyMessage(SongDesk3Success);
                             Logger.i(TAG, "aJson1..." + aJson.toString());
                             setState(aJson.getData());
+                            mHandler.sendEmptyMessage(SongDesk3Success);
                         } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(SongDeskExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {

@@ -224,9 +224,9 @@ public class SongDeskjMoreActivity extends AppCompatActivity {
                         if (aJson.getCode() == 0) {
                             GridList gridList = App.jsonToObject(s, new TypeToken<AJson<GridList>>() {
                             }).getData();
-                            mHandler.sendEmptyMessage(SongDeskMoreSuccess);
                             Logger.i(TAG, "aJson1..." + aJson.toString());
                             setState(gridList.getList());
+                            mHandler.sendEmptyMessage(SongDeskMoreSuccess);
                         } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(SongDeskExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {

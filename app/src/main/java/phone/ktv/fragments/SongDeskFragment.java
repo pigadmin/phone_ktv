@@ -263,9 +263,9 @@ public class SongDeskFragment extends Fragment {
                         if (aJson.getCode() == 0) {
                             GridList gridList = App.jsonToObject(s, new TypeToken<AJson<GridList>>() {
                             }).getData();
-                            mHandler.sendEmptyMessage(RankingListSuccess);
                             Logger.i(TAG, "aJson1..." + aJson.toString());
                             setState(gridList.getList());
+                            mHandler.sendEmptyMessage(RankingListSuccess);
                         } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {
