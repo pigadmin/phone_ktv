@@ -59,13 +59,11 @@ public class MusicPlayBean implements Serializable {
     @Column(name = "localTime")
     public long localTime;//本地时间
 
-    public MusicPlayBean() {
-    }
+    @Column(name = "isState")
+    public boolean isState;//选中状态
 
-    public MusicPlayBean(String name, String singerName, String label) {
-        this.name = name;
-        this.singerName = singerName;
-        this.label = label;
+    public MusicPlayBean() {
+
     }
 
     @Override
@@ -73,20 +71,21 @@ public class MusicPlayBean implements Serializable {
         return "MusicPlayBean{" +
                 "id='" + id + '\'' +
                 ", songnumber='" + songnumber + '\'' +
-                ", singerid='" + singerid + '\'' +
+                ", singerid=" + singerid +
                 ", name='" + name + '\'' +
                 ", nameVietnam='" + nameVietnam + '\'' +
                 ", namejapanese='" + namejapanese + '\'' +
                 ", namezhuyin='" + namezhuyin + '\'' +
                 ", namepinyin='" + namepinyin + '\'' +
                 ", path='" + path + '\'' +
-                ", lanId='" + lanId + '\'' +
+                ", lanId=" + lanId +
                 ", label='" + label + '\'' +
                 ", singerName='" + singerName + '\'' +
                 ", lanName='" + lanName + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", isTop=" + isTop +
                 ", localTime=" + localTime +
+                ", isState=" + isState +
                 '}';
     }
 }

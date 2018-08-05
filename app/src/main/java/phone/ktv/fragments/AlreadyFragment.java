@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import phone.ktv.R;
@@ -49,8 +50,7 @@ public class AlreadyFragment extends Fragment {
     private AlreadyListAdater mAlreadyListAdater;
     private ListView mListView;
 
-    private List<MusicPlayBean> mPlayBeanList = new ArrayList<>();
-    private List<Boolean> selectedStatus;
+    private List<MusicPlayBean> mPlayBeanList;
 
     public Snackbar mSnackbar;
 
@@ -91,7 +91,6 @@ public class AlreadyFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Logger.d(TAG, "----onResume------");
         isMusicStateList();
     }
 
@@ -99,11 +98,15 @@ public class AlreadyFragment extends Fragment {
      * 查询DB
      */
     private void isMusicStateList() {
+        mPlayBeanList.clear();
         try {
-            mPlayBeanList = App.mDb.selector(MusicPlayBean.class).findAll();//数据库查询
-            if (mPlayBeanList != null && !mPlayBeanList.isEmpty()) {
-                Logger.i(TAG, "mPlayBeanList..." + mPlayBeanList.size());
-                mAlreadyListAdater.notifyDataSetChanged();
+            List<MusicPlayBean> playBeans = App.mDb.selector(MusicPlayBean.class).findAll();//数据库查询
+            if (playBeans != null && !playBeans.isEmpty()) {
+                Logger.d(TAG, "playBeans.." + playBeans.size());
+                for (MusicPlayBean playBean : playBeans) {
+                    playBean.isState = false;
+                    mPlayBeanList.add(playBean);
+                }
                 handler.sendEmptyMessage(Search_Music_Success);
             } else {
                 handler.sendEmptyMessage(Search_Music_Failure);
@@ -114,9 +117,17 @@ public class AlreadyFragment extends Fragment {
         }
     }
 
-    private void initView() {
-        selectedStatus = new ArrayList<>();
+    private void updateData(List<MusicPlayBean> playBeans, boolean isState) {
+        if (playBeans != null && !playBeans.isEmpty()) {
+            for (MusicPlayBean playBean : playBeans) {
+                playBean.isState = isState;
+            }
+            mAlreadyListAdater.notifyDataSetChanged();
+        }
+    }
 
+    private void initView() {
+        mPlayBeanList = new ArrayList<>();
         mTitle1 = mNewsView.findViewById(R.id.title_1_ivw);
         setLogo(CustomPopuWindw.postion);
 
@@ -130,8 +141,7 @@ public class AlreadyFragment extends Fragment {
 
         mListView = mNewsView.findViewById(R.id.list_view_29);
 
-        initBooleanList();
-        mAlreadyListAdater = new AlreadyListAdater(mContext, R.layout.item_songdesk_list_layout, mPlayBeanList, selectedStatus, mTitle11);
+        mAlreadyListAdater = new AlreadyListAdater(mContext, R.layout.item_songdesk_list_layout, mPlayBeanList, mCallBack);
         mListView.setAdapter(mAlreadyListAdater);
     }
 
@@ -142,14 +152,6 @@ public class AlreadyFragment extends Fragment {
 
         mCancel12.setOnClickListener(new MyOnClickListenTitle4());
         mSelectionTotal.setOnCheckedChangeListener(new MyOnClickListenTitle5());
-    }
-
-    private void initBooleanList() {
-        if (mPlayBeanList != null) {
-            for (int i = 0; i < mPlayBeanList.size(); i++) {
-                selectedStatus.add(false);
-            }
-        }
     }
 
     /**
@@ -196,7 +198,9 @@ public class AlreadyFragment extends Fragment {
             mNewsView.findViewById(R.id.inclub_ilb_9).setVisibility(View.VISIBLE);
             mNewsView.findViewById(R.id.inclub_ilb_10).setVisibility(View.GONE);
             mAlreadyListAdater.setUpdateType(false);
-            mAlreadyListAdater.setUpdateState(selectedStatus, false);
+            updateData(mPlayBeanList, false);
+            mTitle11.setText("已选" + getSongNum(mPlayBeanList) + "首");
+
             mSelectionTotal.setChecked(false);
             if (mSnackbar != null) {
                 mSnackbar.dismiss();
@@ -219,7 +223,7 @@ public class AlreadyFragment extends Fragment {
             }
             if (mAlreadyListAdater != null) {
                 mAlreadyListAdater.setUpdateType(false);
-                mAlreadyListAdater.setUpdateState(selectedStatus, false);
+                updateData(mPlayBeanList, false);
             }
             if (mNewsView != null) {
                 mNewsView.findViewById(R.id.inclub_ilb_9).setVisibility(View.VISIBLE);
@@ -228,8 +232,6 @@ public class AlreadyFragment extends Fragment {
             if (mSelectionTotal != null) {
                 mSelectionTotal.setChecked(false);
             }
-
-            isMusicStateList();
         }
     }
 
@@ -239,8 +241,28 @@ public class AlreadyFragment extends Fragment {
     private class MyOnClickListenTitle5 implements CompoundButton.OnCheckedChangeListener {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            mAlreadyListAdater.setUpdateState(selectedStatus, isChecked ? true : false);
+            updateData(mPlayBeanList, isChecked ? true : false);
+            mTitle11.setText("已选" + getSongNum(mPlayBeanList) + "首");
         }
+    }
+
+    /**
+     * 获取勾选数目
+     *
+     * @param playBeans
+     * @return
+     */
+    private int getSongNum(List<MusicPlayBean> playBeans) {
+        if (playBeans != null && !playBeans.isEmpty()) {
+            int num = 0;
+            for (MusicPlayBean playBean : playBeans) {
+                if (playBean.isState) {
+                    num++;
+                }
+            }
+            return num;
+        }
+        return 0;
     }
 
     private void showPoWindo() {
@@ -286,6 +308,35 @@ public class AlreadyFragment extends Fragment {
         }
     }
 
+    /**
+     * 删除事件
+     */
+    private void operationTotal() {
+        if (getSongNum(mPlayBeanList) > 0) {
+            try {
+                Iterator<MusicPlayBean> iterator = mPlayBeanList.iterator();
+                while (iterator.hasNext()) {
+                    MusicPlayBean playBean = iterator.next();
+                    if (playBean.isState) {
+                        App.mDb.delete(playBean);//先删除DB数据
+                        iterator.remove();//再删本地列表
+                        mAlreadyListAdater.notifyDataSetChanged();
+                    }
+                }
+
+                mSelectionTotal.setChecked(false);
+                mTitle11.setText("已选" + mPlayBeanList.size() + "首");
+                ToastUtils.showShortToast(mContext, "删除成功");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            ToastUtils.showLongToast(mContext, "请先勾选歌曲");
+        }
+        showSnackbar();
+    }
+
+
     public void showSnackbar() {
         mSnackbar = Snackbar.make(getActivity().getWindow().getDecorView(), "确定删除吗?", Snackbar.LENGTH_INDEFINITE);
         final View view = mSnackbar.getView();
@@ -295,14 +346,23 @@ public class AlreadyFragment extends Fragment {
         mSnackbar.setAction("确定", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mAlreadyListAdater.getSelectNum() > 0) {
-                    ToastUtils.showLongToast(mContext, "删除成功");
-                } else {
-                    ToastUtils.showLongToast(mContext, "请先勾选歌曲");
-                    showSnackbar();
-                }
+                operationTotal();
             }
         });
         mSnackbar.show();
     }
+
+    AlreadyListAdater.OnCallBack mCallBack = new AlreadyListAdater.OnCallBack() {
+        @Override
+        public void onSelectedListener(int index) {
+            MusicPlayBean bean = mPlayBeanList.get(index);
+            if (bean.isState) {
+                bean.isState = false;
+            } else {
+                bean.isState = true;
+            }
+            mAlreadyListAdater.notifyDataSetChanged();
+            mTitle11.setText("已选" + getSongNum(mPlayBeanList) + "首");
+        }
+    };
 }
