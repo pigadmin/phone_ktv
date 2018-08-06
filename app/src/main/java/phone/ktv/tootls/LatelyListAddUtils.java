@@ -18,7 +18,7 @@ import phone.ktv.bean.MusicPlayBean;
 /**
  * 添加播放记录
  */
-public class LatelyListUtils {
+public class LatelyListAddUtils {
 
     private static final String TAG = "LatelyListUtils";
 
@@ -26,7 +26,7 @@ public class LatelyListUtils {
     private Activity context;
     private MusicPlayBean bean;
 
-    public LatelyListUtils(final SPUtil mSP, Activity context, MusicPlayBean bean) {
+    public LatelyListAddUtils(final SPUtil mSP, Activity context, MusicPlayBean bean) {
         this.mSP = mSP;
         this.context = context;
         this.bean = bean;

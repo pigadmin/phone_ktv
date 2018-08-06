@@ -20,7 +20,7 @@ import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.MusicPlayBean;
-import phone.ktv.tootls.LatelyListUtils;
+import phone.ktv.tootls.LatelyListAddUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
@@ -136,7 +136,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
         btmDialog.mStartPaly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LatelyListUtils utils = new LatelyListUtils(mSP, activity, item);
+                LatelyListAddUtils utils = new LatelyListAddUtils(mSP, activity, item);
                 utils.getLatelyList();
                 App.saveData(item, activity, TAG,false);
                 btmDialog.dismiss();
