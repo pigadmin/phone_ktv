@@ -20,7 +20,7 @@ import phone.ktv.bean.MusicPlayBean;
  */
 public class LatelyListUtils {
 
-    private static final String TAG = "LoginRequestUtils";
+    private static final String TAG = "LatelyListUtils";
 
     private SPUtil mSP;
     private Activity context;
