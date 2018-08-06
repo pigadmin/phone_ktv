@@ -106,7 +106,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
                         if (aJson.getCode() == 0) {
                             Logger.i(TAG, "aJson..." + aJson.toString());
                             getResult("歌曲收藏成功");
-                            mSP.putInt("collectListSize", mSP.getInt("collectListSize", 0) + 1);
+//                            mSP.putInt("collectListSize", mSP.getInt("collectListSize", 0) + 1);
                         } else if (aJson.getCode() == 500) {
                             getResult(aJson.getMsg());
                         } else {
