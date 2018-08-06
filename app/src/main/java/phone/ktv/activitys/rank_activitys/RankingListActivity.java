@@ -268,9 +268,9 @@ public class RankingListActivity extends AppCompatActivity {
                     });
                     if (aJson != null) {
                         if (aJson.getCode() == 0) {
-                            mHandler.sendEmptyMessage(RankingListSuccess);
                             Logger.i(TAG, "aJson..." + aJson.toString());
                             setState(aJson.getData());
+                            mHandler.sendEmptyMessage(RankingListSuccess);
                         } else if (aJson.getCode() == 500) {
                             mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
                         } else {
