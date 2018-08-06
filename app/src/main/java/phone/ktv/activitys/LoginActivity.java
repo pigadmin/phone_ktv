@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mJizhuPsd.setChecked(mSP.getBoolean("isCheck", false));
     }
 
-    private void setPhoneFormat(){
+    private void setPhoneFormat() {
         AddSpaceTextWatcher asEditTexts = new AddSpaceTextWatcher(customEditView1.mInputTitle, 13);
         asEditTexts.setSpaceType(AddSpaceTextWatcher.SpaceType.mobilePhoneNumberType);
     }
@@ -141,6 +141,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String id = ((UserBean) aJson.getData()).id;
         String tel = ((UserBean) aJson.getData()).telPhone;
         String useName = ((UserBean) aJson.getData()).username;
+        int collectListSize = ((UserBean) aJson.getData()).collectListSize;
+        int latelyListSize = ((UserBean) aJson.getData()).latelyListSize;
         String token = aJson.getToken();
         Logger.i(TAG, ".....sp保存......" + (aJson.getData()).toString());
         mSP.clearSpData();
@@ -150,6 +152,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mSP.putString("username", useName);
         mSP.putString("token", token);
         mSP.putBoolean("isCheck", mJizhuPsd.isChecked());
+        mSP.putInt("collectListSize", collectListSize);
+        mSP.putInt("latelyListSize", latelyListSize);
     }
 
     /**

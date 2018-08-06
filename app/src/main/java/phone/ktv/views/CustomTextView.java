@@ -58,4 +58,8 @@ public class CustomTextView extends LinearLayout {
         mNumFirst.setVisibility(firstState ? View.VISIBLE : View.GONE);
         mNumFirst.setText(firstString);
     }
+
+    public void setNumFirst(String s) {
+        mNumFirst.setText(s);
+    }
 }

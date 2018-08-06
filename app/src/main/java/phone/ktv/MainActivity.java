@@ -238,6 +238,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTelPhone = findViewById(R.id.tel_phone_tvw);
 
         mSintUser = findViewById(R.id.sint_user_tvw);
+
+        mCustomTextView1.setNumFirst(mSP.getInt("collectListSize", 0) + "首");
     }
 
     @Override
@@ -246,7 +248,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         updateState();
 //        getList();
     }
-
 
     private void updateState() {
         if (mSP != null) {
@@ -261,7 +262,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     private void initView() {
         mSP = new SPUtil(mContext);
 
@@ -273,8 +273,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mVpTab = findViewById(R.id.news_vp_tab);
 
         mHeadIv = findViewById(R.id.main_btn_menu);
-
-
     }
 
     private void initListener() {

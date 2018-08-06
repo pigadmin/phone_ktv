@@ -106,6 +106,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
                         if (aJson.getCode() == 0) {
                             Logger.i(TAG, "aJson..." + aJson.toString());
                             getResult("歌曲收藏成功");
+                            mSP.putInt("collectListSize", mSP.getInt("collectListSize", 0) + 1);
                         } else if (aJson.getCode() == 500) {
                             getResult(aJson.getMsg());
                         } else {
@@ -138,7 +139,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
             public void onClick(View v) {
                 LatelyListAddUtils utils = new LatelyListAddUtils(mSP, activity, item);
                 utils.getLatelyList();
-                App.saveData(item, activity, TAG,false);
+                App.saveData(item, activity, TAG, false);
                 btmDialog.dismiss();
             }
         });
@@ -155,7 +156,7 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
             @Override
             public void onClick(View v) {
                 btmDialog.dismiss();
-                App.saveData(item, context, TAG,true);
+                App.saveData(item, context, TAG, true);
             }
         });
 

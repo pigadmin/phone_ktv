@@ -11,26 +11,24 @@ public class UserBean {
 
     public String status;//状态
 
+    public int collectListSize;//收藏列表数量
+
+    public int latelyListSize;//最近播放数量
+
     public UserBean() {
 
-    }
-
-    public UserBean(String id, String telPhone, String username, String password, String status) {
-        this.id = id;
-        this.telPhone = telPhone;
-        this.username = username;
-        this.password = password;
-        this.status = status;
     }
 
     @Override
     public String toString() {
         return "UserBean{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", telPhone='" + telPhone + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", status=" + status +
+                ", status='" + status + '\'' +
+                ", collectListSize='" + collectListSize + '\'' +
+                ", latelyListSize='" + latelyListSize + '\'' +
                 '}';
     }
 }

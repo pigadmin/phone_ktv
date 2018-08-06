@@ -21,6 +21,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -30,7 +31,11 @@ import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.AdverOpenOne;
+import phone.ktv.bean.ColleResultBean;
+import phone.ktv.bean.CollentBean1;
+import phone.ktv.tootls.CallBackUtils;
 import phone.ktv.tootls.FULL;
+import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
@@ -62,8 +67,8 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
 
         initView();
         submData();
+        getCollectList();
     }
-
 
     private ImageView ad_image;
     private VideoView ad_video;
@@ -312,5 +317,56 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         mediaPlayer.start();
+    }
+
+    private void getCollectList() {
+        if (NetUtils.hasNetwork(mContext)) {
+            WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
+            String tel = mSP.getString("telPhone", null);//tel
+            String token = mSP.getString("token", null);//token
+            Logger.i(TAG, "tel.." + tel + "..token.." + token);
+            weakHashMap.put("telPhone", tel);//手机号
+            weakHashMap.put("token", token);//token
+
+            String url = App.getRqstUrl(App.headurl + "song/collect", weakHashMap);
+            Logger.i(TAG, "url.." + url);
+            CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
+                @Override
+                public void onFinish(String result, String msg) {
+                    if (TextUtils.isEmpty(result)) {
+                        getResult(msg);
+                    } else {
+                        analysisJson(result);
+                    }
+                }
+            });
+        } else {
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
+        }
+    }
+
+    private void analysisJson(String result) {
+        ColleResultBean aJson = GsonJsonUtils.parseJson2Obj(result, ColleResultBean.class);
+        if (aJson != null) {
+            if (aJson.code == 0) {
+                Logger.i(TAG, "aJson1..." + aJson.toString());
+                String str = GsonJsonUtils.parseObj2Json(aJson.data);
+                CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
+                mSP.putInt("collectListSize", collentBean1.list.size());
+            } else if (aJson.code == 500) {
+                getResult(aJson.msg);
+            } else {
+                getResult(aJson.msg);
+            }
+        }
+    }
+
+    private void getResult(final String msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtils.showLongToast(mContext, msg);
+            }
+        });
     }
 }
