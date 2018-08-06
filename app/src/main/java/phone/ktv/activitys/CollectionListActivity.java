@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,14 +18,10 @@ import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.WeakHashMap;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.adaters.CollectionListAdater;
 import phone.ktv.app.App;
@@ -32,10 +29,10 @@ import phone.ktv.bean.ColleResultBean;
 import phone.ktv.bean.CollentBean1;
 import phone.ktv.bean.CollentBean2;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.CallBackUtils;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
-import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.TimeUtils;
 import phone.ktv.tootls.ToastUtils;
@@ -75,6 +72,9 @@ public class CollectionListActivity extends AppCompatActivity {
 
     private List<MusicPlayBean> mCollentBean3s;
 
+    private int mLimit = App.Maxlimit;//页码量
+    private int mPage = 1;//第几页
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -110,7 +110,7 @@ public class CollectionListActivity extends AppCompatActivity {
      * PullToRefreshScrollView 属性
      */
     private void settingPullRefresh() {
-        mPullToRefresh.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mPullToRefresh.setMode(PullToRefreshBase.Mode.BOTH);
         mLoadingLayoutProxy = mPullToRefresh.getLoadingLayoutProxy(true, false);
         mLoadingLayoutProxy.setPullLabel("下拉刷新");
         mLoadingLayoutProxy.setRefreshingLabel("正在刷新");
@@ -144,6 +144,7 @@ public class CollectionListActivity extends AppCompatActivity {
         mCollectionAdater = new CollectionListAdater(mContext, R.layout.item_collection_list_layout, mCollentBean3s);
         mListView1.setAdapter(mCollectionAdater);
 
+        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         getSongNameData();
     }
 
@@ -170,6 +171,7 @@ public class CollectionListActivity extends AppCompatActivity {
         @Override
         public void onPullDownToRefresh(PullToRefreshBase pullToRefreshBase) {
             mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
+            mPage = 1;
             mCollentBean3s.clear();
             getSongNameData();
         }
@@ -180,6 +182,8 @@ public class CollectionListActivity extends AppCompatActivity {
         @Override
         public void onPullUpToRefresh(PullToRefreshBase pullToRefreshBase) {
             mLoadingLayoutProxy.setLastUpdatedLabel(TimeUtils.getLocalDateTime());
+            mPage++;
+            getSongNameData();
         }
     }
 
@@ -214,53 +218,26 @@ public class CollectionListActivity extends AppCompatActivity {
      * 获取收藏列表
      */
     private void getSongNameData() {
-        mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         String tel = mSP.getString("telPhone", null);//tel
         String token = mSP.getString("token", null);//token
         Logger.i(TAG, "tel.." + tel + "..token.." + token);
         weakHashMap.put("telPhone", tel);//手机号
         weakHashMap.put("token", token);//token
+        weakHashMap.put("page", mPage + "");//第几页    不填默认1
+        weakHashMap.put("limit", mLimit + "");//页码量   不填默认10，最大限度100
 
         String url = App.getRqstUrl(App.headurl + "song/collect", weakHashMap);
 
         Logger.i(TAG, "url.." + url);
-
         if (NetUtils.hasNetwork(mContext)) {
-            OkhttpUtils.doStart(url, new Callback() {
+            CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
-                    //返回失败
-                    mHandler.obtainMessage(RankingSearch2Error, e.getMessage()).sendToTarget();
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String s = response.body().string();
-                    Logger.i(TAG, "s.." + s);
-
-                    ColleResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ColleResultBean.class);
-                    if (aJson != null) {
-                        if (aJson.code == 0) {
-                            Logger.i(TAG, "aJson1..." + aJson.toString());
-                            String str = GsonJsonUtils.parseObj2Json(aJson.data);
-                            CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
-                            String string = GsonJsonUtils.parseObj2Json(collentBean1.list);
-                            List<CollentBean2> collentBean = GsonJsonUtils.parseJson2Obj(string, new TypeToken<List<CollentBean2>>() {
-                            });
-                            for (CollentBean2 p : collentBean) {
-                                mCollentBean3s.add(p.song);
-                            }
-                            mHandler.sendEmptyMessage(RankingSearch2Success);
-                        } else if (aJson.code == 500) {
-                            mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
-                        } else {
-                            mHandler.obtainMessage(RankingSearch2Error, aJson.msg).sendToTarget();
-                        }
-                    }
-
-                    if (response.body() != null) {
-                        response.body().close();
+                public void onFinish(String result, String msg) {
+                    if (TextUtils.isEmpty(result)) {
+                        mHandler.obtainMessage(RankingSearch2Error, msg).sendToTarget();
+                    } else {
+                        analysisJson(result);
                     }
                 }
             });
@@ -268,6 +245,28 @@ public class CollectionListActivity extends AppCompatActivity {
             mSvProgressHUD.dismiss();
             mPullToRefresh.onRefreshComplete();
             ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
+        }
+    }
+
+    private void analysisJson(String result) {
+        ColleResultBean aJson = GsonJsonUtils.parseJson2Obj(result, ColleResultBean.class);
+        if (aJson != null) {
+            if (aJson.code == 0) {
+                Logger.i(TAG, "aJson..." + aJson.toString());
+                String str = GsonJsonUtils.parseObj2Json(aJson.data);
+                CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
+                String string = GsonJsonUtils.parseObj2Json(collentBean1.list);
+                List<CollentBean2> collentBean = GsonJsonUtils.parseJson2Obj(string, new TypeToken<List<CollentBean2>>() {
+                });
+                for (CollentBean2 p : collentBean) {
+                    mCollentBean3s.add(p.song);
+                }
+                mHandler.sendEmptyMessage(RankingSearch2Success);
+            } else if (aJson.code == 500) {
+                mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
+            } else {
+                mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
+            }
         }
     }
 

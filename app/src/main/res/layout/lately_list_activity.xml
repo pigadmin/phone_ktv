@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -24,13 +25,24 @@
         android:layout_height="40dp"
         android:layout_below="@+id/vs1_vw" />
 
-    <ListView
-        android:id="@+id/list_view_22"
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:id="@+id/sv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/min_player_mpr"
         android:layout_below="@+id/inclub_ilb_9"
-        android:dividerHeight="5dp" />
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollbars="none"
+        ptr:ptrMode="both">
+
+        <phone.ktv.views.MyListView
+            android:id="@+id/list_view_22"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="5dp" />
+
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 
     <TextView
         android:id="@+id/no_data_tvw16"
