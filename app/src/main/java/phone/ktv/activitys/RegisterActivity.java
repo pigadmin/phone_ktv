@@ -14,24 +14,20 @@ import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.WeakHashMap;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.tootls.AddSpaceTextWatcher;
 import phone.ktv.tootls.AlertDialogHelper;
+import phone.ktv.tootls.CallBackUtils;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
-import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.StringUtils;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.BtmDialog;
@@ -167,7 +163,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void setPhoneFormat(){
+    private void setPhoneFormat() {
         AddSpaceTextWatcher asEditTexts = new AddSpaceTextWatcher(customEditView2.mInputTitle, 13);
         asEditTexts.setSpaceType(AddSpaceTextWatcher.SpaceType.mobilePhoneNumberType);
     }
@@ -232,35 +228,32 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         weakHashMap.put("username", customEditView1.getInputTitle());//用户名
         String url = App.getRqstUrl(App.headurl + "register", weakHashMap);
         Logger.i(TAG, "url.." + url);
-
         if (NetUtils.hasNetwork(mContext)) {
-            OkhttpUtils.doStart(url, new Callback() {
+            CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
-                    //返回失败
-                    mHandler.obtainMessage(RegisRequestError, e.getMessage()).sendToTarget();
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String s = response.body().string();
-                    Logger.i(TAG, "注册s.." + s);
-                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                    if (aJson != null) {
-                        if (aJson.getCode() == 0) {
-                            mHandler.sendEmptyMessage(RegisRequestSuccess);
-                        } else {
-                            mHandler.obtainMessage(RegisRequestError, aJson.getMsg()).sendToTarget();
-                        }
-                    }
-                    if (response.body() != null) {
-                        response.body().close();
+                public void onFinish(String result, String msg) {
+                    if (TextUtils.isEmpty(result)) {
+                        mHandler.obtainMessage(RegisRequestError, msg).sendToTarget();
+                    } else {
+                        analysisJson(result);
                     }
                 }
             });
         } else {
             mSvProgressHUD.dismiss();
-            ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
+        }
+    }
+
+    private void analysisJson(String result) {
+        Logger.i(TAG, "注册s.." + result);
+        AJson aJson = GsonJsonUtils.parseJson2Obj(result, AJson.class);
+        if (aJson != null) {
+            if (aJson.getCode() == 0) {
+                mHandler.sendEmptyMessage(RegisRequestSuccess);
+            } else {
+                mHandler.obtainMessage(RegisRequestError, aJson.getMsg()).sendToTarget();
+            }
         }
     }
 
@@ -283,35 +276,28 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         weakHashMap.put("telPhone", customEditView2.getInputTitle());//手机号
         String url = App.getRqstUrl(App.headurl + "sendCode", weakHashMap);
         Logger.i(TAG, "url.." + url);
-
         if (NetUtils.hasNetwork(mContext)) {
-            OkhttpUtils.doStart(url, new Callback() {
+            CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
-                    //返回失败
-                    mHandler.obtainMessage(RegisCodeError, e.getMessage()).sendToTarget();
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String s = response.body().string();
-                    Logger.i(TAG, "验证码s.." + s);
-                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                    if (aJson != null) {
-                        if (aJson.getCode() == 0) {
-                            mHandler.obtainMessage(RegisCodeSuccess, aJson.getData()).sendToTarget();
-                        } else {
-                            mHandler.obtainMessage(RegisCodeError, aJson.getMsg()).sendToTarget();
+                public void onFinish(String result, String msg) {
+                    if (TextUtils.isEmpty(result)) {
+                        mHandler.obtainMessage(RegisCodeError, msg).sendToTarget();
+                    } else {
+                        Logger.i(TAG, "验证码s.." + result);
+                        AJson aJson = GsonJsonUtils.parseJson2Obj(result, AJson.class);
+                        if (aJson != null) {
+                            if (aJson.getCode() == 0) {
+                                mHandler.obtainMessage(RegisCodeSuccess, aJson.getData()).sendToTarget();
+                            } else {
+                                mHandler.obtainMessage(RegisCodeError, aJson.getMsg()).sendToTarget();
+                            }
                         }
-                    }
-                    if (response.body() != null) {
-                        response.body().close();
                     }
                 }
             });
         } else {
             mSvProgressHUD.dismiss();
-            ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
 
