@@ -2,15 +2,12 @@ package phone.ktv.activitys;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -33,8 +30,6 @@ import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.AdverOpenOne;
-import phone.ktv.service.MusicService;
-import phone.ktv.service.MyService;
 import phone.ktv.tootls.FULL;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
@@ -109,12 +104,10 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.num:
-                IntentUtils.thisToOther(mContext, TextUtils.isEmpty(mToken) ? LoginActivity.class : MainActivity.class);
-                finish();
+                toStep();
                 break;
         }
     }
-
 
     @Override
     protected void onDestroy() {
@@ -145,8 +138,7 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
             @Override
             public void onFinish() {
                 mNumtext.setText("倒计时(" + 0 + ")秒");
-                IntentUtils.thisToOther(mContext, MainActivity.class);
-                finish();
+                toStep();
             }
         }.start();
     }
@@ -154,10 +146,14 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            IntentUtils.thisToOther(mContext, TextUtils.isEmpty(mToken) ? LoginActivity.class : MainActivity.class);
-            finish();
+            toStep();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void toStep() {
+        IntentUtils.thisToOther(mContext, TextUtils.isEmpty(mToken) ? LoginActivity.class : MainActivity.class);
+        finish();
     }
 
     /**
@@ -231,8 +227,6 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
 //            mSvProgressHUD.dismiss();
             ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
         }
-
-
     }
 
     private final int UPDATE_AD = 0;
