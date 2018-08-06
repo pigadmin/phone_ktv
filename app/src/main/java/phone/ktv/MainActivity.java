@@ -1,14 +1,10 @@
 package phone.ktv;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,16 +13,11 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.astuetz.PagerSlidingTabStripExtends;
 import com.bigkoo.svprogresshud.SVProgressHUD;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import phone.ktv.activitys.CollectionListActivity;
 import phone.ktv.activitys.LatelyListActivity;
@@ -35,10 +26,8 @@ import phone.ktv.activitys.ModifyPsdActivity;
 import phone.ktv.activitys.ProductRecyActivity;
 import phone.ktv.activitys.SetUpActivity;
 import phone.ktv.activitys.already_activitys.AlreadySearchListActivity;
-import phone.ktv.activitys.player.PlayerActivity;
 import phone.ktv.adaters.TabAdater;
 import phone.ktv.app.App;
-import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.Contants;
 import phone.ktv.tootls.IntentUtils;
@@ -53,10 +42,7 @@ import phone.ktv.views.CustomTextView;
 /**
  * 主页
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,
-        PermissionRequestUtil.PermissionRequestListener {
-//        MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
-//        MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, PermissionRequestUtil.PermissionRequestListener {
 
     private static final String TAG = "MainActivity";
     private PagerSlidingTabStripExtends mNewsTabs;
@@ -113,112 +99,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Manifest.permission.READ_CONTACTS},
                 Contants.PermissRequest);
 
-//        PermissionRequestUtil.showSuspeWindow(MainActivity.this);
-//        startService(new Intent(this, MyService.class));
-
         initView();
         initMenuView();
-//        initPlayer();
         initListener();
-
-
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction(App.START);
-//        registerReceiver(receiver, filter);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        unregisterReceiver(receiver);
     }
-
-//    private MusicPlayBean now;
-//    private CountDownTimer timer = null;
-//    private BroadcastReceiver receiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            try {
-//                if (intent.getAction().equals(App.START)) {
-//                    now = (MusicPlayBean) intent.getSerializableExtra("key");
-//                    player_name.setText(now.name);
-//                    player_singer.setText(now.singerName);
-//
-//                    player_progress.setMax(app.getMediaPlayer().getDuration());
-//
-//                    if (timer != null)
-//                        timer.cancel();
-//                    timer = new CountDownTimer(app.getMediaPlayer().getDuration(), 1000) {
-//                        @Override
-//                        public void onTick(long millisUntilFinished) {
-//                            player_progress.setProgress(app.getMediaPlayer().getCurrentPosition());
-//                        }
-//
-//                        @Override
-//                        public void onFinish() {
-//                            timer.cancel();
-//                        }
-//                    }.start();
-//
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    };
-
-//    private ImageView singer_icon;
-//    private SeekBar player_progress;
-//    private TextView player_name, player_singer;
-//    private ImageView player_last, player_play, player_next;
-//    private VideoView player;
-//    private LinearLayout llt_115;
-
-//    private void initPlayer() {
-//        llt_115 = findViewById(R.id.llt_115);
-//        llt_115.setOnClickListener(this);
-//
-//        singer_icon = findViewById(R.id.singer_icon);
-//        singer_icon.setOnClickListener(this);
-//
-//        player_progress = findViewById(R.id.player_progress);
-//        player_progress.setOnSeekBarChangeListener(this);
-//        player_name = findViewById(R.id.player_name);
-//        player_singer = findViewById(R.id.player_singer);
-//
-//        player_last = findViewById(R.id.player_last);
-//        player_last.setOnClickListener(this);
-//        player_play = findViewById(R.id.player_play);
-//        player_play.setOnClickListener(this);
-//        player_next = findViewById(R.id.player_next);
-//        player_next.setOnClickListener(this);
-//
-////        player = new VideoView(this);
-//        player = findViewById(R.id.player);
-//        player.setOnPreparedListener(this);
-//        player.setOnCompletionListener(this);
-//        player.setOnErrorListener(this);
-//    }
-
-//    private List<MusicPlayBean> playlist = new ArrayList<>();
-
-//    private List<MusicPlayBean> getList() {
-//
-//        try {
-//            playlist = App.mDb.selector(MusicPlayBean.class).findAll();
-//            if (playlist != null && !playlist.isEmpty()) {
-////                Picasso.with(this).load(playlist.get(0).n)
-//                if (!player.isPlaying()) {
-//                    player_name.setText(playlist.get(mSP.getInt("play_index", 0)).name);
-//                    player_singer.setText(playlist.get(mSP.getInt("play_index", 0)).singerName);
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return playlist;
-//    }
-
 
     private void initMenuView() {
         mLoging = findViewById(R.id.loging_llt);
@@ -246,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         updateState();
-//        getList();
     }
 
     private void updateState() {
@@ -307,57 +195,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.player_last://上一首
-//                if (getList() == null || getList().isEmpty()) {
-//                    ToastUtils.showShortToast(MainActivity.this, "先添加");
-//                    break;
-//                } else {
-//                    sendBroadcast(new Intent(App.LAST));
-//                }
-//                break;
-//            case R.id.player_play://播放暂停
-//                if (getList() == null || getList().isEmpty()) {
-//                    ToastUtils.showShortToast(MainActivity.this, "先添加");
-//                } else {
-//                    if (app.getMediaPlayer() == null) {
-//                        ToastUtils.showShortToast(MainActivity.this, "第一次播放");
-//                        sendBroadcast(new Intent(App.PLAY));
-//                        player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
-//                    } else {
-//                        if (app.getMediaPlayer().isPlaying()) {
-//                            ToastUtils.showShortToast(MainActivity.this, "暂停");
-//                            app.getMediaPlayer().pause();
-//                            player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
-//                        } else {
-//                            ToastUtils.showShortToast(MainActivity.this, "播放");
-//                            app.getMediaPlayer().start();
-//                            player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
-//                        }
-//                    }
-//                }
-//                break;
-//            case R.id.player_next://下一首
-//                if (getList() == null || getList().isEmpty()) {
-//                    ToastUtils.showShortToast(MainActivity.this, "先添加");
-//                } else {
-//                    sendBroadcast(new Intent(App.NEXT));
-//                }
-//                break;
-//            case R.id.llt_115:
-//            case R.id.singer_icon://图标
-//                if (getList() == null || getList().isEmpty()) {
-//                    ToastUtils.showShortToast(MainActivity.this, "先添加");
-//                    break;
-//                } else {
-////                    if (app.getMediaPlayer() == null)
-////                        return;
-////                    if (app.getMediaPlayer().isPlaying()) {
-////                        app.getMediaPlayer().pause();
-////                        player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
-////                    }
-//                    startActivity(new Intent(mContext, PlayerActivity.class));
-//                }
-//                break;
             case R.id.main_btn_menu://侧滑
                 if (mCoordinatorMenu.isOpened()) {
                     mCoordinatorMenu.closeMenu();
@@ -419,27 +256,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void isStateLogin() {
         IntentUtils.intIntent(mContext, LoginActivity.class, "index", 1);
     }
-
-//    @Override
-//    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//        System.out.println("onProgressChanged" + i);
-//
-//    }
-//
-//    @Override
-//    public void onStartTrackingTouch(SeekBar seekBar) {
-//        System.out.println("onStartTrackingTouch" + seekBar.getProgress());
-//    }
-//
-//    @Override
-//    public void onStopTrackingTouch(SeekBar seekBar) {
-//        System.out.println("onStopTrackingTouch" + seekBar.getProgress());
-//        if (app.getMediaPlayer() != null) {
-//            app.getMediaPlayer().seekTo(seekBar.getProgress());
-//        }
-//
-//    }
-
 
     class onPageChangeListener implements ViewPager.OnPageChangeListener {
         @Override

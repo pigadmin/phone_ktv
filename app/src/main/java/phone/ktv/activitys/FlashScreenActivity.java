@@ -319,6 +319,9 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
         mediaPlayer.start();
     }
 
+    /**
+     * 默认访问收藏列表
+     */
     private void getCollectList() {
         if (NetUtils.hasNetwork(mContext)) {
             WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
@@ -352,7 +355,7 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
                 Logger.i(TAG, "aJson1..." + aJson.toString());
                 String str = GsonJsonUtils.parseObj2Json(aJson.data);
                 CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
-                mSP.putInt("collectListSize", collentBean1.list.size());
+                mSP.putInt("collectListSize", Integer.parseInt(collentBean1.totalCount));
             } else if (aJson.code == 500) {
                 getResult(aJson.msg);
             } else {
