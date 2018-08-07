@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -56,8 +54,6 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
         filter.addAction(App.START);
         filter.addAction(App.UPDATELIST);
         mContext.registerReceiver(receiver, filter);
-
-
     }
 
 

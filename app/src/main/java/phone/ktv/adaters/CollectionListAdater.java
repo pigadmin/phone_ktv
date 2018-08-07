@@ -77,11 +77,11 @@ public class CollectionListAdater extends BAdapter<MusicPlayBean> {
         String url;
         if (deleteType) {
             //收藏
-            weakHashMap.put("cid", item.sid);//token
+            weakHashMap.put("cid", item.sid);
             url = App.getRqstUrl(App.headurl + "song/collect/del", weakHashMap);
         } else {
             //播放记录
-            weakHashMap.put("id", item.sid);//token
+            weakHashMap.put("id", item.sid);
             url = App.getRqstUrl(App.headurl + "song/record/del", weakHashMap);
         }
         Logger.i(TAG, "url.." + url);

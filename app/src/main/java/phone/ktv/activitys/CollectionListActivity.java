@@ -272,7 +272,7 @@ public class CollectionListActivity extends AppCompatActivity {
             } else if (aJson.code == 500) {
                 mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
             } else {
-                mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
+                mHandler.obtainMessage(RankingSearch2Error, aJson.msg).sendToTarget();
             }
         }
     }
