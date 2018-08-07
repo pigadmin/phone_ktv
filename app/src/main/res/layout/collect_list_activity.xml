@@ -20,7 +20,7 @@
 
     <include
         android:id="@+id/inclub_ilb_9"
-        layout="@layout/inclub_play_select_layout"
+        layout="@layout/inclub_play_select_layout_collect"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/vs1_vw" />

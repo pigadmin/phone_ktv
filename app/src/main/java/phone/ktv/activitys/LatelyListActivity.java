@@ -118,14 +118,14 @@ public class LatelyListActivity extends AppCompatActivity {
         mTopTitleView1 = findViewById(R.id.customTopTitleView1);
         mPullToRefresh = findViewById(R.id.sv);
 
-        mTitle1 = findViewById(R.id.title_1_ivw);
+        mTitle1 = findViewById(R.id.title_10_ivw);
         setLogo(CustomPopuWindw.postion);
 
-        mTitle2 = findViewById(R.id.title_2_tvw);
-        mTitle3 = findViewById(R.id.title_3_tvw);
+        mTitle2 = findViewById(R.id.title_20_tvw);
+        mTitle3 = findViewById(R.id.title_30_tvw);
 
         mListView1 = findViewById(R.id.list_view_22);
-        mCollectionAdater = new CollectionListAdater(mContext, R.layout.item_collection_list_layout, mCollentBean3s);
+        mCollectionAdater = new CollectionListAdater(LatelyListActivity.this, R.layout.item_collection_list_layout, mCollentBean3s, false, mSP);
         mListView1.setAdapter(mCollectionAdater);
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
@@ -299,7 +299,7 @@ public class LatelyListActivity extends AppCompatActivity {
     }
 
     /**
-     * 多选
+     * 一键清理
      */
     private class MyOnClickListenTitle3 implements View.OnClickListener {
         @Override

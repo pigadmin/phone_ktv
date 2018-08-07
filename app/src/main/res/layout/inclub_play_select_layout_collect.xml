@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="#0A2B62"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/title_10_ivw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:src="@mipmap/popovers_x_0" />
+
+    <View
+        android:id="@+id/a2"
+        android:layout_width="1px"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/title_10_ivw"
+        android:background="@color/zhxfFooterBarBg" />
+
+    <ImageView
+        android:id="@+id/a3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/a2"
+        android:src="@mipmap/top_icon_1" />
+
+    <TextView
+        android:id="@+id/title_20_tvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/a3"
+        android:text="全部播放"
+        android:textColor="@drawable/selector_play_type_bg" />
+
+    <TextView
+        android:id="@+id/title_30_tvw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:gravity="right"
+        android:text="一键清理"
+        android:textColor="@drawable/selector_play_type_bg" />
+
+</RelativeLayout>

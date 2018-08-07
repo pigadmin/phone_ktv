@@ -59,7 +59,7 @@ public class CollectionListActivity extends AppCompatActivity {
 
     public ImageView mTitle1;//选择 播放形式:顺序播放、随机播放、单曲循环
     private TextView mTitle2;//全部播放
-    private TextView mTitle3;//多选
+    private TextView mTitle3;//一键清空
 
     public static final int RankingSearch2Success = 100;//搜索歌曲获取成功
     public static final int RankingSearch2Error = 200;//搜索歌曲获取失败
@@ -134,14 +134,15 @@ public class CollectionListActivity extends AppCompatActivity {
 
         mPullToRefresh = findViewById(R.id.sv);
 
-        mTitle1 = findViewById(R.id.title_1_ivw);
+        mTitle1 = findViewById(R.id.title_10_ivw);
         setLogo(CustomPopuWindw.postion);
 
-        mTitle2 = findViewById(R.id.title_2_tvw);
-        mTitle3 = findViewById(R.id.title_3_tvw);
+        mTitle2 = findViewById(R.id.title_20_tvw);
+        mTitle3 = findViewById(R.id.title_30_tvw);
+        mTitle3.setVisibility(View.INVISIBLE);
 
         mListView1 = findViewById(R.id.list_view_21);
-        mCollectionAdater = new CollectionListAdater(mContext, R.layout.item_collection_list_layout, mCollentBean3s);
+        mCollectionAdater = new CollectionListAdater(CollectionListActivity.this, R.layout.item_collection_list_layout, mCollentBean3s, true, mSP);
         mListView1.setAdapter(mCollectionAdater);
 
         mSvProgressHUD.showWithStatus("请稍等,数据加载中...");
@@ -154,10 +155,13 @@ public class CollectionListActivity extends AppCompatActivity {
         mTitle1.setOnClickListener(new MyOnClickListenTitle1());
         mTitle2.setOnClickListener(new MyOnClickListenTitle2());
         mTitle3.setOnClickListener(new MyOnClickListenTitle3());
-        mListView1.setOnItemClickListener(new MyOnItemClickLis());
+        mListView1.setOnItemClickListener(new MyOnItemClickLister());
     }
 
-    private class MyOnItemClickLis implements AdapterView.OnItemClickListener {
+    /**
+     * item事件
+     */
+    private class MyOnItemClickLister implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -300,7 +304,7 @@ public class CollectionListActivity extends AppCompatActivity {
     }
 
     /**
-     * 多选
+     * 一键清理
      */
     private class MyOnClickListenTitle3 implements View.OnClickListener {
         @Override
