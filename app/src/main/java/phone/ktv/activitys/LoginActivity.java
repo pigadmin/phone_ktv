@@ -138,12 +138,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * 保存 id
      */
     private void saveLoginData(AJson aJson) {
-        String id = ((UserBean) aJson.getData()).id;
-        String tel = ((UserBean) aJson.getData()).telPhone;
-        String useName = ((UserBean) aJson.getData()).username;
-        int collectListSize = ((UserBean) aJson.getData()).collectListSize;
-        int latelyListSize = ((UserBean) aJson.getData()).latelyListSize;
-        String token = aJson.getToken();
+        String id = ((UserBean) aJson.getData()).id;//用户ID
+        String tel = ((UserBean) aJson.getData()).telPhone;//手机号
+        String useName = ((UserBean) aJson.getData()).username;//用户名
+        int collect_count = aJson.getCollect_count();//收藏列表数量
+        int record_count = aJson.getRecord_count();//最近播放数量
+        String token = aJson.getToken();//Token
         Logger.i(TAG, ".....sp保存......" + (aJson.getData()).toString());
         mSP.clearSpData();
         mSP.putString("password", customEditView2.getInputTitle());
@@ -152,8 +152,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mSP.putString("username", useName);
         mSP.putString("token", token);
         mSP.putBoolean("isCheck", mJizhuPsd.isChecked());
-        mSP.putInt("collectListSize", collectListSize);
-        mSP.putInt("latelyListSize", latelyListSize);
+        mSP.putInt("collectListSize", collect_count);
+        mSP.putInt("latelyListSize", record_count);
     }
 
     /**

@@ -11,10 +11,6 @@ public class UserBean {
 
     public String status;//状态
 
-    public int collectListSize;//收藏列表数量
-
-    public int latelyListSize;//最近播放数量
-
     public UserBean() {
 
     }
@@ -27,8 +23,6 @@ public class UserBean {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", status='" + status + '\'' +
-                ", collectListSize='" + collectListSize + '\'' +
-                ", latelyListSize='" + latelyListSize + '\'' +
                 '}';
     }
 }

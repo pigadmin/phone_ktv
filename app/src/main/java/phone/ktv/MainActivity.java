@@ -127,13 +127,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTelPhone = findViewById(R.id.tel_phone_tvw);
 
         mSintUser = findViewById(R.id.sint_user_tvw);
-
-        mCustomTextView1.setNumFirst(mSP.getInt("collectListSize", 0) + "首");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        int collectListSize = mSP.getInt("collectListSize", 0);
+        mCustomTextView1.setNumFirst(collectListSize + "首");
         updateState();
     }
 

@@ -2,7 +2,7 @@ package phone.ktv.bean;
 
 import java.io.Serializable;
 
-public class AJson<T> implements Serializable{
+public class AJson<T> implements Serializable {
     private int code;
 
     private T data;
@@ -12,6 +12,10 @@ public class AJson<T> implements Serializable{
     private String errorInfo;
 
     private String token;//令牌
+
+    private int collect_count;//收藏列表数量
+
+    private int record_count;//最近播放数量
 
     public int getCode() {
         return code;
@@ -53,6 +57,22 @@ public class AJson<T> implements Serializable{
         this.token = token;
     }
 
+    public int getCollect_count() {
+        return collect_count;
+    }
+
+    public void setCollect_count(int collect_count) {
+        this.collect_count = collect_count;
+    }
+
+    public int getRecord_count() {
+        return record_count;
+    }
+
+    public void setRecord_count(int record_count) {
+        this.record_count = record_count;
+    }
+
     @Override
     public String toString() {
         return "AJson{" +
@@ -61,6 +81,8 @@ public class AJson<T> implements Serializable{
                 ", msg='" + msg + '\'' +
                 ", errorInfo='" + errorInfo + '\'' +
                 ", token='" + token + '\'' +
+                ", collect_count=" + collect_count +
+                ", record_count=" + record_count +
                 '}';
     }
 }

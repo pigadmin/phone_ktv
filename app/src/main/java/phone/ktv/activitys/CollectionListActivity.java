@@ -260,6 +260,7 @@ public class CollectionListActivity extends AppCompatActivity {
                 Logger.i(TAG, "aJson..." + aJson.toString());
                 String str = GsonJsonUtils.parseObj2Json(aJson.data);
                 CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
+                mSP.putInt("collectListSize", Integer.parseInt(collentBean1.totalCount));
                 String string = GsonJsonUtils.parseObj2Json(collentBean1.list);
                 List<CollentBean2> collentBean = GsonJsonUtils.parseJson2Obj(string, new TypeToken<List<CollentBean2>>() {
                 });

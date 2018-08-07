@@ -99,6 +99,13 @@ public class CollectionListAdater extends BAdapter<MusicPlayBean> {
                             if (aJson.getCode() == 0) {
                                 getResult("删除成功");
                                 getAllData().remove(position);//再删本地列表
+                                if (deleteType) {
+                                    int collectListSize = mSP.getInt("collectListSize", 0);
+                                    mSP.putInt("collectListSize", collectListSize - 1);
+                                } else {
+
+                                }
+
                             } else {
                                 getResult("删除失败" + aJson.getMsg());
                             }
