@@ -25,10 +25,12 @@ import java.util.WeakHashMap;
 import phone.ktv.R;
 import phone.ktv.adaters.CollectionListAdater;
 import phone.ktv.app.App;
+import phone.ktv.bean.AJson;
 import phone.ktv.bean.ColleResultBean;
 import phone.ktv.bean.CollentBean1;
 import phone.ktv.bean.LatelyBean2;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.CallBackUtils;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.Logger;
@@ -36,6 +38,7 @@ import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.TimeUtils;
 import phone.ktv.tootls.ToastUtils;
+import phone.ktv.views.BtmDialog;
 import phone.ktv.views.CustomPopuWindw;
 import phone.ktv.views.CustomTopTitleView;
 import phone.ktv.views.MyListView;
@@ -57,11 +60,13 @@ public class LatelyListActivity extends AppCompatActivity {
 
     public ImageView mTitle1;//选择 播放形式:顺序播放、随机播放、单曲循环
     private TextView mTitle2;//全部播放
-    private TextView mTitle3;//多选
+    private TextView mTitle3;//一键清空
 
     public static final int RankingSearch2Success = 100;//搜索歌曲获取成功
     public static final int RankingSearch2Error = 200;//搜索歌曲获取失败
     public static final int RankingExpiredToken = 300;//Token过期
+    public static final int SubmClearSuccess = 400;//清理全部成功
+    public static final int SubmClearError = 500;//清理全部失败
 
     private PullToRefreshScrollView mPullToRefresh;
     private ILoadingLayout mLoadingLayoutProxy;
@@ -91,9 +96,18 @@ public class LatelyListActivity extends AppCompatActivity {
                 case RankingExpiredToken://Token过期
                     ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
+
+                case SubmClearSuccess://清理全部成功
+                    mCollectionAdater.notifyDataSetChanged();
+                    updateData();
+                    break;
+
+                case SubmClearError://清理全部失败
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
+                    break;
             }
-            mSvProgressHUD.dismiss();
-            mPullToRefresh.onRefreshComplete();
+            clearSvpHub();
+            clearRefreshComp();
         }
     };
 
@@ -241,8 +255,8 @@ public class LatelyListActivity extends AppCompatActivity {
                 }
             });
         } else {
-            mSvProgressHUD.dismiss();
-            mPullToRefresh.onRefreshComplete();
+            clearSvpHub();
+            clearRefreshComp();
             ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
@@ -266,7 +280,7 @@ public class LatelyListActivity extends AppCompatActivity {
             } else if (aJson.code == 500) {
                 mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
             } else {
-                mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
+                mHandler.obtainMessage(RankingSearch2Error, aJson.msg).sendToTarget();
             }
         }
     }
@@ -306,7 +320,77 @@ public class LatelyListActivity extends AppCompatActivity {
     private class MyOnClickListenTitle3 implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            if (mCollentBean3s != null) {
+                if (!mCollentBean3s.isEmpty()) {
+                    showCleanDialogType1();
+                } else {
+                    showCleanDialogType2();
+                }
+            }
+        }
+    }
 
+    /**
+     * 提示框1
+     */
+    private void showCleanDialogType1() {
+        final BtmDialog dialog = new BtmDialog(this, "温馨提示", "是否全部清理播放记录?");
+        AlertDialogHelper.BtmDialogDerive1(dialog, false, true, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submClear();
+                dialog.dismiss();
+            }
+        }, null);
+    }
+
+    /**
+     * 提示框2
+     */
+    private void showCleanDialogType2() {
+        final BtmDialog dialog = new BtmDialog(this, "温馨提示", "当前无播放记录,请先去添加");
+        AlertDialogHelper.BtmDialogDerive2(dialog, false, true, null);
+    }
+
+    /**
+     * 清理全部播放记录
+     */
+    private void submClear() {
+        mSvProgressHUD.showWithStatus("数据提交中,请稍等...");
+        WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        weakHashMap.put("telPhone", tel);//手机号
+        weakHashMap.put("token", token);//token
+        String url = App.getRqstUrl(App.headurl + "song/record/clear", weakHashMap);
+
+        Logger.i(TAG, "url.." + url);
+
+        if (NetUtils.hasNetwork(mContext)) {
+            CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
+                @Override
+                public void onFinish(String result, String msg) {
+                    if (TextUtils.isEmpty(result)) {
+                        mHandler.obtainMessage(SubmClearError, result).sendToTarget();
+                    } else {
+                        Logger.i(TAG, "s.." + result);
+                        AJson aJson = GsonJsonUtils.parseJson2Obj(result, AJson.class);
+                        if (aJson != null) {
+                            if (aJson.getCode() == 0) {
+                                mCollentBean3s.clear();
+                                mHandler.sendEmptyMessage(SubmClearSuccess);
+                            } else if (aJson.getCode() == 500) {
+                                mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
+                            } else {
+                                mHandler.obtainMessage(SubmClearError, aJson.getMsg()).sendToTarget();
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            clearSvpHub();
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
     }
 
@@ -351,5 +435,15 @@ public class LatelyListActivity extends AppCompatActivity {
                 mTitle1.setImageResource(R.mipmap.popovers_n_0);
                 break;
         }
+    }
+
+    private void clearSvpHub() {
+        if (mSvProgressHUD.isShowing())
+            mSvProgressHUD.dismiss();
+    }
+
+    private void clearRefreshComp() {
+        if (mPullToRefresh.isShown())
+            mPullToRefresh.onRefreshComplete();
     }
 }
