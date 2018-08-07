@@ -133,7 +133,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         int collectListSize = mSP.getInt("collectListSize", 0);
+        int latelyListSize = mSP.getInt("latelyListSize", 0);
         mCustomTextView1.setNumFirst(collectListSize + "首");
+        mCustomTextView2.setNumFirst(latelyListSize + "首");
         updateState();
     }
 

@@ -98,6 +98,8 @@ public class LatelyListActivity extends AppCompatActivity {
                     break;
 
                 case SubmClearSuccess://清理全部成功
+                    mSP.putInt("latelyListSize", 0);
+                    mCollentBean3s.clear();
                     mCollectionAdater.notifyDataSetChanged();
                     updateData();
                     break;
@@ -268,6 +270,7 @@ public class LatelyListActivity extends AppCompatActivity {
                 Logger.i(TAG, "aJson1..." + aJson.toString());
                 String str = GsonJsonUtils.parseObj2Json(aJson.data);
                 CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
+                mSP.putInt("latelyListSize", Integer.parseInt(collentBean1.totalCount));
                 String string = GsonJsonUtils.parseObj2Json(collentBean1.list);
                 List<LatelyBean2> collentBean = GsonJsonUtils.parseJson2Obj(string, new TypeToken<List<LatelyBean2>>() {
                 });
@@ -377,7 +380,6 @@ public class LatelyListActivity extends AppCompatActivity {
                         AJson aJson = GsonJsonUtils.parseJson2Obj(result, AJson.class);
                         if (aJson != null) {
                             if (aJson.getCode() == 0) {
-                                mCollentBean3s.clear();
                                 mHandler.sendEmptyMessage(SubmClearSuccess);
                             } else if (aJson.getCode() == 500) {
                                 mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();

@@ -68,6 +68,7 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
         initView();
         submData();
         getCollectList();
+        getLatelyList();
     }
 
     private ImageView ad_image;
@@ -339,7 +340,7 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
                     if (TextUtils.isEmpty(result)) {
                         getResult(msg);
                     } else {
-                        analysisJson(result);
+                        analysisJsonCollect(result);
                     }
                 }
             });
@@ -348,11 +349,11 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
         }
     }
 
-    private void analysisJson(String result) {
+    private void analysisJsonCollect(String result) {
         ColleResultBean aJson = GsonJsonUtils.parseJson2Obj(result, ColleResultBean.class);
         if (aJson != null) {
             if (aJson.code == 0) {
-                Logger.i(TAG, "aJson1..." + aJson.toString());
+                Logger.i(TAG, "aJson..." + aJson.toString());
                 String str = GsonJsonUtils.parseObj2Json(aJson.data);
                 CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
                 mSP.putInt("collectListSize", Integer.parseInt(collentBean1.totalCount));
@@ -371,5 +372,51 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
                 ToastUtils.showLongToast(mContext, msg);
             }
         });
+    }
+
+    /**
+     * 默认访问最近播放
+     */
+    private void getLatelyList() {
+        WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        Logger.i(TAG, "tel.." + tel + "..token.." + token);
+        weakHashMap.put("telPhone", tel);//手机号
+        weakHashMap.put("token", token);//token
+
+        String url = App.getRqstUrl(App.headurl + "song/record", weakHashMap);
+
+        Logger.i(TAG, "url.." + url);
+        if (NetUtils.hasNetwork(mContext)) {
+            CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
+                @Override
+                public void onFinish(String result, String msg) {
+                    if (TextUtils.isEmpty(result)) {
+                        getResult(msg);
+                    } else {
+                        analysisJsonLately(result);
+                    }
+                }
+            });
+        } else {
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
+        }
+    }
+
+    private void analysisJsonLately(String result) {
+        ColleResultBean aJson = GsonJsonUtils.parseJson2Obj(result, ColleResultBean.class);
+        if (aJson != null) {
+            if (aJson.code == 0) {
+                Logger.i(TAG, "aJson..." + aJson.toString());
+                String str = GsonJsonUtils.parseObj2Json(aJson.data);
+                CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
+                mSP.putInt("latelyListSize", Integer.parseInt(collentBean1.totalCount));
+            } else if (aJson.code == 500) {
+                getResult(aJson.msg);
+            } else {
+                getResult(aJson.msg);
+            }
+        }
     }
 }

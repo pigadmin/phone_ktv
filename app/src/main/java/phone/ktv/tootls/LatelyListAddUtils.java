@@ -60,7 +60,10 @@ public class LatelyListAddUtils {
                     });
                     if (aJson != null) {
                         if (aJson.getCode() == 0) {
-                            Logger.i(TAG, "aJson..." + aJson.toString());
+                            int latelyListSize = mSP.getInt("latelyListSize", 0);
+                            mSP.putInt("latelyListSize", latelyListSize + 1);
+                        } else if (aJson.getCode() == 1) {
+
                         } else if (aJson.getCode() == 500) {
                             getResult(aJson.getMsg());
                         } else {

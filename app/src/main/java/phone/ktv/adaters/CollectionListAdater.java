@@ -103,7 +103,8 @@ public class CollectionListAdater extends BAdapter<MusicPlayBean> {
                                     int collectListSize = mSP.getInt("collectListSize", 0);
                                     mSP.putInt("collectListSize", collectListSize - 1);
                                 } else {
-
+                                    int latelyListSize = mSP.getInt("latelyListSize", 0);
+                                    mSP.putInt("latelyListSize", latelyListSize - 1);
                                 }
 
                             } else {
