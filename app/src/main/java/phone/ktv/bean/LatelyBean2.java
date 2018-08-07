@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class LatelyBean2 implements Serializable {
 
-    public int id;
+    public String id;
     public int sid;
     public int did;
     public int type;

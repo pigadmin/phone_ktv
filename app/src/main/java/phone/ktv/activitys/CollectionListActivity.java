@@ -75,6 +75,7 @@ public class CollectionListActivity extends AppCompatActivity {
     private int mLimit = App.Maxlimit;//页码量
     private int mPage = 1;//第几页
 
+
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -263,8 +264,10 @@ public class CollectionListActivity extends AppCompatActivity {
                 List<CollentBean2> collentBean = GsonJsonUtils.parseJson2Obj(string, new TypeToken<List<CollentBean2>>() {
                 });
                 for (CollentBean2 p : collentBean) {
+                    p.song.sid = p.id;
                     mCollentBean3s.add(p.song);
                 }
+
                 mHandler.sendEmptyMessage(RankingSearch2Success);
             } else if (aJson.code == 500) {
                 mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();

@@ -258,8 +258,10 @@ public class LatelyListActivity extends AppCompatActivity {
                 List<LatelyBean2> collentBean = GsonJsonUtils.parseJson2Obj(string, new TypeToken<List<LatelyBean2>>() {
                 });
                 for (LatelyBean2 p : collentBean) {
+                    p.song.sid = p.id;
                     mCollentBean3s.add(p.song);
                 }
+
                 mHandler.sendEmptyMessage(RankingSearch2Success);
             } else if (aJson.code == 500) {
                 mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();

@@ -59,9 +59,7 @@ public class CollectionListAdater extends BAdapter<MusicPlayBean> {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submDelete(item);
-                getAllData().remove(position);//再删本地列表
-                notifyDataSetChanged();
+                submDelete(item, position);
             }
         });
     }
@@ -69,7 +67,7 @@ public class CollectionListAdater extends BAdapter<MusicPlayBean> {
     /**
      * 获取播放记录列表
      */
-    private void submDelete(MusicPlayBean item) {
+    private void submDelete(MusicPlayBean item, final int position) {
         WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
         weakHashMap.clear();
         String tel = mSP.getString("telPhone", null);//tel
@@ -79,11 +77,11 @@ public class CollectionListAdater extends BAdapter<MusicPlayBean> {
         String url;
         if (deleteType) {
             //收藏
-            weakHashMap.put("sid", item.id);//token
+            weakHashMap.put("cid", item.sid);//token
             url = App.getRqstUrl(App.headurl + "song/collect/del", weakHashMap);
         } else {
             //播放记录
-            weakHashMap.put("id", item.id);//token
+            weakHashMap.put("id", item.sid);//token
             url = App.getRqstUrl(App.headurl + "song/record/del", weakHashMap);
         }
         Logger.i(TAG, "url.." + url);
@@ -100,6 +98,7 @@ public class CollectionListAdater extends BAdapter<MusicPlayBean> {
                         if (aJson != null) {
                             if (aJson.getCode() == 0) {
                                 getResult("删除成功");
+                                getAllData().remove(position);//再删本地列表
                             } else {
                                 getResult("删除失败" + aJson.getMsg());
                             }
@@ -117,6 +116,7 @@ public class CollectionListAdater extends BAdapter<MusicPlayBean> {
             @Override
             public void run() {
                 ToastUtils.showLongToast(context, msg);
+                notifyDataSetChanged();
             }
         });
     }

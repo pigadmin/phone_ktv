@@ -59,8 +59,9 @@ public class MusicPlayBean implements Serializable {
     @Column(name = "localTime")
     public long localTime;//本地时间
 
-    @Column(name = "isState")
     public boolean isState;//选中状态
+
+    public String sid;//使用于 收藏列表和最近播放列表的删除功能
 
     public MusicPlayBean() {
 
@@ -86,6 +87,7 @@ public class MusicPlayBean implements Serializable {
                 ", isTop=" + isTop +
                 ", localTime=" + localTime +
                 ", isState=" + isState +
+                ", sid='" + sid + '\'' +
                 '}';
     }
 }
