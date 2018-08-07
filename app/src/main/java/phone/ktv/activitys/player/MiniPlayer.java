@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -52,8 +54,12 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(App.START);
+        filter.addAction(App.UPDATELIST);
         mContext.registerReceiver(receiver, filter);
+
+
     }
+
 
     private List<MusicPlayBean> playlist = new ArrayList<>();
 
@@ -61,11 +67,13 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
 
         try {
             playlist = App.mDb.selector(MusicPlayBean.class).findAll();
-            System.out.println(playlist.size() + "@@@@@@@@@");
             if (playlist != null && !playlist.isEmpty()) {
 //                Picasso.with(this).load(playlist.get(0).n)
                 player_name.setText(playlist.get(mSP.getInt("play_index", 0)).name);
                 player_singer.setText(playlist.get(mSP.getInt("play_index", 0)).singerName);
+                if (player.isPlaying()) {
+                    handler.sendEmptyMessage(updateprocess);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,6 +89,8 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
     private LinearLayout llt_115;
 
     private void initPlayer() {
+        player = app.getMediaPlayer();
+
         llt_115 = view.findViewById(R.id.llt_115);
         llt_115.setOnClickListener(this);
 
@@ -89,6 +99,10 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
 
         player_progress = view.findViewById(R.id.player_progress);
         player_progress.setOnSeekBarChangeListener(this);
+
+        System.out.println("xxxxxxxxxxxx" + app.getMediaPlayer().getDuration());
+        player_progress.setMax(app.getMediaPlayer().getDuration());
+
         player_name = view.findViewById(R.id.player_name);
         player_singer = view.findViewById(R.id.player_singer);
 
@@ -99,9 +113,8 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
         player_next = view.findViewById(R.id.player_next);
         player_next.setOnClickListener(this);
 
-        player = app.getMediaPlayer();
 
-
+        PlayStatus();
     }
 
     @Override
@@ -120,21 +133,25 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                     if (getList() == null || getList().isEmpty()) {
                         ToastUtils.showShortToast(mContext, "先添加");
                     } else {
-                        if (app.getMediaPlayer() == null) {
-                            ToastUtils.showShortToast(mContext, "第一次播放");
-                            mContext.sendBroadcast(new Intent(App.PLAY));
-                            player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
-                        } else {
-                            if (app.getMediaPlayer().isPlaying()) {
-                                ToastUtils.showShortToast(mContext, "暂停");
+                        System.out.println(app.getPlaystatus());
+                        switch (app.getPlaystatus()) {
+                            case 0:
+                                mContext.sendBroadcast(new Intent(App.PLAY));
+                                app.setPlaystatus(1);
+                                player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
+                                break;
+                            case 1:
+                                app.setPlaystatus(2);
                                 app.getMediaPlayer().pause();
                                 player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
-                            } else {
-                                ToastUtils.showShortToast(mContext, "播放");
+                                break;
+                            case 2:
+                                app.setPlaystatus(1);
                                 app.getMediaPlayer().start();
                                 player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
-                            }
+                                break;
                         }
+
                     }
                     break;
                 case R.id.player_next://下一首
@@ -150,12 +167,6 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                         ToastUtils.showShortToast(mContext, "先添加");
                         break;
                     } else {
-                        if (app.getMediaPlayer() == null)
-                            return;
-                        if (app.getMediaPlayer().isPlaying()) {
-                            app.getMediaPlayer().pause();
-                            player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
-                        }
                         mContext.startActivity(new Intent(mContext, PlayerActivity.class));
                     }
                     break;
@@ -165,8 +176,21 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
         }
     }
 
+    private void PlayStatus() {
+        switch (app.getPlaystatus()) {
+            case 1:
+                app.setPlaystatus(2);
+                player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
+                break;
+            case 2:
+                app.setPlaystatus(1);
+                player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
+                break;
+        }
+    }
+
+
     private MusicPlayBean now;
-    private Timer timer = null;
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -175,19 +199,8 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                     now = (MusicPlayBean) intent.getSerializableExtra("key");
                     player_name.setText(now.name);
                     player_singer.setText(now.singerName);
-
+                    handler.sendEmptyMessage(updateprocess);
                     player_progress.setMax(app.getMediaPlayer().getDuration());
-
-                    if (timer != null)
-                        timer.cancel();
-                    timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            player_progress.setProgress(app.getMediaPlayer().getCurrentPosition());
-                        }
-                    }, 0, 1000);
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -203,17 +216,38 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-
+        handler.removeMessages(updateprocess);
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         try {
-            app.getMediaPlayer().seekTo(seekBar.getProgress());
+            progress = seekBar.getProgress();
+            handler.sendEmptyMessage(SEEKTO);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private int progress = 0;//拖动进度
+    private final int SEEKTO = 1;//跳转指定进度
+    private final int updateprocess = 2;//更新进度条
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SEEKTO:
+                    app.getMediaPlayer().seekTo(progress);
+                    handler.sendEmptyMessage(updateprocess);
+                    break;
+                case updateprocess:
+                    player_progress.setProgress(app.getMediaPlayer().getCurrentPosition());
+                    handler.sendEmptyMessageDelayed(updateprocess, 1 * 1000);
+                    break;
+            }
+        }
+    };
 
 
 }

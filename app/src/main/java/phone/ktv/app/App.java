@@ -33,6 +33,7 @@ public class App extends Application {
     public static final String START = "START";//开始播放
     public static final String LAST = "LAST";//上一曲
     public static final String NEXT = "NEXT";//下一曲
+    public static final String UPDATELIST = "UPDATELIST";//更新播放列表
     public static Context context;
 
     public static Gson gson;
@@ -43,17 +44,21 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        context = this;
-        requestQueue = Volley.newRequestQueue(this);
-        client = new OkHttpClient();
-        gson = new GsonBuilder().setDateFormat(
-                "yyyy-MM-dd'T'HH:mm:ss").create();
-        config = getSharedPreferences("config", Context.MODE_PRIVATE);
-        initSpeech();
-        config();
-        getip();
-        initDBUtils();
-        startService(new Intent(this, MusicService.class));
+        try {
+            context = this;
+            requestQueue = Volley.newRequestQueue(this);
+            client = new OkHttpClient();
+            gson = new GsonBuilder().setDateFormat(
+                    "yyyy-MM-dd'T'HH:mm:ss").create();
+            config = getSharedPreferences("config", Context.MODE_PRIVATE);
+            initSpeech();
+            config();
+            getip();
+            initDBUtils();
+            startService(new Intent(this, MusicService.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static <T> T jsonToObject(String json, TypeToken<T> typeToken) {
@@ -173,6 +178,17 @@ public class App extends Application {
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
+
+    private int playstatus;
+
+    public int getPlaystatus() {
+        return playstatus;
+    }
+
+    public void setPlaystatus(int playstatus) {
+        this.playstatus = playstatus;
+    }
+
 
     public void setMediaPlayer(MediaPlayer mediaPlayer) {
         this.mediaPlayer = mediaPlayer;

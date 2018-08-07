@@ -16,6 +16,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.SPUtil;
@@ -99,6 +100,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     private void setMediaListene() {
         player = new MediaPlayer();
+        app.setMediaPlayer(player);
         player.setOnPreparedListener(this);
         player.setOnCompletionListener(this);
         player.setOnErrorListener(this);
@@ -118,7 +120,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         System.out.println("准备播放。。。。");
-        app.setMediaPlayer(mediaPlayer);
         mediaPlayer.start();
         Bundle bundle = new Bundle();
         bundle.putSerializable("key", getList().get(index));
@@ -177,10 +178,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             System.out.println(getList().get(index).name);
             player.setDataSource(this,
                     Uri.parse(getList().get(index).path));
-            System.out.println("1111111111111111111" + (player == null));
-//            if (!player.isPlaying()) {
-                player.prepare();
-//            }
+            player.prepareAsync();
         } catch (Exception e) {
             e.printStackTrace();
         }

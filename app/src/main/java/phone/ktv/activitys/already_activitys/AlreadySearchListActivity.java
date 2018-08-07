@@ -100,11 +100,9 @@ public class AlreadySearchListActivity extends AppCompatActivity {
                         updateData2();
                     }
                     break;
-
                 case RankingSearchError://搜索失败
                     ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
-
                 case RankingExpiredToken://Token过期
                     ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;

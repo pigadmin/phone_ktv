@@ -56,46 +56,50 @@ public class AlreadySearchAdater extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            if (isState) {
-                Logger.d(TAG, ".1.isState.." + isState);
-                holder1 = new ViewHolder1();
-                convertView = layoutInflater.inflate(R.layout.item_ringlist_layout, parent, false);
-                holder1.text1 = convertView.findViewById(R.id.name_tvw12);
-                holder1.text2 = convertView.findViewById(R.id.song_name12_tvw);
-                holder1.text3 = convertView.findViewById(R.id.song_type12_tvw);
-                convertView.setTag(holder1);
+        try {
+            if (convertView == null) {
+                if (isState) {
+                    Logger.d(TAG, ".1.isState.." + isState);
+                    holder1 = new ViewHolder1();
+                    convertView = layoutInflater.inflate(R.layout.item_ringlist_layout, parent, false);
+                    holder1.text1 = convertView.findViewById(R.id.name_tvw12);
+                    holder1.text2 = convertView.findViewById(R.id.song_name12_tvw);
+                    holder1.text3 = convertView.findViewById(R.id.song_type12_tvw);
+                    convertView.setTag(holder1);
+                } else {
+                    holder2 = new ViewHolder2();
+                    convertView = layoutInflater.inflate(R.layout.singer_play_item, parent, false);
+                    holder2.text4 = convertView.findViewById(R.id.singertitle12_tvw);
+                    holder2.text5 = convertView.findViewById(R.id.singerTypeName12_tvw);
+                    convertView.setTag(holder2);
+                }
             } else {
-                holder2 = new ViewHolder2();
-                convertView = layoutInflater.inflate(R.layout.singer_play_item, parent, false);
-                holder2.text4 = convertView.findViewById(R.id.singertitle12_tvw);
-                holder2.text5 = convertView.findViewById(R.id.singerTypeName12_tvw);
-                convertView.setTag(holder2);
+                Logger.d(TAG, "..2..isState...." + isState);
+                if (isState) {
+                    holder1 = (ViewHolder1) convertView.getTag();
+                } else {
+                    holder2 = (ViewHolder2) convertView.getTag();//問題
+                }
             }
-        } else {
-            Logger.d(TAG, "..2..isState...." + isState);
+            Logger.d(TAG, "..3....isState......" + isState);
             if (isState) {
-                holder1 = (ViewHolder1) convertView.getTag();
-            } else {
-                holder2 = (ViewHolder2) convertView.getTag();
-            }
-        }
-        Logger.d(TAG, "..3....isState......" + isState);
-        if (isState) {
-            final MusicPlayBean bean = list1.get(position);
-            holder1.text1.setText(bean.name);
-            holder1.text2.setText(bean.singerName);
+                final MusicPlayBean bean = list1.get(position);
+                holder1.text1.setText(bean.name);
+                holder1.text2.setText(bean.singerName);
 
-            if (TextUtils.isEmpty(bean.label)) {
-                holder1.text3.setVisibility(View.GONE);
+                if (TextUtils.isEmpty(bean.label)) {
+                    holder1.text3.setVisibility(View.GONE);
+                } else {
+                    holder1.text3.setVisibility(View.VISIBLE);
+                    holder1.text3.setText(bean.label);
+                }
             } else {
-                holder1.text3.setVisibility(View.VISIBLE);
-                holder1.text3.setText(bean.label);
+                SingerNumBean.SingerBean playBean = list2.get(position);
+                holder2.text4.setText(playBean.name);
+                holder2.text5.setText(playBean.singerTypeName);
             }
-        } else {
-            SingerNumBean.SingerBean playBean = list2.get(position);
-            holder2.text4.setText(playBean.name);
-            holder2.text5.setText(playBean.singerTypeName);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return convertView;
     }

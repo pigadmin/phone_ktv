@@ -7,26 +7,19 @@ import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
-import android.widget.MediaController;
-import android.widget.VideoView;
 
-import org.xutils.ex.DbException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
-import phone.ktv.tootls.FULL;
 import phone.ktv.tootls.SPUtil;
 
 public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
@@ -57,24 +50,14 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
         screenHeight = wm.getDefaultDisplay().getHeight();
         maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
-        play();
+
     }
 
 
     private void play() {
         try {
             if (!getList().isEmpty()) {
-                //            player.setVideoURI(Uri.parse(getList().get(index).path));
-                //            if (app.getMediaPlayer() != null) {
-                //                if (app.getMediaPlayer().getCurrentPosition() > 0) {
-                //                    player.seekTo(app.getMediaPlayer().getCurrentPosition());
-                //                }
-                //            }
-//                mediaPlayer.setDataSource(this, Uri.parse(getList().get(index).path));
-//
-//                mediaPlayer.prepareAsync();
 
-                mediaPlayer.start();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,7 +93,7 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
     //    private VideoView player;
     SurfaceView surface;
     SurfaceHolder holder;
-    MediaPlayer mediaPlayer;
+    MediaPlayer player;
 
     private void init() {
         try {
@@ -121,17 +104,19 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
 //        player.setOnErrorListener(this);
 //        player.setOnCompletionListener(this);
 //        player.setOnPreparedListener(this);
-//            mediaPlayer = app.getMediaPlayer();
-            app.getMediaPlayer().setOnErrorListener(this);
-            app.getMediaPlayer().setOnCompletionListener(this);
-            app.getMediaPlayer().setOnPreparedListener(this);
+            player = app.getMediaPlayer();
+            player.start();
+            player.setOnErrorListener(this);
+            player.setOnCompletionListener(this);
+            player.setOnPreparedListener(this);
+
             surface = findViewById(R.id.surface);
             holder = surface.getHolder();
             holder.addCallback(new SurfaceHolder.Callback() {
                 @Override
                 public void surfaceCreated(SurfaceHolder surfaceHolder) {
                     System.out.println("surfaceCreatedsurfaceCreated");
-                    app.getMediaPlayer().setDisplay(surfaceHolder);
+                    player.setDisplay(surfaceHolder);
                 }
 
                 @Override
@@ -153,17 +138,26 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         System.out.println("下一首");
+
         next();
     }
 
     //下一曲
     private void next() {
-        if (index < getList().size() - 1) {
-            index++;
-        } else {
-            index = 0;
+
+        try {
+            if (index < getList().size() - 1) {
+                index++;
+            } else {
+                index = 0;
+            }
+            player.setDataSource(this, Uri.parse(getList().get(index).path));
+            player.prepareAsync();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        play();
+
     }
 
     @Override
