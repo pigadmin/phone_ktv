@@ -38,7 +38,7 @@ import phone.ktv.views.CustomTopTitleView;
 /**
  * 忘记密码
  */
-public class ForgetPsdActivity extends AppCompatActivity implements View.OnClickListener {
+public class ForgetPsdActivity extends phone.ktv.BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "ForgetPsdActivity";
     private Context mContext;

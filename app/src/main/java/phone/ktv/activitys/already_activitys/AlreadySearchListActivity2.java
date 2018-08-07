@@ -28,6 +28,7 @@ import java.util.WeakHashMap;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import phone.ktv.BaseActivity;
 import phone.ktv.R;
 import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.app.App;
@@ -47,7 +48,7 @@ import phone.ktv.views.MyListView;
 /**
  * 搜索2级 (搜索歌曲)
  */
-public class AlreadySearchListActivity2 extends AppCompatActivity {
+public class AlreadySearchListActivity2 extends BaseActivity {
 
     private static final String TAG = "AlreadySearchListActivity2";
 

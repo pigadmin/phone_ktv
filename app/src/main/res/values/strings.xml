@@ -12,4 +12,5 @@
     <string name="tabTitle3_cat">歌曲排行榜</string>
     <string name="tabTitle4_cat">收藏列表</string>
     <string name="tabTitle5_cat">最近播放</string>
+    <string name="title_activity_base">BaseActivity</string>
 </resources>

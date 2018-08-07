@@ -12,7 +12,7 @@ import phone.ktv.views.CustomTopTitleView;
 /**
  * 设置
  */
-public class SetUpActivity extends AppCompatActivity {
+public class SetUpActivity extends phone.ktv.BaseActivity {
 
     private static final String TAG = "SetUpActivity";
 

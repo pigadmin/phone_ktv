@@ -39,7 +39,7 @@ import phone.ktv.views.MyListView;
 /**
  * 产品中心
  */
-public class ProductRecyActivity extends AppCompatActivity {
+public class ProductRecyActivity extends phone.ktv.BaseActivity {
 
     private static final String TAG = "ProductRecyActivity";
 

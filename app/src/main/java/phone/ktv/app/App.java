@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -24,6 +25,7 @@ import java.util.Map;
 import okhttp3.OkHttpClient;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.service.MusicService;
+import phone.ktv.service.SocketService;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.tootls.xDBUtils;
@@ -33,13 +35,24 @@ public class App extends Application {
     public static final String START = "START";//开始播放
     public static final String LAST = "LAST";//上一曲
     public static final String NEXT = "NEXT";//下一曲
-    public static final String UPDATELIST = "UPDATELIST";//更新播放列表
+    public static final String UPDATEPLAYER = "UPDATEPLAYER";//更新播放列表
+
     public static Context context;
 
     public static Gson gson;
     public static OkHttpClient client;
     public static RequestQueue requestQueue;
     private static SharedPreferences config;
+
+    public View getView() {
+        return view;
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    private View view;
 
     @Override
     public void onCreate() {
@@ -56,6 +69,7 @@ public class App extends Application {
             getip();
             initDBUtils();
             startService(new Intent(this, MusicService.class));
+            startService(new Intent(this, SocketService.class));
         } catch (Exception e) {
             e.printStackTrace();
         }

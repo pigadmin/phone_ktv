@@ -46,7 +46,7 @@ import phone.ktv.views.MyListView;
 /**
  * 最近播放列表
  */
-public class LatelyListActivity extends AppCompatActivity {
+public class LatelyListActivity extends phone.ktv.BaseActivity {
 
     private static final String TAG = "LatelyListActivity";
 

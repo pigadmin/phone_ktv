@@ -42,7 +42,7 @@ import phone.ktv.views.MyListView;
 /**
  * (点歌台)通过歌星搜索歌曲的列表  4级
  */
-public class SongDeskActivity4 extends AppCompatActivity {
+public class SongDeskActivity4 extends phone.ktv.BaseActivity {
 
     private static final String TAG = "SongDeskActivity4";
 

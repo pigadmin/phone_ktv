@@ -37,7 +37,7 @@ import phone.ktv.views.CustomTopTitleView;
 /**
  * 注册页
  */
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends phone.ktv.BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "RegisterActivity";
 

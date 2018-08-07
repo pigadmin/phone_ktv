@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.WeakHashMap;
 
+import phone.ktv.BaseActivity;
 import phone.ktv.R;
 import phone.ktv.adaters.CollectionListAdater;
 import phone.ktv.app.App;
@@ -43,7 +44,7 @@ import phone.ktv.views.MyListView;
 /**
  * 收藏列表
  */
-public class CollectionListActivity extends AppCompatActivity {
+public class CollectionListActivity extends BaseActivity {
 
     private static final String TAG = "CollectionListActivity";
 

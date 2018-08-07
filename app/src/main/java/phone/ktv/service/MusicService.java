@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -170,11 +171,13 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     // 播放歌曲
     private void playerSong() {
         try {
-
+            System.out.println("playerSongplayerSongplayerSongplayerSongplayerSongplayerSong" + player.isPlaying());
             if (getList() == null || getList().isEmpty())
                 return;
-            player.stop();
-            player.reset();
+            if (player.isPlaying()) {
+                player.stop();
+                player.reset();
+            }
             System.out.println(getList().get(index).name);
             player.setDataSource(this,
                     Uri.parse(getList().get(index).path));

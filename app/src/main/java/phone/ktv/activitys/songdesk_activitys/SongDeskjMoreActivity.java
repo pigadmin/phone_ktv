@@ -43,7 +43,7 @@ import phone.ktv.views.MyGridView;
 /**
  * 点歌台分类(歌曲大类-更多) 1级
  */
-public class SongDeskjMoreActivity extends AppCompatActivity {
+public class SongDeskjMoreActivity extends phone.ktv.BaseActivity {
 
     private static final String TAG = "SongDeskjMoreActivity";
 

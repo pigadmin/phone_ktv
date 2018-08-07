@@ -43,4 +43,5 @@ dependencies {
     implementation files('libs/Msc.jar')
     implementation files('libs/Sunflower.jar')
     implementation 'com.android.support:design:27.+'
+    implementation files('libs/engine.io-client-1.0.0.jar')
 }

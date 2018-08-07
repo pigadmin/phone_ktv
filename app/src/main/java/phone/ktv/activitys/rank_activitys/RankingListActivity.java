@@ -42,7 +42,7 @@ import phone.ktv.views.MyListView;
 /**
  * 歌曲排行榜 2级
  */
-public class RankingListActivity extends AppCompatActivity {
+public class RankingListActivity extends phone.ktv.BaseActivity {
 
     private static final String TAG = "RankingListActivity";
 

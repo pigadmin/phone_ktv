@@ -42,7 +42,7 @@ import phone.ktv.views.CustomTextView;
 /**
  * 主页
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, PermissionRequestUtil.PermissionRequestListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, PermissionRequestUtil.PermissionRequestListener {
 
     private static final String TAG = "MainActivity";
     private PagerSlidingTabStripExtends mNewsTabs;

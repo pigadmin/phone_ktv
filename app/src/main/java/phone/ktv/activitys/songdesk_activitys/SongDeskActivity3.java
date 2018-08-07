@@ -42,7 +42,7 @@ import phone.ktv.views.MyGridView;
 /**
  * 歌星列表(点歌台) (薛之谦,许嵩,刘德华)  3级
  */
-public class SongDeskActivity3 extends AppCompatActivity {
+public class SongDeskActivity3 extends phone.ktv.BaseActivity {
 
     private static final String TAG = "SongDeskActivity3";
 

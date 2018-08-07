@@ -41,7 +41,7 @@ import phone.ktv.views.MyGridView;
 /**
  * 排行榜分类(更多) 1级
  */
-public class RankingMoreActivity extends AppCompatActivity {
+public class RankingMoreActivity extends phone.ktv.BaseActivity {
 
     private static final String TAG = "RankingMoreActivity";
 

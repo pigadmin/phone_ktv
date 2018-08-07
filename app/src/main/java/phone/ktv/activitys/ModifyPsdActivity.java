@@ -36,7 +36,7 @@ import phone.ktv.views.CustomTopTitleView;
 /**
  * 修改密码
  */
-public class ModifyPsdActivity extends AppCompatActivity implements View.OnClickListener {
+public class ModifyPsdActivity extends phone.ktv.BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "ModifyPsdActivity";
 

@@ -43,7 +43,7 @@ import phone.ktv.views.MyGridView;
 /**
  * 歌星分类(点歌台) (大陆男歌星,内地女歌星,港台女歌星,国语合唱)  2级
  */
-public class SongDeskActivity2 extends AppCompatActivity {
+public class SongDeskActivity2 extends phone.ktv.BaseActivity {
 
     private static final String TAG = "SongDeskActivity2";
 

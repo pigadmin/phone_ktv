@@ -64,19 +64,6 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
         }
     }
 
-    @Override
-    public void onBackPressed() {
-//        System.out.println("onBackPressed" + player.getCurrentPosition());
-//        try {
-//            app.getMediaPlayer().seekTo(player.getCurrentPosition());
-//            if (!app.getMediaPlayer().isPlaying()) {
-//                app.getMediaPlayer().start();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        super.onBackPressed();
-    }
 
 
     private List<MusicPlayBean> playlist = new ArrayList<>();
@@ -90,20 +77,12 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
         return playlist;
     }
 
-    //    private VideoView player;
-    SurfaceView surface;
-    SurfaceHolder holder;
-    MediaPlayer player;
+    private SurfaceView surface;
+    private  SurfaceHolder holder;
+    private  MediaPlayer player;
 
     private void init() {
         try {
-//        player = findViewById(R.id.player);
-//
-//        FULL.star(player);
-//        player.setMediaController(new MediaController(this));
-//        player.setOnErrorListener(this);
-//        player.setOnCompletionListener(this);
-//        player.setOnPreparedListener(this);
             player = app.getMediaPlayer();
             player.start();
             player.setOnErrorListener(this);
@@ -138,13 +117,11 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         System.out.println("下一首");
-
         next();
     }
 
     //下一曲
     private void next() {
-
         try {
             if (index < getList().size() - 1) {
                 index++;

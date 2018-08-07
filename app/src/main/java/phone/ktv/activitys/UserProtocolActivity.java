@@ -19,7 +19,7 @@ import phone.ktv.views.CustomTopTitleView;
 /**
  * 用户协议
  */
-public class UserProtocolActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserProtocolActivity extends phone.ktv.BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "UserProtocolActivity";
 
