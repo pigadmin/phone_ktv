@@ -19,7 +19,8 @@ public class SongBtmDialog extends Dialog {
     public TextView mStartPaly;//开始播放
     public TextView mAdd;//添加收藏
     public TextView mPoint;//添加已点
-    public TextView mCanel;//取消
+    public TextView mDownload;//下载
+    public TextView mCanel;//关闭
 
     public SongBtmDialog(Context context, String title, String message) {
         super(context, R.style.CustomDialog);
@@ -35,7 +36,8 @@ public class SongBtmDialog extends Dialog {
         mStartPaly = (TextView) findViewById(R.id.pow_tvw_3);
         mAdd = (TextView) findViewById(R.id.pow_tvw_4);
         mPoint = (TextView) findViewById(R.id.pow_tvw_5);
-        mCanel = (TextView) findViewById(R.id.pow_tvw_6);
+        mDownload = (TextView) findViewById(R.id.pow_tvw_6);
+        mCanel = (TextView) findViewById(R.id.pow_tvw_7);
         mSongName.setText(title);
         mSingName.setText(message);
     }

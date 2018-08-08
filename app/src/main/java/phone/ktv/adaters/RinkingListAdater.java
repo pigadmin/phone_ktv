@@ -161,6 +161,13 @@ public class RinkingListAdater extends BAdapter<MusicPlayBean> {
             }
         });
 
+        btmDialog.mDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btmDialog.dismiss();
+            }
+        });
+
         btmDialog.mCanel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
