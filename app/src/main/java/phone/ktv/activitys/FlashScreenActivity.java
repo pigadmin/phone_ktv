@@ -33,6 +33,7 @@ import phone.ktv.bean.AJson;
 import phone.ktv.bean.AdverOpenOne;
 import phone.ktv.bean.ColleResultBean;
 import phone.ktv.bean.CollentBean1;
+import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.CallBackUtils;
 import phone.ktv.tootls.FULL;
 import phone.ktv.tootls.GsonJsonUtils;
@@ -42,6 +43,7 @@ import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
+import phone.ktv.views.BtmDialog;
 
 /**
  * 闪屏页面
@@ -152,7 +154,9 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            toStep();
+            if (NetUtils.hasNetwork(mContext)) {
+                toStep();
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -173,6 +177,7 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
         Logger.i(TAG, "url.." + url);
 
         if (NetUtils.hasNetwork(mContext)) {
+            mNumtext.setVisibility(View.VISIBLE);
             OkhttpUtils.doStart(url, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -230,8 +235,9 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
                 }
             });
         } else {
+            networkException();
 //            mSvProgressHUD.dismiss();
-            ToastUtils.showShortToast(mContext, "网络连接异常,请检查网络配置");
+            mNumtext.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -418,5 +424,23 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
                 getResult(aJson.msg);
             }
         }
+    }
+
+    private void networkException() {
+        final BtmDialog dialog = new BtmDialog(this, "温馨提示", "网络连接异常,请检查网络状态");
+        dialog.confirm.setText("请重试");
+        AlertDialogHelper.BtmDialogDerive1(dialog, true, false, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submData();
+                dialog.dismiss();
+            }
+        }, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.exit(0);
+                dialog.dismiss();
+            }
+        });
     }
 }
