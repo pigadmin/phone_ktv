@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="@mipmap/bottom_gequ_k"
+    android:background="@color/white"
     android:orientation="horizontal">
 
     <VideoView
@@ -14,11 +14,11 @@
 
     <ImageView
         android:id="@+id/singer_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:padding="5dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/touxiang_1" />
 
     <LinearLayout
         android:layout_width="match_parent"
