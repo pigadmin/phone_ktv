@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.VideoView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -33,10 +34,13 @@ import phone.ktv.tootls.xDBUtils;
 
 public class App extends Application {
     public static final String PLAY = "PLAY";//去播放
-    public static final String START = "START";//开始播放
     public static final String LAST = "LAST";//上一曲
     public static final String NEXT = "NEXT";//下一曲
-    public static final String UPDATEPLAYER = "UPDATEPLAYER";//更新播放列表
+//    public static final String DESTROY = "DESTROY";//更新播放列表
+
+    public static final String SWITCHPLAY = "SWITCHPLAY";//歌曲切換
+    public static final String STARTPLAY = "STARTPLAY";//开始播放
+
 
     public static Context context;
 

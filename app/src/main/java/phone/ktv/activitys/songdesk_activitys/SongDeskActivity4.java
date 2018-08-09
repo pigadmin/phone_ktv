@@ -192,6 +192,7 @@ public class SongDeskActivity4 extends phone.ktv.BaseActivity {
             LatelyListAddUtils utils = new LatelyListAddUtils(mSP, SongDeskActivity4.this, bean);
             utils.getLatelyList();
             App.saveData(bean, mContext, TAG, false);
+            sendBroadcast(new Intent(App.SWITCHPLAY));
         }
     }
 
@@ -230,6 +231,7 @@ public class SongDeskActivity4 extends phone.ktv.BaseActivity {
                         App.saveData(musicPlayBean, SongDeskActivity4.this, TAG, false);
                         sendBroadcast(new Intent(App.PLAY));
                     }
+                    sendBroadcast(new Intent(App.SWITCHPLAY));
                 } catch (Exception e) {
                     Logger.d(TAG, "...点歌台保存失败:" + e.getMessage());
                 }

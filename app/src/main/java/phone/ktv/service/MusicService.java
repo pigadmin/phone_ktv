@@ -7,17 +7,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.SPUtil;
@@ -65,7 +63,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private List<MusicPlayBean> getList() {
         try {
             playlist = App.mDb.selector(MusicPlayBean.class).findAll();
-            System.out.println(playlist.size() + "@@@@@@@@@");
+//            System.out.println(playlist.size() + "@@@@@@@@@");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,7 +82,11 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             getindex();//刷新下标
             if (intent.getAction().equals(App.PLAY)) {
                 System.out.println("播放");
-                playerSong();
+                try {
+                    playerSong();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } else if (intent.getAction().equals(App.LAST)) {
                 System.out.println("上一首");
                 last();
@@ -105,6 +107,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         player.setOnPreparedListener(this);
         player.setOnCompletionListener(this);
         player.setOnErrorListener(this);
+
     }
 
     @Override
@@ -122,31 +125,42 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     public void onPrepared(MediaPlayer mediaPlayer) {
         System.out.println("准备播放。。。。");
         mediaPlayer.start();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("key", getList().get(index));
-        sendBroadcast(new Intent(App.START).putExtras(bundle));
-        spUtil.putInt("play_index", index);//播放完成更新下标
+        sendBroadcast(new Intent(App.STARTPLAY));
     }
+
 
     //上一曲
     private void last() {
-        if (index > 0) {
-            index--;
-        } else {
-            index = getList().size() - 1;
+        try {
+            Log.e(TAG, index + "@@@@" + (playlist.size() - 1) + "@@@@" + (index < playlist.size() - 1));
+            getList();
+            getindex();
+            if (index > 0) {
+                index--;
+            } else {
+                index = playlist.size() - 1;
+            }
+            playerSong();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        playerSong();
     }
 
     //下一曲
     private void next() {
-        Log.e(TAG, index + "@@@@" + (getList().size() - 1) + "@@@@" + (index < getList().size() - 1));
-        if (index < getList().size() - 1) {
-            index++;
-        } else {
-            index = 0;
+        try {
+            getList();
+            getindex();
+            Log.e(TAG, index + "@@@@" + (playlist.size() - 1) + "@@@@" + (index < playlist.size() - 1));
+            if (index < playlist.size() - 1) {
+                index++;
+            } else {
+                index = 0;
+            }
+            playerSong();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        playerSong();
     }
 
 
@@ -168,22 +182,22 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
 
-    // 播放歌曲
-    private void playerSong() {
+    // 播放哪一首歌
+    private void playerSong() throws IllegalStateException,
+            IOException {
         try {
-            System.out.println("playerSongplayerSongplayerSongplayerSongplayerSongplayerSong" + player.isPlaying());
-            if (getList() == null || getList().isEmpty())
-                return;
-            if (player.isPlaying()) {
-                player.stop();
-                player.reset();
-            }
-            System.out.println(getList().get(index).name);
-            player.setDataSource(this,
-                    Uri.parse(getList().get(index).path));
-            player.prepareAsync();
+            spUtil.putInt("play_index", index);
+            sendBroadcast(new Intent(App.SWITCHPLAY));
+            Log.e(TAG, playlist.get(index).name + "---" + playlist.get(index).path);
+            app.getMediaPlayer().stop();
+            app.getMediaPlayer().reset();
+            app.getMediaPlayer().setDataSource(this,
+                    Uri.parse(playlist.get(index).path));
+            app.getMediaPlayer().prepareAsync();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
 }

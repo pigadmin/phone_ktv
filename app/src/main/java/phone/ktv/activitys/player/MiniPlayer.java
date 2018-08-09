@@ -5,26 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import phone.ktv.MainActivity;
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
@@ -54,41 +47,37 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
 
 
         IntentFilter filter = new IntentFilter();
-        filter.addAction(App.START);
-        filter.addAction(App.UPDATEPLAYER);
+        filter.addAction(App.STARTPLAY);
+        filter.addAction(App.SWITCHPLAY);
         mContext.registerReceiver(receiver, filter);
+
     }
 
-    private void ColseRece() {
-        mContext.unregisterReceiver(receiver);
-    }
-
-
-    private void UpdatePlayer() {
-
-        try {//                Picasso.with(this).load(playlist.get(0).n)
-            player_name.setText(playlist.get(mSP.getInt("play_index", 0)).name);
-            player_singer.setText(playlist.get(mSP.getInt("play_index", 0)).singerName);
-
-            handler.sendEmptyMessage(updateprocess);
-            PlayStatus();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                getList();
+                if (intent.getAction().equals(App.SWITCHPLAY)) {
+                    handler.sendEmptyMessage(SWITCHPLAY);
+                } else if (intent.getAction().equals(App.STARTPLAY)) {
+                    handler.sendEmptyMessage(STARTPLAY);
+                }
+//                else if (intent.getAction().equals(App.DESTROY)) {
+//                    context.unregisterReceiver(receiver);
+//                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-    }
+    };
 
 
     private List<MusicPlayBean> playlist = new ArrayList<>();
 
     private List<MusicPlayBean> getList() {
-
         try {
             playlist = App.mDb.selector(MusicPlayBean.class).findAll();
-//            if (playlist != null && !playlist.isEmpty()) {
-//
-//                UpdatePlayer();
-//
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -136,18 +125,19 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
     @Override
     public void onClick(View v) {
         try {
+            List<MusicPlayBean> list = getList();
             switch (v.getId()) {
                 case R.id.player_last://上一首
-                    if (getList() == null || getList().isEmpty()) {
-                        ToastUtils.showShortToast(mContext, "先添加");
+                    if (list == null || list.isEmpty()) {
+                        ToastUtils.showShortToast(mContext, "去添加");
                         break;
                     } else {
                         mContext.sendBroadcast(new Intent(App.LAST));
                     }
                     break;
                 case R.id.player_play://播放暂停
-                    if (getList() == null || getList().isEmpty()) {
-                        ToastUtils.showShortToast(mContext, "先添加");
+                    if (list == null || list.isEmpty()) {
+                        ToastUtils.showShortToast(mContext, "去添加");
                     } else {
                         System.out.println("************************点击" + app.getPlaystatus());
                         switch (app.getPlaystatus()) {
@@ -171,17 +161,19 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                     }
                     break;
                 case R.id.player_next://下一首
-                    if (getList() == null || getList().isEmpty()) {
-                        ToastUtils.showShortToast(mContext, "先添加");
+                    if (list == null || list.isEmpty()) {
+                        ToastUtils.showShortToast(mContext, "去添加");
                     } else {
                         mContext.sendBroadcast(new Intent(App.NEXT));
                     }
                     break;
                 case R.id.llt_115:
                 case R.id.singer_icon://图标
-                    if (getList() == null || getList().isEmpty()) {
-                        ToastUtils.showShortToast(mContext, "先添加");
+                    if (list == null || list.isEmpty()) {
+                        ToastUtils.showShortToast(mContext, "去添加");
                         break;
+                    } else if (!app.getMediaPlayer().isPlaying()) {
+                        ToastUtils.showShortToast(mContext, "去播放");
                     } else {
                         mContext.startActivity(new Intent(mContext, PlayerActivity.class));
                     }
@@ -192,38 +184,50 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
         }
     }
 
-    private void PlayStatus() {
-        switch (app.getPlaystatus()) {
-            case 1:
-                player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
-                break;
-            case 2:
-                player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
-                break;
-        }
-    }
 
-
-    private MusicPlayBean now;
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
+    private int play_index = 0;
+    private int progress = 0;//拖动进度
+    private final int SEEKTO = 1;//跳转指定进度
+    private final int UPDATEPROCESS = 2;//更新进度条
+    private final int SWITCHPLAY = 3;//更新播放信息
+    private final int STARTPLAY = 4;//更新播放信息
+    private Handler handler = new Handler() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             try {
-                if (intent.getAction().equals(App.START)) {
-                    now = (MusicPlayBean) intent.getSerializableExtra("key");
-                    player_name.setText(now.name);
-                    player_singer.setText(now.singerName);
-                    handler.sendEmptyMessage(updateprocess);
-                    player_progress.setMax(player.getDuration());
-                } else if (intent.getAction().equals(App.UPDATEPLAYER)) {
-                    UpdatePlayer();
+                switch (msg.what) {
+                    case SEEKTO://拖动
+                        player.seekTo(progress);
+                        handler.sendEmptyMessage(UPDATEPROCESS);
+                        break;
+                    case UPDATEPROCESS://实时更新进度
+                        player_progress.setProgress(player.getCurrentPosition());
+                        handler.sendEmptyMessageDelayed(UPDATEPROCESS, 1 * 1000);
+                        break;
+                    case SWITCHPLAY://更新播放信息
+                        play_index = mSP.getInt("play_index", 0);
+                        player_name.setText(playlist.get(play_index).name);
+                        player_singer.setText(playlist.get(play_index).singerName);
+                        switch (app.getPlaystatus()) {
+                            case 1:
+                                player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
+                                break;
+                            case 2:
+                                player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
+                                break;
+                        }
+                        break;
+                    case STARTPLAY://去更新进度
+                        player_progress.setMax(player.getDuration());
+                        handler.sendEmptyMessage(UPDATEPROCESS);
+                        break;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     };
-
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -232,7 +236,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        handler.removeMessages(updateprocess);
+        handler.removeMessages(UPDATEPROCESS);
     }
 
     @Override
@@ -244,26 +248,4 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
             e.printStackTrace();
         }
     }
-
-    private int progress = 0;//拖动进度
-    private final int SEEKTO = 1;//跳转指定进度
-    private final int updateprocess = 2;//更新进度条
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case SEEKTO:
-                    player.seekTo(progress);
-                    handler.sendEmptyMessage(updateprocess);
-                    break;
-                case updateprocess:
-                    player_progress.setProgress(player.getCurrentPosition());
-                    handler.sendEmptyMessageDelayed(updateprocess, 1 * 1000);
-                    break;
-            }
-        }
-    };
-
-
 }

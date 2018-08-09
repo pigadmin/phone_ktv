@@ -10,7 +10,14 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         System.out.println("onResumeonResumeonResumeonResume");
-        sendBroadcast(new Intent(App.UPDATEPLAYER));
+        sendBroadcast(new Intent(App.SWITCHPLAY));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("onDestroyonDestroyonDestroyonDestroy");
+//        sendBroadcast(new Intent(App.DESTROY));
     }
 
     @Override

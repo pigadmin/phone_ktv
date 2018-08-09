@@ -189,6 +189,7 @@ public class RankingListActivity extends phone.ktv.BaseActivity {
             LatelyListAddUtils utils = new LatelyListAddUtils(mSP, RankingListActivity.this, bean);
             utils.getLatelyList();
             App.saveData(bean, mContext, TAG, false);
+            sendBroadcast(new Intent(App.SWITCHPLAY));
         }
     }
 
@@ -227,6 +228,7 @@ public class RankingListActivity extends phone.ktv.BaseActivity {
                         App.saveData(musicPlayBean, RankingListActivity.this, TAG, false);
                         sendBroadcast(new Intent(App.PLAY));
                     }
+                    sendBroadcast(new Intent(App.SWITCHPLAY));
                 } catch (Exception e) {
                     Logger.d(TAG, "...排行榜保存失败:" + e.getMessage());
                 }

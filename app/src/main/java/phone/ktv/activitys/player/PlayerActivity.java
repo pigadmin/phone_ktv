@@ -84,7 +84,7 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
     private void init() {
         try {
             player = app.getMediaPlayer();
-            player.start();
+//            player.start();
             player.setOnErrorListener(this);
             player.setOnCompletionListener(this);
             player.setOnPreparedListener(this);
@@ -146,10 +146,6 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
     public void onPrepared(MediaPlayer mediaPlayer) {
         System.out.println("准备播放。。。。");
         mediaPlayer.start();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("key", getList().get(index));
-        sendBroadcast(new Intent(App.START).putExtras(bundle));
-        spUtil.putInt("play_index", index);
     }
 
     @Override
