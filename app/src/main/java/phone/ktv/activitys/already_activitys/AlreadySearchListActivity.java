@@ -30,7 +30,7 @@ import java.util.WeakHashMap;
 import phone.ktv.BaseActivity;
 import phone.ktv.R;
 import phone.ktv.adaters.AlreadySearchSingAdater;
-import phone.ktv.adaters.AlreadySearchSongAdater;
+import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.MusicPlayBean;
@@ -72,7 +72,7 @@ public class AlreadySearchListActivity extends BaseActivity {
     private PullToRefreshScrollView mPullToRefresh2;
     private ILoadingLayout mLoadingLayoutProxy2;
 
-    private AlreadySearchSongAdater mAlreadyAdater;
+    private RinkingListAdater mAlreadyAdater;
     private AlreadySearchSingAdater mAlreadyAdaterTwo;
 
     private List<MusicPlayBean> musicPlayBeans;
@@ -149,7 +149,7 @@ public class AlreadySearchListActivity extends BaseActivity {
 
         mPullToRefresh = findViewById(R.id.sv);
         mListView1 = findViewById(R.id.list112_view);
-        mAlreadyAdater = new AlreadySearchSongAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans, mSP, AlreadySearchListActivity.this);
+        mAlreadyAdater = new RinkingListAdater(mContext, R.layout.item_ringlist_layout, musicPlayBeans, mSP, AlreadySearchListActivity.this);
         mListView1.setAdapter(mAlreadyAdater);
 
         mPullToRefresh2 = findViewById(R.id.sv_2);
