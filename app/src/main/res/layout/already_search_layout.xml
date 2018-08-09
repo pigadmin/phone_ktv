@@ -9,41 +9,49 @@
         android:id="@+id/inclub_ilb_1"
         layout="@layout/iclube_already_serach_top" />
 
-    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
-        android:id="@+id/sv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/min_player_mpr"
         android:layout_below="@+id/inclub_ilb_1"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:scrollbars="none"
-        ptr:ptrMode="both">
+        android:orientation="vertical">
 
-        <phone.ktv.views.MyListView
-            android:id="@+id/list112_view"
+        <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+            android:id="@+id/sv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="5dp" />
+            android:layout_height="match_parent"
+            android:layout_below="@+id/inclub_ilb_1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scrollbars="none"
+            ptr:ptrMode="both">
 
-    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+            <phone.ktv.views.MyListView
+                android:id="@+id/list112_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dividerHeight="5dp" />
 
-    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
-        android:id="@+id/sv_2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/inclub_ilb_1"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:scrollbars="none"
-        ptr:ptrMode="both">
+        </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 
-        <phone.ktv.views.MyListView
-            android:id="@+id/list112_view_2"
+        <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+            android:id="@+id/sv_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="5dp" />
+            android:layout_height="match_parent"
+            android:layout_below="@+id/inclub_ilb_1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scrollbars="none"
+            ptr:ptrMode="both">
 
-    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+            <phone.ktv.views.MyListView
+                android:id="@+id/list112_view_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dividerHeight="5dp" />
+
+        </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/no_data_tvw"
@@ -54,5 +62,11 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         android:visibility="gone" />
+
+    <phone.ktv.activitys.player.MiniPlayer
+        android:id="@+id/min_player_mpr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
