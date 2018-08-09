@@ -36,7 +36,8 @@
     <phone.ktv.views.CustomSetupView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        custom:no_open_isState="false"
+        custom:no_open_isState="true"
+        custom:no_switch_btn_isState="false"
         custom:setup_text="允许流量下载"
         custom:switch_btn_isState="false" />
 
@@ -45,7 +46,8 @@
     <phone.ktv.views.CustomSetupView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        custom:no_open_isState="false"
+        custom:no_open_isState="true"
+        custom:no_switch_btn_isState="false"
         custom:setup_text="边听边存"
         custom:switch_btn_isState="false" />
 
