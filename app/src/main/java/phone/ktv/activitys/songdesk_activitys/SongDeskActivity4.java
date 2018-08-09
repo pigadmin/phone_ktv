@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -228,7 +227,7 @@ public class SongDeskActivity4 extends phone.ktv.BaseActivity {
             if (musicPlayBeans != null) {
                 try {
                     for (MusicPlayBean musicPlayBean : musicPlayBeans) {
-                        App.mDb.save(musicPlayBean);
+                        App.saveData(musicPlayBean, SongDeskActivity4.this, TAG, false);
                         sendBroadcast(new Intent(App.PLAY));
                     }
                 } catch (Exception e) {

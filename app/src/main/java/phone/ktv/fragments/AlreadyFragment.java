@@ -106,6 +106,7 @@ public class AlreadyFragment extends Fragment {
                 for (MusicPlayBean playBean : playBeans) {
                     playBean.isState = false;
                     mPlayBeanList.add(playBean);
+                    Logger.d(TAG, "playBeans.." + playBean.toString());
                 }
                 handler.sendEmptyMessage(Search_Music_Success);
             } else {

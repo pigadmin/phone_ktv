@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -298,7 +297,7 @@ public class CollectionListActivity extends BaseActivity {
             if (mCollentBean3s != null) {
                 try {
                     for (MusicPlayBean musicPlayBean : mCollentBean3s) {
-                        App.mDb.save(musicPlayBean);
+                        App.saveData(musicPlayBean, CollectionListActivity.this, TAG, false);
                         sendBroadcast(new Intent(App.PLAY));
                     }
                 } catch (Exception e) {
