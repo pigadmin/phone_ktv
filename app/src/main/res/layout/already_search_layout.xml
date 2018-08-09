@@ -27,14 +27,32 @@
 
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:id="@+id/sv_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/inclub_ilb_1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollbars="none"
+        ptr:ptrMode="both">
+
+        <phone.ktv.views.MyListView
+            android:id="@+id/list112_view_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="5dp" />
+
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+
     <TextView
         android:id="@+id/no_data_tvw"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="当前无搜索结果"
-        android:textSize="15sp"
         android:textColor="@color/white"
+        android:textSize="15sp"
         android:visibility="gone" />
 
 </RelativeLayout>
