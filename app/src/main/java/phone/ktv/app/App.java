@@ -27,6 +27,7 @@ import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.service.MusicService;
 import phone.ktv.service.SocketService;
 import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.SyncServerdate;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.tootls.xDBUtils;
 
@@ -218,14 +219,15 @@ public class App extends Application {
      */
     public static void saveData(MusicPlayBean item, Context context, String TAG, boolean s) {
         try {
+            item.localTime = SyncServerdate.getLocalTime();
             App.mDb.save(item);
             if (s) {
-                ToastUtils.showLongToast(context, "歌曲保存成功");
+                ToastUtils.showLongToast(context, "歌曲添加成功");
             }
         } catch (Exception e) {
-            Logger.d(TAG, "e.." + e.getMessage());
+            Logger.d(TAG, "保存数据异常.." + e.getMessage());
             if (s) {
-                ToastUtils.showLongToast(context, "歌曲已保存");
+                ToastUtils.showLongToast(context, "此歌曲已被添加");
             }
         }
     }
