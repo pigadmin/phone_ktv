@@ -38,7 +38,6 @@ import phone.ktv.bgabanner.BGABanner;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
-import phone.ktv.tootls.LoginRequestUtils;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
