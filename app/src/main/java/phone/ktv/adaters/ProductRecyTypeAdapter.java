@@ -8,17 +8,18 @@ import java.util.List;
 
 import phone.ktv.R;
 import phone.ktv.bean.ProductRecyTypeBean;
+import phone.ktv.tootls.ToastUtils;
 
 /**
  * 查看现有产品adater
  */
 public class ProductRecyTypeAdapter extends BAdapter<ProductRecyTypeBean> {
 
-    Context mContext;
+    Context context;
 
     public ProductRecyTypeAdapter(Context context, int layoutId, List<ProductRecyTypeBean> list) {
         super(context, layoutId, list);
-        this.mContext = context;
+        this.context = context;
     }
 
     @Override
@@ -31,14 +32,14 @@ public class ProductRecyTypeAdapter extends BAdapter<ProductRecyTypeBean> {
         if (item != null) {
             songName.setText(item.name);
 
-            String s = "("+item.days + "天/" + item.price + "元)";
+            String s = "(" + item.days + "天/" + item.price + "元)";
             dayInfo.setText(s);
         }
 
         openUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ToastUtils.showShortToast(context, "此功能暂未开放!");
             }
         });
     }
