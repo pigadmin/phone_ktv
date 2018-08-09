@@ -132,6 +132,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                         ToastUtils.showShortToast(mContext, "去添加");
                         break;
                     } else {
+                        app.setPlaystatus(1);
                         mContext.sendBroadcast(new Intent(App.LAST));
                     }
                     break;
@@ -164,6 +165,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                     if (list == null || list.isEmpty()) {
                         ToastUtils.showShortToast(mContext, "去添加");
                     } else {
+                        app.setPlaystatus(1);
                         mContext.sendBroadcast(new Intent(App.NEXT));
                     }
                     break;
