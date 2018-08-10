@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,24 +19,20 @@ import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.WeakHashMap;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 import phone.ktv.BaseActivity;
 import phone.ktv.R;
 import phone.ktv.adaters.RinkingListAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.bean.ResultBean;
+import phone.ktv.tootls.CallBackUtils;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
-import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.SoftKeyboard;
 import phone.ktv.tootls.SpeechRecognitionUtils;
@@ -260,7 +255,7 @@ public class AlreadySearchListActivity2 extends BaseActivity {
     private class MyOnItemClickListener1 implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ToastUtils.showLongToast(mContext, "1");
+
         }
     }
 
@@ -305,37 +300,27 @@ public class AlreadySearchListActivity2 extends BaseActivity {
         weakHashMap.put("limit", mLimit + "");//页码量   不填默认10，最大限度100
         weakHashMap.put("singerId", mId);//歌手id
         weakHashMap.put("keyword", mSearchContent.getText().toString().trim());//搜索关键字
-
         String url = App.getRqstUrl(App.headurl + "song", weakHashMap);
-
         Logger.i(TAG, "url.." + url);
-
         if (NetUtils.hasNetwork(mContext)) {
-            OkhttpUtils.doStart(url, new Callback() {
+            CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
-                    //返回失败
-                    mHandler.obtainMessage(RankingSearch2Error, e.getMessage()).sendToTarget();
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String s = response.body().string();
-                    Logger.i(TAG, "s.." + s);
-                    ResultBean aJson = GsonJsonUtils.parseJson2Obj(s, ResultBean.class);
-                    if (aJson != null) {
-                        if (aJson.code == 0) {
-                            Logger.i(TAG, "aJson1..." + aJson.toString());
-                            setStateSongName(aJson.data.list);
-                            mHandler.sendEmptyMessage(RankingSearch2Success);
-                        } else if (aJson.code == 500) {
-                            mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
-                        } else {
-                            mHandler.obtainMessage(RankingSearch2Error, aJson.msg).sendToTarget();
+                public void onFinish(String result, String msg) {
+                    if (TextUtils.isEmpty(result)) {
+                        mHandler.obtainMessage(RankingSearch2Error, msg).sendToTarget();
+                    } else {
+                        ResultBean aJson = GsonJsonUtils.parseJson2Obj(result, ResultBean.class);
+                        if (aJson != null) {
+                            if (aJson.code == 0) {
+                                Logger.i(TAG, "aJson1..." + aJson.toString());
+                                setStateSongName(aJson.data.list);
+                                mHandler.sendEmptyMessage(RankingSearch2Success);
+                            } else if (aJson.code == 500) {
+                                mHandler.obtainMessage(RankingExpiredToken, aJson.msg).sendToTarget();
+                            } else {
+                                mHandler.obtainMessage(RankingSearch2Error, aJson.msg).sendToTarget();
+                            }
                         }
-                    }
-                    if (response.body() != null) {
-                        response.body().close();
                     }
                 }
             });
