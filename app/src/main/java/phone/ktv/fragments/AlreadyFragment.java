@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -153,6 +154,14 @@ public class AlreadyFragment extends Fragment {
 
         mCancel12.setOnClickListener(new MyOnClickListenTitle4());
         mSelectionTotal.setOnCheckedChangeListener(new MyOnClickListenTitle5());
+        mListView.setOnItemClickListener(new MyOnItemClickLis());
+    }
+
+    private class MyOnItemClickLis implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            mContext.sendBroadcast(new Intent(App.SWITCHPLAY));
+        }
     }
 
     /**

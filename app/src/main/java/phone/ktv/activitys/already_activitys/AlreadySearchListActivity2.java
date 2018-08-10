@@ -31,6 +31,7 @@ import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.bean.ResultBean;
 import phone.ktv.tootls.CallBackUtils;
 import phone.ktv.tootls.GsonJsonUtils;
+import phone.ktv.tootls.LatelyListAddUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.SPUtil;
@@ -173,7 +174,11 @@ public class AlreadySearchListActivity2 extends BaseActivity {
     private class MyOnItemClickLis implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            MusicPlayBean bean = musicPlayBeans.get(position);
+            LatelyListAddUtils utils = new LatelyListAddUtils(mSP, AlreadySearchListActivity2.this, bean);
+            utils.getLatelyList();
+            App.saveData(bean, mContext, TAG, false);
+            sendBroadcast(new Intent(App.SWITCHPLAY));
         }
     }
 

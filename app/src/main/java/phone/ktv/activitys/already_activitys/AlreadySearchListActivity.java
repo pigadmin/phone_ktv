@@ -1,6 +1,7 @@
 package phone.ktv.activitys.already_activitys;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +40,7 @@ import phone.ktv.bean.SingerNumBean;
 import phone.ktv.tootls.CallBackUtils;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
+import phone.ktv.tootls.LatelyListAddUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.SPUtil;
@@ -345,7 +347,11 @@ public class AlreadySearchListActivity extends BaseActivity {
     private class MyOnItemClickListener1 implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            MusicPlayBean bean = musicPlayBeans.get(position);
+            LatelyListAddUtils utils = new LatelyListAddUtils(mSP, AlreadySearchListActivity.this, bean);
+            utils.getLatelyList();
+            App.saveData(bean, mContext, TAG, false);
+            sendBroadcast(new Intent(App.SWITCHPLAY));
         }
     }
 
@@ -359,7 +365,6 @@ public class AlreadySearchListActivity extends BaseActivity {
             IntentUtils.strIntentString(mContext, AlreadySearchListActivity2.class, "id", "name", bean.id, bean.name);
         }
     }
-
 
     /**
      * 语音

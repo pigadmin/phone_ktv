@@ -32,6 +32,7 @@ import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.AlertDialogHelper;
 import phone.ktv.tootls.CallBackUtils;
 import phone.ktv.tootls.GsonJsonUtils;
+import phone.ktv.tootls.LatelyListAddUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.SPUtil;
@@ -175,7 +176,11 @@ public class LatelyListActivity extends phone.ktv.BaseActivity {
     private class MyOnItemClickLister implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            MusicPlayBean bean = mCollentBean3s.get(position);
+            LatelyListAddUtils utils = new LatelyListAddUtils(mSP, LatelyListActivity.this, bean);
+            utils.getLatelyList();
+            App.saveData(bean, mContext, TAG, false);
+            sendBroadcast(new Intent(App.SWITCHPLAY));
         }
     }
 
