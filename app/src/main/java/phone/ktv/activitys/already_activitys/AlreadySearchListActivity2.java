@@ -163,7 +163,6 @@ public class AlreadySearchListActivity2 extends BaseActivity {
     private void initLiter() {
         mVoice.setOnClickListener(new MyOnClickListenerVoice());
         mSearch.setOnClickListener(new MyOnClickListenerSearch());
-        mListView1.setOnItemClickListener(new MyOnItemClickListener1());
         mPullToRefresh.setOnRefreshListener(new MyPullToRefresh());
         mSearchContent.addTextChangedListener(new MyAddTextChanged());
         mDelete.setOnClickListener(new MyOnClickDelete());
@@ -246,16 +245,6 @@ public class AlreadySearchListActivity2 extends BaseActivity {
             mNoData.setVisibility(View.GONE);
         } else {
             mNoData.setVisibility(View.VISIBLE);
-        }
-    }
-
-    /**
-     * item事件
-     */
-    private class MyOnItemClickListener1 implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         }
     }
 
