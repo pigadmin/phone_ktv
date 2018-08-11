@@ -31,6 +31,7 @@ import phone.ktv.app.App;
 import phone.ktv.bean.AJson;
 import phone.ktv.bean.GridList;
 import phone.ktv.bean.ListInfo;
+import phone.ktv.bean.NoticeBean;
 import phone.ktv.bgabanner.BGABanner;
 import phone.ktv.tootls.CallBackUtils;
 import phone.ktv.tootls.GsonJsonUtils;
@@ -63,11 +64,17 @@ public class SongDeskFragment extends Fragment {
     public static final int RankingListError = 200;//点歌台分类获取失败
     public static final int RankingExpiredToken = 300;//Token过期
 
+    public static final int NoticeSuccess = 400;
+    public static final int NoticeError = 500;
+
     private SVProgressHUD mSvProgressHUD;
 
     private TextView mMore;//更多
 
     private TextView mErrorRetry;
+
+    List<String> int1 = new ArrayList<>();
+    List<String> int2 = new ArrayList<>();
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -84,6 +91,14 @@ public class SongDeskFragment extends Fragment {
                 case RankingExpiredToken://Token过期
                     ToastUtils.showLongToast(mContext, (String) msg.obj);
                     updateData();
+                    break;
+
+                case NoticeSuccess:
+                    updaNotice();
+                    break;
+
+                case NoticeError:
+                    ToastUtils.showLongToast(mContext, (String) msg.obj);
                     break;
             }
             mSvProgressHUD.dismiss();
@@ -102,7 +117,25 @@ public class SongDeskFragment extends Fragment {
         initView();
         initLiter();
         getRankingListData();
+        getSongNoitce();
         return mNewsView;
+    }
+
+    private void updaNotice() {
+        mBanner.setData(int1, int2);
+        mBanner.setAdapter(new BGABanner.Adapter() {
+            @Override
+            public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
+                Glide.with(mContext)
+                        .load(model)
+                        .placeholder(R.mipmap.lu_1)
+                        .error(R.mipmap.lu_1)
+                        .fitCenter()
+                        .thumbnail(0.7f)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into((ImageView) view);
+            }
+        });
     }
 
     private void initView() {
@@ -121,40 +154,15 @@ public class SongDeskFragment extends Fragment {
     }
 
     private void initLiter() {
-        List<Integer> int1 = new ArrayList<>();
-        int1.add(R.mipmap.lu_1);
-        int1.add(R.mipmap.lu_2);
-        int1.add(R.mipmap.lu_3);
-
-        List<String> int2 = new ArrayList<>();
-        int2.add("图1");
-        int2.add("图2");
-        int2.add("图3");
-
-        mBanner.setData(int1, int2);
+        mMore.setOnClickListener(new MyOnClickListenerMore());//更多
+        mGridView.setOnItemClickListener(new MyOnItemClickListener());
+        mErrorRetry.setOnClickListener(new MyOnClickListenerErrorRetry());
         mBanner.setOnItemClickListener(new BGABanner.OnItemClickListener() {
             @Override
             public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
 
             }
         });
-        mBanner.setAdapter(new BGABanner.Adapter() {
-            @Override
-            public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
-                Glide.with(mContext)
-                        .load(model)
-                        .placeholder(R.mipmap.lu_1)
-                        .error(R.mipmap.lu_1)
-                        .fitCenter()
-                        .thumbnail(0.7f)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .into((ImageView) view);
-            }
-        });
-
-        mMore.setOnClickListener(new MyOnClickListenerMore());//更多
-        mGridView.setOnItemClickListener(new MyOnItemClickListener());
-        mErrorRetry.setOnClickListener(new MyOnClickListenerErrorRetry());
     }
 
     private class MyOnItemClickListener implements AdapterView.OnItemClickListener {
@@ -258,6 +266,61 @@ public class SongDeskFragment extends Fragment {
         } else {
             mSvProgressHUD.dismiss();
             ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
+        }
+    }
+
+    /**
+     * 轮播图(广告)
+     */
+    private void getSongNoitce() {
+        WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
+        String tel = mSP.getString("telPhone", null);//tel
+        String token = mSP.getString("token", null);//token
+        Logger.i(TAG, "tel.." + tel + "..token.." + token);
+        weakHashMap.put("telPhone", tel);//手机号
+        weakHashMap.put("token", token);//token
+
+        String url = App.getRqstUrl(App.headurl + "rollad", weakHashMap);
+        Logger.i(TAG, "url.." + url);
+        if (NetUtils.hasNetwork(mContext)) {
+            CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
+                @Override
+                public void onFinish(String result, String msg) {
+                    Logger.i(TAG, "result.." + result + "..msg.." + msg);
+                    if (TextUtils.isEmpty(result)) {
+                        mHandler.obtainMessage(NoticeError, msg).sendToTarget();
+                    } else {
+                        AJson aJson = GsonJsonUtils.parseJson2Obj(result, AJson.class);
+                        if (aJson != null) {
+                            if (aJson.getCode() == 0) {
+                                String str = GsonJsonUtils.parseObj2Json(aJson.getData());
+                                List<NoticeBean> noticeBean = GsonJsonUtils.parseJson2Obj(str, new TypeToken<List<NoticeBean>>() {
+                                });
+                                getNoticeData(noticeBean);
+                                mHandler.sendEmptyMessage(NoticeSuccess);
+                            } else if (aJson.getCode() == 500) {
+                                mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
+                            } else {
+                                mHandler.obtainMessage(NoticeError, aJson.getMsg()).sendToTarget();
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            mSvProgressHUD.dismiss();
+            ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
+        }
+    }
+
+    private void getNoticeData(List<NoticeBean> noticeBean) {
+        if (noticeBean != null && !noticeBean.isEmpty()) {
+            int1.clear();
+            int2.clear();
+            for (NoticeBean bean : noticeBean) {
+                int1.add(bean.path);
+                int2.add(bean.name);
+            }
         }
     }
 }
