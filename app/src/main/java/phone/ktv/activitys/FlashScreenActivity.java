@@ -193,7 +193,7 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
                     });
                     if (aJson != null) {
                         if (aJson.getCode() == 0) {
-                            Logger.i(TAG, "aJson1.." + aJson.toString());
+                            Logger.i(TAG, "获取开机动画.." + aJson.toString());
                             openOne = aJson.getData();
                             if (openOne != null) {
                                 for (AdverOpenOne one : openOne) {
@@ -359,7 +359,7 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
         ColleResultBean aJson = GsonJsonUtils.parseJson2Obj(result, ColleResultBean.class);
         if (aJson != null) {
             if (aJson.code == 0) {
-                Logger.i(TAG, "aJson..." + aJson.toString());
+                Logger.i(TAG, "默认访问收藏列表..." + aJson.toString());
                 String str = GsonJsonUtils.parseObj2Json(aJson.data);
                 CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
                 mSP.putInt("collectListSize", Integer.parseInt(collentBean1.totalCount));
@@ -414,7 +414,7 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
         ColleResultBean aJson = GsonJsonUtils.parseJson2Obj(result, ColleResultBean.class);
         if (aJson != null) {
             if (aJson.code == 0) {
-                Logger.i(TAG, "aJson..." + aJson.toString());
+                Logger.i(TAG, "默认访问最近播放..." + aJson.toString());
                 String str = GsonJsonUtils.parseObj2Json(aJson.data);
                 CollentBean1 collentBean1 = GsonJsonUtils.parseJson2Obj(str, CollentBean1.class);
                 mSP.putInt("latelyListSize", Integer.parseInt(collentBean1.totalCount));
