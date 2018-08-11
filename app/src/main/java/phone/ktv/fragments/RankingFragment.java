@@ -114,7 +114,6 @@ public class RankingFragment extends Fragment {
         mSP = new SPUtil(mContext);
         initView();
         initLiter();
-        getSongNoitce();
         return mNewsView;
     }
 
@@ -183,6 +182,7 @@ public class RankingFragment extends Fragment {
         Logger.d(TAG, "排行榜当前isVisibleToUser.." + isVisibleToUser);
         if (isVisibleToUser) {
             getRankingListData();
+            getSongNoitce();
         }
     }
 
