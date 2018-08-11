@@ -191,6 +191,7 @@ public class SongDeskFragment extends Fragment {
         @Override
         public void onClick(View v) {
             getRankingListData();
+            getSongNoitce();
         }
     }
 

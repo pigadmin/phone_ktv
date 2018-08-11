@@ -202,6 +202,7 @@ public class RankingFragment extends Fragment {
         @Override
         public void onClick(View v) {
             getRankingListData();
+            getSongNoitce();
         }
     }
 
