@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +19,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.WeakHashMap;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 import phone.ktv.R;
 import phone.ktv.activitys.songdesk_activitys.SongDeskActivity2;
 import phone.ktv.activitys.songdesk_activitys.SongDeskjMoreActivity;
@@ -35,11 +32,11 @@ import phone.ktv.bean.AJson;
 import phone.ktv.bean.GridList;
 import phone.ktv.bean.ListInfo;
 import phone.ktv.bgabanner.BGABanner;
+import phone.ktv.tootls.CallBackUtils;
 import phone.ktv.tootls.GsonJsonUtils;
 import phone.ktv.tootls.IntentUtils;
 import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
-import phone.ktv.tootls.OkhttpUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 
@@ -86,16 +83,6 @@ public class SongDeskFragment extends Fragment {
 
                 case RankingExpiredToken://Token过期
                     ToastUtils.showLongToast(mContext, (String) msg.obj);
-//                    LoginRequestUtils requestUtils=new LoginRequestUtils(mSP,mContext);
-//                    requestUtils.requestLoginData();
-//                    if (requestUtils.getRequestIndex()==10){
-//                    Logger.d(TAG,"10..........");
-//                        getRankingListData();
-//                    } else if (requestUtils.getRequestIndex()==20){
-//                        Logger.d(TAG,"20..........");
-//                    } else {
-//                        Logger.d(TAG,"0..........");
-//                    }
                     updateData();
                     break;
             }
@@ -244,35 +231,27 @@ public class SongDeskFragment extends Fragment {
 
         String url = App.getRqstUrl(App.headurl + "song/getSongType", weakHashMap);
         Logger.i(TAG, "url.." + url);
-
         if (NetUtils.hasNetwork(mContext)) {
-            OkhttpUtils.doStart(url, new Callback() {
+            CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
-                    //返回失败
-                    mHandler.obtainMessage(RankingListError, e.getMessage()).sendToTarget();
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String s = response.body().string();
-                    Logger.i(TAG, "s.." + s);
-                    AJson aJson = GsonJsonUtils.parseJson2Obj(s, AJson.class);
-                    if (aJson != null) {
-                        if (aJson.getCode() == 0) {
-                            GridList gridList = App.jsonToObject(s, new TypeToken<AJson<GridList>>() {
-                            }).getData();
-                            Logger.i(TAG, "aJson1..." + aJson.toString());
-                            setState(gridList.getList());
-                            mHandler.sendEmptyMessage(RankingListSuccess);
-                        } else if (aJson.getCode() == 500) {
-                            mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
-                        } else {
-                            mHandler.obtainMessage(RankingListError, aJson.getMsg()).sendToTarget();
+                public void onFinish(String result, String msg) {
+                    if (TextUtils.isEmpty(result)) {
+                        mHandler.obtainMessage(RankingListError, msg).sendToTarget();
+                    } else {
+                        AJson aJson = GsonJsonUtils.parseJson2Obj(result, AJson.class);
+                        if (aJson != null) {
+                            if (aJson.getCode() == 0) {
+                                GridList gridList = App.jsonToObject(result, new TypeToken<AJson<GridList>>() {
+                                }).getData();
+                                Logger.i(TAG, "aJson1..." + aJson.toString());
+                                setState(gridList.getList());
+                                mHandler.sendEmptyMessage(RankingListSuccess);
+                            } else if (aJson.getCode() == 500) {
+                                mHandler.obtainMessage(RankingExpiredToken, aJson.getMsg()).sendToTarget();
+                            } else {
+                                mHandler.obtainMessage(RankingListError, aJson.getMsg()).sendToTarget();
+                            }
                         }
-                    }
-                    if (response.body() != null) {
-                        response.body().close();
                     }
                 }
             });
