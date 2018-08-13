@@ -86,12 +86,14 @@
         android:drawablePadding="20dp"
         android:paddingBottom="15dp"
         android:paddingLeft="15dp"
+        android:visibility="gone"
         android:paddingTop="15dp"
         android:text="下载"
         android:textColor="@color/black" />
 
     <View
         style="@style/view_line"
+        android:visibility="gone"
         android:layout_marginLeft="45dp" />
 
     <TextView
