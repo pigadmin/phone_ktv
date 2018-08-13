@@ -62,6 +62,8 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
 
     private List<AdverOpenOne.AdverOpenTwo> mOpenTwoList;
 
+    boolean isPlay = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +126,7 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
             timer.cancel();
         }
         exitmusic();
+        isPlay = true;
     }
 
     private void exitmusic() {
@@ -162,8 +165,11 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     }
 
     private void toStep() {
-        IntentUtils.thisToOther(mContext, TextUtils.isEmpty(mToken) ? LoginActivity.class : MainActivity.class);
-        finish();
+        if (isPlay) {
+            IntentUtils.thisToOther(mContext, TextUtils.isEmpty(mToken) ? LoginActivity.class : MainActivity.class);
+            finish();
+            isPlay = false;
+        }
     }
 
     /**
