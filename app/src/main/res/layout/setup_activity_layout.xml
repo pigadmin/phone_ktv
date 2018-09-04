@@ -66,7 +66,8 @@
     <phone.ktv.views.CustomSetupView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        custom:no_open_isState="false"
+        custom:no_open_isState="true"
+        custom:no_switch_btn_isState="false"
         custom:setup_text="流量消耗提醒"
         custom:switch_btn_isState="true" />
 
@@ -75,7 +76,8 @@
     <phone.ktv.views.CustomSetupView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        custom:no_open_isState="false"
+        custom:no_open_isState="true"
+        custom:no_switch_btn_isState="false"
         custom:setup_text="自动下载写真"
         custom:switch_btn_isState="true" />
 
