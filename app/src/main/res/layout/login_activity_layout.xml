@@ -51,7 +51,7 @@
         custom:title_hint_type="密码 (大于6位小于20位)"
         custom:verd_code_isState="false" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -61,23 +61,28 @@
         <CheckBox
             android:id="@+id/jizhu_ckb"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/jizhu_ckb"
             android:text="记住密码"
             android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/wangji_tvw"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:gravity="right"
             android:text="忘记密码?"
             android:textColor="@drawable/selector_wanji_text_color" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
