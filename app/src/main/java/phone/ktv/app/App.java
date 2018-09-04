@@ -8,10 +8,7 @@ import android.media.MediaPlayer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.VideoView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -46,7 +43,6 @@ public class App extends Application {
 
     public static Gson gson;
     public static OkHttpClient client;
-    public static RequestQueue requestQueue;
     private static SharedPreferences config;
 
     public View getView() {
@@ -64,7 +60,6 @@ public class App extends Application {
         super.onCreate();
         try {
             context = this;
-            requestQueue = Volley.newRequestQueue(this);
             client = new OkHttpClient();
             gson = new GsonBuilder().setDateFormat(
                     "yyyy-MM-dd'T'HH:mm:ss").create();
