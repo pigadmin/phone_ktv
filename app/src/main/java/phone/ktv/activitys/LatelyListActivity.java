@@ -342,7 +342,7 @@ public class LatelyListActivity extends phone.ktv.BaseActivity {
      */
     private void showCleanDialogType1() {
         final BtmDialog dialog = new BtmDialog(this, "温馨提示", "是否全部清理播放记录?");
-        AlertDialogHelper.BtmDialogDerive1(dialog, false, true, new View.OnClickListener() {
+        AlertDialogHelper.BtmDialogDerive1(dialog, false, false, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 submClear();
@@ -356,7 +356,7 @@ public class LatelyListActivity extends phone.ktv.BaseActivity {
      */
     private void showCleanDialogType2() {
         final BtmDialog dialog = new BtmDialog(this, "温馨提示", "当前无播放记录,请先去添加");
-        AlertDialogHelper.BtmDialogDerive2(dialog, false, true, null);
+        AlertDialogHelper.BtmDialogDerive2(dialog, false, false, null);
     }
 
     /**

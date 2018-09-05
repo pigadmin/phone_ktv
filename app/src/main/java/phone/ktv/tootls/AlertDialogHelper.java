@@ -10,12 +10,11 @@ import phone.ktv.views.BtmDialog;
  */
 public class AlertDialogHelper {
     /**
-     *
-     * @param dialog dialog
-     * @param isState 方法是否暴露下外部
-     * @param canle Dialog显示时,返回键是否生效
+     * @param dialog          dialog
+     * @param isState         方法是否暴露下外部
+     * @param canle           Dialog显示时,返回键是否生效
      * @param confirmlistener 确定事件
-     * @param cancelistener 取消事件
+     * @param cancelistener   取消事件
      */
     public static void BtmDialogDerive1(final BtmDialog dialog, boolean isState, boolean canle, View.OnClickListener confirmlistener, View.OnClickListener cancelistener) {
         if (isState) {
@@ -38,7 +37,7 @@ public class AlertDialogHelper {
      * @param isState         方法是否暴露下外部
      * @param confirmlistener 确定事件
      */
-    public static void BtmDialogDerive2(final BtmDialog dialog, boolean isState,boolean canle, View.OnClickListener confirmlistener) {
+    public static void BtmDialogDerive2(final BtmDialog dialog, boolean isState, boolean canle, View.OnClickListener confirmlistener) {
         if (isState) {
             dialog.confirm.setOnClickListener(confirmlistener);
         } else {

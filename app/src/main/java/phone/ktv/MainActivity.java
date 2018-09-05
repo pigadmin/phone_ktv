@@ -337,7 +337,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      */
     private void toLoginInfo() {
         final BtmDialog dialog = new BtmDialog(this, "温馨提示", "当前无账户,请先登录");
-        AlertDialogHelper.BtmDialogDerive2(dialog, false, true, null);
+        AlertDialogHelper.BtmDialogDerive2(dialog, false, false, null);
     }
 
     /**
@@ -345,7 +345,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      */
     private void exitAccount() {
         final BtmDialog dialog = new BtmDialog(this, "温馨提示", "确定退出当前账户吗?");
-        AlertDialogHelper.BtmDialogDerive1(dialog, false, true, new View.OnClickListener() {
+        AlertDialogHelper.BtmDialogDerive1(dialog, false, false, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mSP.clearSpData();
