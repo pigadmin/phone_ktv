@@ -337,25 +337,27 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
      */
     private void getCollectList() {
         if (NetUtils.hasNetwork(mContext)) {
-            WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
-            String tel = mSP.getString("telPhone", null);//tel
             String token = mSP.getString("token", null);//token
+            String tel = mSP.getString("telPhone", null);//tel
             Logger.i(TAG, "tel.." + tel + "..token.." + token);
-            weakHashMap.put("telPhone", tel);//手机号
-            weakHashMap.put("token", token);//token
+            if (!TextUtils.isEmpty(token)) {
+                WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
+                weakHashMap.put("telPhone", tel);//手机号
+                weakHashMap.put("token", token);//token
 
-            String url = App.getRqstUrl(App.headurl + "song/collect", weakHashMap);
-            Logger.i(TAG, "url.." + url);
-            CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
-                @Override
-                public void onFinish(String result, String msg) {
-                    if (TextUtils.isEmpty(result)) {
-                        getResult(msg);
-                    } else {
-                        analysisJsonCollect(result);
+                String url = App.getRqstUrl(App.headurl + "song/collect", weakHashMap);
+                Logger.i(TAG, "url.." + url);
+                CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
+                    @Override
+                    public void onFinish(String result, String msg) {
+                        if (TextUtils.isEmpty(result)) {
+                            getResult(msg);
+                        } else {
+                            analysisJsonCollect(result);
+                        }
                     }
-                }
-            });
+                });
+            }
         } else {
             ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
@@ -390,27 +392,28 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
      * 默认访问最近播放
      */
     private void getLatelyList() {
-        WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
-        String tel = mSP.getString("telPhone", null);//tel
-        String token = mSP.getString("token", null);//token
-        Logger.i(TAG, "tel.." + tel + "..token.." + token);
-        weakHashMap.put("telPhone", tel);//手机号
-        weakHashMap.put("token", token);//token
-
-        String url = App.getRqstUrl(App.headurl + "song/record", weakHashMap);
-
-        Logger.i(TAG, "url.." + url);
         if (NetUtils.hasNetwork(mContext)) {
-            CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
-                @Override
-                public void onFinish(String result, String msg) {
-                    if (TextUtils.isEmpty(result)) {
-                        getResult(msg);
-                    } else {
-                        analysisJsonLately(result);
+            String token = mSP.getString("token", null);//token
+            String tel = mSP.getString("telPhone", null);//tel
+            Logger.i(TAG, "tel.." + tel + "..token.." + token);
+            if (!TextUtils.isEmpty(token)) {
+                WeakHashMap<String, String> weakHashMap = new WeakHashMap<>();
+                weakHashMap.put("telPhone", tel);//手机号
+                weakHashMap.put("token", token);//token
+
+                String url = App.getRqstUrl(App.headurl + "song/record", weakHashMap);
+                Logger.i(TAG, "url.." + url);
+                CallBackUtils.getInstance().init(url, new CallBackUtils.CommonCallback() {
+                    @Override
+                    public void onFinish(String result, String msg) {
+                        if (TextUtils.isEmpty(result)) {
+                            getResult(msg);
+                        } else {
+                            analysisJsonLately(result);
+                        }
                     }
-                }
-            });
+                });
+            }
         } else {
             ToastUtils.showLongToast(mContext, "网络连接异常,请检查网络配置");
         }
