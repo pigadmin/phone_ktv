@@ -77,12 +77,14 @@ public class AlreadyFragment extends Fragment {
         }
     };
 
+    App app;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mNewsView = inflater.inflate(R.layout.already_fragment_layout, null);
         mContext = getActivity();
-
+        app = (App) mContext.getApplicationContext();
         initView();
         initLiter();
         isMusicStateList();
@@ -281,6 +283,7 @@ public class AlreadyFragment extends Fragment {
         windw.mPlayStyle1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                app.setPlaymodel(0);
                 windw.setState(windw.mSrc1, windw.mText1, windw.mSrc1Go, 1);
                 setLogo(CustomPopuWindw.postion);
                 windw.dismiss();
@@ -289,6 +292,7 @@ public class AlreadyFragment extends Fragment {
         windw.mPlayStyle2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                app.setPlaymodel(1);
                 windw.setState(windw.mSrc2, windw.mText2, windw.mSrc2Go, 2);
                 setLogo(CustomPopuWindw.postion);
                 windw.dismiss();
@@ -297,6 +301,7 @@ public class AlreadyFragment extends Fragment {
         windw.mPlayStyle3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                app.setPlaymodel(2);
                 windw.setState(windw.mSrc3, windw.mText3, windw.mSrc3Go, 3);
                 setLogo(CustomPopuWindw.postion);
                 windw.dismiss();

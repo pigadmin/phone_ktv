@@ -15,9 +15,11 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.SPUtil;
 
 public class MusicService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
@@ -116,6 +118,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         next();
     }
 
+
     @Override
     public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
         return true;
@@ -151,16 +154,61 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         try {
             getList();
             getindex();
-            Log.e(TAG, index + "@@@@" + (playlist.size() - 1) + "@@@@" + (index < playlist.size() - 1));
-            if (index < playlist.size() - 1) {
-                index++;
-            } else {
-                index = 0;
+//            Log.e(TAG, index + "@@@@" + (playlist.size() - 1) + "@@@@" + (index < playlist.size() - 1));
+//            if (index < playlist.size() - 1) {
+//                index++;
+//            } else {
+//                index = 0;
+//            }
+//            playerSong();
+
+            try {
+                int playmodel = app.getPlaymodel();
+                if (playmodel == 0) {
+                    //顺序
+                    if (++index < playlist.size()) {
+                        try {
+                            playerSong();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        index = 0;
+                        playerSong();
+                    }
+                    Logger.d(TAG, "顺序" + index);
+                } else if (playmodel == 1) {
+                    //随机
+                    index = getRandom();
+                    playerSong();
+                    Logger.d(TAG, "随机" + index);
+                } else {
+                    //循坏
+                    playerSong();
+                    Logger.d(TAG, "单曲循坏" + index);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            playerSong();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public int getRandom() {
+        try {
+            if (playlist.size() == 1) {
+                return 0;
+            } else {
+                Random random = new Random();
+                int s = random.nextInt(playlist.size() - 1) % (playlist.size() - 1 - 0 + 1) + 0;
+                return s;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 

@@ -38,6 +38,16 @@ public class App extends Application {
     public static final String SWITCHPLAY = "SWITCHPLAY";//歌曲切換
     public static final String STARTPLAY = "STARTPLAY";//开始播放
 
+    public int getPlaymodel() {
+        return playmodel;
+    }
+
+    public void setPlaymodel(int playmodel) {
+        this.playmodel = playmodel;
+    }
+
+    private int playmodel = 0;
+
 
     public static Context context;
 
