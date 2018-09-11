@@ -52,17 +52,13 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     private static final String TAG = "FlashScreenActivity";
 
     private TextView mNumtext;
-    private Context mContext;
+    private String mToken;
+    private List<AdverOpenOne.AdverOpenTwo> mOpenTwoList;
+    boolean isPlay = true;
 
     private CountDownTimer timer;
-
     private SPUtil mSP;
-
-    private String mToken;
-
-    private List<AdverOpenOne.AdverOpenTwo> mOpenTwoList;
-
-    boolean isPlay = true;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +103,6 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
                 playmusic();
             }
         });
-//        startTime();
     }
 
     @Override
@@ -157,18 +152,18 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (NetUtils.hasNetwork(mContext)) {
-                toStep();
-            }
+            toStep();
         }
         return super.onKeyDown(keyCode, event);
     }
 
     private void toStep() {
-        if (isPlay) {
-            IntentUtils.thisToOther(mContext, TextUtils.isEmpty(mToken) ? LoginActivity.class : MainActivity.class);
-            finish();
-            isPlay = false;
+        if (NetUtils.hasNetwork(mContext)) {
+            if (isPlay) {
+                IntentUtils.thisToOther(mContext, TextUtils.isEmpty(mToken) ? LoginActivity.class : MainActivity.class);
+                finish();
+                isPlay = false;
+            }
         }
     }
 
@@ -188,7 +183,6 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
                 @Override
                 public void onFailure(Call call, IOException e) {
                     //返回失败
-//                    mHandler.obtainMessage(UpdateRequestError, e.getMessage()).sendToTarget();
                 }
 
                 @Override
@@ -201,12 +195,11 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
                         if (aJson.getCode() == 0) {
                             Logger.i(TAG, "获取开机动画.." + aJson.toString());
                             openOne = aJson.getData();
-                            if (openOne != null) {
+                            if (openOne != null && !openOne.isEmpty()) {
                                 for (AdverOpenOne one : openOne) {
                                     if (one.ad != null) {
                                         mOpenTwoList.add(one.ad);
                                         playTime += one.playTime;
-
                                     }
                                 }
                                 handler.sendEmptyMessage(UPDATE_AD);
@@ -218,20 +211,10 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
                                     }
                                 });
                             } else {
-
+                                toFaileData();
                             }
-
-//                            mHandler.sendEmptyMessage(UpdateRequestSuccess);
                         } else {
-//                            mHandler.obtainMessage(UpdateRequestError, aJson.getMsg()).sendToTarget();
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    playTime = 5000;
-                                    startTime();
-                                }
-                            });
-
+                            toFaileData();
                         }
                     }
 
@@ -242,9 +225,18 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
             });
         } else {
             networkException();
-//            mSvProgressHUD.dismiss();
             mNumtext.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void toFaileData() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                playTime = 5000;
+                startTime();
+            }
+        });
     }
 
     private final int UPDATE_AD = 0;
@@ -299,7 +291,6 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
     private String videourl;
 
     private void playvideo() {
-
         if (!videourl.equals("")) {
             System.out.println(videourl);
             ad_video.setVideoURI(Uri.parse(videourl));
