@@ -15,16 +15,18 @@
     <View style="@style/view_line_sbc_header_text" />
 
     <phone.ktv.views.CustomSetupView
+        android:id="@+id/customSetupView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:no_open_isState="false"
         custom:no_switch_btn_isState="true"
-        custom:setup_text="仅WiFi下联网"
+        custom:setup_text="仅WiFi下播放"
         custom:switch_btn_isState="true" />
 
     <View style="@style/view_line_sbc_header_text" />
 
     <phone.ktv.views.CustomSetupView
+        android:id="@+id/customSetupView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:no_open_isState="false"
@@ -69,6 +71,7 @@
         custom:no_open_isState="true"
         custom:no_switch_btn_isState="false"
         custom:setup_text="流量消耗提醒"
+        android:visibility="gone"
         custom:switch_btn_isState="true" />
 
     <View style="@style/view_line_sbc_header_text" />
@@ -77,6 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         custom:no_open_isState="true"
+        android:visibility="gone"
         custom:no_switch_btn_isState="false"
         custom:setup_text="自动下载写真"
         custom:switch_btn_isState="true" />

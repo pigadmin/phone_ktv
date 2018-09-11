@@ -65,7 +65,15 @@ public class CustomSetupView extends LinearLayout {
      *
      * @param listener
      */
-    private void OnCheckSwitchLiter(SwitchButton.OnCheckedChangeListener listener) {
+    public void OnCheckSwitchLiter(SwitchButton.OnCheckedChangeListener listener) {
         mSwitch.setOnCheckedChangeListener(listener);
+    }
+
+    public void setUpChecked(boolean checked) {
+        mSwitch.setChecked(checked);
+    }
+
+    public boolean isUpChecked() {
+        return mSwitch.isChecked();
     }
 }

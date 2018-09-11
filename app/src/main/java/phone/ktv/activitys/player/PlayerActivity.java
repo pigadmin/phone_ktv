@@ -12,6 +12,7 @@ import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
 
 import java.util.ArrayList;
@@ -20,8 +21,14 @@ import java.util.List;
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
+import phone.ktv.tootls.AlertDialogHelper;
+import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.SPUtil;
+import phone.ktv.views.BtmDialog;
 
+/**
+ * 播放界面
+ */
 public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
     private AudioManager audioManager;
     private int screenWidth;
@@ -65,7 +72,6 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
     }
 
 
-
     private List<MusicPlayBean> playlist = new ArrayList<>();
 
     private List<MusicPlayBean> getList() {
@@ -78,8 +84,8 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
     }
 
     private SurfaceView surface;
-    private  SurfaceHolder holder;
-    private  MediaPlayer player;
+    private SurfaceHolder holder;
+    private MediaPlayer player;
 
     private void init() {
         try {
@@ -232,5 +238,48 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
         getWindow().setAttributes(lp);
     }
 
+    /**
+     * 判断是否处于流量播放
+     */
+    private void isState() {
+        boolean isWifiPlay = spUtil.getBoolean("isWifiPlay", false);
+        boolean isFlowPlay = spUtil.getBoolean("isFlowPlay", false);
+        if (NetUtils.isMobileConnected(app)) {
+            if (isFlowPlay) {
+                //允许流量播放
+            } else {
+                showDialog();
+            }
+        } else if (NetUtils.isWifiConnected(app)) {
+            if (isWifiPlay) {
 
+            } else {
+                showConnectDialog();
+            }
+        }
+    }
+
+    /**
+     * 不允许流量播放
+     */
+    private void showDialog() {
+        final BtmDialog dialog = new BtmDialog(this, "温馨提示", "当前处于移动网络状态,是否允许流量播放?");
+        dialog.confirm.setText("允许");
+        AlertDialogHelper.BtmDialogDerive1(dialog, false, false, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spUtil.putBoolean("isFlowPlay", true);
+                //开启播放
+                dialog.dismiss();
+            }
+        }, null);
+    }
+
+    /**
+     * 请连接网络
+     */
+    private void showConnectDialog() {
+        final BtmDialog dialog = new BtmDialog(this, "温馨提示", "网络连接异常,请先联网");
+        AlertDialogHelper.BtmDialogDerive2(dialog, false, false, null);
+    }
 }
