@@ -89,14 +89,14 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
     private TextView player_name, player_singer;
     private ImageView player_last, player_play, player_next;
     private MediaPlayer player;
-    private LinearLayout llt_115;
+    private LinearLayout llt_11501;
 
     private void initPlayer() {
         try {
             player = app.getMediaPlayer();
 
-            llt_115 = view.findViewById(R.id.llt_115);
-            llt_115.setOnClickListener(this);
+            llt_11501 = view.findViewById(R.id.llt_11501);
+            llt_11501.setOnClickListener(this);
 
             singer_icon = view.findViewById(R.id.singer_icon);
             singer_icon.setOnClickListener(this);
@@ -169,7 +169,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                         mContext.sendBroadcast(new Intent(App.NEXT));
                     }
                     break;
-                case R.id.llt_115:
+                case R.id.llt_11501:
                 case R.id.singer_icon://图标
                     if (list == null || list.isEmpty()) {
                         ToastUtils.showShortToast(mContext, "去添加");
