@@ -49,6 +49,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
         IntentFilter filter = new IntentFilter();
         filter.addAction(App.STARTPLAY);
         filter.addAction(App.SWITCHPLAY);
+        filter.addAction(App.UPDATEPROCESS);
         mContext.registerReceiver(receiver, filter);
 
     }
@@ -62,10 +63,12 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                     handler.sendEmptyMessage(SWITCHPLAY);
                 } else if (intent.getAction().equals(App.STARTPLAY)) {
                     handler.sendEmptyMessage(STARTPLAY);
+                    int max = intent.getIntExtra("max", 0);
+                    player_progress.setMax(max);
+                } else if (intent.getAction().equals(App.UPDATEPROCESS)) {
+                    int progress = intent.getIntExtra("progress", 0);
+                    player_progress.setProgress(progress);
                 }
-//                else if (intent.getAction().equals(App.DESTROY)) {
-//                    context.unregisterReceiver(receiver);
-//                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -88,12 +91,14 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
     private SeekBar player_progress;
     private TextView player_name, player_singer;
     private ImageView player_last, player_play, player_next;
+    //    private MediaPlayer player;
+    private LinearLayout llt_115;
     private MediaPlayer player;
     private LinearLayout llt_11501;
 
     private void initPlayer() {
         try {
-            player = app.getMediaPlayer();
+//            player = app.getMediaPlayer();
 
             llt_11501 = view.findViewById(R.id.llt_11501);
             llt_11501.setOnClickListener(this);
@@ -104,7 +109,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
             player_progress = view.findViewById(R.id.player_progress);
             player_progress.setOnSeekBarChangeListener(this);
 
-            player_progress.setMax(player.getDuration());
+//            player_progress.setMax(player.getDuration());
 
             player_name = view.findViewById(R.id.player_name);
             player_singer = view.findViewById(R.id.player_singer);
@@ -149,12 +154,14 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                                 break;
                             case 1://播放可暂停
                                 app.setPlaystatus(2);
-                                player.pause();
+//                                player.pause();
+                                mContext.sendBroadcast(new Intent(App.PAUSE));
                                 player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
                                 break;
                             case 2://暂停可播放
                                 app.setPlaystatus(1);
-                                player.start();
+//                                player.start();
+                                mContext.sendBroadcast(new Intent(App.PAUSE));
                                 player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
                                 break;
                         }
@@ -174,7 +181,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                     if (list == null || list.isEmpty()) {
                         ToastUtils.showShortToast(mContext, "去添加");
                         break;
-                    } else if (!app.getMediaPlayer().isPlaying()) {
+                    } else if (app.getPlaystatus() == 0) {
                         ToastUtils.showShortToast(mContext, "去播放");
                     } else {
                         mContext.startActivity(new Intent(mContext, PlayerActivity.class));
@@ -200,11 +207,11 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
             try {
                 switch (msg.what) {
                     case SEEKTO://拖动
-                        player.seekTo(progress);
+//                        player.seekTo(progress);
                         handler.sendEmptyMessage(UPDATEPROCESS);
                         break;
                     case UPDATEPROCESS://实时更新进度
-                        player_progress.setProgress(player.getCurrentPosition());
+//                        player_progress.setProgress(player.getCurrentPosition());
                         handler.sendEmptyMessageDelayed(UPDATEPROCESS, 1 * 1000);
                         break;
                     case SWITCHPLAY://更新播放信息
@@ -221,8 +228,8 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                         }
                         break;
                     case STARTPLAY://去更新进度
-                        player_progress.setMax(player.getDuration());
-                        handler.sendEmptyMessage(UPDATEPROCESS);
+//                        player_progress.setMax(player.getDuration());
+//                        handler.sendEmptyMessage(UPDATEPROCESS);
                         break;
                 }
             } catch (Exception e) {
@@ -238,14 +245,15 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        handler.removeMessages(UPDATEPROCESS);
+//        handler.removeMessages(UPDATEPROCESS);
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         try {
-            progress = seekBar.getProgress();
-            handler.sendEmptyMessage(SEEKTO);
+//            progress = seekBar.getProgress();
+//            handler.sendEmptyMessage(SEEKTO);
+            mContext.sendBroadcast(new Intent(App.SEEKTO).putExtra(App.SEEKTO, seekBar.getProgress()));
         } catch (Exception e) {
             e.printStackTrace();
         }

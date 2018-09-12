@@ -7,12 +7,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -50,10 +49,48 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         filter.addAction(App.PLAY);
         filter.addAction(App.LAST);
         filter.addAction(App.NEXT);
+        filter.addAction(App.SEEKTO);
+        filter.addAction(App.PAUSE);
         registerReceiver(receiver, filter);
 
 
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                if (intent.getAction().equals(App.PLAY)) {
+                    System.out.println("播放");
+                    try {
+                        playerSong();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else if (intent.getAction().equals(App.LAST)) {
+                    System.out.println("上一首");
+                    last();
+                } else if (intent.getAction().equals(App.NEXT)) {
+                    System.out.println("下一首");
+                    next();
+                } else if (intent.getAction().equals(App.SEEKTO)) {
+                    int time = intent.getIntExtra(App.SEEKTO, 0);
+                    player.seekTo(time);
+                } else if (intent.getAction().equals(App.PAUSE)) {
+                    System.out.println("是否播放，，，，" + player.isPlaying());
+                    if (player.isPlaying()) {
+                        player.pause();
+                    } else {
+                        player.start();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    };
 
     private int getindex() {
         return index = spUtil.getInt("play_index", 0);
@@ -78,30 +115,8 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         unregisterReceiver(receiver);
     }
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            getindex();//刷新下标
-            if (intent.getAction().equals(App.PLAY)) {
-                System.out.println("播放");
-                try {
-                    playerSong();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (intent.getAction().equals(App.LAST)) {
-                System.out.println("上一首");
-                last();
-            } else if (intent.getAction().equals(App.NEXT)) {
-                System.out.println("下一首");
-                next();
-            }
 
-
-        }
-    };
-
-    private MediaPlayer player;
+    private MediaPlayer player = null;
 
     private void setMediaListene() {
         player = new MediaPlayer();
@@ -115,9 +130,11 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         System.out.println("下一首");
+        sendBroadcast(new Intent(App.ENDPLAY));
         next();
     }
 
+    private CountDownTimer updateprocess = null;
 
     @Override
     public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
@@ -125,10 +142,28 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     }
 
     @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
+    public void onPrepared(final MediaPlayer mp) {
         System.out.println("准备播放。。。。");
-        mediaPlayer.start();
-        sendBroadcast(new Intent(App.STARTPLAY));
+        try {
+            mp.start();
+            sendBroadcast(new Intent(App.STARTPLAY).putExtra("max", mp.getDuration()));
+            if (updateprocess != null) {
+                updateprocess.cancel();
+            }
+            updateprocess = new CountDownTimer(mp.getDuration(), 1000) {
+                @Override
+                public void onTick(long l) {
+                    sendBroadcast(new Intent(App.UPDATEPROCESS).putExtra("progress", player.getCurrentPosition()));
+                }
+
+                @Override
+                public void onFinish() {
+                    updateprocess.cancel();
+                }
+            }.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -231,21 +266,24 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
 
     // 播放哪一首歌
-    private void playerSong() throws IllegalStateException,
-            IOException {
+    private void playerSong() {
         try {
             spUtil.putInt("play_index", index);
             sendBroadcast(new Intent(App.SWITCHPLAY));
-            Log.e(TAG, playlist.get(index).name + "---" + playlist.get(index).path);
-            app.getMediaPlayer().stop();
-            app.getMediaPlayer().reset();
-            app.getMediaPlayer().setDataSource(this,
+            Log.e(TAG, playlist.get(index).name + "---" + playlist.get(index).path + "---" + player.isPlaying());
+            if (player != null) {
+                player.stop();
+                player.reset();
+                player.release();
+                player = null;
+            }
+            setMediaListene();
+            player.setDataSource(this,
                     Uri.parse(playlist.get(index).path));
-            app.getMediaPlayer().prepareAsync();
+            player.prepareAsync();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 }

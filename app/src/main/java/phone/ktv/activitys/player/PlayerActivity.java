@@ -47,6 +47,7 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         spUtil = new SPUtil(this);
         index = spUtil.getInt("play_index", 0);
+
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         init();
 
@@ -152,6 +153,7 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
     public void onPrepared(MediaPlayer mediaPlayer) {
         System.out.println("准备播放。。。。");
         mediaPlayer.start();
+        app.setMediaPlayer(player);
     }
 
     @Override

@@ -37,6 +37,10 @@ public class App extends Application {
 
     public static final String SWITCHPLAY = "SWITCHPLAY";//歌曲切換
     public static final String STARTPLAY = "STARTPLAY";//开始播放
+    public static final String ENDPLAY = "ENDPLAY";//播放完毕
+    public static final String SEEKTO = "SEEKTO";//跳转
+    public static final String PAUSE = "PAUSE";//暂停播放
+    public static final String UPDATEPROCESS = "UPDATEPROCESS";//更新进度
 
     public int getPlaymodel() {
         return playmodel;
