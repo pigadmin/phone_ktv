@@ -42,7 +42,7 @@ public class App extends Application {
     public static final String SEEKTO = "SEEKTO";//跳转
     public static final String PAUSE = "PAUSE";//暂停播放
     public static final String UPDATEPROCESS = "UPDATEPROCESS";//更新进度
-
+    public static final String ENDPLAYER = "ENDPLAYER";//退出全屏播放
     public int getPlaymodel() {
         return playmodel;
     }

@@ -51,6 +51,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         filter.addAction(App.NEXT);
         filter.addAction(App.SEEKTO);
         filter.addAction(App.PAUSE);
+        filter.addAction(App.ENDPLAYER);
         registerReceiver(receiver, filter);
 
 
@@ -86,6 +87,13 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                     } else {
                         player.start();
                     }
+                } else if (intent.getAction().equals(App.ENDPLAYER)) {
+
+                    time = intent.getIntExtra("time", 0);
+                    System.out.println("@@@@@@@@@@@@@@@@@@@" + time);
+                    getindex();
+                    getList();
+                    playerSong();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -94,6 +102,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
         }
     };
+    int time;
 
     private int getindex() {
         return index = spUtil.getInt("play_index", 0);
@@ -144,10 +153,15 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
     @Override
     public void onPrepared(final MediaPlayer mp) {
-        System.out.println("准备播放。。。。");
+        System.out.println("准备播放。。。。" + time);
         try {
             app.setMediaPlayer(mp);
             mp.start();
+            if (time != 0) {
+                mp.seekTo(time);
+                time = 0;
+            }
+
             sendBroadcast(new Intent(App.STARTPLAY));
             if (updateprocess != null) {
                 updateprocess.cancel();
@@ -280,7 +294,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private void playerSong() {
         try {
             sendBroadcast(new Intent(App.SWITCHPLAY));
-            Log.e(TAG, playlist.get(index).name + "---" + playlist.get(index).path + "---" + player.isPlaying());
+//            Log.e(TAG, playlist.get(index).name + "---" + playlist.get(index).path + "---" + player.isPlaying());
             player.release();
             setMediaListene();
             player.setDataSource(this,
@@ -291,4 +305,17 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         }
     }
 
+    // 播放哪一首歌
+    private void playerSong2() {
+        try {
+            sendBroadcast(new Intent(App.SWITCHPLAY));
+            Log.e(TAG, playlist.get(index).name + "---" + playlist.get(index).path + "---" + player.isPlaying());
+            setMediaListene();
+            player.setDataSource(this,
+                    Uri.parse(playlist.get(index).path));
+            player.prepareAsync();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

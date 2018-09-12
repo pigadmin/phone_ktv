@@ -173,7 +173,11 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                     if (list == null || list.isEmpty()) {
                         ToastUtils.showShortToast(mContext, "去添加");
                         break;
+                    }
+                    if (app.getPlaystatus() == 0) {
+                        ToastUtils.showShortToast(mContext, "去播放");
                     } else if (app.getMediaPlayer().isPlaying()) {
+                        app.getMediaPlayer().pause();
                         mContext.startActivity(new Intent(mContext, PlayerActivity.class));
                     } else {
                         ToastUtils.showShortToast(mContext, "去播放");

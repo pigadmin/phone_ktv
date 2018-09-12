@@ -7,14 +7,14 @@
     tools:context=".activitys.player.PlayerActivity">
 
     <VideoView
-        android:id="@+id/player"
+        android:id="@+id/bplayer"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="match_parent" />
 
     <SurfaceView
         android:id="@+id/surface"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </RelativeLayout>
