@@ -179,10 +179,17 @@ public class LatelyListActivity extends phone.ktv.BaseActivity {
             MusicPlayBean bean = mCollentBean3s.get(position);
             LatelyListAddUtils utils = new LatelyListAddUtils(mSP, LatelyListActivity.this, bean);
             utils.getLatelyList();
-            App.saveData(bean, mContext, TAG, false);
-            sendBroadcast(new Intent(App.SWITCHPLAY));
+            toplay(bean);
         }
     }
+
+    private void toplay(MusicPlayBean bean) {
+        SPUtil spUtil = new SPUtil(this);
+        spUtil.putInt("play_index", 0);
+        App.saveData(bean, mContext, TAG, false);
+        sendBroadcast(new Intent(App.PLAY));
+    }
+
 
     private void updateData() {
         if (mCollentBean3s != null && !mCollentBean3s.isEmpty()) {

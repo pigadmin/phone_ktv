@@ -63,9 +63,9 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                     handler.sendEmptyMessage(SWITCHPLAY);
                 } else if (intent.getAction().equals(App.STARTPLAY)) {
                     handler.sendEmptyMessage(STARTPLAY);
+                } else if (intent.getAction().equals(App.UPDATEPROCESS)) {
                     int max = intent.getIntExtra("max", 0);
                     player_progress.setMax(max);
-                } else if (intent.getAction().equals(App.UPDATEPROCESS)) {
                     int progress = intent.getIntExtra("progress", 0);
                     player_progress.setProgress(progress);
                 }
@@ -146,26 +146,18 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                         ToastUtils.showShortToast(mContext, "去添加");
                     } else {
                         System.out.println("************************点击" + app.getPlaystatus());
-                        switch (app.getPlaystatus()) {
-                            case 0:
-                                mContext.sendBroadcast(new Intent(App.PLAY));
-                                app.setPlaystatus(1);
-                                player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
-                                break;
-                            case 1://播放可暂停
-                                app.setPlaystatus(2);
-//                                player.pause();
-                                mContext.sendBroadcast(new Intent(App.PAUSE));
+                        if (app.getPlaystatus() == 0) {
+                            app.setPlaystatus(1);
+                            player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
+                            mContext.sendBroadcast(new Intent(App.PLAY));
+                        } else {
+                            mContext.sendBroadcast(new Intent(App.PAUSE));
+                            if (app.getMediaPlayer().isPlaying()) {
                                 player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
-                                break;
-                            case 2://暂停可播放
-                                app.setPlaystatus(1);
-//                                player.start();
-                                mContext.sendBroadcast(new Intent(App.PAUSE));
+                            } else {
                                 player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
-                                break;
+                            }
                         }
-
                     }
                     break;
                 case R.id.player_next://下一首
@@ -196,7 +188,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
 
     private int play_index = 0;
     private int progress = 0;//拖动进度
-    private final int SEEKTO = 1;//跳转指定进度
+    //    private final int SEEKTO = 1;//跳转指定进度
     private final int UPDATEPROCESS = 2;//更新进度条
     private final int SWITCHPLAY = 3;//更新播放信息
     private final int STARTPLAY = 4;//更新播放信息
@@ -206,30 +198,28 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
             super.handleMessage(msg);
             try {
                 switch (msg.what) {
-                    case SEEKTO://拖动
-//                        player.seekTo(progress);
-                        handler.sendEmptyMessage(UPDATEPROCESS);
-                        break;
+//                    case SEEKTO://拖动
+////                        player.seekTo(progress);
+//                        handler.sendEmptyMessage(UPDATEPROCESS);
+//                        break;
                     case UPDATEPROCESS://实时更新进度
 //                        player_progress.setProgress(player.getCurrentPosition());
                         handler.sendEmptyMessageDelayed(UPDATEPROCESS, 1 * 1000);
                         break;
                     case SWITCHPLAY://更新播放信息
+
                         play_index = mSP.getInt("play_index", 0);
+                        System.out.println("&&&&&&&&&&&&&&&&&" + play_index);
                         player_name.setText(playlist.get(play_index).name);
                         player_singer.setText(playlist.get(play_index).singerName);
-                        switch (app.getPlaystatus()) {
-                            case 1:
-                                player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
-                                break;
-                            case 2:
-                                player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
-                                break;
+                        if (app.getMediaPlayer().isPlaying()) {
+                            player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
+                        } else {
+                            player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
                         }
                         break;
                     case STARTPLAY://去更新进度
-//                        player_progress.setMax(player.getDuration());
-//                        handler.sendEmptyMessage(UPDATEPROCESS);
+                        player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
                         break;
                 }
             } catch (Exception e) {

@@ -146,14 +146,15 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         System.out.println("准备播放。。。。");
         try {
             mp.start();
-            sendBroadcast(new Intent(App.STARTPLAY).putExtra("max", mp.getDuration()));
+            sendBroadcast(new Intent(App.STARTPLAY));
             if (updateprocess != null) {
                 updateprocess.cancel();
             }
             updateprocess = new CountDownTimer(mp.getDuration(), 1000) {
                 @Override
                 public void onTick(long l) {
-                    sendBroadcast(new Intent(App.UPDATEPROCESS).putExtra("progress", player.getCurrentPosition()));
+                    sendBroadcast(new Intent(App.UPDATEPROCESS).putExtra("progress", player.getCurrentPosition())
+                            .putExtra("max", player.getDuration()));
                 }
 
                 @Override
@@ -225,7 +226,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            spUtil.putInt("play_index", index);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -268,7 +269,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     // 播放哪一首歌
     private void playerSong() {
         try {
-            spUtil.putInt("play_index", index);
             sendBroadcast(new Intent(App.SWITCHPLAY));
             Log.e(TAG, playlist.get(index).name + "---" + playlist.get(index).path + "---" + player.isPlaying());
             if (player != null) {

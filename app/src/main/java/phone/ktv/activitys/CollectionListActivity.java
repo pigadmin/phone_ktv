@@ -169,9 +169,13 @@ public class CollectionListActivity extends BaseActivity {
             MusicPlayBean bean = mCollentBean3s.get(position);
             LatelyListAddUtils utils = new LatelyListAddUtils(mSP, CollectionListActivity.this, bean);
             utils.getLatelyList();
-            App.saveData(bean, mContext, TAG, false);
-            sendBroadcast(new Intent(App.SWITCHPLAY));
+            toplay(bean);
         }
+    }
+
+    private void toplay( MusicPlayBean bean) {
+        App.saveData(bean, mContext, TAG, false);
+        sendBroadcast(new Intent(App.PLAY));
     }
 
     /**

@@ -188,9 +188,15 @@ public class RankingListActivity extends phone.ktv.BaseActivity {
             MusicPlayBean bean = musicPlayBeans.get(position);
             LatelyListAddUtils utils = new LatelyListAddUtils(mSP, RankingListActivity.this, bean);
             utils.getLatelyList();
-            App.saveData(bean, mContext, TAG, false);
-            sendBroadcast(new Intent(App.SWITCHPLAY));
+            toplay(bean);
         }
+    }
+
+    private void toplay(MusicPlayBean bean) {
+        SPUtil spUtil = new SPUtil(this);
+        spUtil.putInt("play_index", 0);
+        App.saveData(bean, mContext, TAG, false);
+        sendBroadcast(new Intent(App.PLAY));
     }
 
     /**
