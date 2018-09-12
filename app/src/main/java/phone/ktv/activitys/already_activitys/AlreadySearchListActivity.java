@@ -301,6 +301,11 @@ public class AlreadySearchListActivity extends BaseActivity {
     private class MyOnClickListenerSearch implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            if (TextUtils.isEmpty(mSearchContent.getText().toString().trim())) {
+                ToastUtils.showLongToast(mContext,"请输入搜索内容");
+                return;
+            }
+
             SoftKeyboard.closeKeybord(mSearchContent, mContext);
             mPage = 1;
             musicPlayBeans.clear();
@@ -417,6 +422,7 @@ public class AlreadySearchListActivity extends BaseActivity {
             public void onClick(View v) {
                 mSongType.setText(song1.getText().toString().trim());
                 isState = true;
+                mSearchContent.setHint("请输入歌名");
                 window.dismiss();
             }
         });
@@ -426,6 +432,7 @@ public class AlreadySearchListActivity extends BaseActivity {
             public void onClick(View v) {
                 mSongType.setText(song2.getText().toString().trim());
                 isState = false;
+                mSearchContent.setHint("请输入歌手名");
                 window.dismiss();
             }
         });

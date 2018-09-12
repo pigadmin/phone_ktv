@@ -244,6 +244,11 @@ public class AlreadySearchListActivity2 extends BaseActivity {
     private class MyOnClickListenerSearch implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            if (TextUtils.isEmpty(mSearchContent.getText().toString().trim())) {
+                ToastUtils.showLongToast(mContext,"请输入搜索内容");
+                return;
+            }
+
             SoftKeyboard.closeKeybord(mSearchContent, mContext);
             mPage = 1;
             musicPlayBeans.clear();
