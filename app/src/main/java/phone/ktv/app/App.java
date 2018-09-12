@@ -245,6 +245,16 @@ public class App extends Application {
             if (s) {
                 ToastUtils.showLongToast(context, "此歌曲已被添加");
             }
+            UpdateSaveData(item, TAG);
+        }
+    }
+
+    public static void UpdateSaveData(MusicPlayBean item, String TAG) {
+        try {
+            item.localTime = SyncServerdate.getLocalTime();
+            App.mDb.update(item);
+        } catch (Exception e) {
+            Logger.d(TAG, "修改数据异常.." + e.getMessage());
         }
     }
 

@@ -162,6 +162,11 @@ public class AlreadyFragment extends Fragment {
     private class MyOnItemClickLis implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            App.UpdateSaveData(mPlayBeanList.get(position), TAG);
+            mPlayBeanList.clear();
+            mPlayBeanList.addAll(App.getSelectData());
+            mAlreadyListAdater.notifyDataSetChanged();
+
             mContext.sendBroadcast(new Intent(App.SWITCHPLAY));
         }
     }
