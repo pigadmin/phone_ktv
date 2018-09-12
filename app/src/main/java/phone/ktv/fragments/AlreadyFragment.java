@@ -27,6 +27,7 @@ import phone.ktv.adaters.AlreadyListAdater;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 import phone.ktv.views.CustomPopuWindw;
 
@@ -188,6 +189,8 @@ public class AlreadyFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if (mPlayBeanList != null) {
+                SPUtil spUtil = new SPUtil(mContext);
+                spUtil.putInt("play_index", 0);
                 mContext.sendBroadcast(new Intent(App.PLAY));
             }
         }

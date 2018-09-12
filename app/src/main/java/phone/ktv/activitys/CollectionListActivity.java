@@ -173,7 +173,7 @@ public class CollectionListActivity extends BaseActivity {
         }
     }
 
-    private void toplay( MusicPlayBean bean) {
+    private void toplay(MusicPlayBean bean) {
         App.saveData(bean, mContext, TAG, false);
         sendBroadcast(new Intent(App.PLAY));
     }
@@ -305,6 +305,8 @@ public class CollectionListActivity extends BaseActivity {
         public void onClick(View v) {
             if (mCollentBean3s != null) {
                 try {
+                    SPUtil spUtil = new SPUtil(mContext);
+                    spUtil.putInt("play_index", 0);
                     for (MusicPlayBean musicPlayBean : mCollentBean3s) {
                         App.saveData(musicPlayBean, CollectionListActivity.this, TAG, false);
                         sendBroadcast(new Intent(App.PLAY));

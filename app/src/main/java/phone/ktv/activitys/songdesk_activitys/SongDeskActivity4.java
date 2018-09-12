@@ -234,6 +234,8 @@ public class SongDeskActivity4 extends phone.ktv.BaseActivity {
         public void onClick(View v) {
             if (musicPlayBeans != null) {
                 try {
+                    SPUtil spUtil = new SPUtil(mContext);
+                    spUtil.putInt("play_index", 0);
                     for (MusicPlayBean musicPlayBean : musicPlayBeans) {
                         App.saveData(musicPlayBean, SongDeskActivity4.this, TAG, false);
                         sendBroadcast(new Intent(App.PLAY));
