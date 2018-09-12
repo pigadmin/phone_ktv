@@ -15,16 +15,21 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.AlertDialogHelper;
+import phone.ktv.tootls.Logger;
 import phone.ktv.tootls.NetUtils;
 import phone.ktv.tootls.SPUtil;
 import phone.ktv.views.BtmDialog;
+
+import static android.support.constraint.Constraints.TAG;
 
 /**
  * 播放界面
@@ -62,17 +67,6 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
     }
 
 
-    private void play() {
-        try {
-            if (!getList().isEmpty()) {
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     private List<MusicPlayBean> playlist = new ArrayList<>();
 
     private List<MusicPlayBean> getList() {
@@ -86,23 +80,30 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
 
     private SurfaceView surface;
     private SurfaceHolder holder;
-    private MediaPlayer player;
+    private MediaPlayer player = null;
+
+    private void setMediaListene() {
+        player = app.getMediaPlayer();
+        player.setOnPreparedListener(this);
+        player.setOnCompletionListener(this);
+        player.setOnErrorListener(this);
+
+    }
 
     private void init() {
         try {
-            player = app.getMediaPlayer();
-//            player.start();
-            player.setOnErrorListener(this);
-            player.setOnCompletionListener(this);
-            player.setOnPreparedListener(this);
-
+            setMediaListene();
             surface = findViewById(R.id.surface);
             holder = surface.getHolder();
             holder.addCallback(new SurfaceHolder.Callback() {
                 @Override
                 public void surfaceCreated(SurfaceHolder surfaceHolder) {
                     System.out.println("surfaceCreatedsurfaceCreated");
-                    player.setDisplay(surfaceHolder);
+                    try {
+                        player.setDisplay(surfaceHolder);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
@@ -121,27 +122,111 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
 
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        finish();
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        try {
+//            player.release();
+//            player = null;
+//            app.setMediaPlayer(new MediaPlayer());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         System.out.println("下一首");
         next();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+//        app.setMediaPlayer(player);
+    }
+
     //下一曲
     private void next() {
         try {
-            if (index < getList().size() - 1) {
-                index++;
-            } else {
-                index = 0;
+            try {
+                getList();
+
+                try {
+                    int playmodel = app.getPlaymodel();
+                    if (playmodel == 0) {
+                        //顺序
+                        if (++index < playlist.size()) {
+                            try {
+                                playerSong();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            index = 0;
+                            playerSong();
+                        }
+                        Logger.d(TAG, "顺序" + index);
+                    } else if (playmodel == 1) {
+                        //随机
+                        index = getRandom();
+                        playerSong();
+                        Logger.d(TAG, "随机" + index);
+                    } else {
+                        //循坏
+                        playerSong();
+                        Logger.d(TAG, "单曲循坏" + index);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                spUtil.putInt("play_index", index);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            player.setDataSource(this, Uri.parse(getList().get(index).path));
-            player.prepareAsync();
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    public int getRandom() {
+        try {
+            if (playlist.size() == 1) {
+                return 0;
+            } else {
+                Random random = new Random();
+                int s = random.nextInt(playlist.size() - 1) % (playlist.size() - 1 - 0 + 1) + 0;
+                return s;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private void playerSong() {
+        try {
+            if (player != null) {
+                player.stop();
+                player.reset();
+                player.release();
+                player = null;
+            }
+            player = new MediaPlayer();
+            player.setDataSource(this, Uri.parse(getList().get(index).path));
+            player.prepareAsync();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -153,7 +238,7 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
     public void onPrepared(MediaPlayer mediaPlayer) {
         System.out.println("准备播放。。。。");
         mediaPlayer.start();
-        app.setMediaPlayer(player);
+//        app.setMediaPlayer(player);
     }
 
     @Override
