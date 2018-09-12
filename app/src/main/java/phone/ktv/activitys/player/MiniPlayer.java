@@ -80,7 +80,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
 
     private List<MusicPlayBean> getList() {
         try {
-            playlist = App.mDb.selector(MusicPlayBean.class).findAll();
+            playlist = App.getSelectData();
         } catch (Exception e) {
             e.printStackTrace();
         }

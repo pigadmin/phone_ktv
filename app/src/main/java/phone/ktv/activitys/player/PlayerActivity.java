@@ -71,7 +71,7 @@ public class PlayerActivity extends Activity implements MediaPlayer.OnPreparedLi
 
     private List<MusicPlayBean> getList() {
         try {
-            playlist = App.mDb.selector(MusicPlayBean.class).findAll();
+            playlist = App.getSelectData();
         } catch (Exception e) {
             e.printStackTrace();
         }

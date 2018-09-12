@@ -103,7 +103,7 @@ public class AlreadyFragment extends Fragment {
     private void isMusicStateList() {
         mPlayBeanList.clear();
         try {
-            List<MusicPlayBean> playBeans = App.mDb.selector(MusicPlayBean.class).orderBy("localTime", true).findAll();//数据库查询
+            List<MusicPlayBean> playBeans = App.getSelectData();
             if (playBeans != null && !playBeans.isEmpty()) {
                 Logger.d(TAG, "playBeans.." + playBeans.size());
                 for (MusicPlayBean playBean : playBeans) {

@@ -99,13 +99,11 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         return index = spUtil.getInt("play_index", 0);
     }
 
-
     private List<MusicPlayBean> playlist = new ArrayList<>();
 
     private List<MusicPlayBean> getList() {
         try {
-            playlist = App.mDb.selector(MusicPlayBean.class).findAll();
-//            System.out.println(playlist.size() + "@@@@@@@@@");
+            playlist = App.getSelectData();
         } catch (Exception e) {
             e.printStackTrace();
         }

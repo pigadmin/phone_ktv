@@ -18,6 +18,7 @@ import com.iflytek.cloud.SpeechUtility;
 import org.xutils.DbManager;
 import org.xutils.x;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
@@ -245,5 +246,15 @@ public class App extends Application {
                 ToastUtils.showLongToast(context, "此歌曲已被添加");
             }
         }
+    }
+
+    public static List<MusicPlayBean> getSelectData() {
+        try {
+            List<MusicPlayBean> playBeans = App.mDb.selector(MusicPlayBean.class).orderBy("localTime", true).findAll();//数据库查询
+            return playBeans;
+        } catch (Exception e) {
+            ToastUtils.showLongToast(context, "查询失败" + e.getMessage());
+        }
+        return null;
     }
 }
