@@ -162,7 +162,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                     break;
                 case R.id.player_next://下一首
                     if (list == null || list.isEmpty()) {
-                        ToastUtils.showShortToast(mContext, "去添加");
+                        ToastUtils.showShortToast(mContext, "请先添加歌曲");
                     } else {
                         app.setPlaystatus(1);
                         mContext.sendBroadcast(new Intent(App.NEXT));
@@ -171,16 +171,16 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                 case R.id.llt_11501:
                 case R.id.singer_icon://图标
                     if (list == null || list.isEmpty()) {
-                        ToastUtils.showShortToast(mContext, "去添加");
+                        ToastUtils.showShortToast(mContext, "请先添加歌曲");
                         break;
                     }
                     if (app.getPlaystatus() == 0) {
-                        ToastUtils.showShortToast(mContext, "去播放");
+                        ToastUtils.showShortToast(mContext, "请先播放歌曲");
                     } else if (app.getMediaPlayer().isPlaying()) {
                         app.getMediaPlayer().pause();
                         mContext.startActivity(new Intent(mContext, PlayerActivity.class));
                     } else {
-                        ToastUtils.showShortToast(mContext, "去播放");
+                        ToastUtils.showShortToast(mContext, "请先播放歌曲");
                     }
                     break;
             }
