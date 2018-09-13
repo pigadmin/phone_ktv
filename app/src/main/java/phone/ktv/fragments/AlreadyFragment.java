@@ -58,6 +58,8 @@ public class AlreadyFragment extends Fragment {
 
     public TextView mNoData25;
 
+    public SPUtil mSP;
+
     public static final int Search_Music_Success = 100;
     public static final int Search_Music_Failure = 200;
 
@@ -86,6 +88,7 @@ public class AlreadyFragment extends Fragment {
         mNewsView = inflater.inflate(R.layout.already_fragment_layout, null);
         mContext = getActivity();
         app = (App) mContext.getApplicationContext();
+        mSP = new SPUtil(mContext);
         initView();
         initLiter();
         isMusicStateList();
@@ -189,8 +192,7 @@ public class AlreadyFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if (mPlayBeanList != null) {
-                SPUtil spUtil = new SPUtil(mContext);
-                spUtil.putInt("play_index", 0);
+                mSP.putInt("play_index", 0);
                 mContext.sendBroadcast(new Intent(App.PLAY));
             }
         }

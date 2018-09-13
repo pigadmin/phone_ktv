@@ -305,8 +305,7 @@ public class CollectionListActivity extends BaseActivity {
         public void onClick(View v) {
             if (mCollentBean3s != null) {
                 try {
-                    SPUtil spUtil = new SPUtil(mContext);
-                    spUtil.putInt("play_index", 0);
+                    mSP.putInt("play_index", 0);
                     for (MusicPlayBean musicPlayBean : mCollentBean3s) {
                         App.saveData(musicPlayBean, CollectionListActivity.this, TAG, false);
                         sendBroadcast(new Intent(App.PLAY));

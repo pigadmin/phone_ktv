@@ -193,8 +193,7 @@ public class RankingListActivity extends phone.ktv.BaseActivity {
     }
 
     private void toplay(MusicPlayBean bean) {
-        SPUtil spUtil = new SPUtil(this);
-        spUtil.putInt("play_index", 0);
+        mSP.putInt("play_index", 0);
         App.saveData(bean, mContext, TAG, false);
         sendBroadcast(new Intent(App.PLAY));
     }
@@ -230,8 +229,7 @@ public class RankingListActivity extends phone.ktv.BaseActivity {
         public void onClick(View v) {
             if (musicPlayBeans != null) {
                 try {
-                    SPUtil spUtil = new SPUtil(mContext);
-                    spUtil.putInt("play_index", 0);
+                    mSP.putInt("play_index", 0);
                     for (MusicPlayBean musicPlayBean : musicPlayBeans) {
                         App.saveData(musicPlayBean, RankingListActivity.this, TAG, false);
                         sendBroadcast(new Intent(App.PLAY));

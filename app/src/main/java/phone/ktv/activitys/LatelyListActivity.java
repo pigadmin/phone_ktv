@@ -184,8 +184,7 @@ public class LatelyListActivity extends phone.ktv.BaseActivity {
     }
 
     private void toplay(MusicPlayBean bean) {
-        SPUtil spUtil = new SPUtil(this);
-        spUtil.putInt("play_index", 0);
+        mSP.putInt("play_index", 0);
         App.saveData(bean, mContext, TAG, false);
         sendBroadcast(new Intent(App.PLAY));
     }
@@ -318,8 +317,7 @@ public class LatelyListActivity extends phone.ktv.BaseActivity {
             if (mCollentBean3s != null) {
 
                 try {
-                    SPUtil spUtil = new SPUtil(mContext);
-                    spUtil.putInt("play_index", 0);
+                    mSP.putInt("play_index", 0);
                     for (MusicPlayBean musicPlayBean : mCollentBean3s) {
                         App.saveData(musicPlayBean, LatelyListActivity.this, TAG, false);
                         sendBroadcast(new Intent(App.PLAY));

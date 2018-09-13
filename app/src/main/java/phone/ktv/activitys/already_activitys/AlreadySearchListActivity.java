@@ -360,12 +360,10 @@ public class AlreadySearchListActivity extends BaseActivity {
     }
 
     private void toplay(MusicPlayBean bean) {
-        SPUtil spUtil = new SPUtil(this);
-        spUtil.putInt("play_index", 0);
+        mSP.putInt("play_index", 0);
         App.saveData(bean, mContext, TAG, false);
         sendBroadcast(new Intent(App.PLAY));
     }
-
 
     /**
      * item2事件
