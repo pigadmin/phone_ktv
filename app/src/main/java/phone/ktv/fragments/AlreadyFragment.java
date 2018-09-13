@@ -340,6 +340,12 @@ public class AlreadyFragment extends Fragment {
     private void operationTotal() {
         if (getSongNum(mPlayBeanList) > 0) {
             try {
+                for (int i = 0; i < mPlayBeanList.size(); i++) {
+                    if (mPlayBeanList.get(i).isState) {
+                        Logger.i(TAG,".................."+i);
+                    }
+                }
+
                 Iterator<MusicPlayBean> iterator = mPlayBeanList.iterator();
                 while (iterator.hasNext()) {
                     MusicPlayBean playBean = iterator.next();
