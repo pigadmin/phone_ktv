@@ -171,7 +171,8 @@ public class AlreadyFragment extends Fragment {
             mPlayBeanList.addAll(App.getSelectData());
             mAlreadyListAdater.notifyDataSetChanged();
 
-            mContext.sendBroadcast(new Intent(App.SWITCHPLAY));
+            mSP.putInt("play_index", 0);
+            mContext.sendBroadcast(new Intent(App.PLAY));
         }
     }
 

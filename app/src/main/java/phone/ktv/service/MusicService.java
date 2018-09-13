@@ -68,6 +68,8 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                 if (intent.getAction().equals(App.PLAY)) {
                     System.out.println("播放");
                     try {
+                        getList();
+                        getindex();
                         playerSong();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -161,7 +163,6 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                 mp.seekTo(time);
                 time = 0;
             }
-
             sendBroadcast(new Intent(App.STARTPLAY));
             if (updateprocess != null) {
                 updateprocess.cancel();

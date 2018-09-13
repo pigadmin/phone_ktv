@@ -132,7 +132,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
         try {
             List<MusicPlayBean> list = getList();
             switch (v.getId()) {
-                case R.id.player_next ://上一首
+                case R.id.player_last://上一首
                     if (list == null || list.isEmpty()) {
                         ToastUtils.showShortToast(mContext, "请先添加歌曲");
                         break;
@@ -160,7 +160,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                         }
                     }
                     break;
-                case R.id.player_last://下一首
+                case R.id.player_next://下一首
                     if (list == null || list.isEmpty()) {
                         ToastUtils.showShortToast(mContext, "请先添加歌曲");
                     } else {
