@@ -233,9 +233,8 @@ public class FlashScreenActivity extends Activity implements View.OnClickListene
         handler.post(new Runnable() {
             @Override
             public void run() {
-                playTime = 5000;
-//                startTime();
-                toStep();
+                playTime = 1000;
+                startTime();
             }
         });
     }

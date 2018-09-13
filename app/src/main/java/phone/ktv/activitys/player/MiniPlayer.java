@@ -134,7 +134,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
             switch (v.getId()) {
                 case R.id.player_last://上一首
                     if (list == null || list.isEmpty()) {
-                        ToastUtils.showShortToast(mContext, "去添加");
+                        ToastUtils.showShortToast(mContext, "请先添加歌曲");
                         break;
                     } else {
                         app.setPlaystatus(1);
@@ -143,7 +143,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                     break;
                 case R.id.player_play://播放暂停
                     if (list == null || list.isEmpty()) {
-                        ToastUtils.showShortToast(mContext, "去添加");
+                        ToastUtils.showShortToast(mContext, "请先添加歌曲");
                     } else {
                         System.out.println("************************点击" + app.getPlaystatus());
                         if (app.getPlaystatus() == 0) {
