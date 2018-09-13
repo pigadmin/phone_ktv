@@ -351,7 +351,7 @@ public class AlreadyFragment extends Fragment {
                 }
 
                 mSelectionTotal.setChecked(false);
-                mTitle11.setText("已选" + mPlayBeanList.size() + "首");
+                mTitle11.setText("已选0首");
                 ToastUtils.showShortToast(mContext, "删除成功");
             } catch (Exception e) {
                 e.printStackTrace();
