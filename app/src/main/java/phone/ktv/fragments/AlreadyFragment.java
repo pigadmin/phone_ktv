@@ -171,7 +171,7 @@ public class AlreadyFragment extends Fragment {
 //            mPlayBeanList.addAll(App.getSelectData());
 //            mAlreadyListAdater.notifyDataSetChanged();
 
-            mSP.putInt("play_index", 0);
+            mSP.putInt("play_index", position);
             mContext.sendBroadcast(new Intent(App.PLAY));
         }
     }
@@ -346,9 +346,12 @@ public class AlreadyFragment extends Fragment {
                 } else if (mPlayBeanList.isEmpty()) {
                     mContext.sendBroadcast(new Intent(App.PLAY));
                 }
+
                 for (int i = 0; i < mPlayBeanList.size(); i++) {
                     if (mPlayBeanList.get(i).isState) {
-                        Logger.i(TAG,".................."+i);
+                        if (i == mSP.getInt("play_index", 0)) {
+                            mContext.sendBroadcast(new Intent(App.PLAY));
+                        }
                     }
                 }
 
@@ -369,7 +372,8 @@ public class AlreadyFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            ToastUtils.showLongToast(mContext, "请先勾选歌曲");;
+            ToastUtils.showLongToast(mContext, "请先勾选歌曲");
+            ;
         }
         showSnackbar();
     }
