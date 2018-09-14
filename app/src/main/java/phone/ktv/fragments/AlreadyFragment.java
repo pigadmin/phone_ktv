@@ -369,7 +369,7 @@ public class AlreadyFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            ToastUtils.showLongToast(mContext, "请先勾选歌曲");
+            ToastUtils.showLongToast(mContext, "请先勾选歌曲");;
         }
         showSnackbar();
     }
