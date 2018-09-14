@@ -68,9 +68,9 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                 if (intent.getAction().equals(App.PLAY)) {
                     System.out.println("播放");
                     try {
-                        getList();
-                        getindex();
-                        playerSong();
+                        getList();//最新的列表
+                        getindex();//最新的下标
+                        playerSong();//去播放
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -115,6 +115,10 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private List<MusicPlayBean> getList() {
         try {
             playlist = App.getSelectData();
+            if (playlist.isEmpty()) {
+                stopMusic();
+                sendBroadcast(new Intent(App.STARTPLAY));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,7 +146,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         System.out.println("下一首");
-        sendBroadcast(new Intent(App.ENDPLAY));
+//        sendBroadcast(new Intent(App.ENDPLAY));
         next();
     }
 
@@ -277,6 +281,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private void stopMusic() {
         if (player.isPlaying()) {
             player.stop();
+            player.release();
         }
     }
 

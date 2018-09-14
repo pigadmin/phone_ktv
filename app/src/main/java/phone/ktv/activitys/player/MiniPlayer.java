@@ -50,6 +50,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
         filter.addAction(App.STARTPLAY);
         filter.addAction(App.SWITCHPLAY);
         filter.addAction(App.UPDATEPROCESS);
+//        filter.addAction(App.ENDPLAY);
         mContext.registerReceiver(receiver, filter);
 
     }
@@ -62,13 +63,29 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                 if (intent.getAction().equals(App.SWITCHPLAY)) {
                     handler.sendEmptyMessage(SWITCHPLAY);
                 } else if (intent.getAction().equals(App.STARTPLAY)) {
-                    handler.sendEmptyMessage(STARTPLAY);
+                    //刷新播放器播播放器信息
+                    if (playlist.isEmpty()) {
+                        player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
+                        player_progress.setProgress(0);
+                        player_name.setText("歌曲名");
+                        player_singer.setText("歌星");
+
+                    } else {
+                        handler.sendEmptyMessage(STARTPLAY);
+                    }
+
                 } else if (intent.getAction().equals(App.UPDATEPROCESS)) {
                     int max = intent.getIntExtra("max", 0);
                     player_progress.setMax(max);
                     int progress = intent.getIntExtra("progress", 0);
                     player_progress.setProgress(progress);
                 }
+//                else if (intent.getAction().equals(App.ENDPLAY)) {
+//                    player_play.setBackgroundResource(R.mipmap.bottom_icon_3);
+//                    player_progress.setProgress(0);
+//                    player_name.setText("歌曲名");
+//                    player_singer.setText("歌星");
+//                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -223,6 +240,7 @@ public class MiniPlayer extends LinearLayout implements View.OnClickListener, Se
                         }
                         break;
                     case STARTPLAY://去更新进度
+                        app.setPlaystatus(1);
                         player_play.setBackgroundResource(R.mipmap.bottom_icon_4);
                         break;
                 }

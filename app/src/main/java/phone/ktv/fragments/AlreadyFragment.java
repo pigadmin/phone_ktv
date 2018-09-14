@@ -166,12 +166,12 @@ public class AlreadyFragment extends Fragment {
     private class MyOnItemClickLis implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            App.UpdateSaveData(mPlayBeanList.get(position), TAG);
-            mPlayBeanList.clear();
-            mPlayBeanList.addAll(App.getSelectData());
-            mAlreadyListAdater.notifyDataSetChanged();
+//            App.UpdateSaveData(mPlayBeanList.get(position), TAG);
+//            mPlayBeanList.clear();
+//            mPlayBeanList.addAll(App.getSelectData());
+//            mAlreadyListAdater.notifyDataSetChanged();
 
-            mSP.putInt("play_index", 0);
+            mSP.putInt("play_index", position);
             mContext.sendBroadcast(new Intent(App.PLAY));
         }
     }
@@ -340,6 +340,12 @@ public class AlreadyFragment extends Fragment {
     private void operationTotal() {
         if (getSongNum(mPlayBeanList) > 0) {
             try {
+                if (mSP.getInt("music_index", 0) > mPlayBeanList.size() - 1) {
+                    mSP.putInt("music_index", 0);
+                    mContext.sendBroadcast(new Intent(App.PLAY));
+                } else if (mPlayBeanList.isEmpty()) {
+                    mContext.sendBroadcast(new Intent(App.PLAY));
+                }
                 Iterator<MusicPlayBean> iterator = mPlayBeanList.iterator();
                 while (iterator.hasNext()) {
                     MusicPlayBean playBean = iterator.next();
@@ -353,6 +359,8 @@ public class AlreadyFragment extends Fragment {
                 mSelectionTotal.setChecked(false);
                 mTitle11.setText("已选" + mPlayBeanList.size() + "首");
                 ToastUtils.showShortToast(mContext, "删除成功");
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

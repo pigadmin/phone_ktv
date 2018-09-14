@@ -1,6 +1,7 @@
 package phone.ktv.adaters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
@@ -13,6 +14,7 @@ import phone.ktv.R;
 import phone.ktv.app.App;
 import phone.ktv.bean.MusicPlayBean;
 import phone.ktv.tootls.Logger;
+import phone.ktv.tootls.SPUtil;
 import phone.ktv.tootls.ToastUtils;
 
 /**
@@ -31,11 +33,13 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
     private ImageView delete12;
 
     public boolean switchType;
+    SPUtil spUtil;
 
     public AlreadyListAdater(Context context, int layoutId, List<MusicPlayBean> list, OnCallBack callBack) {
         super(context, layoutId, list);
         this.context = context;
         this.mCallBack = callBack;
+        spUtil = new SPUtil(context);
     }
 
     public interface OnCallBack {
@@ -88,16 +92,25 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
             @Override
             public void onClick(View v) {
                 try {
+                    if (position == getAllData().size()-1) {
+                        spUtil.putInt("play_index", 0);
+                        context.sendBroadcast(new Intent(App.PLAY));
+                    } else if (position == spUtil.getInt("play_index", 0)) {
+                        context.sendBroadcast(new Intent(App.PLAY));
+                    }
                     ToastUtils.showShortToast(context, "删除成功");
                     App.mDb.delete(item);//先删除DB数据
                     getAllData().remove(position);//再删本地列表
                     notifyDataSetChanged();
+
+
                 } catch (Exception e) {
                     Logger.i(TAG, "删除异常e.." + e.getMessage());
                 }
             }
         });
     }
+
 
     /**
      * 多选
