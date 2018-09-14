@@ -349,8 +349,13 @@ public class AlreadyFragment extends Fragment {
 
                 for (int i = 0; i < mPlayBeanList.size(); i++) {
                     if (mPlayBeanList.get(i).isState) {
-                        if (i == mSP.getInt("play_index", 0)) {
+                        if (i == mPlayBeanList.size() - 1) {
+                            mSP.putInt("play_index", 0);
                             mContext.sendBroadcast(new Intent(App.PLAY));
+                        } else if (i == mSP.getInt("play_index", 0)) {
+                            mContext.sendBroadcast(new Intent(App.PLAY));
+                        } else {
+                            mSP.putInt("play_index", i);
                         }
                     }
                 }
