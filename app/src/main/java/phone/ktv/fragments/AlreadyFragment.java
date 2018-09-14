@@ -171,7 +171,7 @@ public class AlreadyFragment extends Fragment {
 //            mPlayBeanList.addAll(App.getSelectData());
 //            mAlreadyListAdater.notifyDataSetChanged();
 
-            mSP.putInt("play_index", position);
+            mSP.putInt("play_index", 0);
             mContext.sendBroadcast(new Intent(App.PLAY));
         }
     }
@@ -346,6 +346,12 @@ public class AlreadyFragment extends Fragment {
                 } else if (mPlayBeanList.isEmpty()) {
                     mContext.sendBroadcast(new Intent(App.PLAY));
                 }
+                for (int i = 0; i < mPlayBeanList.size(); i++) {
+                    if (mPlayBeanList.get(i).isState) {
+                        Logger.i(TAG,".................."+i);
+                    }
+                }
+
                 Iterator<MusicPlayBean> iterator = mPlayBeanList.iterator();
                 while (iterator.hasNext()) {
                     MusicPlayBean playBean = iterator.next();
@@ -359,8 +365,6 @@ public class AlreadyFragment extends Fragment {
                 mSelectionTotal.setChecked(false);
                 mTitle11.setText("已选" + mPlayBeanList.size() + "首");
                 ToastUtils.showShortToast(mContext, "删除成功");
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
