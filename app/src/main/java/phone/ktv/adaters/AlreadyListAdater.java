@@ -92,25 +92,24 @@ public class AlreadyListAdater extends BAdapter<MusicPlayBean> {
             @Override
             public void onClick(View v) {
                 try {
-                    if (position == getAllData().size()-1) {
+                    if (position == getAllData().size() - 1) {
                         spUtil.putInt("play_index", 0);
                         context.sendBroadcast(new Intent(App.PLAY));
                     } else if (position == spUtil.getInt("play_index", 0)) {
                         context.sendBroadcast(new Intent(App.PLAY));
+                    } else {
+                        spUtil.putInt("play_index", position);
                     }
                     ToastUtils.showShortToast(context, "删除成功");
                     App.mDb.delete(item);//先删除DB数据
                     getAllData().remove(position);//再删本地列表
                     notifyDataSetChanged();
-
-
                 } catch (Exception e) {
                     Logger.i(TAG, "删除异常e.." + e.getMessage());
                 }
             }
         });
     }
-
 
     /**
      * 多选
